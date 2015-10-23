@@ -11,11 +11,12 @@ class StorageEngine:
         self.file_loc = file_loc
 
     def write(self, key, data):
+        assert b'\r\n' not in msgpack.packb(data, use_bin_type=True)
         with open(self.file_loc, 'ab') as fileobj:
             fileobj.write(key.encode('utf-8'))
             fileobj.write(b'\t')
             fileobj.write(msgpack.packb(data, use_bin_type=True))
-            fileobj.write(b'\n')
+            fileobj.write(b'\r\n')
 
     def __iter__(self):
         with open(self.file_loc, 'rb') as fileobj:
@@ -30,8 +31,10 @@ class StorageEngine:
             with open(self.file_loc, 'rb') as fileobj:
                 line = fileobj.readline()
                 while line:
+                    if b'\r\n' not in line:
+                        line += fileobj.readline()
                     if line.startswith(key):
-                        return msgpack.unpackb(line[len(key) + 1:-1], encoding='utf-8')
+                        return msgpack.unpackb(line[len(key) + 1:-2], encoding='utf-8')
                     line = fileobj.readline()
         except FileNotFoundError:
             return None
@@ -39,6 +42,7 @@ class StorageEngine:
 
 class DataObject:
     file_loc = 'objects.dat'
+    StorageEngineClass = StorageEngine
     # TODO Mutex
 
     @classmethod
@@ -49,7 +53,7 @@ class DataObject:
 
     @classmethod
     def load(cls, key):
-        return cls(key, **StorageEngine(cls.file_loc).read(key))
+        return cls(key, **cls.StorageEngineClass(cls.file_loc).read(key))
 
     def __init__(self, key, alg, data):
         self.key = key
@@ -57,10 +61,10 @@ class DataObject:
         self.data = data
 
     def save(self):
-        existing = StorageEngine(self.file_loc).read(self.key)
+        existing = self.StorageEngineClass(self.file_loc).read(self.key)
         if existing:
             return self.__class__.load(self.key)
-        StorageEngine(self.file_loc).write(self.key, {'alg': self.alg, 'data': self.data})
+        self.StorageEngineClass(self.file_loc).write(self.key, {'alg': self.alg, 'data': self.data})
         return self
 
 
@@ -75,16 +79,17 @@ class Operations(enum.IntEnum):
 
 class OpLog:
     file_loc = 'operations.dat'
+    StorageEngineClass = StorageEngine
 
     @classmethod
     def list(cls):
-        for key in StorageEngine(cls.file_loc):
+        for key in cls.StorageEngineClass(cls.file_loc):
             yield cls.load(key)
 
     @classmethod
     def create(cls, operation, record_id, data_ref, collection, operation_parameters):
         return cls(
-            str(uuid.uuid4()),
+            str(uuid.uuid4()).replace('-', ''),
             time.time(),
             operation,
             record_id,
@@ -95,7 +100,7 @@ class OpLog:
 
     @classmethod
     def load(cls, key):
-        return cls(key, **StorageEngine(cls.file_loc).read(key))
+        return cls(key, **cls.StorageEngineClass(cls.file_loc).read(key))
 
     def __init__(self, id, ts, op, r, d, c, op_p):
         self.id = id
@@ -107,7 +112,7 @@ class OpLog:
         self.operation_parameters = op_p
 
     def save(self):
-        StorageEngine(self.file_loc).write(self.id, {
+        self.StorageEngineClass(self.file_loc).write(self.id, {
             'ts': self.timestamp,
             'op': self.operation,
             'r': self.record_id,
@@ -118,64 +123,77 @@ class OpLog:
         return self
 
 
+class Snapshot(dict):
+    DataObjectClass = DataObject
+
+    def read(self, key):
+        return self[key]
+
+    def list(self):
+        return list(self.keys())
+
+    def apply(self, log):
+        if log.operation in (Operations.CREATE, Operations.REPLACE, Operations.UPDATE):
+            self[log.record_id] = {**log.__dict__, 'data': self.DataObjectClass.load(log.data_ref).data}
+        elif log.operation == Operations.RENAME:
+            del self[log.operation_parameters['src']]
+            self[log.record_id] = {**log.__dict__, 'data': self.DataObjectClass.load(log.data_ref).data}
+        elif log.operation == Operations.DELETE:
+            del self[log.record_id]
+        else:
+            raise Exception('Unknown operation {}'.format(log.operation))
+        return self.get(log.record_id)
+
+
 class Collection:
+    SnapshotClass = Snapshot
+    DataObjectClass = DataObject
+    OperationLogClass = OpLog
 
     @classmethod
     def load(cls, id):
         collection = cls(id)
-        collection.apply(*(log for log in OpLog.list() if log.collection_ref == collection.id))
+        collection.apply(*list(log for log in cls.OperationLogClass.list() if log.collection_ref == collection.id))
         return collection
 
-    def __init__(self, id):
+    def __init__(self, id, snapshot=None):
         self.id = id
-        self.snapshot = {}
+        self.snapshot = snapshot or self.SnapshotClass()
 
     def read(self, key):
         return self.snapshot[key]
 
     def list(self):
-        return list(self.snapshot.keys())
+        return self.snapshot.list()
 
     def create(self, key, data):
-        dobj = DataObject.create(data).save()
-        log = OpLog.create(Operations.CREATE, key, dobj.key, self.id, {}).save()
-        self.snapshot[key] = {**log.__dict__, 'data': data}
-        return self.snapshot[key]
+        dobj = self.DataObjectClass.create(data).save()
+        return self.snapshot.apply(
+            self.OperationLogClass.create(Operations.CREATE, key, dobj.key, self.id, {}).save()
+        )
 
     def read(self, key):
-        return self.snapshot[key]
+        return self.snapshot.read(key)
 
-    def update(self, key):
+    def update(self, key, data):
         raise NotImplementedError
 
     def replace(self, key, data):
-        dobj = DataObject.create(key, data).save()
-        log = OpLog.create(Operations.REPLACE, key, dobj.key, self.id, {}).save()
-        self.snapshot[key] = {**log.__dict__, 'data': data}
-        return self.snapshot[key]
+        dobj = self.DataObjectClass.create(key, data).save()
+        return self.snapshot.apply(
+            self.OperationLogClass.create(Operations.REPLACE, key, dobj.key, self.id, {}).save()
+        )
 
     def delete(self, key):
-        del self.snapshot[key]
-        OpLog.create(Operations.DELETE, key, None, self.id, {}).save()
+        return self.snapshot.apply(
+            self.OperationLogClass.create(Operations.DELETE, key, None, self.id, {}).save()
+        )
 
     def rename(self, key, name):
-        old = self.read(key)
-        log = OpLog.create(Operations.RENAME, name, old['data_ref'], self.id, {'src': key}).save()
-        self.snapshot[name] = {**log.__dict__, 'data': self.snapshot.pop(key)['data']}
-        return self.snapshot[name]
+        return self.snapshot.apply(
+            self.OperationLogClass.create(Operations.RENAME, name, self.read(key)['data_ref'], self.id, {'src': key}).save()
+        )
 
     def apply(self, *logs):
-        for log in logs:
-            if log.operation == Operations.CREATE:
-                self.snapshot[log.record_id] = {**log.__dict__, 'data': DataObject.load(log.data_ref).data}
-            elif log.operation == Operations.RENAME:
-                del self.snapshot[log.operation_parameters['src']]
-                self.snapshot[log.record_id] = {**log.__dict__, 'data': DataObject.load(log.data_ref).data}
-            elif log.operation == Operations.UPDATE:
-                self.snapshot[log.record_id] = {**log.__dict__, 'data': DataObject.load(log.data_ref).data}
-            elif log.operation == Operations.DELETE:
-                del self.snapshot[log.record_id]
-            elif log.operation == Operations.REPLACE:
-                self.snapshot[log.record_id] = {**log.__dict__, 'data': DataObject.load(log.data_ref).data}
-            else:
-                raise Exception('Unknown operation {}'.format(log.operation))
+        for log in sorted(logs, key=lambda x: x.timestamp):
+            self.snapshot.apply(log)
