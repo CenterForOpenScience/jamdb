@@ -1,136 +1,75 @@
-from iodm.util import generate_id
-
-import datetime
-import weakref
-import inspect
+from iodm import O
+from iodm import Q
+from iodm.base import Operation
 
 
-class CreateCollectionAction():
-    def __init__(self, collection, log):
-        pass
+class Collection:
 
-    def redo(self):
-        pass
-
-    def undo(self):
-        pass
-
-    def validate(self):
-        pass
-
-
-class RenameCollectionAction():
-    def __init__(self, collection, log):
-        self.collection = collection
-        self.log = log
-
-    def redo(self):
-        pass
-
-    def undo(self):
-        pass
-
-    def validate(self):
-        self.log.exists(self.collection.name)
-
-
-class Collection():
-
-    operations = {}
-
-    def __new__(cls, *args, **kwargs):
-        for key, value in cls.__dict__.items():
-            if inspect.isfunction(value) and hasattr(value, '__is_action__'):
-                print(key)
-        instance = super().__new__(cls)
-        return instance
-
-    def __init__(self, uid=None, name=None, storage=None, log=None, snapshot=None):
-        self.name = name
-
+    def __init__(self, storage, logger, snapshot, regenerate=True):
+        self._logger = logger
         self._storage = storage
-        self._log = log
         self._snapshot = snapshot
+        if regenerate:
+            # Oddity with regenerate + snapshot
+            self.regenerate()
 
-        if not uid:
-            self.uid = generate_id()
+    def regenerate(self):
+        self._snapshot.clear()
 
-            self.log('create_collection', {
-                'name': self.name
-            })
+        snapshot_log = self._logger.latest_snapshot()
+        if snapshot_log:
+            self.load_snapshot(snapshot_log)
+            logs = self._logger.after(snapshot_log.timestamp)
+        else:
+            logs = self._logger.list(O('timestamp', 1))  # Ascending
 
-    def operation(fn):
-        def wrapped(self, *args, **kwargs):
-            return fn(self, *args, **kwargs)
-        wrapped.__is_action__ = True
-        wrapped.__name__ = fn.__name__
-        return wrapped
+        for log in logs:
+            self._snapshot.apply(log)
 
-    @property
-    def uid(self):
-        return self._uid
+        return True
 
-    @uid.setter
-    def uid(self, uid):
-        self._uid = uid
+    def load_snapshot(self, snapshot_log):
+        data_object = self._storage.create(snapshot_log.data_ref)
+        for log_ref in data_object.data:
+            self._snapshot.apply(self._logger.get(log_ref), safe=False)
 
-    @property
-    def name(self):
-        return self._collection_name
+    def list(self):
+        return self._snapshot.list()
 
-    @name.setter
-    def name(self, name):
-        self._collection_name = name
+    def create(self, key, data):
+        data_object = self._storage.create(data)
+        log = self._logger.create(Operation.CREATE, key, data_object.ref)
+        return self._snapshot.apply(log, data_object)
 
-    def log(self, action, params):
-        self._log.write(self.uid, action, params)
+    def read(self, key):
+        return self._storage.get(self._snapshot.get(key).data_ref)
 
-    def get_data(self, key):
-        hash_string = self._snapshot.get_hash(key)
-        return self._storage.read(hash_string)
+    def update(self, key, data, merger=None):
+        if merger:
+            original = self._snapshot.get(key)
+            data = merger(original, data)
+        data_object = self._storage.create(data)
+        log = self._logger.create(Operation.UPDATE, key, data_object.ref)
+        return self._snapshot.apply(log, data_object)
 
-    @operation
-    def add(self, key, data):
+    def delete(self, key):
+        # TODO ref or not?
+        log = self._logger.create(Operation.DELETE, key, None)
+        return self._snapshot.apply(log, None)
 
-        hash_string = self._storage.write(data)
+    def rename(self, key, new_key):
+        original = self._snapshot.get(key)
+        log = self._logger.create(Operation.RENAME, key, None, **{'to': new_key})
+        self._snapshot.apply(log, None)
 
-        self.log('create', {
-            'key': key,
-            'data': hash_string
-        })
+        log = self._logger.create(Operation.RENAME, new_key, original.data_ref, **{'from': key})
+        # TODO None or actual data ref
+        return self._snapshot.apply(log, None)
 
-        self._snapshot.add(key, hash_string)
+    def snapshot(self):
+        data_object = self._storage.create(list(self._snapshot.keys()))
+        log = self._logger.create(Operation.SNAPSHOT, None, data_object.ref)
+        return log
 
-    @operation
-    def update(self, key, data):
-
-        hash_string = self._storage.write(data)
-
-        self.log('update', {
-            'key': key,
-            'data': hash_string
-        })
-
-        self._snapshot.update(key, hash_string)
-
-    @operation
-    def rename(self, original_key, new_key):
-        self.log('rename', {
-            'from': original_key,
-            'to': new_key
-        })
-        self._snapshot.rename(original_key, new_key)
-
-    @operation
-    def remove(self, key):
-        self.log('delete', {})
-        self._snapshot.remove(key)
-
-    @operation
-    def rename_collection(self, new_name):
-        self.log('rename_collection', {
-            'from': self.name,
-            'to': new_name
-        }) # todo handle a break here on processing
-        self._log.rename(self._collection_name, new_name)
-        self.name = new_name
+    def history(self, key):
+        return self._logger.history(key)

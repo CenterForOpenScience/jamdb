@@ -1,20 +1,11 @@
-import os
-import json
 
-from iodm.data import JSONDataObject
-from iodm.storage.base import Storage
-
-
-class GitStorage(Storage):
+class FileStorage(Storage):
 
     def __init__(self, location):
-        os.makedirs(location, exist_ok=True)
         self.location = location
-        super().__init__()
+        os.makedirs(location, exist_ok=True)
 
-    def create(self, data):
-        data_object = JSONDataObject.create(data)
-
+    def create(self, data_object):
         prefix, postfix = data_object.ref[:2], data_object.ref[2:]
 
         path = os.path.join(self.location, prefix)
@@ -22,16 +13,16 @@ class GitStorage(Storage):
         path = os.path.join(path, postfix)
 
         with open(path, 'w') as fileobj:
-            fileobj.write(json.dumps(data_object.to_json()))
+            fileobj.write(json.dumps(data_object._asdict()))
         return data_object
 
     def read(self, key):
         path = os.path.join(self.location, key[:2], key[2:])
 
         with open(path) as fileobj:
-            return JSONDataObject(**json.load(fileobj))
+            return DataObject(**json.load(fileobj))
 
-    def __iter__(self):
+    def keys(self):
         files = list(os.scandir(self.location))
         while files:
             cur = files.pop(0)

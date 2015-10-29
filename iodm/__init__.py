@@ -1,1 +1,1 @@
-VERSION = '0.0.1'
+VERSION = '0.0.1'from iodm.backends import Qfrom iodm.backends import Ofrom iodm.util import composefrom iodm.logger import Loggerfrom iodm.storage import Storagefrom iodm.snapshot import Snapshotfrom iodm.collection import Collection__all__ = ('Q', 'O', 'compose', 'Logger', 'Storage', 'Snapshot', 'Collection')
