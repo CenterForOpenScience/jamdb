@@ -22,10 +22,7 @@ class ReadOnlyLogger:
         return self._backend.get(ref)
 
     def latest_snapshot(self):
-        try:
-            return self._backend.first(Q('operation', 'eq', 1))
-        except Exception:
-            return None
+        return self._backend.first(Q('operation', 'eq', Operation.SNAPSHOT))
 
     def after(self, timestamp):
         return self._backend.query(Q('timestamp', 'gt', timestamp))
