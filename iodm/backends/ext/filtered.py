@@ -9,7 +9,7 @@ class ReadOnlyFilteredBackend(ReadOnlyBackend):
 
     def get(self, key):
         obj = self._backend.get(key)
-        if self.query.as_lambda(obj):
+        if self._query.as_lambda()(obj):
             return obj
 
     def keys(self):
