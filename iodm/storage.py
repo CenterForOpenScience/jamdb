@@ -25,6 +25,13 @@ class Storage(ReadOnlyStorage):
         hasher = hashlib.new('sha1')
         hasher.update(json.dumps(data).encode('utf-8'))
 
+        try:
+            data_obj = self._backend.get(hasher.hexdigest())
+            if data_obj is not None:
+                return data_obj
+        except Exception:
+            pass
+
         data_obj = DataObject(ref=hasher.hexdigest(), data=data)
 
         self._backend.set(data_obj.ref, data_obj)
