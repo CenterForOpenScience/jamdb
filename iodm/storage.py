@@ -25,7 +25,9 @@ class Storage(ReadOnlyStorage):
         hasher = hashlib.new('sha1')
         hasher.update(json.dumps(data).encode('utf-8'))
 
+        # Optimistic check to see if this data object already exists
         try:
+            # TODO Decide what happens when a key is not found
             data_obj = self._backend.get(hasher.hexdigest())
             if data_obj is not None:
                 return data_obj

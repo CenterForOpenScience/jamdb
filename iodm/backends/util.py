@@ -29,6 +29,8 @@ class CompoundQuery:
 
 
 class Order:
+    ASCENDING = 1
+    DESCENDING = -1
 
     def __init__(self, key, order):
         assert order in (-1, 1)
@@ -36,5 +38,4 @@ class Order:
         self.order = order
 
     def __call__(self, iterable):
-        # getter = operator.attrgetter(self.key)
         return sorted(iterable, key=lambda x: x[self.key], reverse=bool(self.order < 0))

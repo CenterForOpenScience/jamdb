@@ -19,7 +19,7 @@ class LogSchema(Schema):
     version = fields.String()
     data_ref = fields.String(allow_none=True)
     operation = fields.Integer()
-    record_id = fields.String()
+    record_id = fields.String(allow_none=True)
     timestamp = fields.Float()
     operation_parameters = fields.Dict(default=dict, missing=dict)
 

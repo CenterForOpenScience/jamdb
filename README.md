@@ -68,18 +68,83 @@ Snapshot:
 A snapshot is an interface (and optionally datastructure) that stores the state of a collection at a given point in time. Most simply this is a list of keys and DataObject identifiers.
 
 
+```
 Store
   get
   set
+```
 
+```
 Collection
   id
   get(key)
+```
 
+```
 Object
   id
   data
+```
 
-Snapshots
+# Data Types
 
-Operations
+## DataObject
+* A DataObject MUST provide the fields:
+  - `ref`
+  - `data`
+
+### `ref`
+* MUST be unique
+* SHOULD be generatable from `data`
+  - ideally a cryptographic hash such as SHA1
+### `data`
+* MUST be JSON serializable
+
+## OpLog
+* An OpLog MUST provide the fields:
+  - `ref`
+  - `version`
+  - `data_ref`
+  - `operation`
+  - `record_id`
+  - `timestamp`
+  - `operation_parameters`
+
+### `ref`
+* MUST be unique
+
+### `data_ref`
+* MUST be the `ref` field of an existing DataObject
+
+### `operation`
+* MUST be an integer from the Operations enum
+
+### `timestamp`
+* MUST be in the UTC timezone
+* MUST be either a unix timestamp or iso formatted datetime
+
+### `operation_parameters`
+* SHOULD be a hashmap
+
+### `record_id`
+* SHOULD be a string
+* MUST be an indexable value
+
+## Snapshot dump
+* MUST be a list of OpLog `ref`s
+
+
+# Interfaces
+
+## Storage
+* A KV store
+* MUST provide methods to store, retrieve, and iterate over data
+* SHOULD provide a quering interface for efficient filtering of data
+
+## Logger
+* MAY be an extention of Storage
+* MUST provide an interface for generating, storing, and iterating over logs
+* SHOULD provide a quering interface for efficient filtering of data
+
+## Snapshot
+* MUST provide

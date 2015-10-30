@@ -18,9 +18,6 @@ class Snapshot:
     def list(self):
         return self._backend.list()
 
-    def serialize(self):
-        return []
-
     def _create(self, log, safe=True):
         self._backend.set(log.record_id, log)
         return log
@@ -41,6 +38,9 @@ class Snapshot:
         return self._create(log)
 
     def apply(self, log, safe=True):
+        # TODO implement safe
+        # Snapshot logs may be out of order, which should not matter
+        # Deleting a key that doesn't exist would cause an exception, safe would just swallow that failure
         try:
             op = {
                 Operation.CREATE: self._create,
@@ -51,4 +51,4 @@ class Snapshot:
             }[log.operation]
         except KeyError:
             raise Exception('Unknown operation {}'.format(log.operation))
-        return op(log, safe=True)
+        return op(log, safe=safe)
