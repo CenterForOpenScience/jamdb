@@ -1,7 +1,7 @@
 from iodm.base import Log
 from iodm.base import LogSchema
 from iodm.base import Operation
-from iodm.backends.translation import TranslatingBackend
+from iodm.backends.ext import TranslatingBackend
 
 
 class Snapshot:

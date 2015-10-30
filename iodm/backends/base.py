@@ -1,22 +1,10 @@
 import abc
 
 
-class Backend(abc.ABC):
+class ReadOnlyBackend(abc.ABC):
 
     @abc.abstractmethod
     def get(self, key):
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def set(self, key, value):
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def unset(self, key):
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def unset_all(self):
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -32,3 +20,18 @@ class Backend(abc.ABC):
     def list(self, order=None):
         order = order or (lambda x: x)
         return order(self.get(key) for key in self.keys())
+
+
+class Backend(ReadOnlyBackend):
+
+    @abc.abstractmethod
+    def set(self, key, value):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def unset(self, key):
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def unset_all(self):
+        raise NotImplementedError
