@@ -65,7 +65,7 @@ class Collection(ReadOnlyCollection):
     def create(self, key, data):
         data_object = self._storage.create(data)
         log = self._logger.create(Operation.CREATE, key, data_object.ref)
-        return self._snapshot.apply(log, data_object)
+        return self._snapshot.apply(log)
 
     def update(self, key, data, merger=None):
         if merger:
@@ -73,21 +73,20 @@ class Collection(ReadOnlyCollection):
             data = merger(original, data)
         data_object = self._storage.create(data)
         log = self._logger.create(Operation.UPDATE, key, data_object.ref)
-        return self._snapshot.apply(log, data_object)
+        return self._snapshot.apply(log)
 
     def delete(self, key):
         # TODO ref or not?
         log = self._logger.create(Operation.DELETE, key, None)
-        return self._snapshot.apply(log, None)
+        return self._snapshot.apply(log)
 
     def rename(self, key, new_key):
         original = self._snapshot.get(key)
         log = self._logger.create(Operation.RENAME, key, None, **{'to': new_key})
-        self._snapshot.apply(log, None)
+        self._snapshot.apply(log)
 
         log = self._logger.create(Operation.RENAME, new_key, original.data_ref, **{'from': key})
-        # TODO None or actual data ref
-        return self._snapshot.apply(log, None)
+        return self._snapshot.apply(log)
 
     def at_time(self, timestamp, snapshot):
         return ReadOnlyCollection(
