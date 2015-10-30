@@ -10,9 +10,7 @@ class Snapshot:
         self._backend = TranslatingBackend(Log, LogSchema, backend)
 
     def clear(self):
-        # TODO move to backend
-        for key in self._backend.keys():
-            self._backend.unset(key)
+        self._backend.unset_all()
 
     def get(self, key):
         return self._backend.get(key)
