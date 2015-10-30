@@ -58,7 +58,7 @@ class Collection(ReadOnlyCollection):
             self.regenerate()
 
     def snapshot(self):
-        data_object = self._storage.create(list(self._snapshot.keys()))
+        data_object = self._storage.create([log.ref for log in self._snapshot.list()])
         log = self._logger.create(Operation.SNAPSHOT, None, data_object.ref)
         return log
 
