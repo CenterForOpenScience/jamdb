@@ -4,13 +4,19 @@ import collections
 
 from iodm.base import DataObject
 from iodm.base import DataObjectSchema
-from iodm.backends.translation import TranslatingBackend
+from iodm.backends.ext import TranslatingBackend
 
 
-class Storage(TranslatingBackend):
+class ReadOnlyStorage:
 
     def __init__(self, backend):
-        super().__init__(DataObject, DataObjectSchema, backend)
+        self._backend = TranslatingBackend(DataObject, DataObjectSchema, backend)
+
+    def get(self, key):
+        return self._backend.get(key)
+
+
+class Storage(ReadOnlyStorage):
 
     def create(self, data):
         if isinstance(data, dict):
@@ -21,6 +27,6 @@ class Storage(TranslatingBackend):
 
         data_obj = DataObject(ref=hasher.hexdigest(), data=data)
 
-        self.set(data_obj.ref, data_obj)
+        self._backend.set(data_obj.ref, data_obj)
 
         return data_obj
