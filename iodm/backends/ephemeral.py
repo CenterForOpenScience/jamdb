@@ -6,9 +6,6 @@ class EphemeralBackend(Backend):
     def __init__(self):
         self._cache = {}
 
-    def clear(self):
-        self._cache = {}
-
     def get(self, key):
         return self._cache[key]
 
