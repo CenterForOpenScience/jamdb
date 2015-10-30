@@ -1,9 +1,9 @@
 from iodm import O
-from iodm import Q
 from iodm.base import Operation
+from iodm.storage import ReadOnlyStorage
 
 
-class Collection:
+class ReadOnlyCollection:
 
     def __init__(self, storage, logger, snapshot, regenerate=True):
         self._logger = logger
@@ -12,6 +12,8 @@ class Collection:
         if regenerate:
             # Oddity with regenerate + snapshot
             self.regenerate()
+
+    # Snapshot interaction
 
     def regenerate(self):
         self._snapshot.clear()
@@ -33,16 +35,37 @@ class Collection:
         for log_ref in data_object.data:
             self._snapshot.apply(self._logger.get(log_ref), safe=False)
 
+    # Data interaction
+
     def list(self):
         return self._snapshot.list()
+
+    def read(self, key):
+        return self._storage.get(self._snapshot.get(key).data_ref)
+
+    def history(self, key):
+        return self._logger.history(key)
+
+
+class Collection(ReadOnlyCollection):
+
+    def __init__(self, storage, logger, snapshot, regenerate=True):
+        self._logger = logger
+        self._storage = storage
+        self._snapshot = snapshot
+        if regenerate:
+            # Oddity with regenerate + snapshot
+            self.regenerate()
+
+    def snapshot(self):
+        data_object = self._storage.create(list(self._snapshot.keys()))
+        log = self._logger.create(Operation.SNAPSHOT, None, data_object.ref)
+        return log
 
     def create(self, key, data):
         data_object = self._storage.create(data)
         log = self._logger.create(Operation.CREATE, key, data_object.ref)
         return self._snapshot.apply(log, data_object)
-
-    def read(self, key):
-        return self._storage.get(self._snapshot.get(key).data_ref)
 
     def update(self, key, data, merger=None):
         if merger:
@@ -66,10 +89,11 @@ class Collection:
         # TODO None or actual data ref
         return self._snapshot.apply(log, None)
 
-    def snapshot(self):
-        data_object = self._storage.create(list(self._snapshot.keys()))
-        log = self._logger.create(Operation.SNAPSHOT, None, data_object.ref)
-        return log
-
-    def history(self, key):
-        return self._logger.history(key)
+    def at_time(self, timestamp, snapshot):
+        return ReadOnlyCollection(
+            # This feels a bit odd, need a better interface unwrapping backends
+            ReadOnlyStorage(self._storage._backend._backend),
+            self._logger.at_time(timestamp),
+            snapshot,
+            regenerate=True
+        )
