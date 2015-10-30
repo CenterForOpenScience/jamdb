@@ -31,7 +31,7 @@ class ReadOnlyCollection:
         return True
 
     def load_snapshot(self, snapshot_log):
-        data_object = self._storage.create(snapshot_log.data_ref)
+        data_object = self._storage.get(snapshot_log.data_ref)
         for log_ref in data_object.data:
             self._snapshot.apply(self._logger.get(log_ref), safe=False)
 
