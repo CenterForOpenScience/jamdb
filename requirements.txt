@@ -1,0 +1,7 @@
+# For bson
+pymongo
+redis
+# Need a data marshaller
+marshmallow
+# For testing "timetraveling"
+freezegun
