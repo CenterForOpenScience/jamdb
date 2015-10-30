@@ -61,8 +61,4 @@ class FrozenLogger(ReadOnlyLogger):
     """A Read-only logger that limits access to logs before the given timestamp"""
 
     def __init__(self, timestamp, backend):
-        super().__init__(backend)
-        self._backend = ReadOnlyFilteredBackend(
-            Q('timestamp', 'eq', timestamp),
-            self._backend
-        )
+        super().__init__(ReadOnlyFilteredBackend(Q('timestamp', 'eq', timestamp), backend))
