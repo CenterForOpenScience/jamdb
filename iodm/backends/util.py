@@ -3,7 +3,7 @@ import operator
 
 class Query:
 
-    SUPPORTED_COMPARATORS = ('eq', 'ne', 'gt', 'lt')
+    SUPPORTED_COMPARATORS = ('eq', 'ne', 'in', 'gt', 'lt', 'lte', 'gte')
 
     def __init__(self, key, comparator, value):
         assert comparator in self.SUPPORTED_COMPARATORS
@@ -12,7 +12,10 @@ class Query:
         self.comparator = comparator
 
     def as_lambda(self):
-        comparator = getattr(operator, self.comparator)
+        comparator = getattr(operator, {
+            'gte': 'ge',
+            'lte': 'le',
+        }.get(self.comparator, self.comparator))
         return lambda val: comparator(val[self.key], self.value)
 
     def __and__(self, other):
