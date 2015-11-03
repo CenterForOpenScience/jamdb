@@ -14,8 +14,11 @@ class ReadOnlyBackend(abc.ABC):
     def query(self, query, order=None):
         return filter(query.as_lambda(), self.list(order))
 
-    def first(self, query):
-        return next(self.query(query))
+    def first(self, query, order=None):
+        try:
+            return next(self.query(query, order=order))
+        except StopIteration:
+            raise exceptions.NotFound(query)
 
     def list(self, order=None):
         order = order or (lambda x: x)
