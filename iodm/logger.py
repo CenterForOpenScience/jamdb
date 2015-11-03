@@ -25,7 +25,7 @@ class ReadOnlyLogger:
         return self._backend.first(Q('operation', 'eq', Operation.SNAPSHOT))
 
     def after(self, timestamp):
-        return self._backend.query(Q('timestamp', 'gt', timestamp), Q('timestamp', O.ASCENDING))
+        return self._backend.query(Q('timestamp', 'gt', timestamp), O('timestamp', O.ASCENDING))
 
     def history(self, record_id):
         """Returns all logs pretaining to the specified record_id newest to oldest
