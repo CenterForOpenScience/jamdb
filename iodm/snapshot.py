@@ -18,6 +18,9 @@ class Snapshot:
     def list(self):
         return self._backend.list()
 
+    def keys(self):
+        return self._backend.keys()
+
     def _create(self, log, safe=True):
         self._backend.set(log.record_id, log)
         return log
