@@ -1,3 +1,4 @@
+from iodm import exceptions
 from iodm.backends.base import Backend
 
 
@@ -7,7 +8,10 @@ class EphemeralBackend(Backend):
         self._cache = {}
 
     def get(self, key):
-        return self._cache[key]
+        try:
+            return self._cache[key]
+        except KeyError:
+            raise exceptions.NotFound(key)
 
     def set(self, key, value):
         self._cache[key] = value
