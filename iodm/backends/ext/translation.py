@@ -36,3 +36,6 @@ class TranslatingBackend(Backend):
     def list(self, order=None):
         for data in self._backend.list(order):
             yield self.deserialize(data)
+
+    def raw_storage(self):
+        return self._backend.raw_backend()

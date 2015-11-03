@@ -21,6 +21,9 @@ class ReadOnlyBackend(abc.ABC):
         order = order or (lambda x: x)
         return order(self.get(key) for key in self.keys())
 
+    def raw_backend(self):
+        return self
+
 
 class Backend(ReadOnlyBackend):
 

@@ -20,3 +20,6 @@ class ReadOnlyFilteredBackend(ReadOnlyBackend):
 
     def list(self, order=None):
         return self._backend.query(self._query, order)
+
+    def raw_backend(self):
+        return self._backend.raw_backend()
