@@ -2,18 +2,21 @@ import json
 import hashlib
 import collections
 
-from iodm.base import DataObject
-from iodm.base import DataObjectSchema
+from iodm import Q
+from iodm.models import DataObject
 from iodm.backends.ext import TranslatingBackend
 
 
 class ReadOnlyStorage:
 
     def __init__(self, backend):
-        self._backend = TranslatingBackend(DataObject, DataObjectSchema, backend)
+        self._backend = TranslatingBackend(DataObject, backend)
 
     def get(self, key):
         return self._backend.get(key)
+
+    def bulk_read(self, keys):
+        return self._backend.query(Q('ref', 'in', keys))
 
 
 class Storage(ReadOnlyStorage):
