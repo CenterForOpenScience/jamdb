@@ -1,6 +1,8 @@
 from iodm import O
+from iodm import Q
+from iodm import exceptions
 from iodm.base import Operation
-from iodm.storage import ReadOnlyStorage
+from iodm.auth import Permissions
 
 
 class ReadOnlyCollection:
@@ -8,102 +10,163 @@ class ReadOnlyCollection:
     Used for getting specific states in time as past data is not modifiable
     """
 
-    def __init__(self, storage, logger, snapshot, regenerate=True):
+    def __init__(self, storage, logger, state, permissions=None):
+        self._state = state
         self._logger = logger
         self._storage = storage
-        self._snapshot = snapshot
-        if regenerate:
-            # Snapshot will get overwritten here if it is not empty
-            # A new snapshot cannot be generated as we have no idea what parameters to pass it
-            self.regenerate()
+        self._permission = permissions or {'*': Permissions.ADMIN}
 
     # Snapshot interaction
 
     def regenerate(self):
         # Remove all data otherwise we might have some rogue keys
-        self._snapshot.clear()
+        self._state.clear()
 
-        snapshot_log = self._logger.latest_snapshot()
-
-        if snapshot_log:
+        try:
+            snapshot_log = self._logger.latest_snapshot()
+        except exceptions.NotFound:
+            # Otherwise apply all logs
+            logs = list(self._logger.list(O('modified_on', O.ASCENDING)))
+        else:
             # If we've found the snap shot, load it and apply all logs after it
             self.load_snapshot(snapshot_log)
             # Note: After sorts ascending on timestamp
-            logs = self._logger.after(snapshot_log.timestamp)
-        else:
-            # Otherwise apply all logs
-            logs = self._logger.list(O('timestamp', O.ASCENDING))
+            logs = list(self._logger.after(snapshot_log.modified_on))
 
+        data_objects = {}
+        for data_object in self._storage._backend.query(Q('ref', 'in', [
+            log.data_ref for log in logs
+        ])):
+            data_objects[data_object.ref] = data_object
+
+        acc = 0
         for log in logs:
-            self._snapshot.apply(log)
+            acc += 1
+            self._state.apply(log, data_objects[log.data_ref].data)
 
-        return True
+        return acc  # The number of logs that were not included from the snapshot
 
     def load_snapshot(self, snapshot_log):
         # Pull our data object, a list of log refs
         data_object = self._storage.get(snapshot_log.data_ref)
+        logs, data_objects = zip(*data_object.data)
 
         # Load and apply each log ref
-        for log_ref in data_object.data:
-            self._snapshot.apply(self._logger.get(log_ref), safe=False)
+        for log, data_object in zip(self._logger.bulk_read(logs), self._storage.bulk_read(data_objects)):
+            self._state.apply(log, data_object, safe=False)
+
+        # for log in self._logger.bulk_read(data_object.data):
+        #     self._state.apply(log, self._storage.get(log.data_ref).data, safe=False)
 
     # Data interaction
 
     def list(self):
-        return self._snapshot.list()
+        return self._state.list()
+
+    def keys(self):
+        return self._state.keys()
 
     def read(self, key):
-        return self._storage.get(self._snapshot.get(key).data_ref)
+        doc = self._state.get(key)
+        if doc.data is None and doc.data_ref:
+            doc.data = self._storage.get(doc.data_ref)
+        return doc
 
     def history(self, key):
         return self._logger.history(key)
 
 
+class FrozenCollection(ReadOnlyCollection):
+
+    def snapshot(self):
+        data_object = self._storage.create([(doc.log_ref, doc.data_ref) for doc in self._state.list()])
+        log = self._logger.create_snapshot(data_object.ref)
+        return log
+
+
 class Collection(ReadOnlyCollection):
 
     def snapshot(self):
-        data_object = self._storage.create([log.ref for log in self._snapshot.list()])
-        log = self._logger.create(Operation.SNAPSHOT, None, data_object.ref)
+        data_object = self._storage.create([doc.log_ref for doc in self._state.list()])
+        log = self._logger.create(None, Operation.SNAPSHOT, data_object.ref, None)
         return log
 
-    def create(self, key, data):
-        data_object = self._storage.create(data)
-        log = self._logger.create(Operation.CREATE, key, data_object.ref)
-        return self._snapshot.apply(log)
+    def create(self, key, data, user):
+        try:
+            self._state.get(key)
+        except exceptions.NotFound:
+            pass
+        else:
+            raise Exception('Already here')
 
-    def update(self, key, data, merger=None):
+        data_object = self._storage.create(data)
+
+        return self._state.apply(self._logger.create(
+            key,
+            Operation.CREATE,
+            data_object.ref,
+            user
+        ), data)
+
+    def update(self, key, data, user, merger=None):
+        previous = self._state.get(key)
+
         if merger:
-            original = self._snapshot.get(key)
-            data = merger(original, data)
+            data = merger(previous, data)
+
         data_object = self._storage.create(data)
-        log = self._logger.create(Operation.UPDATE, key, data_object.ref)
-        return self._snapshot.apply(log)
 
-    def delete(self, key):
+        return self._state.apply(self._logger.create(
+            key,
+            Operation.UPDATE,
+            data_object.ref,
+            user,
+            previous=previous
+        ), data)
+
+    def delete(self, key, user):
         # data_ref for delete logs should always be None
-        log = self._logger.create(Operation.DELETE, key, None)
-        return self._snapshot.apply(log)
+        previous = self._stage.get(key)
+        return self._state.apply(self._logger.create(
+            key,
+            Operation.DELETE,
+            None,
+            user,
+            previous=previous
+        ), None)
 
-    def rename(self, key, new_key):
+    def rename(self, key, new_key, user):
         # Create two logs, one for the from key, effectively a delete
         # and another for the to key, effectively a create
-        original = self._snapshot.get(key)
-        log = self._logger.create(Operation.RENAME, key, None, **{'to': new_key})
-        self._snapshot.apply(log)
+        previous = self._state.get(key)
+        self._state.apply(self._logger.create(
+            key,
+            Operation.RENAME,
+            None,
+            user,
+            previous=previous,
+            operation_parameters={'to': new_key}
+        ), None)
 
-        log = self._logger.create(Operation.RENAME, new_key, original.data_ref, **{'from': key})
-        return self._snapshot.apply(log)
+        return self._state.apply(self._logger.create(
+            new_key,
+            Operation.RENAME,
+            previous.data_ref,
+            user,
+            previous=previous,
+            operation_parameters={'from': key}
+        ), previous.data)
 
-    def at_time(self, timestamp, snapshot):
-        """Given a unix timestamp and a snapshot (Should be empty)
+    def at_time(self, timestamp, state, regenerate=True):
+        """Given a unix timestamp and a state (Should be empty)
         creates a ReadOnlyCollection for this collection at that point in time.
-        Note: The closer timestamp is to a saved snapshot the faster this will be
+        Note: The closer timestamp is to a saved state the faster this will be
         """
-        return ReadOnlyCollection(
-            # This feels a bit odd, need a better interface unwrapping backends
-            # Unwraps storages backend to the raw backend, the input expected by ReadOnlyStorage
-            ReadOnlyStorage(self._storage._backend._backend),
+        frozen = FrozenCollection(
+            self._storage,
             self._logger.at_time(timestamp),
-            snapshot,
-            regenerate=True
+            state,
         )
+        if regenerate:
+            frozen.regenerate()
+        return frozen
