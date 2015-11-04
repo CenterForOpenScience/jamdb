@@ -1,13 +1,12 @@
-from iodm.base import Log
-from iodm.base import LogSchema
 from iodm.base import Operation
+from iodm.models.document import Document
 from iodm.backends.ext import TranslatingBackend
 
 
-class Snapshot:
+class State:
 
     def __init__(self, backend):
-        self._backend = TranslatingBackend(Log, LogSchema, backend)
+        self._backend = TranslatingBackend(Document, backend)
 
     def clear(self):
         self._backend.unset_all()
@@ -21,26 +20,29 @@ class Snapshot:
     def keys(self):
         return self._backend.keys()
 
-    def _create(self, log, safe=True):
-        self._backend.set(log.record_id, log)
-        return log
+    def _create(self, log, data, safe=True):
+        doc = Document.create(log, data)
+        self._backend.set(log.record_id, doc)
+        return doc
 
-    def _rename(self, log, safe=True):
+    def _rename(self, log, data, safe=True):
         if 'to' in log.operation_parameters:
             self._backend.unset(log.record_id)
         else:
-            self._backend.set(log.record_id, log)
+            doc = Document.create(log, data)
+            self._backend.set(log.record_id, doc)
+            return doc
 
-    def _delete(self, log, safe=True):
+    def _delete(self, log, data, safe=True):
         self._backend.unset(log.record_id)
 
-    def _replace(self, log, safe=True):
-        return self._create(log)
+    def _replace(self, log, data, safe=True):
+        return self._create(log, data)
 
-    def _update(self, log, safe=True):
-        return self._create(log)
+    def _update(self, log, data, safe=True):
+        return self._create(log, data, safe=True)
 
-    def apply(self, log, safe=True):
+    def apply(self, log, data, safe=True):
         # TODO implement safe
         # Snapshot logs may be out of order, which should not matter
         # Deleting a key that doesn't exist would cause an exception, safe would just swallow that failure
@@ -54,4 +56,4 @@ class Snapshot:
             }[log.operation]
         except KeyError:
             raise Exception('Unknown operation {}'.format(log.operation))
-        return op(log, safe=safe)
+        return op(log, data, safe=safe)
