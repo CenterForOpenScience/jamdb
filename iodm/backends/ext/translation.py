@@ -3,16 +3,20 @@ from iodm.backends.base import Backend
 
 class TranslatingBackend(Backend):
 
-    def __init__(self, obj, schema, backend):
+    def __init__(self, obj, backend):
         self.obj = obj
-        self.schema = schema()
+        # self.schema = schema()
         self._backend = backend
 
     def deserialize(self, data):
-        return self.obj(**self.schema.load(data).data)
+        # Note: Bottle neck here, data marshalling is sloooow
+        # TODO reimplement
+        return self.obj.deserialize(data)
+        # return self.obj(**self.schema.load(data).data)
 
     def serialize(self, obj):
-        return self.schema.dump(obj._asdict()).data
+        return self.obj.serialize(obj)
+        # return self.schema.dump(obj._asdict()).data
 
     def get(self, key):
         return self.deserialize(self._backend.get(key))
@@ -37,5 +41,5 @@ class TranslatingBackend(Backend):
         for data in self._backend.list(order):
             yield self.deserialize(data)
 
-    def raw_storage(self):
+    def raw_backend(self):
         return self._backend.raw_backend()

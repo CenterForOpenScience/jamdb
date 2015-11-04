@@ -35,6 +35,14 @@ class Order:
     ASCENDING = 1
     DESCENDING = -1
 
+    @classmethod
+    def Ascending(cls, key):
+        return cls(key, cls.ASCENDING)
+
+    @classmethod
+    def Descending(cls, key):
+        return cls(key, cls.DESCENDING)
+
     def __init__(self, key, order):
         assert order in (-1, 1)
         self.key = key

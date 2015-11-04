@@ -1,5 +1,7 @@
 import abc
 
+from iodm import exceptions
+
 
 class ReadOnlyBackend(abc.ABC):
 
