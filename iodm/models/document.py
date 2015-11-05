@@ -1,5 +1,7 @@
 from collections import namedtuple
 
+from iodm.auth import Permissions
+
 
 class Document(namedtuple('Document', [
     'ref',  # record id
@@ -41,3 +43,19 @@ class Document(namedtuple('Document', [
         kwargs['created_on'] = float(kwargs['created_on'])
         kwargs['modified_on'] = float(kwargs['modified_on'])
         return super().__new__(cls, **kwargs)
+
+    @property
+    def permissions(self):
+        return {self.created_by: Permissions.CRUD}
+
+    def to_json_api(self):
+        return {
+            'id': self.ref,
+            'attributes': self.data,
+            'meta': {
+                'createdBy': self.created_by,
+                'createdOn': self.created_on,
+                'modifiedBy': self.modified_by,
+                'modifiedOn': self.modified_on,
+            }
+        }
