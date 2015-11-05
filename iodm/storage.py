@@ -7,6 +7,16 @@ from iodm.models import DataObject
 from iodm.backends.ext import TranslatingBackend
 
 
+def order_dictionary(dict_obj):
+    ordered = collections.OrderedDict()
+    for key in sorted(dict_obj.keys()):
+        if isinstance(dict_obj[key], dict):
+            ordered[key] = order_dictionary(dict_obj[key])
+        else:
+            ordered[key] = dict_obj[key]
+    return ordered
+
+
 class ReadOnlyStorage:
 
     def __init__(self, backend):
@@ -23,7 +33,7 @@ class Storage(ReadOnlyStorage):
 
     def create(self, data):
         if isinstance(data, dict):
-            data = collections.OrderedDict(data)
+            data = order_dictionary(data)
 
         hasher = hashlib.new('sha1')
         hasher.update(json.dumps(data).encode('utf-8'))
