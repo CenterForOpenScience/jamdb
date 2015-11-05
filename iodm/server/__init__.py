@@ -8,7 +8,7 @@ from iodm.server.api import v1
 
 
 async def make_app(debug=True):
-    namespacer = Namespace('Testing')
+    namespacer = Namespace('test')
 
     return tornado.web.Application([
         (*entry, {'namespacer': namespacer})

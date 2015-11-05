@@ -21,8 +21,6 @@ class CollectionHandler(BaseAPIHandler):
 
     def get(self, collection_id):
 
-        data = list(self.namespacer.get_collection(collection_id).list())
-
         self.write({
             'data': list(self.namespacer.get_collection(collection_id).list())
         })
