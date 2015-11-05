@@ -93,6 +93,8 @@ class HistoryHandler(TimeMachineAPIHandler):
         assert Permissions.from_method(self.request.method) & self.permissions
 
     def get(self, collection_id, document_id, history_id=None):
+        url = '{}://{}{}/'.format(self.request.protocol, self.request.host, self.request.path.rstrip('/'))
+
         if history_id:
             log = self.collection._logger.get(history_id)
             return self.write({
@@ -105,10 +107,14 @@ class HistoryHandler(TimeMachineAPIHandler):
                     'modifiedOn': log.modified_on,
                     'parameters': log.operation_parameters,
                     'operation': Operation(log.operation).name.lower(),
+                },
+                'links': {
+                    'self': url + log.ref
                 }
             })
 
         data = []
+
         for log in self.collection.history(document_id):
             data.append({
                 'id': log.ref,
@@ -120,6 +126,9 @@ class HistoryHandler(TimeMachineAPIHandler):
                     'modifiedOn': log.modified_on,
                     'parameters': log.operation_parameters,
                     'operation': Operation(log.operation).name.lower(),
+                },
+                'links': {
+                    'self': url + log.ref
                 }
             })
         self.write(data)
