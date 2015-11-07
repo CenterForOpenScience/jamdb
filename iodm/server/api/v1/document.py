@@ -1,134 +1,55 @@
 import bson
 
-from iodm.auth import User
-from iodm.base import Operation
 from iodm.auth import Permissions
-from iodm.server.api.base import BaseAPIHandler
-from iodm.server.api.base import TimeMachineAPIHandler
+from iodm.server.api.v1.base import APIResource
+from iodm.server.api.v1.collection import CollectionResource
 
 
-class DocumentsHandler(TimeMachineAPIHandler):
-    PATTERN = '/collections/(?P<collection_id>\w+)/documents/?'
+class DocumentResource(APIResource):
 
-    def prepare(self):
-        super().prepare()
-        self.permissions = Permissions.get_permissions(self.current_user, self.namespacer, self.collection)
+    @property
+    def document(self):
+        return self.resource
 
-        assert Permissions.from_method(self.request.method) & self.permissions
+    @property
+    def collection(self):
+        return self.parent.resource
 
-    def get(self, *args, **kwargs):
-        self.write([
+    def __init__(self):
+        super().__init__('document', CollectionResource)
+
+    def load(self, document_id, request):
+        return super().load(self.parent.resource.read(document_id))
+
+    def list(self):
+        return [
             document.to_json_api()
-            for document in self.collection.list()
-        ])
+            for document in self.parent.resource.list()
+            if document.permissions.get(user.uid, Permissions.NONE) & user.permissions
+        ]
 
-    def post(self, *args, **kwargs):
-        data = self.json['data']
-
-        document = self.collection.create(
+    def create(self, data, user):
+        document = self.parent.resource.create(
             data.get('id') or str(bson.ObjectId()),
             data['attributes'],
-            self.current_user.uid
+            user.uid
         )
+        return document.to_json_api()
 
-        self.set_status(201)
-        self.write(document.to_json_api())
+    def delete(self, user):
+        self.parent.resource.delete(self.resource.ref, user.uid)
 
-
-class DocumentHandler(TimeMachineAPIHandler):
-    PATTERN = '/collections/(?P<collection_id>\w+)/documents/(?P<document_id>\w+)/?'
-
-    def prepare(self):
-        super().prepare()
-
-        self.permissions = Permissions.get_permissions(self.current_user, self.namespacer)
-        assert Permissions.from_method(self.request.method) & self.permissions
-
-        # self.collection = self.namespacer.get_collection(self.path_kwargs['collection_id'])
-        self.permissions |= Permissions.get_permissions(self.current_user, self.collection)
-        assert Permissions.from_method(self.request.method) & self.permissions
-
-        self.document = self.collection.read(self.path_kwargs['document_id'])
-        self.permissions |= Permissions.get_permissions(self.current_user, self.document)
-        assert Permissions.from_method(self.request.method) & self.permissions
-
-    def get(self, **kwargs):
-        self.write(self.document.to_json_api())
-
-    def delete(self, **kwargs):
-        self.collection.delete(self.document.ref, self.current_user.uid)
-        self.set_status(204)
-
-    def put(self, **kwargs):
-        new_doc = self.collection.update(self.document.ref, self.json['data']['attributes'], self.current_user.uid)
-        self.set_status(200)
-        self.write(new_doc.to_json_api())
-
-    def patch(self, **kwargs):
-        new_doc = self.collection.update(
+    def replace(self, data, user):
+        return self.collection.update(
             self.document.ref,
-            self.json['data']['attributes'],
-            self.current_user.uid,
+            data['attributes'],
+            user.uid
+        ).to_json_api()
+
+    def update(self, data, user):
+        return self.collection.update(
+            self.document.ref,
+            data['attributes'],
+            user.uid,
             merger=lambda x, y: {**x, **y}
-        )
-        self.set_status(200)
-        self.write(new_doc.to_json_api())
-
-
-class HistoryHandler(TimeMachineAPIHandler):
-    PATTERN = '/collections/(?P<collection_id>\w+)/documents/(?P<document_id>\w+)/history(?:/(?P<history_id>\w+))?/?'
-
-    def prepare(self):
-        super().prepare()
-
-        self.permissions = Permissions.get_permissions(self.current_user, self.namespacer)
-        assert Permissions.from_method(self.request.method) & self.permissions
-
-        # self.collection = self.namespacer.get_collection(self.path_kwargs['collection_id'])
-        self.permissions |= Permissions.get_permissions(self.current_user, self.collection)
-        assert Permissions.from_method(self.request.method) & self.permissions
-
-        self.document = self.collection.read(self.path_kwargs['document_id'])
-        self.permissions |= Permissions.get_permissions(self.current_user, self.document)
-        assert Permissions.from_method(self.request.method) & self.permissions
-
-    def get(self, collection_id, document_id, history_id=None):
-        url = '{}://{}{}/'.format(self.request.protocol, self.request.host, self.request.path.rstrip('/'))
-
-        if history_id:
-            log = self.collection._logger.get(history_id)
-            return self.write({
-                'id': log.ref,
-                'attributes': self.collection._storage.get(log.data_ref).data,
-                'meta': {
-                    'createdBy': log.created_by,
-                    'createdOn': log.created_on,
-                    'modifiedBy': log.modified_by,
-                    'modifiedOn': log.modified_on,
-                    'parameters': log.operation_parameters,
-                    'operation': Operation(log.operation).name.lower(),
-                },
-                'links': {
-                    'self': url + log.ref
-                }
-            })
-
-        data = []
-
-        for log in self.collection.history(document_id):
-            data.append({
-                'id': log.ref,
-                'attributes': self.collection._storage.get(log.data_ref).data,
-                'meta': {
-                    'createdBy': log.created_by,
-                    'createdOn': log.created_on,
-                    'modifiedBy': log.modified_by,
-                    'modifiedOn': log.modified_on,
-                    'parameters': log.operation_parameters,
-                    'operation': Operation(log.operation).name.lower(),
-                },
-                'links': {
-                    'self': url + log.ref
-                }
-            })
-        self.write(data)
+        ).to_json_api()

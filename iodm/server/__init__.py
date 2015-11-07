@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 import tornado.web
 import tornado.platform.asyncio
@@ -7,13 +8,18 @@ from iodm import Namespace
 from iodm.server.api import v1
 
 
-async def make_app(debug=True):
-    namespacer = Namespace('test')
+logger = logging.getLogger(__name__)
 
-    return tornado.web.Application([
-        (*entry, {'namespacer': namespacer})
-        for entry in v1.HANDLERS
-    ], debug=debug)
+
+async def make_app(debug=True):
+    endpoints = []
+
+    for endpoint in v1.RESOURCES:
+        endpoint = endpoint.as_handler_entry()
+        endpoints.append(endpoint)
+        logger.info('Loaded {} endpoint "{}"'.format(v1.__name__, endpoint[0]))
+
+    return tornado.web.Application(endpoints, debug=debug)
 
 
 def profile(ktime=10):

@@ -1,26 +1,42 @@
-from iodm.server.api.base import BaseAPIHandler
+import calendar
+
+from dateutil.parser import parse
+
+import iodm
+from iodm.backends import EphemeralBackend
+from iodm.server.api.v1.base import APIResource
+from iodm.server.api.v1.namespace import NamespaceResource
 
 
-class CollectionsHandler(BaseAPIHandler):
-    PATTERN = '/collections/?'
+class CollectionResource(APIResource):
 
-    def initialize(self, namespacer):
-        self.namespacer = namespacer
+    def __init__(self):
+        super().__init__('collection', NamespaceResource)
 
-    def get(self):
-        self.write({
-            'data': list(self.namespacer.keys())
-        })
+    def load(self, collection_id, request):
+        collection = self.parent.resource.get_collection(collection_id)
 
+        maybe_time = request.query_arguments.get('timemachine')
+        if maybe_time:
+            maybe_time = maybe_time[-1].decode('utf-8')
+            try:
+                timestamp = float(maybe_time)
+            except ValueError:
+                timestamp = calendar.timegm(parse(maybe_time).utctimetuple())
 
-class CollectionHandler(BaseAPIHandler):
-    PATTERN = '/collections/(?P<collection_id>\w+)/?'
+            collection = collection.at_time(
+                timestamp,
+                iodm.State(EphemeralBackend()),
+                regenerate=False
+            )
 
-    def initialize(self, namespacer):
-        self.namespacer = namespacer
+            if collection.regenerate() > 200:
+                collection.snapshot()
 
-    def get(self, collection_id):
+        return super().load(collection)
 
-        self.write({
-            'data': list(self.namespacer.get_collection(collection_id).list())
-        })
+    def list(self):
+        return list(self.parent.resource.keys())
+
+    def read(self):
+        return self.resource.to_json_api()
