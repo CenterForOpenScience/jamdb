@@ -2,7 +2,6 @@ from iodm import O
 from iodm import Q
 from iodm import exceptions
 from iodm.base import Operation
-from iodm.auth import Permissions
 
 
 class ReadOnlyCollection:
@@ -14,7 +13,7 @@ class ReadOnlyCollection:
         self._state = state
         self._logger = logger
         self._storage = storage
-        self._permission = permissions or {'*': Permissions.ADMIN}
+        self.permissions = permissions or {}
 
     # Snapshot interaction
 
@@ -35,14 +34,14 @@ class ReadOnlyCollection:
 
         data_objects = {}
         for data_object in self._storage._backend.query(Q('ref', 'in', [
-            log.data_ref for log in logs
+            log.data_ref for log in logs if log.data_ref
         ])):
             data_objects[data_object.ref] = data_object
 
         acc = 0
         for log in logs:
             acc += 1
-            self._state.apply(log, data_objects[log.data_ref].data)
+            self._state.apply(log, log.data_ref and data_objects[log.data_ref].data or None)
 
         return acc  # The number of logs that were not included from the snapshot
 
@@ -53,10 +52,7 @@ class ReadOnlyCollection:
 
         # Load and apply each log ref
         for log, data_object in zip(self._logger.bulk_read(logs), self._storage.bulk_read(data_objects)):
-            self._state.apply(log, data_object, safe=False)
-
-        # for log in self._logger.bulk_read(data_object.data):
-        #     self._state.apply(log, self._storage.get(log.data_ref).data, safe=False)
+            self._state.apply(log, data_object.data, safe=False)
 
     # Data interaction
 
@@ -87,7 +83,7 @@ class FrozenCollection(ReadOnlyCollection):
 class Collection(ReadOnlyCollection):
 
     def snapshot(self):
-        data_object = self._storage.create([doc.log_ref for doc in self._state.list()])
+        data_object = self._storage.create([(doc.log_ref, doc.data_ref) for doc in self._state.list()])
         log = self._logger.create(None, Operation.SNAPSHOT, data_object.ref, None)
         return log
 
@@ -112,7 +108,7 @@ class Collection(ReadOnlyCollection):
         previous = self._state.get(key)
 
         if merger:
-            data = merger(previous, data)
+            data = merger(previous.data, data)
 
         data_object = self._storage.create(data)
 
@@ -126,7 +122,7 @@ class Collection(ReadOnlyCollection):
 
     def delete(self, key, user):
         # data_ref for delete logs should always be None
-        previous = self._stage.get(key)
+        previous = self._state.get(key)
         return self._state.apply(self._logger.create(
             key,
             Operation.DELETE,
