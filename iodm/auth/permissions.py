@@ -23,6 +23,7 @@ class Permissions(enum.IntEnum):
             'PUT': Permissions.UPDATE,
             'PATCH': Permissions.UPDATE,
             'DELETE': Permissions.DELETE,
+            'OPTIONS': Permissions.NONE
         }[http_method.upper()]
 
     @classmethod
