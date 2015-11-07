@@ -18,14 +18,24 @@ class DocumentResource(APIResource):
     def __init__(self):
         super().__init__('document', CollectionResource)
 
+    def get_permissions(self, request):
+        if request.method == 'GET':
+            return Permissions.NONE
+        return super().get_permissions(request)
+
     def load(self, document_id, request):
         return super().load(self.parent.resource.read(document_id))
 
-    def list(self):
+    def list(self, user):
+        if user.permissions & Permissions.READ:
+            return [
+                document.to_json_api()
+                for document in self.parent.resource.list()
+            ]
         return [
             document.to_json_api()
             for document in self.parent.resource.list()
-            if document.permissions.get(user.uid, Permissions.NONE) & user.permissions
+            if document.created_by == user.uid
         ]
 
     def create(self, data, user):

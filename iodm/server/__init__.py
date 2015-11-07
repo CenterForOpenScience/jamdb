@@ -12,10 +12,16 @@ logger = logging.getLogger(__name__)
 
 
 async def make_app(debug=True):
-    endpoints = []
+    endpoints = [
+        ('/v1/auth/?', v1.AuthHandler)
+    ]
 
     for endpoint in v1.RESOURCES:
         endpoint = endpoint.as_handler_entry()
+        endpoint = (
+            '/{}{}'.format(v1.__name__.split('.')[-1], endpoint[0]),
+            endpoint[1], endpoint[2]
+        )
         endpoints.append(endpoint)
         logger.info('Loaded {} endpoint "{}"'.format(v1.__name__, endpoint[0]))
 

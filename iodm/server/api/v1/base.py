@@ -7,7 +7,7 @@ from iodm.server.api.base import BaseAPIHandler
 class ResourceHandler(BaseAPIHandler):
 
     def initialize(self, resource):
-        self.resource = resource
+        self.resource = resource()
 
     def prepare(self):
         super().prepare()
@@ -24,22 +24,31 @@ class ResourceHandler(BaseAPIHandler):
         ]
 
         self.permissions = Permissions.get_permissions(self.current_user, *loaded)
-        self.permissions = Permissions.ADMIN
+        # self.permissions = Permissions.ADMIN
         # TODO this is kinda hacky
-        self.user.permissions = self.permissions
-        assert Permissions.from_method(self.request.method) & self.permissions
+        self.current_user.permissions = self.permissions
+
+        required_permissions = self.resource.get_permissions(self.request)
+        if required_permissions != Permissions.NONE:
+            assert required_permissions & self.permissions
+
+        # assert Permissions.from_method(self.request.method) & self.permissions
 
     def get(self, **kwargs):
         if self.resource.resource is not None:
-            data = self.resource.read()
-        else:
-            data = self.resource.list()
-        return self.write(data)
+            return self.write(self.resource.read(self.current_user))
+        data = self.resource.list(self.current_user)
+        return tornado.web.RequestHandler.write(self, {
+            'data': data,
+            'meta': {
+                'total': len(data)
+            }
+        })
 
     def post(self, **kwargs):
         assert self.resource.resource is None
         data = self.json['data']
-        assert data['type'] == self.resource.name
+        # assert data['type'] == self.resource.name
         self.set_status(201)
         self.write(self.resource.create(data, self.current_user))
 
@@ -47,7 +56,7 @@ class ResourceHandler(BaseAPIHandler):
         assert self.resource.resource is not None
         data = self.json['data']
         assert data['id'] == self.path_kwargs[self.resource.name + '_id']
-        assert data['type'] == self.resource.name
+        # assert data['type'] == self.resource.name
         return self.write(self.resource.replace(data, self.current_user))
 
     def patch(self, **kwargs):
@@ -67,7 +76,7 @@ class APIResource:
     @classmethod
     def as_handler_entry(cls):
         inst = cls()
-        return (inst.general_pattern, ResourceHandler, {'resource': inst})
+        return (inst.general_pattern, ResourceHandler, {'resource': cls})
 
     @property
     def general_pattern(self):
@@ -75,7 +84,7 @@ class APIResource:
             url = self.parent.specific_pattern
         else:
             url = '/'
-        return '{0}{1}s(?:/(?P<{1}_id>\w+))?/?'.format(url, self.name)
+        return '{0}{1}s(?:/(?P<{1}_id>(?:\w|-)+))?/?'.format(url, self.name)
 
     @property
     def specific_pattern(self):
@@ -83,7 +92,7 @@ class APIResource:
             url = self.parent.specific_pattern
         else:
             url = '/'
-        return '{0}{1}s/(?P<{1}_id>\w+)/'.format(url, self.name)
+        return '{0}{1}s/(?P<{1}_id>(?:\w|-)+)/'.format(url, self.name)
 
     def __init__(self, resource_name, parent=None):
         if parent:
@@ -92,6 +101,9 @@ class APIResource:
             self.parent = None
         self.name = resource_name
         self.resource = None
+
+    def get_permissions(self, request):
+        return Permissions.from_method(request.method)
 
     def load(self, resource):
         self.resource = resource
