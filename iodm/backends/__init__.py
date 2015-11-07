@@ -4,6 +4,7 @@ from iodm.backends.git import GitBackend
 from iodm.backends.redis import RedisBackend
 from iodm.backends.mongo import MongoBackend
 from iodm.backends.ephemeral import EphemeralBackend
+from iodm.backends.elasticsearch import ElasticsearchBackend
 
 
 Q, O = Query, Order
@@ -13,6 +14,8 @@ __all__ = (
     'Q', 'Query',
     'O', 'Order',
     'GitBackend',
+    'MongoBackend',
     'RedisBackend',
     'EphemeralBackend',
+    'ElasticsearchBackend'
 )

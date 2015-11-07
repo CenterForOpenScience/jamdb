@@ -9,10 +9,7 @@ try:
     }
 except ImportError:
     DEFAULT_FORMATTER = {
-        '()': 'waterbutler.core.logging.MaskFormatter',
         'format': '[%(asctime)s][%(levelname)s][%(name)s]: %(message)s',
-        'pattern': '(?<=cookie=)(.*?)(?=&|$)',
-        'mask': '***'
     }
 
 
