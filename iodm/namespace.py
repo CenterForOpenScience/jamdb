@@ -1,3 +1,5 @@
+import uuid
+
 import iodm
 from iodm import exceptions
 from iodm.auth import Permissions
@@ -12,35 +14,56 @@ class Namespace(Collection):
         'elasticsearch': ElasticsearchBackend
     }
 
-    # permissions = {'*': Permissions.ADMIN}
-
-    def __init__(self, name):
+    def __init__(self, uuid, name, storage, logger, state, permissions=None):
+        self.uuid = uuid
         self.name = name
         super().__init__(
-            iodm.Storage(MongoBackend('iodm-namespace', name + '-storage')),
-            iodm.Logger(MongoBackend('iodm-namespace', name + '-logs')),
-            iodm.State(MongoBackend('iodm-namespace', name + '-state')),
+            iodm.Storage(self.MAPPING[storage['backend']](**storage['settings'])),
+            iodm.Logger(self.MAPPING[logger['backend']](**logger['settings'])),
+            iodm.State(self.MAPPING[state['backend']](**state['settings'])),
+            permissions or {}
         )
-        try:
-            self.permissions = self.read('permissions').data
-        except exceptions.NotFound:
-            self.permissions = {}
 
     def get_collection(self, name):
         col = self.read(name).data
-        col_dict = col['settings']
+
         return Collection(
-            iodm.Storage(self.MAPPING[col_dict['storage'][0]](*col_dict['storage'][1:])),
-            iodm.Logger(self.MAPPING[col_dict['logs'][0]](*col_dict['logs'][1:])),
-            iodm.State(self.MAPPING[col_dict['state'][0]](*col_dict['state'][1:])),
-            permissions=col['permissions']
+            iodm.Storage(self.MAPPING[col['storage']['backend']](**col['storage']['settings'])),
+            iodm.Logger(self.MAPPING[col['logger']['backend']](**col['logger']['settings'])),
+            iodm.State(self.MAPPING[col['state']['backend']](**col['state']['settings'])),
+            col['permissions']
         )
 
-    def create_collection(self, name, settings, user, permissions=None):
+    def create_collection(self, name, user, permissions=None):
+        uid = str(uuid.uuid4())
         self.create(name, {
-            'name': name,
-            'settings': settings,
-            'permissions': permissions or {}
+            'uuid': uid,
+            'permissions': {
+                **(permissions or {}),
+                user: Permissions.ADMIN
+            },
+            'logger': {
+                'backend': 'mongo',
+                'settings': {
+                    'database': 'iodm',
+                    'collection': '{}-{}-logger'.format(self.uuid, uid),
+                }
+            },
+            'state': {
+                'backend': 'mongo',
+                'settings': {
+                    'database': 'iodm',
+                    'collection': '{}-{}-state'.format(self.uuid, uid),
+                }
+            },
+            'storage': {
+                'backend': 'mongo',
+                'settings': {
+                    'database': 'iodm',
+                    'collection': '{}-{}-storage'.format(self.uuid, uid),
+                }
+            }
         }, user)
+        return self.get_collection(name)
 
 # {"state": ["mongo", "test", "state"], "storage": ["mongo", "test", "storage"], "logs": ["mongo", "test", "logs"]}
