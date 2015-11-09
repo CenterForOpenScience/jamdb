@@ -1,36 +1,33 @@
 import os
 import json
 
-from iodm import Namespace
+# from iodm import Namespace
+from iodm import NamespaceManager
 from iodm import exceptions
 from iodm.auth import Permissions
 
 
+creator = 'anon--6daf159c9a2d4583aef1a6e366288760'
 cards_loc = os.path.join(os.path.split(__file__)[0], 'cards.json')
 
 
 def main():
-    ns = Namespace('card-app')
+    try:
+        ns = NamespaceManager().get_namespace('card-app')
+    except exceptions.NotFound:
+        ns = NamespaceManager().create_namespace('card-app', creator)
 
     try:
-        ns.create_collection('cards', {
-            'logs': ['mongo', 'cardapp', 'card-logs'],
-            'state': ['mongo', 'cardapp', 'card-state'],
-            'storage': ['mongo', 'cardapp', 'card-storage'],
-        }, '', permissions={'*': Permissions.READ})
-    except Exception:
-        pass
+        ns.get_collection('placements')
+    except exceptions.NotFound:
+        ns.create_collection('placements', creator, permissions={
+            'anon-*': Permissions.CREATE
+        })
 
     try:
-        ns.create_collection('placements', {
-            'logs': ['mongo', 'cardapp', 'placement-logs'],
-            'state': ['mongo', 'cardapp', 'placement-state'],
-            'storage': ['mongo', 'cardapp', 'placement-storage'],
-        }, '', permissions={'anon-*': Permissions.CREATE})
-    except Exception:
-        pass
-
-    collection = ns.get_collection('cards')
+        collection = ns.get_collection('cards')
+    except exceptions.NotFound:
+        collection = ns.create_collection('cards', creator, permissions={'*': Permissions.READ})
 
     with open(cards_loc) as cards:
         for card in json.load(cards)['cards']:
