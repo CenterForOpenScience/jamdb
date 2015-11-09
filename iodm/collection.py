@@ -56,6 +56,9 @@ class ReadOnlyCollection:
 
     # Data interaction
 
+    def select(self):
+        return self._state._backend.select()
+
     def list(self):
         return self._state.list()
 
