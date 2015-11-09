@@ -33,7 +33,7 @@ class AuthHandler(BaseAPIHandler):
         data = self.json['data']
         assert data.get('type') == 'users', "'type' must be 'users', not {}".format(data.get('type', 'null'))
 
-        provider = data['attributes'].pop('provider', None)
+        provider = data['attributes'].pop('provider')
         fetch_auth = getattr(self, '_' + provider, None)
         assert fetch_auth is not None
 
@@ -44,10 +44,10 @@ class AuthHandler(BaseAPIHandler):
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1),
         }, 'TestKey')
 
-        self.write({
+        self.write({'data': {
             'id': uid,
             'type': 'users',
             'attributes': {
                 'token': signed_jwt.decode()
             }
-        })
+        }})

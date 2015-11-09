@@ -6,6 +6,7 @@ import furl
 import tornado.web
 
 from iodm.auth import User
+from iodm import exceptions
 
 
 CORS_ACCEPT_HEADERS = [
@@ -28,11 +29,11 @@ CORS_EXPOSE_HEADERS = [
 class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
 
     def get_current_user(self):
-        try:
-            return User(self.get_cookie('cookie'))
-        except Exception as e:
-            print(e)
-        return None
+        return User(
+            self.request.headers.get('Authorization') or
+            self.get_query_argument('token', default=None) or
+            self.get_cookie('cookie')
+        )
 
     @classmethod
     def as_entry(cls):
@@ -61,7 +62,20 @@ class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
         self.set_status(204)
         self.set_header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE')
 
-    def write(self, data):
-        if isinstance(data, (dict, list)):
-            data = {'data': data}
-        super().write(data)
+    def write_error(self, status_code, exc_info):
+        etype, exc, _ = exc_info
+
+        if issubclass(etype, exceptions.IodmException):
+            self.set_status(exc.code)
+            if exc.data:
+                self.finish(exc.data)
+            else:
+                self.finish({
+                    'code': exc.code,
+                    'message': exc.message
+                })
+        else:
+            self.finish({
+                'code': status_code,
+                'message': self._reason,
+            })

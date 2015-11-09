@@ -10,6 +10,12 @@ from iodm.server.api.v1.namespace import NamespaceResource
 
 class CollectionResource(APIResource):
 
+    PAGE_SIZE = 50
+
+    @property
+    def namespace(self):
+        return self.parent.resource
+
     def __init__(self):
         super().__init__('collection', NamespaceResource)
 
@@ -35,8 +41,10 @@ class CollectionResource(APIResource):
 
         return super().load(collection)
 
-    def list(self):
-        return list(self.parent.resource.keys())
+    def list(self, user, page=0, filter=None):
+        return self.namespace.select().order_by(
+            iodm.O.Ascending('ref')
+        ).page(page, self.PAGE_SIZE)
 
     def read(self):
         return self.resource.to_json_api()
