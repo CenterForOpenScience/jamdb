@@ -15,8 +15,11 @@ class ReadOnlyFilteredBackend(ReadOnlyBackend):
     def keys(self):
         raise NotImplementedError
 
-    def query(self, query, order=None):
-        return self._backend.query(self._query & query, order)
+    def query(self, query, **kwargs):
+        return self._backend.query(self._query & query, **kwargs)
+
+    def count(self, query):
+        return self._backend.count(query)
 
     def list(self, order=None):
         return self._backend.query(self._query, order)

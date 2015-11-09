@@ -5,18 +5,13 @@ class TranslatingBackend(Backend):
 
     def __init__(self, obj, backend):
         self.obj = obj
-        # self.schema = schema()
         self._backend = backend
 
     def deserialize(self, data):
-        # Note: Bottle neck here, data marshalling is sloooow
-        # TODO reimplement
         return self.obj.deserialize(data)
-        # return self.obj(**self.schema.load(data).data)
 
     def serialize(self, obj):
         return self.obj.serialize(obj)
-        # return self.schema.dump(obj._asdict()).data
 
     def get(self, key):
         return self.deserialize(self._backend.get(key))
@@ -33,9 +28,12 @@ class TranslatingBackend(Backend):
     def keys(self):
         return self._backend.keys()
 
-    def query(self, query, order=None):
-        for data in self._backend.query(query, order):
+    def query(self, *args, **kwargs):
+        for data in self._backend.query(*args, **kwargs):
             yield self.deserialize(data)
+
+    def count(self, query):
+        return self._backend.count(query)
 
     def list(self, order=None):
         for data in self._backend.list(order):

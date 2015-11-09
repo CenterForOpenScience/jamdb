@@ -1,6 +1,7 @@
 import abc
 
 from iodm import exceptions
+from iodm.backends.util import QueryCommand
 
 
 class ReadOnlyBackend(abc.ABC):
@@ -25,6 +26,20 @@ class ReadOnlyBackend(abc.ABC):
     def list(self, order=None):
         order = order or (lambda x: x)
         return order(self.get(key) for key in self.keys())
+
+    def count(self, query):
+        return len(self.query(query))
+
+    def select(self):
+        return QueryCommand(self)
+
+    def _exec_query(self, command):
+        return self.query(
+            command._query,
+            order=command._order_by,
+            limit=command._limit,
+            skip=command._skip,
+        )
 
     def raw_backend(self):
         return self
