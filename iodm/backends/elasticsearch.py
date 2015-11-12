@@ -13,6 +13,33 @@ class ElasticsearchBackend(Backend):
 
     DEFAULT_CONNECTION = Elasticsearch()
 
+    ES_MAPPING = {'dynamic_templates': [{
+        'inner_data': {
+            'path_match': 'data.*',
+            'match_mapping_type': 'string',
+            'mapping': {
+                'type': 'string',
+                'fields': {
+                    'raw': {'type': 'string', 'index': 'not_analyzed'}
+                }
+            }
+        }
+    }, {
+        'top_level': {
+            'match': '*',
+            'match_mapping_type': 'string',
+            'mapping': {'type': 'string', 'index': 'not_analyzed', 'include_in_all': False}
+        },
+    }]}
+
+    # TODO (maybe) store as dates rather than timestamps
+    # }, {
+    #     'dates': {
+    #         'match': '*',
+    #         'match_mapping_type': 'double',
+    #         'mapping': {'type': 'date', 'include_in_all': False}
+    #     }
+
     @classmethod
     def settings_for(cls, namespace_id, collection_id, type_):
         return {
@@ -25,9 +52,7 @@ class ElasticsearchBackend(Backend):
         self._index = index
         self._doc_type = doc_type
         self._connection.indices.create(self._index, ignore=400)
-        m = elasticsearch_dsl.Mapping(doc_type)
-        m.field('ref', 'string', index='not_analyzed')
-        self._connection.indices.put_mapping(body=m.to_dict(), index=index, doc_type=doc_type)
+        self._connection.indices.put_mapping(body={doc_type: self.ES_MAPPING}, index=index, doc_type=doc_type)
         self.search = elasticsearch_dsl.Search(self._connection, index=index, doc_type=doc_type)
 
     def get(self, key):
