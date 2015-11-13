@@ -10,6 +10,13 @@ class MongoBackend(Backend):
 
     DEFAULT_CONNECTION = MongoClient()
 
+    @classmethod
+    def settings_for(cls, namespace_id, collection_id, type_):
+        return {
+            'database': 'iodm',
+            'collection': '{}-{}-{}'.format(namespace_id, collection_id, type_),
+        }
+
     def __init__(self, database, collection, connection=None):
         self._connection = connection or MongoBackend.DEFAULT_CONNECTION
         self._database = self._connection[database]

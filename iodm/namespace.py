@@ -9,10 +9,6 @@ from iodm.backends import ElasticsearchBackend
 
 
 class Namespace(Collection):
-    MAPPING = {
-        'mongo': MongoBackend,
-        'elasticsearch': ElasticsearchBackend
-    }
 
     def __init__(self, uuid, name, storage, logger, state, permissions=None):
         self.uuid = uuid
@@ -25,45 +21,34 @@ class Namespace(Collection):
         )
 
     def get_collection(self, name):
-        col = self.read(name).data
+        return Collection.from_dict(self.read(name).data)
 
-        return Collection(
-            iodm.Storage(self.MAPPING[col['storage']['backend']](**col['storage']['settings'])),
-            iodm.Logger(self.MAPPING[col['logger']['backend']](**col['logger']['settings'])),
-            iodm.State(self.MAPPING[col['state']['backend']](**col['state']['settings'])),
-            col['permissions']
-        )
-
-    def create_collection(self, name, user, permissions=None):
+    def create_collection(self, name, user, logger='mongo', storage='mongo', state='elasticsearch', permissions=None, schema=None):
         uid = str(uuid.uuid4())
-        self.create(name, {
+
+        collection_dict = {
             'uuid': uid,
             'permissions': {
                 **(permissions or {}),
                 user: Permissions.ADMIN
             },
             'logger': {
-                'backend': 'mongo',
-                'settings': {
-                    'database': 'iodm',
-                    'collection': '{}-{}-logger'.format(self.uuid, uid),
-                }
+                'backend': logger,
+                'settings': self.MAPPING[logger].settings_for(self.uuid, uid, 'logger')
             },
             'state': {
-                'backend': 'mongo',
-                'settings': {
-                    'database': 'iodm',
-                    'collection': '{}-{}-state'.format(self.uuid, uid),
-                }
+                'backend': state,
+                'settings': self.MAPPING[state].settings_for(self.uuid, uid, 'state')
             },
             'storage': {
-                'backend': 'mongo',
-                'settings': {
-                    'database': 'iodm',
-                    'collection': '{}-{}-storage'.format(self.uuid, uid),
-                }
+                'backend': storage,
+                'settings': self.MAPPING[storage].settings_for(self.uuid, uid, 'storage')
             }
-        }, user)
-        return self.get_collection(name)
+        }
 
-# {"state": ["mongo", "test", "state"], "storage": ["mongo", "test", "storage"], "logs": ["mongo", "test", "logs"]}
+        # Validate that our inputs can actually be deserialized to a collection
+        collection = Collection.from_dict(collection_dict)
+
+        self.create(name, collection_dict, user)
+
+        return collection

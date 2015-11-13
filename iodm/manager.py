@@ -27,25 +27,16 @@ class NamespaceManager(Collection):
                 user: Permissions.ADMIN
             },
             'logger': {
-                'backend': 'mongo',
-                'settings': {
-                    'database': 'iodm',
-                    'collection': '{}-logger'.format(uid),
-                }
+                'backend': logger,
+                'settings': self.MAPPING[logger].settings_for(self.uuid, uid, 'logger')
             },
             'state': {
-                'backend': 'mongo',
-                'settings': {
-                    'database': 'iodm',
-                    'collection': '{}-state'.format(uid),
-                }
+                'backend': state,
+                'settings': self.MAPPING[state].settings_for(self.uuid, uid, 'state')
             },
             'storage': {
-                'backend': 'mongo',
-                'settings': {
-                    'database': 'iodm',
-                    'collection': '{}-storage'.format(uid),
-                }
+                'backend': storage,
+                'settings': self.MAPPING[storage].settings_for(self.uuid, uid, 'storage')
             }
         }, user)
 
