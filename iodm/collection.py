@@ -1,7 +1,11 @@
+import iodm
 from iodm import O
 from iodm import Q
 from iodm import exceptions
 from iodm.base import Operation
+from iodm.schema import get_schema
+from iodm.backends import MongoBackend
+from iodm.backends import ElasticsearchBackend
 
 
 class ReadOnlyCollection:
@@ -9,11 +13,29 @@ class ReadOnlyCollection:
     Used for getting specific states in time as past data is not modifiable
     """
 
-    def __init__(self, storage, logger, state, permissions=None):
+    MAPPING = {
+        'mongo': MongoBackend,
+        'elasticsearch': ElasticsearchBackend
+    }
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            iodm.Storage(cls.MAPPING[data['storage']['backend']](**data['storage']['settings'])),
+            iodm.Logger(cls.MAPPING[data['logger']['backend']](**data['logger']['settings'])),
+            iodm.State(cls.MAPPING[data['state']['backend']](**data['state']['settings'])),
+            schema=data.get('schema'),
+            permissions=data.get('permissions'),
+        )
+
+    def __init__(self, storage, logger, state, permissions=None, schema=None):
         self._state = state
         self._logger = logger
         self._storage = storage
         self.permissions = permissions or {}
+        if schema:
+            schema = get_schema(schema['type'])(schema['schema'])
+        self.schema = schema
 
     # Snapshot interaction
 
@@ -91,6 +113,9 @@ class Collection(ReadOnlyCollection):
         return log
 
     def create(self, key, data, user):
+        if self.schema:
+            self.schema.validate(data)
+
         try:
             self._state.get(key)
         except exceptions.NotFound:
@@ -112,6 +137,9 @@ class Collection(ReadOnlyCollection):
 
         if merger:
             data = merger(previous.data, data)
+
+        if self.schema:
+            self.schema.validate(data)
 
         data_object = self._storage.create(data)
 
