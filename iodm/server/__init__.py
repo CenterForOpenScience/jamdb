@@ -16,7 +16,7 @@ async def make_app(debug=True):
         ('/v1/auth/?', v1.AuthHandler)
     ]
 
-    for endpoint in v1.RESOURCES:
+    for endpoint in reversed(v1.RESOURCES):
         endpoint = endpoint.as_handler_entry()
         endpoint = (
             '/{}{}'.format(v1.__name__.split('.')[-1], endpoint[0]),
