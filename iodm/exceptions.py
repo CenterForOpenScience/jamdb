@@ -30,6 +30,12 @@ class NotFound(BackendException):
         super().__init__(message or 'Resource not found', http.client.NOT_FOUND)
 
 
+class KeyExists(BackendException):
+
+    def __init__(self, message=None):
+        super().__init__(message or 'Resource already exists', http.client.CONFLICT)
+
+
 class InsufficientPermissions(IodmException):
 
     def __init__(self, message=None):

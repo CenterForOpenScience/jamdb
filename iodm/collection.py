@@ -121,7 +121,7 @@ class Collection(ReadOnlyCollection):
         except exceptions.NotFound:
             pass
         else:
-            raise Exception('Already here')
+            raise exceptions.KeyExists()
 
         data_object = self._storage.create(data)
 
