@@ -148,20 +148,20 @@ class APIResource:
         self.resource = resource
         return resource
 
-    def list(self):
+    def create(self, data, user):
         raise tornado.web.HTTPError(405)
 
-    def create(self):
+    def read(self, user):
         raise tornado.web.HTTPError(405)
 
-    def read(self):
+    def update(self, data, user):
         raise tornado.web.HTTPError(405)
 
-    def update(self):
+    def delete(self, user):
         raise tornado.web.HTTPError(405)
 
-    def replace(self):
+    def list(self, user, page=0, filter=None):
         raise tornado.web.HTTPError(405)
 
-    def delete(self):
+    def replace(self, data, user):
         raise tornado.web.HTTPError(405)
