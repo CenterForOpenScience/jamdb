@@ -14,8 +14,13 @@ class ReadOnlyBackend(abc.ABC):
     def keys(self):
         raise NotImplementedError
 
-    def query(self, query, order=None):
-        return filter(query.as_lambda(), self.list(order))
+    def query(self, query, order=None, skip=None, limit=None):
+        for i, v in enumerate(filter(query.as_lambda(), self.list(order))):
+            if i < (skip or 0):
+                continue
+            if limit and i > limit:
+                break
+            yield v
 
     def first(self, query, order=None):
         try:
@@ -28,7 +33,7 @@ class ReadOnlyBackend(abc.ABC):
         return order(self.get(key) for key in self.keys())
 
     def count(self, query):
-        return len(self.query(query))
+        return len(list(self.query(query)))
 
     def select(self):
         return QueryCommand(self)
