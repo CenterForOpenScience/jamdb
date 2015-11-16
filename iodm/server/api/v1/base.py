@@ -25,6 +25,9 @@ class ResourceHandler(BaseAPIHandler):
 
     def prepare(self):
         super().prepare()
+        if self.request.method == 'OPTIONS':
+            return  # Dont do anything for OPTIONS requests
+
         resources = []
         resource = self.resource
 
