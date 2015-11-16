@@ -58,7 +58,7 @@ class ResourceHandler(BaseAPIHandler):
         for key in self.request.query_arguments:
             match = matcher.match(key)
             if match:
-                filter_dict[match.groups()[-1]] = self.request.query_arguments[key][-1].decode()
+                filter_dict['data.{}'.format(match.groups()[-1])] = self.request.query_arguments[key][-1].decode()
         return filter_dict
 
     def get(self, **kwargs):
