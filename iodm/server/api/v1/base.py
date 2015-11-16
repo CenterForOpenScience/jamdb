@@ -121,7 +121,7 @@ class APIResource:
             url = self.parent.specific_pattern
         else:
             url = '/'
-        return '{0}{1}(?:/(?P<{2}_id>(?:\w|-)+))?/?'.format(url, self.plural, self.name)
+        return '{0}{1}(?:/(?P<{2}_id>\S+?))?/?'.format(url, self.plural, self.name)
 
     @property
     def specific_pattern(self):
@@ -129,7 +129,7 @@ class APIResource:
             url = self.parent.specific_pattern
         else:
             url = '/'
-        return '{0}{1}/(?P<{2}_id>(?:\w|-)+)/'.format(url, self.plural, self.name)
+        return '{0}{1}/(?P<{2}_id>\S+?)/'.format(url, self.plural, self.name)
 
     def __init__(self, resource_name, parent=None, plural=None):
         if parent:
