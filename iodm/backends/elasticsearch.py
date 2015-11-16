@@ -44,7 +44,7 @@ class ElasticsearchBackend(Backend):
     def settings_for(cls, namespace_id, collection_id, type_):
         return {
             'index': namespace_id,
-            'doc_type': '{}-{}'.format(collection_id, type_),
+            'doc_type': '{}-{}'.format(type_, collection_id),
         }
 
     def __init__(self, index, doc_type, connection=None):

@@ -10,16 +10,17 @@ from iodm.backends import MongoBackend
 
 class NamespaceManager(Collection):
 
-    def __init__(self, name=None):
+    def __init__(self, name=None, uuid=None):
         self.name = name = name or 'iodm'
+        self.uuid = uuid or 'namespace'
         super().__init__(
-            iodm.Storage(MongoBackend('iodm-namespace', name + '-manager-storage')),
-            iodm.Logger(MongoBackend('iodm-namespace', name + '-manager-logs')),
-            iodm.State(MongoBackend('iodm-namespace', name + '-manger-state')),
+            iodm.Storage(MongoBackend('iodm', 'storage-manager-' + name)),
+            iodm.Logger(MongoBackend('iodm', 'logger-manager-' + name)),
+            iodm.State(MongoBackend('iodm', 'state-manager-' + name)),
         )
 
     def create_namespace(self, name, user, permissions=None):
-        uid = str(uuid.uuid4())
+        uid = str(uuid.uuid4()).replace('-', '')
         self.create(name, {
             'uuid': uid,
             'permissions': {
@@ -27,16 +28,16 @@ class NamespaceManager(Collection):
                 user: Permissions.ADMIN
             },
             'logger': {
-                'backend': logger,
-                'settings': self.MAPPING[logger].settings_for(self.uuid, uid, 'logger')
+                'backend': 'mongo',
+                'settings': self.MAPPING['mongo'].settings_for(self.uuid, uid, 'logger')
             },
             'state': {
-                'backend': state,
-                'settings': self.MAPPING[state].settings_for(self.uuid, uid, 'state')
+                'backend': 'mongo',
+                'settings': self.MAPPING['mongo'].settings_for(self.uuid, uid, 'state')
             },
             'storage': {
-                'backend': storage,
-                'settings': self.MAPPING[storage].settings_for(self.uuid, uid, 'storage')
+                'backend': 'mongo',
+                'settings': self.MAPPING['mongo'].settings_for(self.uuid, uid, 'storage')
             }
         }, user)
 

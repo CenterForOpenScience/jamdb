@@ -24,7 +24,7 @@ class Namespace(Collection):
         return Collection.from_dict(self.read(name).data)
 
     def create_collection(self, name, user, logger='mongo', storage='mongo', state='elasticsearch', permissions=None, schema=None):
-        uid = str(uuid.uuid4())
+        uid = str(uuid.uuid4()).replace('-', '')
 
         collection_dict = {
             'uuid': uid,

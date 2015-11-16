@@ -14,7 +14,7 @@ class MongoBackend(Backend):
     def settings_for(cls, namespace_id, collection_id, type_):
         return {
             'database': 'iodm',
-            'collection': '{}-{}-{}'.format(namespace_id, collection_id, type_),
+            'collection': '{}-{}-{}'.format(type_, namespace_id, collection_id),
         }
 
     def __init__(self, database, collection, connection=None):
