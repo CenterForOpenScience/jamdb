@@ -46,5 +46,5 @@ class CollectionResource(APIResource):
             iodm.O.Ascending('ref')
         ).page(page, self.PAGE_SIZE)
 
-    def read(self):
+    def read(self, user):
         return self.resource.to_json_api()
