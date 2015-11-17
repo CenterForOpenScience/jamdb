@@ -117,6 +117,9 @@ class ElasticsearchBackend(Backend):
                 self._translate_query(q)
                 for q in query.queries
             ])
+        key = query.key
+        if key.startswith('data.') and isinstance(query.value, str):
+            key += '.raw'
         return elasticsearch_dsl.F({
             'eq': 'term'
-        }[query.comparator], **{query.key: query.value})
+        }[query.comparator], **{key: query.value})
