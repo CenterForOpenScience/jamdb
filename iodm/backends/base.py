@@ -15,7 +15,12 @@ class ReadOnlyBackend(abc.ABC):
         raise NotImplementedError
 
     def query(self, query, order=None, skip=None, limit=None):
-        for i, v in enumerate(filter(query.as_lambda(), self.list(order))):
+        listing = self.list(order)
+
+        if query is not None:
+            listing = filter(query.as_lambda(), listing)
+
+        for i, v in enumerate(listing):
             if i < (skip or 0):
                 continue
             if limit and i > limit:
