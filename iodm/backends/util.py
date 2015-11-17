@@ -1,6 +1,13 @@
 import operator
 
 
+def get(dictionary, key):
+    val = dictionary
+    for k in key.split('.'):
+        val = val[k]
+    return val
+
+
 class Query:
 
     SUPPORTED_COMPARATORS = ('eq', 'ne', 'in', 'gt', 'lt', 'lte', 'gte')
@@ -16,7 +23,7 @@ class Query:
             'gte': 'ge',
             'lte': 'le',
         }.get(self.comparator, self.comparator))
-        return lambda val: comparator(val[self.key], self.value)
+        return lambda val: comparator(get(val, self.key), self.value)
 
     def __and__(self, other):
         return CompoundQuery(self, other)
@@ -49,7 +56,7 @@ class Order:
         self.order = order
 
     def __call__(self, iterable):
-        return sorted(iterable, key=lambda x: x[self.key], reverse=bool(self.order < 0))
+        return sorted(iterable, key=lambda x: get(x, self.key), reverse=bool(self.order < 0))
 
 
 class QueryCommand:
