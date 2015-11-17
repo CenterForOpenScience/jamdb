@@ -193,6 +193,8 @@ class Collection(ReadOnlyCollection):
             self._storage,
             self._logger.at_time(timestamp),
             state,
+            # Note: No need to pass in schema, read-only collections have no use for it
+            permissions=self.permissions
         )
         if regenerate:
             frozen.regenerate()
