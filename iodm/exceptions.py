@@ -3,6 +3,8 @@ import http.client
 
 
 class IodmException(Exception):
+    should_log = True
+
     def __init__(self, message, code=http.client.INTERNAL_SERVER_ERROR):
         super().__init__(code)
         self.code = code
@@ -25,24 +27,35 @@ class BackendException(IodmException):
 
 
 class NotFound(BackendException):
+    should_log = False
 
     def __init__(self, message=None):
         super().__init__(message or 'Resource not found', http.client.NOT_FOUND)
 
 
 class KeyExists(BackendException):
+    should_log = False
 
     def __init__(self, message=None):
         super().__init__(message or 'Resource already exists', http.client.CONFLICT)
 
 
 class InsufficientPermissions(IodmException):
+    should_log = False
 
     def __init__(self, message=None):
         super().__init__(message or 'You do not have sufficient permissions to access this resource', http.client.FORBIDDEN)
 
 
 class Unauthorized(IodmException):
+    should_log = False
 
     def __init__(self, message=None):
         super().__init__(message or 'Unauthorized', http.client.UNAUTHORIZED)
+
+
+class InvalidParameter(IodmException):
+    should_log = False
+
+    def __init__(self, field, expected, value):
+        super().__init__('Expected field {} to be of type {}. Got {}'.format(field, expected, type(value)), http.client.BAD_REQUEST)

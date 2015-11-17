@@ -62,6 +62,11 @@ class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
         self.set_status(204)
         self.set_header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE')
 
+    def log_exception(self, typ, value, tb):
+        if isinstance(value, exceptions.IodmException) and not value.should_log:
+            return
+        super().log_exception(typ, value, tb)
+
     def write_error(self, status_code, exc_info):
         etype, exc, _ = exc_info
 
