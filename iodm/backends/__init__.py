@@ -1,3 +1,5 @@
+__import__("pkg_resources").declare_namespace(__name__)
+
 from iodm.backends.util import Order
 from iodm.backends.util import Query
 from iodm.backends.git import GitBackend

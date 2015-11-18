@@ -4,8 +4,7 @@ import iodm
 from iodm import exceptions
 from iodm.auth import Permissions
 from iodm.collection import Collection
-from iodm.backends import MongoBackend
-from iodm.backends import ElasticsearchBackend
+from iodm.backends.util import load_backend
 
 
 class Namespace(Collection):
@@ -14,10 +13,10 @@ class Namespace(Collection):
         self.uuid = uuid
         self.name = name
         super().__init__(
-            iodm.Storage(self.MAPPING[storage['backend']](**storage['settings'])),
-            iodm.Logger(self.MAPPING[logger['backend']](**logger['settings'])),
-            iodm.State(self.MAPPING[state['backend']](**state['settings'])),
-            permissions or {}
+            iodm.Storage(load_backend(storage['backend'], **storage['settings'])),
+            iodm.Logger(load_backend(logger['backend'], **logger['settings'])),
+            iodm.State(load_backend(state['backend'], **state['settings'])),
+            permissions=permissions
         )
 
     def get_collection(self, name):
@@ -35,15 +34,15 @@ class Namespace(Collection):
             },
             'logger': {
                 'backend': logger,
-                'settings': self.MAPPING[logger].settings_for(self.uuid, uid, 'logger')
+                'settings': get_backend(logger).settings_for(self.uuid, uid, 'logger')
             },
             'state': {
                 'backend': state,
-                'settings': self.MAPPING[state].settings_for(self.uuid, uid, 'state')
+                'settings': get_backend(state).settings_for(self.uuid, uid, 'state')
             },
             'storage': {
                 'backend': storage,
-                'settings': self.MAPPING[storage].settings_for(self.uuid, uid, 'storage')
+                'settings': get_backend(storage).settings_for(self.uuid, uid, 'storage')
             }
         }
 

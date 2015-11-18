@@ -3,9 +3,8 @@ from iodm import O
 from iodm import Q
 from iodm import exceptions
 from iodm.base import Operation
-from iodm.schema import get_schema
-from iodm.backends import MongoBackend
-from iodm.backends import ElasticsearchBackend
+from iodm.schemas import load_schema
+from iodm.backends.util import load_backend
 
 
 class ReadOnlyCollection:
@@ -13,17 +12,12 @@ class ReadOnlyCollection:
     Used for getting specific states in time as past data is not modifiable
     """
 
-    MAPPING = {
-        'mongo': MongoBackend,
-        'elasticsearch': ElasticsearchBackend
-    }
-
     @classmethod
     def from_dict(cls, data):
         return cls(
-            iodm.Storage(cls.MAPPING[data['storage']['backend']](**data['storage']['settings'])),
-            iodm.Logger(cls.MAPPING[data['logger']['backend']](**data['logger']['settings'])),
-            iodm.State(cls.MAPPING[data['state']['backend']](**data['state']['settings'])),
+            iodm.Storage(load_backend(data['storage']['backend'], **data['storage']['settings'])),
+            iodm.Logger(load_backend(data['logger']['backend'], **data['logger']['settings'])),
+            iodm.State(load_backend(data['state']['backend'], **data['state']['settings'])),
             schema=data.get('schema'),
             permissions=data.get('permissions'),
         )
@@ -34,7 +28,7 @@ class ReadOnlyCollection:
         self._storage = storage
         self.permissions = permissions or {}
         if schema:
-            schema = get_schema(schema['type'])(schema['schema'])
+            schema = load_schema(schema['type'], schema['schema'])
         self.schema = schema
 
     # Snapshot interaction

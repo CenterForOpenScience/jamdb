@@ -3,9 +3,9 @@ import uuid
 import iodm
 from iodm import exceptions
 from iodm.auth import Permissions
-from iodm.collection import Collection
 from iodm.namespace import Namespace
 from iodm.backends import MongoBackend
+from iodm.collection import Collection
 
 
 class NamespaceManager(Collection):
@@ -29,15 +29,15 @@ class NamespaceManager(Collection):
             },
             'logger': {
                 'backend': 'mongo',
-                'settings': self.MAPPING['mongo'].settings_for(self.uuid, uid, 'logger')
+                'settings': MongoBackend.settings_for(self.uuid, uid, 'logger')
             },
             'state': {
                 'backend': 'mongo',
-                'settings': self.MAPPING['mongo'].settings_for(self.uuid, uid, 'state')
+                'settings': MongoBackend.settings_for(self.uuid, uid, 'state')
             },
             'storage': {
                 'backend': 'mongo',
-                'settings': self.MAPPING['mongo'].settings_for(self.uuid, uid, 'storage')
+                'settings': MongoBackend.settings_for(self.uuid, uid, 'storage')
             }
         }, user)
 

@@ -1,5 +1,21 @@
 import operator
 
+from stevedore import driver
+
+
+def get_backend(name):
+    return driver.DriverManager('iodm.backends', name).driver
+
+
+def load_backend(name, *args, **kwargs):
+    return driver.DriverManager(
+        'iodm.backends',
+        name,
+        invoke_on_load=True,
+        invoke_args=args,
+        invoke_kwds=kwargs,
+    ).driver
+
 
 def get(dictionary, key):
     val = dictionary
@@ -62,7 +78,7 @@ class Order:
 class QueryCommand:
 
     def __init__(self, backend, _fields=None, _query=None, _limit=None, _skip=None, _order_by=None):
-        assert not _fields, 'Field selection is currenly unsupported'
+        assert not _fields, 'Field selection is not currently supported'
         self.backend = backend
 
         self._skip = _skip
