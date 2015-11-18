@@ -1,20 +1,10 @@
 import json
 import hashlib
-import collections
 
 from iodm import Q
 from iodm.models import DataObject
+from iodm.util import order_dictionary
 from iodm.backends.ext import TranslatingBackend
-
-
-def order_dictionary(dict_obj):
-    ordered = collections.OrderedDict()
-    for key in sorted(dict_obj.keys()):
-        if isinstance(dict_obj[key], dict):
-            ordered[key] = order_dictionary(dict_obj[key])
-        else:
-            ordered[key] = dict_obj[key]
-    return ordered
 
 
 class ReadOnlyStorage:
