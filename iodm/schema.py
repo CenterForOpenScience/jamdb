@@ -13,7 +13,7 @@ def get_schema(name):
 class Schema(abc.ABC):
 
     def __init__(self, schema):
-        raise NotImplemented
+        self._schema = schema
 
     def validate(self, data):
         raise NotImplemented
@@ -25,8 +25,8 @@ class JSONSchema(Schema):
 
     def __init__(self, schema):
         jsonschema.Draft4Validator.check_schema(schema)
-        self.schema = schema
+        super().__init__(schema)
 
     def validate(self, data):
         # TODO Translate to custom exceptions
-        jsonschema.validate(data, self.schema)
+        jsonschema.validate(data, self._schema)
