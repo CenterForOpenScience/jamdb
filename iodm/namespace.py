@@ -28,6 +28,7 @@ class Namespace(Collection):
 
         collection_dict = {
             'uuid': uid,
+            'schema': schema,
             'permissions': {
                 **(permissions or {}),
                 user: Permissions.ADMIN
