@@ -11,7 +11,6 @@ from iodm.auth import User
 from iodm.server.api.base import BaseAPIHandler
 
 
-# TODO refactor to use stevedore
 class AuthHandler(BaseAPIHandler):
 
     def prepare(self):
