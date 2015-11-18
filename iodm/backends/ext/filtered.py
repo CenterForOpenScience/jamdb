@@ -15,8 +15,8 @@ class ReadOnlyFilteredBackend(ReadOnlyBackend):
     def keys(self):
         raise NotImplementedError
 
-    def query(self, query, **kwargs):
-        return self._backend.query(self._query & query, **kwargs)
+    def query(self, query, *args, **kwargs):
+        return self._backend.query(self._query & query, *args, **kwargs)
 
     def count(self, query):
         return self._backend.count(query)

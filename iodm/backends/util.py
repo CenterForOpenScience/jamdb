@@ -101,7 +101,7 @@ class QueryCommand:
         if self._query:
             rep.append('Where({!r})'.format(self._query))
         if self._order_by:
-            rep.append('OrderBy({!r})'.format(self._order_by._name))
+            rep.append('OrderBy({!r})'.format(self._order_by))
         if self._limit:
             rep.append('Limit({})'.format(self._limit))
         if self._skip:
