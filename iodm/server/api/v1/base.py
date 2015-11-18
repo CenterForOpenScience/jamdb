@@ -80,8 +80,12 @@ class ResourceHandler(BaseAPIHandler):
         })
 
     def post(self, **kwargs):
-        assert self.resource.resource is None
-        data = self.json['data']
+        if self.resource.resource is not None:
+            raise tornado.web.HTTPError(405)
+        try:
+            data = self.json['data']
+        except KeyError:
+            raise exceptions.InvalidParameter('data', dict, None)
         # assert data['type'] == self.resource.name
         self.set_status(201)
         self.write({
