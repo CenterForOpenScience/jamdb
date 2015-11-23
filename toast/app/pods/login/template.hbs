@@ -1,0 +1,13 @@
+{{#bs-form action="authenticate"}}
+  {{#bs-form-group}}
+    <label class="control-label">Username</label>
+    {{bs-input type="text" value=username}}
+    <label class="control-label">Password</label>
+    {{bs-input type="password" value=password}}
+  {{/bs-form-group}}
+  {{#bs-button type="primary" buttonType="submit"}}
+    Login
+  {{/bs-button}}
+{{/bs-form}}
+
+{{outlet}}
