@@ -1,9 +1,9 @@
 from pymongo import MongoClient
 
 from iodm import exceptions
+from iodm.backends import query as queries
 from iodm.backends.base import Backend
 from iodm.backends.util import QueryCommand
-from iodm.backends.util import CompoundQuery
 
 
 class MongoBackend(Backend):
@@ -48,31 +48,35 @@ class MongoBackend(Backend):
         if query is None:
             query = {}
         else:
-            if isinstance(query, CompoundQuery):
-                query = {
-                    '$and': [
-                        {q.key: {'$' + q.comparator: q.value}}
-                        for q in query.queries
-                    ]
-                }
-            else:
-                query = {query.key: {'$' + query.comparator: query.value}}
+            query = self._translate_query(query)
+
         return self._collection.find(query, sort=order, limit=limit or 0, skip=skip or 0)
 
     def count(self, query):
         if query is None:
             query = {}
         else:
-            if isinstance(query, CompoundQuery):
-                query = {
-                    '$and': [
-                        {q.key: {'$' + q.comparator: q.value}}
-                        for q in query.queries
-                    ]
-                }
-            else:
-                query = {query.key: {'$' + query.comparator: query.value}}
+            query = self._translate_query(query)
+
         return self._collection.count(query)
 
     def unset_all(self):
         self._collection.remove()
+
+    def _translate_query(self, query):
+        if isinstance(query, queries.CompoundQuery):
+            return {{
+                queries.Or: '$or',
+                queries.And: '$and'
+            }[query.__class__]: [
+                self._translate_query(q)
+                for q in query.queries
+            ]}
+
+        return {
+            query.key: {{
+                queries.In: '$in',
+                queries.Equal: '$eq',
+                queries.NotEqual: '$ne',
+            }[query.__class__]: query.value}
+        }

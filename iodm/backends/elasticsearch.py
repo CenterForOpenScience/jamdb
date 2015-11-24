@@ -5,8 +5,8 @@ import elasticsearch_dsl
 from elasticsearch import Elasticsearch
 
 from iodm import exceptions
+from iodm.backends import query as queries
 from iodm.backends.base import Backend
-from iodm.backends.util import CompoundQuery
 
 
 class ElasticsearchBackend(Backend):
@@ -112,11 +112,15 @@ class ElasticsearchBackend(Backend):
         })
 
     def _translate_query(self, query):
-        if isinstance(query, CompoundQuery):
-            return functools.reduce(operator.and_, [
+        if isinstance(query, queries.CompoundQuery):
+            return functools.reduce({
+                queries.Or: operator.or_,
+                queries.And: operator.and_
+            }[query.__class__], [
                 self._translate_query(q)
                 for q in query.queries
             ])
+
         key = query.key
         if key.startswith('data.') and isinstance(query.value, str):
             key += '.raw'
