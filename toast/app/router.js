@@ -8,7 +8,10 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('login');
   this.route('namespaces', function() {
-      this.route('index', {path: '/:namespace_id'});
+      this.route('new');
+  });
+  this.route('namespace', {path: '/namespace/:namespace_id'}, function() {
+    this.route('collection', {path: '/collection/:collection_id'});
   });
 });
 

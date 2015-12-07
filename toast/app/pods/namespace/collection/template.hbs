@@ -1,0 +1,41 @@
+<section class="content-header">
+  <h1>{{model.name}}</h1>
+
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Dashboard</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      {{#if isLoading}}
+        <h1>Loading...</h1>
+      {{else}}
+      <table class="table table-striped">
+        <thead><tr>
+            <th>Id</th>
+            {{#each attributes as |attr|}}
+            <th>{{attr}}</th>
+            {{/each}}
+          </tr></thead>
+          <tbody>
+            {{#each model.documents as |doc|}}
+            <tr>
+              <td>{{doc.id}}</td>
+              {{#each-in doc.attributes as |key value|}}
+              <td>
+                {{value}}
+              </td>
+              {{/each-in}}
+            </tr>
+            {{/each}}
+          </tbody>
+      </table>
+      {{/if}}
+    </div>
+  </div>
+</section>
+
+{{outlet}}

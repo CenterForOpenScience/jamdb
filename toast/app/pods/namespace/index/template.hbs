@@ -5,23 +5,24 @@
     <li>
       {{#link-to 'index'}}Home{{/link-to}}
     </li>
+    <li></li>
     <li class="active">Dashboard</li>
   </ol>
 </section>
 
 <section class="content">
-  {{#each model as |namespace|}}
+  {{#each model.collections as |collection|}}
   <div class="row">
     <div class="col-lg-3">
-      <div class="small-box bg-aqua">
+      <div class="small-box bg-green">
         <div class="inner">
-          <h3>{{namespace.name}}</h3>
-          <p>Created on {{namespace.createdOn}}</p>
+          <h3>{{collection.name}}</h3>
+          <p>Created on {{collection.createdOn}}</p>
         </div>
         <div class="icon">
-          <i class="fa fa-database"></i>
+          <i class="fa fa-table"></i>
         </div>
-        {{#link-to "namespace" namespace class="small-box-footer"}}
+        {{#link-to "namespace.collection" collection class="small-box-footer"}}
         More info
         <i class="fa fa-arrow-circle-right"></i>
         {{/link-to}}

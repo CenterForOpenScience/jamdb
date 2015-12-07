@@ -34,8 +34,8 @@ export default Base.extend({
             .then((data) => resolve(data.data))
             .fail(() => reject());
         });
-    },
-    invalidate(data) {
-
     }
+    // invalidate(data) {
+    //     debugger;
+    // }
 });
