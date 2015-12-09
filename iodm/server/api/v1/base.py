@@ -47,10 +47,10 @@ class ResourceHandler(BaseAPIHandler):
         self.current_user.permissions = self.permissions
 
         required_permissions = self.resource.get_permissions(self.request)
-        if required_permissions != Permissions.NONE and not required_permissions & self.permissions:
+        if (required_permissions & self.permissions) != required_permissions:
             if self.current_user.uid is None:
                 raise exceptions.Unauthorized()
-            raise exceptions.InsufficientPermissions()
+            raise exceptions.Forbidden(required_permissions)
 
     def parse_filter(self):
         filter_dict = {}
@@ -65,13 +65,13 @@ class ResourceHandler(BaseAPIHandler):
         # Get a specific resource
         if self.resource.resource is not None:
             return self.write({
-                'data': self.resource.read(self.current_user)
+                'data': self.resource.serialize(self.resource.read(self.current_user), self.request)
             })
 
         # Resource listing
         selector = self.resource.list(self.current_user, page=self.page - 1, filter=self.parse_filter())
         return self.write({
-            'data': [x.to_json_api() for x in selector],
+            'data': [self.resource.__class__.serialize(x, self.request) for x in selector],
             'meta': {
                 'total': selector.count(),
                 'perPage': self.resource.PAGE_SIZE
@@ -82,23 +82,27 @@ class ResourceHandler(BaseAPIHandler):
     def post(self, **kwargs):
         if self.resource.resource is not None:
             raise tornado.web.HTTPError(405)
+
         try:
             data = self.json['data']
         except KeyError:
-            raise exceptions.InvalidParameter('data', dict, None)
-        # assert data['type'] == self.resource.name
+            raise exceptions.InvalidParameterType('data', dict, None)
+
+        if data.get('type') != self.resource.type:
+            raise exceptions.IncorrectParameter('data.type', self.resource.type, data.get('type'))
+
         self.set_status(201)
         self.write({
-            'data': self.resource.create(data, self.current_user)
+            'data': self.resource.__class__.serialize(self.resource.create(data, self.current_user), self.request)
         })
 
     def put(self, **kwargs):
         assert self.resource.resource is not None
         data = self.json['data']
         assert data['id'] == self.path_kwargs[self.resource.name + '_id']
-        # assert data['type'] == self.resource.name
+        assert data['type'] == self.resource.name
         return self.write({
-            'data': self.resource.replace(data, self.current_user)
+            'data': self.resource.__class__.serialize(self.resource.replace(data, self.current_user))
         })
 
     def patch(self, **kwargs):
@@ -107,7 +111,7 @@ class ResourceHandler(BaseAPIHandler):
         assert data['id'] == self.path_kwargs[self.resource.name + '_id']
         assert data['type'] == self.resource.name
         return self.write({
-            'data': self.resource.update(data, self.current_user)
+            'data': self.resource.__class__.serialize(self.resource.update(data, self.current_user))
         })
 
     def delete(self, **kwargs):
@@ -116,6 +120,7 @@ class ResourceHandler(BaseAPIHandler):
 
 
 class APIResource:
+    ID_RE = r'[\d\w\.\-]{3,64}'
 
     @classmethod
     def as_handler_entry(cls):
@@ -128,7 +133,7 @@ class APIResource:
             url = self.parent.specific_pattern
         else:
             url = '/'
-        return '{0}{1}(?:/(?P<{2}_id>\S+?))?/?'.format(url, self.plural, self.name)
+        return '{0}{1}(?:/(?P<{2}_id>{3}))?/?'.format(url, self.plural, self.name, self.__class__.ID_RE)
 
     @property
     def specific_pattern(self):
@@ -136,7 +141,7 @@ class APIResource:
             url = self.parent.specific_pattern
         else:
             url = '/'
-        return '{0}{1}/(?P<{2}_id>\S+?)/'.format(url, self.plural, self.name)
+        return '{0}{1}/(?P<{2}_id>{3}?)/'.format(url, self.plural, self.name, self.__class__.ID_RE)
 
     def __init__(self, resource_name, parent=None, plural=None):
         if parent:
@@ -147,6 +152,7 @@ class APIResource:
         self.resource = None
         self.name = resource_name
         self.plural = plural or self.name + 's'
+        self.type = self.plural
 
     def get_permissions(self, request):
         return Permissions.from_method(request.method)

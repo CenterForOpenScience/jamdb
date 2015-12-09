@@ -12,6 +12,10 @@ class DocumentResource(APIResource):
 
     PAGE_SIZE = 50
 
+    @classmethod
+    def serialize(cls, document, request):
+        return document.to_json_api()
+
     @property
     def document(self):
         return self.resource
@@ -19,6 +23,10 @@ class DocumentResource(APIResource):
     @property
     def collection(self):
         return self.parent.resource
+
+    # @property
+    # def name(self):
+    #     return self.collection.name
 
     def __init__(self):
         super().__init__('document', CollectionResource)
@@ -34,15 +42,14 @@ class DocumentResource(APIResource):
     # CRUD-LR
 
     def create(self, data, user):
-        document = self.parent.resource.create(
+        return self.collection.create(
             data.get('id') or str(bson.ObjectId()),
             data['attributes'],
             user.uid
         )
-        return document.to_json_api()
 
     def read(self, user):
-        return self.document.to_json_api()
+        return self.document
 
     def update(self, data, user):
         return self.collection.update(
@@ -50,17 +57,17 @@ class DocumentResource(APIResource):
             data['attributes'],
             user.uid,
             merger=lambda x, y: {**x, **y}
-        ).to_json_api()
+        )
 
     def delete(self, user):
-        self.parent.resource.delete(self.resource.ref, user.uid)
+        self.collection.delete(self.resource.ref, user.uid)
 
     def replace(self, data, user):
         return self.collection.update(
             self.document.ref,
             data['attributes'],
             user.uid
-        ).to_json_api()
+        )
 
     def list(self, user, page=0, filter=None):
         selector = self.collection.select().order_by(

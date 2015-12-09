@@ -33,12 +33,12 @@ def profile(ktime=10):
     main(debug=False)
 
 
-def main(debug=True):
+def main(debug=True, host='127.0.0.1', port=1212):
     tornado.platform.asyncio.AsyncIOMainLoop().install()
 
     app = asyncio.get_event_loop().run_until_complete(make_app(debug))
 
-    app.listen(1212, '127.0.0.1')
+    app.listen(port, host)
 
     asyncio.get_event_loop().set_debug(debug)
     asyncio.get_event_loop().run_forever()

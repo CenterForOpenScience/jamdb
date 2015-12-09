@@ -1,8 +1,10 @@
+import datetime
 import calendar
 
 from dateutil.parser import parse
 
 import iodm
+from iodm.auth import Permissions
 from iodm.backends import EphemeralBackend
 from iodm.server.api.v1.base import APIResource
 from iodm.server.api.v1.namespace import NamespaceResource
@@ -12,15 +14,53 @@ class CollectionResource(APIResource):
 
     PAGE_SIZE = 50
 
+    @classmethod
+    def serialize(cls, collection_doc, request):
+        # TODO Feel less bad about this
+        namespace_id = request.path.split('/')[3]
+        return {
+            'id': collection_doc.ref,
+            'type': 'collections',
+            'attributes': {
+                'name': collection_doc.ref,
+                'permissions': collection_doc.data['permissions'],
+            },
+            'meta': {
+                'created-by': collection_doc.created_by,
+                'modified-by': collection_doc.modified_by,
+                'created-on': datetime.datetime.fromtimestamp(collection_doc.created_on).isoformat(),
+                'modified-on': datetime.datetime.fromtimestamp(collection_doc.created_on).isoformat()
+            },
+            'relationships': {
+                'documents': {
+                    'links': {
+                        'self': '{}://{}/v1/namespaces/{}/collections/{}/documents'.format(request.protocol, request.host, namespace_id, collection_doc.ref),
+                        'related': '{}://{}/v1/namespaces/{}/collections/{}/documents'.format(request.protocol, request.host, namespace_id, collection_doc.ref),
+                    }
+                }
+            }
+        }
+
     @property
     def namespace(self):
         return self.parent.resource
 
+    @property
+    def collection(self):
+        return self.resource
+
     def __init__(self):
         super().__init__('collection', NamespaceResource)
 
+    def get_permissions(self, request):
+        if not self.resource:
+            if request.method == 'GET':
+                return Permissions.NONE
+            return Permissions.ADMIN
+        return super().get_permissions(request)
+
     def load(self, collection_id, request):
-        collection = self.parent.resource.get_collection(collection_id)
+        collection = self.namespace.get_collection(collection_id)
 
         maybe_time = request.query_arguments.get('timemachine')
         if maybe_time:
@@ -41,10 +81,16 @@ class CollectionResource(APIResource):
 
         return super().load(collection)
 
+    def create(self, data, user):
+        if set(data['attributes'].keys()) - {'logger', 'storage', 'state', 'permissions'}:
+            raise Exception()
+        self.namespace.create_collection(data['id'], user.uid, **data['attributes'])
+        return self.namespace.read(data['id'])
+
     def list(self, user, page=0, filter=None):
         return self.namespace.select().order_by(
             iodm.O.Ascending('ref')
         ).page(page, self.PAGE_SIZE)
 
     def read(self, user):
-        return self.resource.to_json_api()
+        return self.namespace.read(self.collection.name)

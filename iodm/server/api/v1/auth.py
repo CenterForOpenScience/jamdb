@@ -1,5 +1,6 @@
 import uuid
 import asyncio
+import logging
 import datetime
 
 import jwt
@@ -9,6 +10,9 @@ from stevedore import driver
 
 from iodm.auth import User
 from iodm.server.api.base import BaseAPIHandler
+
+
+logger = logging.getLogger(__name__)
 
 
 class AuthHandler(BaseAPIHandler):
@@ -32,6 +36,9 @@ class AuthHandler(BaseAPIHandler):
             'id': user.uid,
             'type': 'users',
             'attributes': {
+                'pid': user.id,
+                'type': user.type,
+                'provider': user.provider,
                 'token': user.token.decode(),
                 'refreshable': provider.refreshable,
             }

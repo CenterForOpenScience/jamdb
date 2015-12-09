@@ -1,6 +1,8 @@
 import abc
 import json
+import http.client
 
+import jwt
 import furl
 
 import tornado.web
@@ -29,11 +31,14 @@ CORS_EXPOSE_HEADERS = [
 class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
 
     def get_current_user(self):
-        return User(
-            self.request.headers.get('Authorization') or
-            self.get_query_argument('token', default=None) or
-            self.get_cookie('cookie')
-        )
+        try:
+            return User(
+                self.request.headers.get('Authorization') or
+                self.get_query_argument('token', default=None) or
+                self.get_cookie('cookie')
+            )
+        except jwt.ExpiredSignatureError:
+            raise tornado.web.HTTPError(http.client.UNAUTHORIZED)
 
     @classmethod
     def as_entry(cls):
@@ -71,16 +76,12 @@ class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
         etype, exc, _ = exc_info
 
         if issubclass(etype, exceptions.IodmException):
-            self.set_status(exc.code)
-            if exc.data:
-                self.finish(exc.data)
-            else:
-                self.finish({
-                    'code': exc.code,
-                    'message': exc.message
-                })
+            self.set_status(exc.status)
+            self.finish({'errors': [exc.serialize()]})
         else:
             self.finish({
-                'code': status_code,
-                'message': self._reason,
+                'errors': [{
+                    'status': status_code,
+                    'detail': self._reason,
+                }]
             })
