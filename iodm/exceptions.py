@@ -1,25 +1,32 @@
-import json
 import http.client
 
 
 class IodmException(Exception):
+    code = None
+    detail = None
     should_log = True
+    status = http.client.INTERNAL_SERVER_ERROR
+    title = 'An error has occured'
 
-    def __init__(self, message, code=http.client.INTERNAL_SERVER_ERROR):
-        super().__init__(code)
-        self.code = code
-        if isinstance(message, dict):
-            self.data = message
-            self.message = json.dumps(message)
-        else:
-            self.data = None
-            self.message = message
+    def __init__(self, code=None, status=None, title=None, detail=None):
+        self.title = title or self.__class__.title
+        self.status = status or self.__class__.status
+
+        self.code = code or self.__class__.code or str(int(self.status))
+        self.detail = detail or self.__class__.detail or self.title
+
+    def serialize(self):
+        return {
+            'code': self.code,
+            'detail': self.detail,
+            'status': str(int(self.status)),
+            'title': self.title,
+        }
 
     def __repr__(self):
-        return '<{}({}, {})>'.format(self.__class__.__name__, self.code, self.message)
+        return '<{}({}, {})>'.format(self.__class__.__name__, self.status, self.title)
 
-    def __str__(self):
-        return '{}, {}'.format(self.code, self.message)
+    __str__ = __repr__
 
 
 class BackendException(IodmException):
@@ -28,23 +35,28 @@ class BackendException(IodmException):
 
 class NotFound(BackendException):
     should_log = False
-
-    def __init__(self, message=None):
-        super().__init__(message or 'Resource not found', http.client.NOT_FOUND)
+    title = 'Resource not found'
+    status = http.client.NOT_FOUND
 
 
 class KeyExists(BackendException):
     should_log = False
+    status = http.client.CONFLICT
+    title = 'Resource already exists'
 
-    def __init__(self, message=None):
-        super().__init__(message or 'Resource already exists', http.client.CONFLICT)
 
-
-class InsufficientPermissions(IodmException):
+class Forbidden(IodmException):
     should_log = False
+    status = http.client.FORBIDDEN
+    title = 'Forbidden'
 
-    def __init__(self, message=None):
-        super().__init__(message or 'You do not have sufficient permissions to access this resource', http.client.FORBIDDEN)
+    def __init__(self, required, **kwargs):
+        super().__init__(
+            detail='{} permission or higher is required to perform this action'.format(
+                str(required).split('.')[1]
+            ),
+            **kwargs
+        )
 
 
 class Unauthorized(IodmException):
@@ -54,8 +66,15 @@ class Unauthorized(IodmException):
         super().__init__(message or 'Unauthorized', http.client.UNAUTHORIZED)
 
 
-class InvalidParameter(IodmException):
+class InvalidParameterType(IodmException):
     should_log = False
 
     def __init__(self, field, expected, value):
         super().__init__('Expected field {} to be of type {}. Got {}'.format(field, expected, type(value)), http.client.BAD_REQUEST)
+
+
+class IncorrectParameter(IodmException):
+    should_log = False
+
+    def __init__(self, field, expected, value):
+        super().__init__('Expected field {} to be {}. Got {}'.format(field, expected, value), http.client.BAD_REQUEST)
