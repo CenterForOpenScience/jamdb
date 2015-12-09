@@ -76,7 +76,7 @@ class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
         etype, exc, _ = exc_info
 
         if issubclass(etype, exceptions.IodmException):
-            self.set_status(exc.status)
+            self.set_status(int(exc.status))
             self.finish({'errors': [exc.serialize()]})
         else:
             self.finish({
