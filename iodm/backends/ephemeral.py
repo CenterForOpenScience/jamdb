@@ -3,9 +3,17 @@ from iodm.backends.base import Backend
 
 
 class EphemeralBackend(Backend):
+    _cls_cache = {}
 
-    def __init__(self):
-        self._cache = {}
+    @classmethod
+    def settings_for(cls, namespace_id, collection_id, type_):
+        return {
+            'key': '{}-{}-{}'.format(type_, namespace_id, collection_id)
+        }
+
+    def __init__(self, key):
+        self._key = key
+        self._cache = EphemeralBackend._cls_cache.setdefault(key, {})
 
     def get(self, key):
         try:
