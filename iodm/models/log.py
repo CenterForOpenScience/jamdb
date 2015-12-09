@@ -1,4 +1,4 @@
-from collections import namedtuple
+from collections import namedtuple, OrderedDict
 
 from iodm.base import Operation
 
@@ -38,3 +38,5 @@ class Log(namedtuple('Log', [
         kwargs.setdefault('operation_parameters', {})
         return super().__new__(cls, **kwargs)
 
+    def _asdict(self):
+        return OrderedDict(zip(self._fields, self))
