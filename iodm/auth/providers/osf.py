@@ -7,7 +7,7 @@ class OSFAuthProvider(BaseAuthProvider):
     name = 'osf'
     type = 'user'
 
-    def _authenticate(self, data):
+    async def _authenticate(self, data):
         resp = await aiohttp.request('GET', 'https://staging-accounts.osf.io/oauth2/profile', headers={
             'Authorization': 'Bearer {}'.format(data['access_token'])
         })

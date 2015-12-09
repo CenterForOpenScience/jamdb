@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 
+from iodm import settings
 from iodm import exceptions
 from iodm.backends import query as queries
 from iodm.backends.base import Backend
@@ -13,7 +14,7 @@ class MongoBackend(Backend):
     @classmethod
     def settings_for(cls, namespace_id, collection_id, type_):
         return {
-            'database': 'iodm',
+            'database': settings.MONGO_DATABASE_NAME,
             'collection': '{}-{}-{}'.format(type_, namespace_id, collection_id),
         }
 

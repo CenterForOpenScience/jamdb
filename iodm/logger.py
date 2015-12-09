@@ -39,6 +39,9 @@ class ReadOnlyLogger:
     def bulk_read(self, keys):
         return self._backend.query(Q('ref', 'in', keys))
 
+    def __repr__(self):
+        return '<{}({})>'.format(self.__class__.__name__, self._backend)
+
 
 class Logger(ReadOnlyLogger):
 

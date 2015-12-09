@@ -42,3 +42,6 @@ class Storage(ReadOnlyStorage):
         self._backend.set(data_obj.ref, data_obj)
 
         return data_obj
+
+    def __repr__(self):
+        return '<{}({})>'.format(self.__class__.__name__, self._backend)

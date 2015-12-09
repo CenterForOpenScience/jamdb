@@ -51,11 +51,12 @@ class Document(namedtuple('Document', [
     def to_json_api(self):
         return {
             'id': self.ref,
+            'type': 'document',
             'attributes': self.data,
             'meta': {
-                'createdBy': self.created_by,
-                'createdOn': self.created_on,
-                'modifiedBy': self.modified_by,
-                'modifiedOn': self.modified_on,
+                'created-by': self.created_by,
+                'created-on': self.created_on,
+                'modified-by': self.modified_by,
+                'modified-on': self.modified_on,
             }
         }

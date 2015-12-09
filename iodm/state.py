@@ -57,3 +57,6 @@ class State:
         except KeyError:
             raise Exception('Unknown operation {}'.format(log.operation))
         return op(log, data, safe=safe)
+
+    def __repr__(self):
+        return '<{}({})>'.format(self.__class__.__name__, self._backend)

@@ -13,6 +13,10 @@ class ReadOnlyCollection:
     """
 
     @classmethod
+    def from_document(cls, document):
+        return cls.from_dict(document.data)
+
+    @classmethod
     def from_dict(cls, data):
         return cls(
             iodm.Storage(load_backend(data['storage']['backend'], **data['storage']['settings'])),
@@ -89,6 +93,9 @@ class ReadOnlyCollection:
 
     def history(self, key):
         return self._logger.history(key)
+
+    def __repr__(self):
+        return '<{}({}, {}, {})>'.format(self.__class__.__name__, self._storage, self._logger, self._state)
 
 
 class FrozenCollection(ReadOnlyCollection):
