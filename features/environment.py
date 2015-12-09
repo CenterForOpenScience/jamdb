@@ -23,6 +23,7 @@ import threading
 
 from iodm import NamespaceManager
 from iodm import server
+from iodm.backends import EphemeralBackend
 import iodm
 
 
@@ -48,10 +49,9 @@ def before_all(context):
     port = 50325
     logger = logging.getLogger(requests.__name__)
     logger.setLevel(logging.ERROR)
-    context.base_url = 'http://127.0.0.1:{}'.format(port)
+    context.base_url = 'http://localhost:{}'.format(port)
     context.server_thread = ServerThread(port)
     context.server_thread.start()
-    context.manager = NamespaceManager()
 
 
 def after_all(context):
@@ -59,5 +59,17 @@ def after_all(context):
 
 
 def before_scenario(context, senario):
-    context.resources = {}
+    context.resources = {
+        'namespace': {},
+        'collection': {},
+        'document': {},
+    }
     context.ignored_auth = []
+    for v in EphemeralBackend._cls_cache.values():
+        v.clear()
+    context.manager = NamespaceManager()
+
+
+def after_scenario(context, scenario):
+    if hasattr(context, 'time'):
+        context.time.stop()
