@@ -48,3 +48,5 @@ def O(key, order):
 
 O.Ascending = Ascending
 O.Descending = Descending
+O.ASCENDING = Order.ASCENDING
+O.DESCENDING = Order.DESCENDING
