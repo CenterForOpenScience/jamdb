@@ -1,6 +1,7 @@
 import bson
 import operator
 import functools
+import datetime
 
 import iodm
 from iodm.auth import Permissions
@@ -14,7 +15,28 @@ class DocumentResource(APIResource):
 
     @classmethod
     def serialize(cls, document, request):
-        return document.to_json_api()
+        # TODO Feel less bad about this
+        namespace_id = request.path.split('/')[3]
+        collection_id = request.path.split('/')[5]
+        return {
+            'id': document.ref,
+            'type': 'documents',
+            'attributes': document.data,
+            'meta': {
+                'created-by': document.created_by,
+                'modified-by': document.modified_by,
+                'created-on': datetime.datetime.fromtimestamp(document.created_on).isoformat(),
+                'modified-on': datetime.datetime.fromtimestamp(document.created_on).isoformat()
+            },
+            'relationships': {
+                'history': {
+                    'links': {
+                        'self': '{}://{}/v1/namespaces/{}/collections/{}/documents/{}/history'.format(request.protocol, request.host, namespace_id, collection_id, document.ref),
+                        'related': '{}://{}/v1/namespaces/{}/collections/{}/documents/{}/history'.format(request.protocol, request.host, namespace_id, collection_id, document.ref),
+                    }
+                }
+            }
+        }
 
     @property
     def document(self):
