@@ -59,7 +59,7 @@ Feature: Creating a collection
     When we create collection bar in namespace foo
     Then the response code will be 401
 
-  Scenario Outline: Insuffcient permissions to namespace
+  Scenario Outline: Insufficient permissions to namespace
     Given namespace foo does exist
     And we have <permission> permissions to namespace foo
     When we create collection bar in namespace foo
