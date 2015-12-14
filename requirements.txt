@@ -10,6 +10,7 @@ furl==0.4.8
 aiohttp==0.19.0
 tornado==4.3
 jwt==0.3.2
+PyJWT==1.4.0
 elasticsearch-dsl==0.0.9
 stevedore==1.10.0
 requests==2.8.1
