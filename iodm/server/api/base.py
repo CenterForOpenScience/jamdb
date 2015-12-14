@@ -79,6 +79,7 @@ class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
             self.set_status(int(exc.status))
             self.finish({'errors': [exc.serialize()]})
         else:
+            self.set_status(int(status_code))
             self.finish({
                 'errors': [{
                     'status': status_code,

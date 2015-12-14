@@ -1,4 +1,4 @@
-from collections import namedtuple
+from collections import namedtuple, OrderedDict
 
 from iodm.auth import Permissions
 
@@ -60,3 +60,6 @@ class Document(namedtuple('Document', [
                 'modified-on': self.modified_on,
             }
         }
+
+    def _asdict(self):
+        return OrderedDict(zip(self._fields, self))
