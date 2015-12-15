@@ -26,7 +26,7 @@
               <td>{{doc.id}}</td>
               {{#each-in doc.attributes as |key value|}}
               <td>
-                {{value}}
+                {{json value}}
               </td>
               {{/each-in}}
             </tr>
