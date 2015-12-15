@@ -47,7 +47,12 @@ class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
     @property
     def json(self):
         if not hasattr(self, '_json'):
-            self._json = json.loads(self.request.body.decode())
+            try:
+                self._json = json.loads(self.request.body.decode())
+            except ValueError:
+                raise exceptions.MalformedData()
+            if not isinstance(self._json, dict):
+                raise exceptions.MalformedData()
         return self._json
 
     @property
