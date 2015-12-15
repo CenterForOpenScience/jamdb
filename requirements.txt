@@ -11,6 +11,7 @@ aiohttp==0.19.0
 tornado==4.3
 pyjwt==1.4.0
 elasticsearch-dsl==0.0.9
+elasticsearch==1.7.0
 stevedore==1.10.0
 requests==2.8.1
 jsonschema
