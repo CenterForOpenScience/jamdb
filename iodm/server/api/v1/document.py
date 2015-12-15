@@ -54,7 +54,7 @@ class DocumentResource(APIResource):
         super().__init__('document', CollectionResource)
 
     def get_permissions(self, request):
-        if request.method == 'GET':
+        if request.method == 'GET' and self.resource is None:
             return Permissions.NONE
         return super().get_permissions(request)
 
