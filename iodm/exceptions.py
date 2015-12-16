@@ -66,6 +66,12 @@ class Unauthorized(IodmException):
         super().__init__(message or 'Unauthorized', http.client.UNAUTHORIZED)
 
 
+class MalformedData(IodmException):
+    should_log = False
+    title = 'Malformed data'
+    status = http.client.BAD_REQUEST
+
+
 class InvalidParameterType(IodmException):
     should_log = False
 

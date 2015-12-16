@@ -48,18 +48,5 @@ class Document(namedtuple('Document', [
     def permissions(self):
         return {self.created_by: Permissions.CRUD}
 
-    def to_json_api(self):
-        return {
-            'id': self.ref,
-            'type': 'document',
-            'attributes': self.data,
-            'meta': {
-                'created-by': self.created_by,
-                'created-on': self.created_on,
-                'modified-by': self.modified_by,
-                'modified-on': self.modified_on,
-            }
-        }
-
     def _asdict(self):
         return OrderedDict(zip(self._fields, self))

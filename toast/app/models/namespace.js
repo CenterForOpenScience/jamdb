@@ -1,6 +1,7 @@
 import DS from 'ember-data';
+import HasManyQuery from 'ember-data-has-many-query';
 
-export default DS.Model.extend({
+export default DS.Model.extend(HasManyQuery.ModelMixin, {
     permissions: DS.attr(),
     name: DS.attr('string'),
     state: DS.attr('string'),
