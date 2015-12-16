@@ -7,4 +7,4 @@ logger = logging.getLogger(__name__)
 try:
     from iodm.settings.local import *  # noqa
 except ImportError:
-    logger.warning('Not local.py found, using defaults')
+    logger.warning('No local.py found, using defaults')
