@@ -1,0 +1,17 @@
+<a>
+  <i class="fa fa-database"></i>
+  <span> {{namespace.name}}</span>
+  <i style="cursor:pointer;" class="fa pull-right {{if showCollections "fa-angle-down" "fa-angle-left"}}" {{action "toggle"}}></i>
+</a>
+
+{{#if showCollections}}
+<ul class="treeview-menu menu-open">
+  {{#each namespace.collections as |collection|}}
+  {{#link-to "namespace.collection" namespace collection tagName="li" }}
+  {{#link-to "namespace.collection" namespace collection}}
+  <i class="fa fa-table"></i> {{collection.name}}
+  {{/link-to}}
+  {{/link-to}}
+  {{/each}}
+</ul>
+{{/if}}
