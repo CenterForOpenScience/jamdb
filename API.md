@@ -1,4 +1,4 @@
-# momo API interface
+# JamDB API interface
 
 ## Routes
 * `/v1/auth`
@@ -20,13 +20,13 @@
 
 
 ## API Overview
-momo follows the [JSONAPI standard](http://jsonapi.org/)
+JamDB follows the [JSONAPI standard](http://jsonapi.org/)
 
 All responses will be formatted as:
 ```json
 {
     "id": "resource id",
-    "type": "namespace|collection|<collection_id>|history",
+    "type": "namespaces|collections|documents|history",
     "attributes": {
     },
     "meta": {
@@ -113,4 +113,4 @@ Fields that may be updated: [`name`, `permissions`]
 #### Document
 The attributes of documents are completely free form.
 
-The only requirements are that `id` must match the same regex as the url and `type` must be the collection id
+The only requirements are that `id` must match the same regex as the url
