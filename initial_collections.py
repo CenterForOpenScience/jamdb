@@ -43,9 +43,12 @@ schema = dict(
 
 share_ns.update('users', schema, '', lambda x, y: {**x, **y})
 
-users_col.create(
-    USERNAME, {
-        'username': USERNAME,
-        'password': '$2b$12$iujjM4DtPMWVL1B2roWjBeHzjzxaNEP8HbXxdZwRha/j5Pc8E1n2G'
-    }, ''
-)
+try:
+    users_col.create(
+        USERNAME, {
+            'username': USERNAME,
+            'password': '$2b$12$iujjM4DtPMWVL1B2roWjBeHzjzxaNEP8HbXxdZwRha/j5Pc8E1n2G'
+        }, ''
+    )
+except iodm.exceptions.KeyExists:
+    print('\nUser {user} already exists in the users collection'.format(user=USERNAME))
