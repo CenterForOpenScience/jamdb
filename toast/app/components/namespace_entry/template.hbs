@@ -1,0 +1,13 @@
+<li class="treeview">
+  <a>
+    <i class="fa fa-database"></i>
+    <span> {{model.name}}</span>
+    <i class="fa fa-angle-left pull-right"></i>
+  </a>
+
+  <ul class="treeview-menu menu-open">
+    {{#each model.collection as |collection|}}
+      <li><a><i class="fa fa-table"></i> {{collection.name}}</a></li>
+    {{/each}}
+  </ul>
+</li>

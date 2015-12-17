@@ -122,7 +122,11 @@ class Collection(ReadOnlyCollection):
         except exceptions.NotFound:
             pass
         else:
-            raise exceptions.KeyExists()
+            raise exceptions.KeyExists(
+                code='D409',
+                title='Document already exists',
+                detail='Document "{}" already exists'.format(key)
+            )
 
         data_object = self._storage.create(data)
 

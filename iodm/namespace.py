@@ -23,7 +23,9 @@ class Namespace(Collection):
 
     def get_collection(self, name):
         try:
-            return Collection.from_dict(self.read(name).data)
+            col = Collection.from_dict(self.read(name).data)
+            col.name = name  # TODO Fix me, this just makes life much easier
+            return col
         except exceptions.NotFound:
             raise exceptions.NotFound(
                 code='C404',

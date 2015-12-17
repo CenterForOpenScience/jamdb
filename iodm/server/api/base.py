@@ -47,7 +47,12 @@ class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
     @property
     def json(self):
         if not hasattr(self, '_json'):
-            self._json = json.loads(self.request.body.decode())
+            try:
+                self._json = json.loads(self.request.body.decode())
+            except ValueError:
+                raise exceptions.MalformedData()
+            if not isinstance(self._json, dict):
+                raise exceptions.MalformedData()
         return self._json
 
     @property
@@ -83,6 +88,47 @@ class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
             self.finish({
                 'errors': [{
                     'status': status_code,
+                    'detail': self._reason,
+                }]
+            })
+
+
+class Default404Handler(tornado.web.RequestHandler):
+
+    def set_default_headers(self):
+        self.set_header('Access-Control-Allow-Credentials', 'true')
+        self.set_header('Access-Control-Allow-Headers', ', '.join(CORS_ACCEPT_HEADERS))
+        self.set_header('Access-Control-Expose-Headers', ', '.join(CORS_EXPOSE_HEADERS))
+        self.set_header('Cache-control', 'no-store, no-cache, must-revalidate, max-age=0')
+        self.set_header('Access-Control-Allow-Origin', self.request.headers.get('Origin', '*'))
+
+    def get(self):
+        raise tornado.web.HTTPError(http.client.NOT_FOUND)
+
+    def put(self):
+        raise tornado.web.HTTPError(http.client.NOT_FOUND)
+
+    def post(self):
+        raise tornado.web.HTTPError(http.client.NOT_FOUND)
+
+    def delete(self):
+        raise tornado.web.HTTPError(http.client.NOT_FOUND)
+
+    def options(self):
+        self.set_status(204)
+        self.set_header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE')
+
+    def write_error(self, status_code, exc_info):
+        etype, exc, _ = exc_info
+
+        if issubclass(etype, exceptions.IodmException):
+            self.set_status(int(exc.status))
+            self.finish({'errors': [exc.serialize()]})
+        else:
+            self.set_status(int(status_code))
+            self.finish({
+                'errors': [{
+                    'status': str(int(status_code)),
                     'detail': self._reason,
                 }]
             })

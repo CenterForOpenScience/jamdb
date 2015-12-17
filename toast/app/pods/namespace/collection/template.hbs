@@ -13,26 +13,7 @@
       {{#if isLoading}}
         <h1>Loading...</h1>
       {{else}}
-      <table class="table table-striped">
-        <thead><tr>
-            <th>Id</th>
-            {{#each attributes as |attr|}}
-            <th>{{attr}}</th>
-            {{/each}}
-          </tr></thead>
-          <tbody>
-            {{#each model.documents as |doc|}}
-            <tr>
-              <td>{{doc.id}}</td>
-              {{#each-in doc.attributes as |key value|}}
-              <td>
-                {{value}}
-              </td>
-              {{/each-in}}
-            </tr>
-            {{/each}}
-          </tbody>
-      </table>
+      {{ember-jstree data=jsTreeData plugins=plugins}}
       {{/if}}
     </div>
   </div>

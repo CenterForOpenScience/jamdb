@@ -13,6 +13,9 @@
                     <i class="fa fa-circle-o"></i> Namespaces
                 {{/link-to}}
             {{/link-to}}
+            {{#each model as |namespace|}}
+              {{namespace-entry namespace}}
+            {{/each}}
         </ul>
     {{/al-main-sidebar}}
 

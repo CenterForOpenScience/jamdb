@@ -25,22 +25,29 @@ class NamespaceManager(Collection):
 
     def create_namespace(self, name, user, permissions=None):
         uid = str(uuid.uuid4()).replace('-', '')
-        self.create(name, {
-            'uuid': uid,
-            'permissions': {**(permissions or {}), user: Permissions.ADMIN},
-            'logger': {
-                'backend': settings.NAMESPACE_BACKENDS['logger'],
-                'settings': get_backend(settings.NAMESPACE_BACKENDS['logger']).settings_for(self.uuid, uid, 'logger')
-            },
-            'state': {
-                'backend': settings.NAMESPACE_BACKENDS['state'],
-                'settings': get_backend(settings.NAMESPACE_BACKENDS['state']).settings_for(self.uuid, uid, 'state')
-            },
-            'storage': {
-                'backend': settings.NAMESPACE_BACKENDS['storage'],
-                'settings': get_backend(settings.NAMESPACE_BACKENDS['storage']).settings_for(self.uuid, uid, 'storage')
-            }
-        }, user)
+        try:
+            self.create(name, {
+                'uuid': uid,
+                'permissions': {**(permissions or {}), user: Permissions.ADMIN},
+                'logger': {
+                    'backend': settings.NAMESPACE_BACKENDS['logger'],
+                    'settings': get_backend(settings.NAMESPACE_BACKENDS['logger']).settings_for(self.uuid, uid, 'logger')
+                },
+                'state': {
+                    'backend': settings.NAMESPACE_BACKENDS['state'],
+                    'settings': get_backend(settings.NAMESPACE_BACKENDS['state']).settings_for(self.uuid, uid, 'state')
+                },
+                'storage': {
+                    'backend': settings.NAMESPACE_BACKENDS['storage'],
+                    'settings': get_backend(settings.NAMESPACE_BACKENDS['storage']).settings_for(self.uuid, uid, 'storage')
+                }
+            }, user)
+        except exceptions.KeyExists:
+            raise exceptions.KeyExists(
+                code='N409',
+                title='Namespace already exists',
+                detail='Namespace "{}" already exists'.format(name)
+            )
 
         return self.get_namespace(name)
 

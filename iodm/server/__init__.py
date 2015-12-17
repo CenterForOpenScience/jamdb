@@ -4,14 +4,14 @@ import logging
 import tornado.web
 import tornado.platform.asyncio
 
-from iodm import Namespace
 from iodm.server.api import v1
+from iodm.server.api.base import Default404Handler
 
 
 logger = logging.getLogger(__name__)
 
 
-async def make_app(debug=True):
+def make_app(debug=True):
     endpoints = [
         ('/v1/auth/?', v1.AuthHandler)
     ]
@@ -25,7 +25,11 @@ async def make_app(debug=True):
         endpoints.append(endpoint)
         logger.info('Loaded {} endpoint "{}"'.format(v1.__name__, endpoint[0]))
 
-    return tornado.web.Application(endpoints, debug=debug)
+    return tornado.web.Application(
+        endpoints,
+        debug=debug,
+        default_handler_class=Default404Handler,
+    )
 
 
 def profile(ktime=10):
@@ -36,7 +40,7 @@ def profile(ktime=10):
 def main(debug=True, host='127.0.0.1', port=1212):
     tornado.platform.asyncio.AsyncIOMainLoop().install()
 
-    app = asyncio.get_event_loop().run_until_complete(make_app(debug))
+    app = make_app(debug)
 
     app.listen(port, host)
 
