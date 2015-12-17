@@ -14,3 +14,9 @@ Feature: Getting a collection
           }]
         }
       """
+  Scenario: Collection does exist
+    Given collection happiness exists in namespace life
+    When we GET "/v1/namespaces/life/collections/happiness"
+    Then the response code will be 200
+
+
