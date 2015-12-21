@@ -16,6 +16,7 @@
     "bootstrap": "~3.3.5",
     "font-awesome": "~4.4.0",
     "jsoneditor": "~4.2.1",
-    "jstree": "~3.2.1"
+    "jstree": "~3.2.1",
+    "uri-templates": "~0.1.9"
   }
 }
