@@ -29,6 +29,18 @@ class DocumentResource(APIResource):
                 'modified-on': datetime.datetime.fromtimestamp(document.created_on).isoformat()
             },
             'relationships': {
+                'namespace': {
+                    'links': {
+                        'self': '{}://{}/v1/namespaces/{}'.format(request.protocol, request.host, namespace_id),
+                        'related': '{}://{}/v1/namespaces/{}'.format(request.protocol, request.host, namespace_id),
+                    }
+                },
+                'collection': {
+                    'links': {
+                        'self': '{}://{}/v1/namespaces/{}/collections/{}'.format(request.protocol, request.host, namespace_id, collection_id),
+                        'related': '{}://{}/v1/namespaces/{}/collections/{}'.format(request.protocol, request.host, namespace_id, collection_id),
+                    }
+                },
                 'history': {
                     'links': {
                         'self': '{}://{}/v1/namespaces/{}/collections/{}/documents/{}/history'.format(request.protocol, request.host, namespace_id, collection_id, document.ref),
