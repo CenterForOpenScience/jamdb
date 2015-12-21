@@ -1,16 +1,24 @@
 # !/usr/local/bin/python3.5
 import iodm
 
-YOUR_USERNAME = 'chris'
+USERNAME = 'chris'
 
 nsm = iodm.NamespaceManager()
-share_ns = nsm.create_namespace('SHARE', '')
 
-users_col = share_ns.create_collection('users', '')
+try:
+    share_ns = nsm.create_namespace('SHARE', '')
+except iodm.exceptions.KeyExists:
+    share_ns = nsm.get_namespace('SHARE')
+
+try:
+    users_col = share_ns.create_collection('users', '')
+except iodm.exceptions.KeyExists:
+    users_col = share_ns.get_collection('users')
+
 schema = dict(
+    schema=dict(
         type='jsonschema',
-        schema=
-        {
+        schema={
             "id": "/",
             "type": "object",
             "properties": {
@@ -30,9 +38,17 @@ schema = dict(
                 "password"
             ]
         }
+    )
 )
 
 share_ns.update('users', schema, '', lambda x, y: {**x, **y})
 
-users_col.create('chris', {'username': YOUR_USERNAME, 'password': '$2b$12$iujjM4DtPMWVL1B2roWjBeHzjzxaNEP8HbXxdZwRha/j5Pc8E1n2G'},
-                 '')
+try:
+    users_col.create(
+        USERNAME, {
+            'username': USERNAME,
+            'password': '$2b$12$iujjM4DtPMWVL1B2roWjBeHzjzxaNEP8HbXxdZwRha/j5Pc8E1n2G'
+        }, ''
+    )
+except iodm.exceptions.KeyExists:
+    print('\nUser {user} already exists in the users collection'.format(user=USERNAME))
