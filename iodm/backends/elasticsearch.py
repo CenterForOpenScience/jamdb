@@ -125,5 +125,5 @@ class ElasticsearchBackend(Backend):
         if key.startswith('data.') and isinstance(query.value, str):
             key += '.raw'
         return elasticsearch_dsl.F({
-            'eq': 'term'
-        }[query.comparator], **{key: query.value})
+            queries.Equal: 'term'
+        }[query.__class__], **{key: query.value})
