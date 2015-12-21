@@ -11,6 +11,7 @@ def remove_namespace(context, namespace):
         pass
 
 
+@given('namespace {namespace} exists')
 @given('namespace {namespace} does exist')
 def create_namespace(context, namespace):
     context.resources['namespace'][namespace] = context.manager.create_namespace(namespace, 'user-testing-system')
