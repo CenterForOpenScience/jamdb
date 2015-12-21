@@ -1,0 +1,29 @@
+<div class="row">
+{{#if model.history.isPending}}
+LOADING
+{{else}}
+<div class="col-md-12">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Ref</th>
+        <th>Parameters</th>
+        <th>Record Ref</th>
+        <th>Operation</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each model.history as |history|}}
+      <tr>
+        <td>{{history.id}}</td>
+        <td>{{json history.parameters}}</td>
+        <td>{{history.recordId}}</td>
+        <td>{{history.operation}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+{{/if}}
+</div>
+{{outlet}}
