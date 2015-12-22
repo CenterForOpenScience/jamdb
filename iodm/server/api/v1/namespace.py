@@ -76,11 +76,9 @@ class NamespaceResource(APIResource):
         return selector.where(query)
 
     def create(self, data, user):
-        document = manager.create(data['id'], data['attributes'], user.uid)
-        return document.to_json_api()
+        return manager.read(manager.create_namespace(data['attributes']['name'], user.uid).name)
 
     def read(self, user):
         # TODO find a better way to handle this
         # Serialize expects a document but an actual Namespace object has not reference to its document
         return manager.read(self.namespace.name)
-
