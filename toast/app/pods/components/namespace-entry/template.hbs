@@ -1,7 +1,7 @@
-<a>
+<a style="cursor:pointer;" {{action "toggle"}}>
   <i class="fa fa-database"></i>
   <span> {{namespace.name}}</span>
-  <i style="cursor:pointer;" class="fa pull-right {{if showCollections "fa-angle-down" "fa-angle-left"}}" {{action "toggle"}}></i>
+  <i class="fa pull-right {{if showCollections "fa-angle-down" "fa-angle-left"}}"></i>
 </a>
 
 {{#if showCollections}}

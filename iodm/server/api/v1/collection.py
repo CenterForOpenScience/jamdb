@@ -1,5 +1,7 @@
-import datetime
 import calendar
+import datetime
+import functools
+import operator
 
 from dateutil.parser import parse
 
@@ -32,6 +34,12 @@ class CollectionResource(APIResource):
                 'modified-on': datetime.datetime.fromtimestamp(collection_doc.created_on).isoformat()
             },
             'relationships': {
+                'namespace': {
+                    'links': {
+                        'self': '{}://{}/v1/namespaces/{}'.format(request.protocol, request.host, namespace_id),
+                        'related': '{}://{}/v1/namespaces/{}'.format(request.protocol, request.host, namespace_id),
+                    }
+                },
                 'documents': {
                     'links': {
                         'self': '{}://{}/v1/namespaces/{}/collections/{}/documents'.format(request.protocol, request.host, namespace_id, collection_doc.ref),
@@ -88,9 +96,20 @@ class CollectionResource(APIResource):
         return self.namespace.read(data['id'])
 
     def list(self, user, page=0, filter=None):
-        return self.namespace.select().order_by(
+        selector = self.namespace.select().order_by(
             iodm.O.Ascending('ref')
         ).page(page, self.PAGE_SIZE)
+
+        if not filter:
+            query = None
+        else:
+            query = functools.reduce(operator.and_, [
+                iodm.Q(key, 'eq', value)
+                for key, value in
+                filter.items()
+            ])
+
+        return selector.where(query)
 
     def read(self, user):
         return self.namespace.read(self.collection.name)

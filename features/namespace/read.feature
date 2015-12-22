@@ -22,10 +22,8 @@ Feature: Getting a Namespace
       """
         {
           "errors": [{
-            "code": "N404",
             "status": "404",
-            "title": "Namespace not found",
-            "detail": "Namespace \"!@#$%^&*()-+\" was not found"
+            "detail": "Not Found"
           }]
         }
       """

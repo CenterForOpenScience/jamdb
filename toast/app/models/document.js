@@ -6,9 +6,7 @@ export default DS.Model.extend({
     attributes: DS.attr(),
     createdOn: DS.attr('date'),
     createdBy: DS.attr('string'),
-    ModifiedOn: DS.attr('date'),
-    ModifiedBy: DS.attr('string'),
-    attributeNames: Ember.computed('attributes', function() {
-        return Object.keys(this.get('attributes'));
-    }),
+    modifiedOn: DS.attr('date'),
+    modifiedBy: DS.attr('string'),
+    history: DS.hasMany('history', {async: true})
 });

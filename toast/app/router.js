@@ -11,7 +11,9 @@ Router.map(function() {
       this.route('new');
   });
   this.route('namespace', {path: '/namespace/:namespace_id'}, function() {
-    this.route('collection', {path: '/collection/:collection_id'});
+    this.route('collection', {path: '/collection/:collection_id'}, function() {
+        this.route('document', {path: '/document/:document_id'});
+    });
   });
 });
 

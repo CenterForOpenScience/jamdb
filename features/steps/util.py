@@ -17,7 +17,7 @@ def make_request(context, user, method, url):
     headers = {}
     if user not in context.ignored_auth:
         headers['Authorization'] = auth.User.create('user', 'testing', user).token
-    context.response = getattr(requests, method.lower())(context.base_url + url, headers=headers)
+    context.response = getattr(requests, method.lower())(context.base_url + url, headers=headers, data=context.text)
 
 
 @then('the response code will be {:d}')
@@ -45,6 +45,6 @@ def response_contains(context):
                 for i, subvalue in enumerate(value):
                     dict_compare(subvalue, target[key][i])
             else:
-                assert value == target[key], '{} != {}'.format(value, target[key])
+                assert value == target[key], 'Expected "{}", got "{}"'.format(value, target[key])
 
     dict_compare(expected, context.response.json())

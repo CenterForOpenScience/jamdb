@@ -11,7 +11,7 @@ from iodm import auth
 
 @given('collection {collection} exists in namespace {namespace}')
 def ensure_collection(context, collection, namespace):
-    context.resources['namespace'][collection] = context.resources['namespace'][namespace].create_collection(collection, 'user-testing-system')
+    context.resources['collection'][collection] = context.resources['namespace'][namespace].create_collection(collection, 'user-testing-system')
 
 
 @when('{user} create collection {collection} in namespace {namespace}')

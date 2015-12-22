@@ -1,0 +1,22 @@
+<section class="content-header">
+  <h1>{{model.name}}</h1>
+  <button class="btn btn-default" {{action "nextPage"}}>Next</button>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      {{#if jsTreeData.isPending}}
+        <h1>Loading...</h1>
+      {{else}}
+      {{ember-jstree
+        data=jsTreeData.data
+        plugins='wholerow'
+        eventDidChange='jsTreeChange'
+        gridOptions=jsTreeOptions}}
+      {{/if}}
+    </div>
+  </div>
+</section>
+
+{{outlet}}
