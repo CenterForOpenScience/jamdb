@@ -71,14 +71,11 @@ class HistoryResource(APIResource):
             iodm.O.Ascending('ref')
         ).page(page, self.PAGE_SIZE)
 
-        if not filter:
-            query = None
-        else:
-            query = functools.reduce(operator.and_, [
-                iodm.Q(key, 'eq', value)
-                for key, value in
-                filter.items()
-            ])
+        query = functools.reduce(operator.and_, [
+            iodm.Q(key, 'eq', value)
+            for key, value in
+            (filter or {}).items()
+        ], iodm.Q('record_id', 'eq', self.document.ref))
 
         return selector.where(query)
 
