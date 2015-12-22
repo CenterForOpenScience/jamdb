@@ -17,6 +17,22 @@ Feature: Creating a collection
         }
       """
 
+  Scenario: Namespace doesn't exist
+    Given namespace foo does not exist
+    When we create collection bar in namespace foo
+    Then the response code will be 404
+    And the response will contain
+      """
+        {
+          "errors": [{
+            "code": "N404",
+            "status": "404",
+            "title": "Namespace not found",
+            "detail": "Namespace \"foo\" was not found"
+          }]
+        }
+      """
+
   Scenario: New collection
     Given the time is 2015-01-01T00:00:00.0000Z
     And namespace foo does exist
