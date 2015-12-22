@@ -76,7 +76,7 @@ class NamespaceResource(APIResource):
         return selector.where(query)
 
     def create(self, data, user):
-        return manager.read(manager.create_namespace(data['attributes']['name'], user.uid).name)
+        return manager.read(manager.create_namespace(data['id'], user.uid).name)
 
     def read(self, user):
         # TODO find a better way to handle this
