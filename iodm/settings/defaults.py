@@ -13,7 +13,7 @@ NAMESPACEMANAGER_BACKENDS = {
 }
 
 NAMESPACE_DEFAULT_BACKENDS = {
-    'state': 'mongo',
+    'state': 'elasticsearch',
     'logger': 'mongo',
     'storage': 'mongo',
 }
