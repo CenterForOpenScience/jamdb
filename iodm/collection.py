@@ -137,7 +137,7 @@ class Collection(ReadOnlyCollection):
             user
         ), data)
 
-    def update(self, key, data, user, merger=None):
+    def update(self, key, data, user, merger=lambda x, y: {**x, **y}):
         previous = self._state.get(key)
 
         if merger:

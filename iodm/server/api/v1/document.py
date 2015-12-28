@@ -4,6 +4,7 @@ import functools
 import datetime
 
 import iodm
+from iodm import exceptions
 from iodm.auth import Permissions
 from iodm.server.api.v1.base import APIResource
 from iodm.server.api.v1.collection import CollectionResource
@@ -90,7 +91,6 @@ class DocumentResource(APIResource):
             self.document.ref,
             data['attributes'],
             user.uid,
-            merger=lambda x, y: {**x, **y}
         )
 
     def delete(self, user):
@@ -100,7 +100,8 @@ class DocumentResource(APIResource):
         return self.collection.update(
             self.document.ref,
             data['attributes'],
-            user.uid
+            user.uid,
+            merger=None
         )
 
     def list(self, user, page=0, filter=None):
@@ -109,6 +110,8 @@ class DocumentResource(APIResource):
         ).page(page, self.PAGE_SIZE)
 
         if not user.permissions & Permissions.READ:
+            if not user.uid:
+                raise exceptions.Unauthorized()
             filter['created_by'] = user.uid
 
         if not filter:
