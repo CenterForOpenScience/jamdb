@@ -106,16 +106,16 @@ class ResourceHandler(BaseAPIHandler):
         assert data['id'] == self.path_kwargs[self.resource.name + '_id']
         assert data['type'] == self.resource.name
         return self.write({
-            'data': self.resource.__class__.serialize(self.resource.replace(data, self.current_user))
+            'data': self.resource.__class__.serialize(self.resource.replace(data, self.current_user), self.request)
         })
 
     def patch(self, **kwargs):
         assert self.resource.resource is not None
         data = self.json['data']
         assert data['id'] == self.path_kwargs[self.resource.name + '_id']
-        assert data['type'] == self.resource.name
+        assert data['type'] == self.resource.type
         return self.write({
-            'data': self.resource.__class__.serialize(self.resource.update(data, self.current_user))
+            'data': self.resource.__class__.serialize(self.resource.update(data, self.current_user), self.request)
         })
 
     def delete(self, **kwargs):
