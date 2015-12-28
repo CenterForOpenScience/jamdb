@@ -3,7 +3,6 @@ import functools
 import datetime
 
 import iodm
-from iodm.base import Operation
 from iodm.auth import Permissions
 from iodm.server.api.v1.base import APIResource
 from iodm.server.api.v1.document import DocumentResource
@@ -49,22 +48,7 @@ class HistoryResource(APIResource):
         return super().load(self.collection._logger.read(history_id))
 
     def read(self, user):
-        log = self.resource
-        return {
-            'id': log.ref,
-            'attributes': self.collection._storage.get(log.data_ref).data,
-            'meta': {
-                'createdBy': log.created_by,
-                'createdOn': log.created_on,
-                'modifiedBy': log.modified_by,
-                'modifiedOn': log.modified_on,
-                'parameters': log.operation_parameters,
-                'operation': Operation(log.operation).name.lower(),
-            },
-            'links': {}
-        }
-
-        return self.document.to_json_api()
+        return self.resource
 
     def list(self, user, page=0, filter=None):
         selector = self.collection._logger._backend.select().order_by(
