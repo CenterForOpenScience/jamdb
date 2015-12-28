@@ -38,7 +38,7 @@ class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
                 self.get_cookie('cookie')
             )
         except jwt.ExpiredSignatureError:
-            raise tornado.web.HTTPError(http.client.UNAUTHORIZED)
+            return User(None)
 
     @classmethod
     def as_entry(cls):
