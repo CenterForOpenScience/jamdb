@@ -46,6 +46,7 @@ class ResourceHandler(BaseAPIHandler):
         # TODO this is kinda hacky
         self.current_user.permissions = self.permissions
 
+        # TODO 404s get raised before permissions are checked
         required_permissions = self.resource.get_permissions(self.request)
         if (required_permissions & self.permissions) != required_permissions:
             if self.current_user.uid is None:
