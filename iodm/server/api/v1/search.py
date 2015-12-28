@@ -44,16 +44,26 @@ class SearchHandler(ResourceHandler):
         })
 
         result = search.execute().to_dict()
+        json_api_results = []
         del result['_shards']
 
         for hit in result['hits']['hits']:
-            del hit['_type']
-            del hit['_index']
-            del hit['_source']['ref']
-            del hit['_source']['log_ref']
-            del hit['_source']['data_ref']
+            json_api_results.append({
+                'id': hit['_id'],
+                'attributes': hit['_source']['data'],
+                'meta': {
+                    'score': hit['_score'],
+                },
+                'relationships': {
+                }
+            })
 
-        self.write(result)
+        self.write({
+            'data': json_api_results,
+            'meta': {
+                'total': result['hits']['total']
+            }
+        })
 
     def get(self, *args, **kwargs):
         if self.resource.resource is not None:
