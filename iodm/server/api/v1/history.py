@@ -69,7 +69,7 @@ class HistoryResource(APIResource):
     def list(self, user, page=0, filter=None):
         selector = self.collection._logger._backend.select().order_by(
             iodm.O.Ascending('ref')
-        ).page(page, self.PAGE_SIZE)
+        ).page(page, self.page_size)
 
         query = functools.reduce(operator.and_, [
             iodm.Q(key, 'eq', value)

@@ -106,7 +106,7 @@ class DocumentResource(APIResource):
     def list(self, user, page=0, filter=None):
         selector = self.collection.select().order_by(
             iodm.O.Ascending('ref')
-        ).page(page, self.PAGE_SIZE)
+        ).page(page, self.page_size)
 
         if not user.permissions & Permissions.READ:
             filter['created_by'] = user.uid

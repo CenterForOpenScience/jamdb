@@ -96,9 +96,10 @@ class CollectionResource(APIResource):
         return self.namespace.read(data['id'])
 
     def list(self, user, page=0, filter=None):
+        query = self.get_query_argument('page', default=None)
         selector = self.namespace.select().order_by(
             iodm.O.Ascending('ref')
-        ).page(page, self.PAGE_SIZE)
+        ).page(page, self.page_size)
 
         if not filter:
             query = None

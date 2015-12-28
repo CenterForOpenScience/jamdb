@@ -11,14 +11,21 @@ class ResourceHandler(BaseAPIHandler):
 
     @property
     def page(self):
-        raw = self.get_query_argument('page', default=1)
+        page = self.validate_int(self.get_query_argument('page', default=1), lambda x: x < 1)
+        return page
+
+    @property
+    def page_size(self):
+        return self.validate_int(self.get_query_argument('size', default=self.resource.PAGE_SIZE), lambda x: x < 0)
+
+    def validate_int(self, raw, additional_validation=lambda x: False):
         try:
-            page = int(raw)
+            num = int(raw)
         except (TypeError, ValueError):
             raise Exception()
-        if page < 1:
+        if additional_validation(num):
             raise Exception()
-        return page
+        return num
 
     def initialize(self, resource):
         self.resource = resource()
@@ -77,7 +84,7 @@ class ResourceHandler(BaseAPIHandler):
             'data': [self.resource.__class__.serialize(x, self.request) for x in selector],
             'meta': {
                 'total': selector.count(),
-                'perPage': self.resource.PAGE_SIZE
+                'perPage': self.page_size
             },
             'links': {}
         })
