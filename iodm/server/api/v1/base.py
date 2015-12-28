@@ -11,8 +11,7 @@ class ResourceHandler(BaseAPIHandler):
 
     @property
     def page(self):
-        page = self.validate_int(self.get_query_argument('page', default=1), lambda x: x < 1)
-        return page
+        return self.validate_int(self.get_query_argument('page', default=1), lambda x: x < 1)
 
     @property
     def page_size(self):
