@@ -11,18 +11,18 @@ class ResourceHandler(BaseAPIHandler):
 
     @property
     def page(self):
-        return self.validate_int(self.get_query_argument('page', default=1), lambda x: x < 1)
+        return self.parse_int_with_bounds(self.get_query_argument('page', default=1), lower=1)
 
     @property
     def page_size(self):
-        return self.validate_int(self.get_query_argument('size', default=self.resource.PAGE_SIZE), lambda x: x < 0)
+        return self.parse_int_with_bounds(self.get_query_argument('size', default=self.resource.PAGE_SIZE), lower=0)
 
-    def validate_int(self, raw, additional_validation=lambda x: False):
+    def parse_int_with_bounds(self, raw, lower=None, upper=None):
         try:
             num = int(raw)
         except (TypeError, ValueError):
             raise Exception()
-        if additional_validation(num):
+        if (lower and num < lower) or (upper and num > upper):
             raise Exception()
         return num
 
