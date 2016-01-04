@@ -1,8 +1,8 @@
 from riak import RiakClient
 
-from iodm import exceptions
-from iodm.backends.base import Backend
-from iodm.backends.util import CompoundQuery
+from jam import exceptions
+from jam.backends.base import Backend
+from jam.backends.util import CompoundQuery
 
 
 class RiakBackend(Backend):

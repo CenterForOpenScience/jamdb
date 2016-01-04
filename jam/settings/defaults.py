@@ -1,4 +1,4 @@
-MONGO_DATABASE_NAME = 'iodm'
+MONGO_DATABASE_NAME = 'jam'
 
 NAMESPACE_BACKENDS = {
     'state': 'mongo',

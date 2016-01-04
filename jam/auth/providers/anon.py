@@ -1,6 +1,6 @@
 import uuid
 
-from iodm.auth.providers.base import BaseAuthProvider
+from jam.auth.providers.base import BaseAuthProvider
 
 
 class AnonAuthProvider(BaseAuthProvider):

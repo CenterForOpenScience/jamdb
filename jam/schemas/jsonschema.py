@@ -1,6 +1,6 @@
 import jsonschema
 
-from iodm.schemas.base import BaseSchema
+from jam.schemas.base import BaseSchema
 
 
 class JSONSchema(BaseSchema):

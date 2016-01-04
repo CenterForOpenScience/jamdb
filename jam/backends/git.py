@@ -1,7 +1,7 @@
 import os
 import json
 import shutil
-from iodm.backends.base import Backend
+from jam.backends.base import Backend
 
 
 class GitBackend(Backend):

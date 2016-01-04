@@ -1,12 +1,12 @@
 import uuid
 
-import iodm
-from iodm import settings
-from iodm import exceptions
-from iodm.auth import Permissions
-from iodm.collection import Collection
-from iodm.backends.util import get_backend
-from iodm.backends.util import load_backend
+import jam
+from jam import settings
+from jam import exceptions
+from jam.auth import Permissions
+from jam.collection import Collection
+from jam.backends.util import get_backend
+from jam.backends.util import load_backend
 
 
 class Namespace(Collection):
@@ -15,9 +15,9 @@ class Namespace(Collection):
         self.uuid = uuid
         self.name = name
         super().__init__(
-            iodm.Storage(load_backend(storage['backend'], **storage['settings'])),
-            iodm.Logger(load_backend(logger['backend'], **logger['settings'])),
-            iodm.State(load_backend(state['backend'], **state['settings'])),
+            jam.Storage(load_backend(storage['backend'], **storage['settings'])),
+            jam.Logger(load_backend(logger['backend'], **logger['settings'])),
+            jam.State(load_backend(state['backend'], **state['settings'])),
             permissions=permissions
         )
 

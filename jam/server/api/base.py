@@ -7,8 +7,8 @@ import furl
 
 import tornado.web
 
-from iodm.auth import User
-from iodm import exceptions
+from jam.auth import User
+from jam import exceptions
 
 
 CORS_ACCEPT_HEADERS = [
@@ -73,14 +73,14 @@ class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
         self.set_header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE')
 
     def log_exception(self, typ, value, tb):
-        if isinstance(value, exceptions.IodmException) and not value.should_log:
+        if isinstance(value, exceptions.JamException) and not value.should_log:
             return
         super().log_exception(typ, value, tb)
 
     def write_error(self, status_code, exc_info):
         etype, exc, _ = exc_info
 
-        if issubclass(etype, exceptions.IodmException):
+        if issubclass(etype, exceptions.JamException):
             self.set_status(int(exc.status))
             self.finish({'errors': [exc.serialize()]})
         else:
@@ -121,7 +121,7 @@ class Default404Handler(tornado.web.RequestHandler):
     def write_error(self, status_code, exc_info):
         etype, exc, _ = exc_info
 
-        if issubclass(etype, exceptions.IodmException):
+        if issubclass(etype, exceptions.JamException):
             self.set_status(int(exc.status))
             self.finish({'errors': [exc.serialize()]})
         else:

@@ -1,6 +1,6 @@
-import iodm
+import jam
 
-nsm = iodm.NamespaceManager()
+nsm = jam.NamespaceManager()
 
 share_ns = nsm.get_namespace('SHARE')
 

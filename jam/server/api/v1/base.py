@@ -2,9 +2,9 @@ import re
 
 import tornado.web
 
-from iodm import exceptions
-from iodm.auth import Permissions
-from iodm.server.api.base import BaseAPIHandler
+from jam import exceptions
+from jam.auth import Permissions
+from jam.server.api.base import BaseAPIHandler
 
 
 class ResourceHandler(BaseAPIHandler):

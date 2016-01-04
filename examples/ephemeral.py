@@ -1,8 +1,8 @@
-from iodm import Logger
-from iodm import Storage
-from iodm import Snapshot
-from iodm import Collection
-from iodm.backends import EphemeralBackend
+from jam import Logger
+from jam import Storage
+from jam import Snapshot
+from jam import Collection
+from jam.backends import EphemeralBackend
 
 
 class EphemeralSnapshot(Snapshot):

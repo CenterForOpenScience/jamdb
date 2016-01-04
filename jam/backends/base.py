@@ -1,7 +1,7 @@
 import abc
 
-from iodm import exceptions
-from iodm.backends.util import QueryCommand
+from jam import exceptions
+from jam.backends.util import QueryCommand
 
 
 class ReadOnlyBackend(abc.ABC):

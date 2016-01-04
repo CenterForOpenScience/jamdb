@@ -1,2 +1,2 @@
-from iodm.backends.ext.translation import TranslatingBackend
-from iodm.backends.ext.filtered import ReadOnlyFilteredBackend
+from jam.backends.ext.translation import TranslatingBackend
+from jam.backends.ext.filtered import ReadOnlyFilteredBackend

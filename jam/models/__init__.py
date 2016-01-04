@@ -1,3 +1,3 @@
-from iodm.models.log import Log
-from iodm.models.document import Document
-from iodm.models.dataobject import DataObject
+from jam.models.log import Log
+from jam.models.document import Document
+from jam.models.dataobject import DataObject

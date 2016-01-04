@@ -5,11 +5,11 @@ import operator
 
 from dateutil.parser import parse
 
-import iodm
-from iodm.auth import Permissions
-from iodm.backends import EphemeralBackend
-from iodm.server.api.v1.base import APIResource
-from iodm.server.api.v1.namespace import NamespaceResource
+import jam
+from jam.auth import Permissions
+from jam.backends import EphemeralBackend
+from jam.server.api.v1.base import APIResource
+from jam.server.api.v1.namespace import NamespaceResource
 
 
 class CollectionResource(APIResource):
@@ -80,7 +80,7 @@ class CollectionResource(APIResource):
 
             collection = collection.at_time(
                 timestamp,
-                iodm.State(EphemeralBackend()),
+                jam.State(EphemeralBackend()),
                 regenerate=False
             )
 
@@ -98,14 +98,14 @@ class CollectionResource(APIResource):
     def list(self, user, page=0, filter=None):
         query = self.get_query_argument('page', default=None)
         selector = self.namespace.select().order_by(
-            iodm.O.Ascending('ref')
+            jam.O.Ascending('ref')
         ).page(page, self.page_size)
 
         if not filter:
             query = None
         else:
             query = functools.reduce(operator.and_, [
-                iodm.Q(key, 'eq', value)
+                jam.Q(key, 'eq', value)
                 for key, value in
                 filter.items()
             ])

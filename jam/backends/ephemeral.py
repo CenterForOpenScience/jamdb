@@ -1,5 +1,5 @@
-from iodm import exceptions
-from iodm.backends.base import Backend
+from jam import exceptions
+from jam.backends.base import Backend
 
 
 class EphemeralBackend(Backend):

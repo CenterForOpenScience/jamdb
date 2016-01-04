@@ -1,10 +1,10 @@
 import elasticsearch_dsl
 from tornado.web import HTTPError
 
-from iodm.auth import Permissions
-from iodm.server.api.v1.base import APIResource
-from iodm.server.api.v1.base import ResourceHandler
-from iodm.server.api.v1.collection import CollectionResource
+from jam.auth import Permissions
+from jam.server.api.v1.base import APIResource
+from jam.server.api.v1.base import ResourceHandler
+from jam.server.api.v1.collection import CollectionResource
 
 
 class SearchResource(APIResource):

@@ -1,6 +1,6 @@
 from collections import namedtuple, OrderedDict
 
-from iodm.auth import Permissions
+from jam.auth import Permissions
 
 
 class Document(namedtuple('Document', [

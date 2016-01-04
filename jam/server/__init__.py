@@ -4,8 +4,8 @@ import logging
 import tornado.web
 import tornado.platform.asyncio
 
-from iodm.server.api import v1
-from iodm.server.api.base import Default404Handler
+from jam.server.api import v1
+from jam.server.api.base import Default404Handler
 
 
 logger = logging.getLogger(__name__)

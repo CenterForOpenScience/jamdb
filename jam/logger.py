@@ -2,12 +2,12 @@ import time
 
 import bson
 
-from iodm import Q
-from iodm import O
-from iodm.models import Log
-from iodm.base import Operation
-from iodm.backends.ext import TranslatingBackend
-from iodm.backends.ext import ReadOnlyFilteredBackend
+from jam import Q
+from jam import O
+from jam.models import Log
+from jam.base import Operation
+from jam.backends.ext import TranslatingBackend
+from jam.backends.ext import ReadOnlyFilteredBackend
 
 
 class ReadOnlyLogger:

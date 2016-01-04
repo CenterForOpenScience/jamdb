@@ -1,6 +1,6 @@
 from collections import namedtuple, OrderedDict
-# from iodm.models import fields
-# from iodm.models.base import Model
+# from jam.models import fields
+# from jam.models.base import Model
 
 
 class DataObject(namedtuple('DataObject', ['ref', 'data'])):

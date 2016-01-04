@@ -1,4 +1,4 @@
-from iodm.auth import User
+from jam.auth import User
 
 
 class BaseAuthProvider:

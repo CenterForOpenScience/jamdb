@@ -1,6 +1,6 @@
 # from redis import Redis
 
-from iodm.backends.base import Backend
+from jam.backends.base import Backend
 
 
 class RedisBackend(Backend):

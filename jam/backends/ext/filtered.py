@@ -1,4 +1,4 @@
-from iodm.backends.base import ReadOnlyBackend
+from jam.backends.base import ReadOnlyBackend
 
 
 class ReadOnlyFilteredBackend(ReadOnlyBackend):

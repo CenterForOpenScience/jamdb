@@ -1,6 +1,6 @@
 import aiohttp
 
-from iodm.auth.providers.base import BaseAuthProvider
+from jam.auth.providers.base import BaseAuthProvider
 
 
 class OSFAuthProvider(BaseAuthProvider):

@@ -4,12 +4,12 @@ from stevedore import driver
 
 
 def get_backend(name):
-    return driver.DriverManager('iodm.backends', name).driver
+    return driver.DriverManager('jam.backends', name).driver
 
 
 def load_backend(name, *args, **kwargs):
     return driver.DriverManager(
-        'iodm.backends',
+        'jam.backends',
         name,
         invoke_on_load=True,
         invoke_args=args,

@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-from iodm import __version__
+from jam import __version__
 
 
 def parse_requirements(requirements):
@@ -11,36 +11,36 @@ def parse_requirements(requirements):
 requirements = parse_requirements('requirements.txt')
 
 setup(
-    name='iodm',
+    name='jam',
     version=__version__,
     namespace_packages=[
-        'iodm',
-        'iodm.auth',
-        'iodm.schemas',
-        'iodm.backends',
-        'iodm.auth.providers'
+        'jam',
+        'jam.auth',
+        'jam.schemas',
+        'jam.backends',
+        'jam.auth.providers'
     ],
     packages=find_packages(exclude=("tests*", )),
-    package_dir={'iodm': 'iodm'},
+    package_dir={'jam': 'jam'},
     include_package_data=True,
     zip_safe=False,
     provides=[
-        'iodm.backends',
-        'iodm.auth.providers',
+        'jam.backends',
+        'jam.auth.providers',
     ],
     entry_points={
-        'iodm.schemas': [
-            'jsonschema = iodm.schemas.jsonschema:JSONSchema'
+        'jam.schemas': [
+            'jsonschema = jam.schemas.jsonschema:JSONSchema'
         ],
-        'iodm.backends': [
-            'mongo = iodm.backends.mongo:MongoBackend',
-            'ephemeral = iodm.backends.ephemeral:EphemeralBackend',
-            'elasticsearch = iodm.backends.elasticsearch:ElasticsearchBackend',
+        'jam.backends': [
+            'mongo = jam.backends.mongo:MongoBackend',
+            'ephemeral = jam.backends.ephemeral:EphemeralBackend',
+            'elasticsearch = jam.backends.elasticsearch:ElasticsearchBackend',
         ],
-        'iodm.auth.providers': [
-            'osf = iodm.auth.providers.osf:OSFAuthProvider',
-            'self = iodm.auth.providers.self:SelfAuthProvider',
-            'anon = iodm.auth.providers.anon:AnonAuthProvider',
+        'jam.auth.providers': [
+            'osf = jam.auth.providers.osf:OSFAuthProvider',
+            'self = jam.auth.providers.self:SelfAuthProvider',
+            'anon = jam.auth.providers.anon:AnonAuthProvider',
         ],
     },
 )

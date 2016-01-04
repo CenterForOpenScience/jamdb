@@ -1,15 +1,15 @@
 __import__('pkg_resources').declare_namespace(__name__)
 
-from iodm.backends import Q
-from iodm.backends import O
-from iodm.state import State
-from iodm.logger import Logger
-from iodm.storage import Storage
-from iodm.namespace import Namespace
-from iodm.collection import Collection
-from iodm.manager import NamespaceManager
+from jam.backends import Q
+from jam.backends import O
+from jam.state import State
+from jam.logger import Logger
+from jam.storage import Storage
+from jam.namespace import Namespace
+from jam.collection import Collection
+from jam.manager import NamespaceManager
 
-from iodm.util import logging  # noqa
+from jam.util import logging  # noqa
 
 __version__ = '0.0.0'
 

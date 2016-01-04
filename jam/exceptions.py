@@ -1,7 +1,7 @@
 import http.client
 
 
-class IodmException(Exception):
+class JamException(Exception):
     code = None
     detail = None
     should_log = True
@@ -29,7 +29,7 @@ class IodmException(Exception):
     __str__ = __repr__
 
 
-class BackendException(IodmException):
+class BackendException(JamException):
     pass
 
 
@@ -45,7 +45,7 @@ class KeyExists(BackendException):
     title = 'Resource already exists'
 
 
-class Forbidden(IodmException):
+class Forbidden(JamException):
     should_log = False
     status = http.client.FORBIDDEN
     title = 'Forbidden'
@@ -59,27 +59,27 @@ class Forbidden(IodmException):
         )
 
 
-class Unauthorized(IodmException):
+class Unauthorized(JamException):
     should_log = False
 
     def __init__(self, message=None):
         super().__init__(message or 'Unauthorized', http.client.UNAUTHORIZED)
 
 
-class MalformedData(IodmException):
+class MalformedData(JamException):
     should_log = False
     title = 'Malformed data'
     status = http.client.BAD_REQUEST
 
 
-class InvalidParameterType(IodmException):
+class InvalidParameterType(JamException):
     should_log = False
 
     def __init__(self, field, expected, value):
         super().__init__('Expected field {} to be of type {}. Got {}'.format(field, expected, type(value)), http.client.BAD_REQUEST)
 
 
-class IncorrectParameter(IodmException):
+class IncorrectParameter(JamException):
     should_log = False
 
     def __init__(self, field, expected, value):

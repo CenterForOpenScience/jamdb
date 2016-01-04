@@ -1,6 +1,6 @@
-from iodm.base import Operation
-from iodm.models.document import Document
-from iodm.backends.ext import TranslatingBackend
+from jam.base import Operation
+from jam.models.document import Document
+from jam.backends.ext import TranslatingBackend
 
 
 class State:

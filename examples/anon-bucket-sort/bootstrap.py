@@ -1,10 +1,10 @@
 import os
 import json
 
-# from iodm import Namespace
-from iodm import NamespaceManager
-from iodm import exceptions
-from iodm.auth import Permissions
+# from jam import Namespace
+from jam import NamespaceManager
+from jam import exceptions
+from jam.auth import Permissions
 
 
 creator = 'anon--6daf159c9a2d4583aef1a6e366288760'

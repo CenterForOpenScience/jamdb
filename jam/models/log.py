@@ -1,6 +1,6 @@
 from collections import namedtuple, OrderedDict
 
-from iodm.base import Operation
+from jam.base import Operation
 
 
 class Log(namedtuple('Log', [

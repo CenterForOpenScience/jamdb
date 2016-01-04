@@ -3,11 +3,11 @@ import operator
 import functools
 import datetime
 
-import iodm
-from iodm import exceptions
-from iodm.auth import Permissions
-from iodm.server.api.v1.base import APIResource
-from iodm.server.api.v1.collection import CollectionResource
+import jam
+from jam import exceptions
+from jam.auth import Permissions
+from jam.server.api.v1.base import APIResource
+from jam.server.api.v1.collection import CollectionResource
 
 
 class DocumentResource(APIResource):
@@ -102,7 +102,7 @@ class DocumentResource(APIResource):
 
     def list(self, user, page=0, filter=None):
         selector = self.collection.select().order_by(
-            iodm.O.Ascending('ref')
+            jam.O.Ascending('ref')
         ).page(page, self.page_size)
 
         if not user.permissions & Permissions.READ:
@@ -114,7 +114,7 @@ class DocumentResource(APIResource):
             query = None
         else:
             query = functools.reduce(operator.and_, [
-                iodm.Q(key, 'eq', value)
+                jam.Q(key, 'eq', value)
                 for key, value in
                 filter.items()
             ])

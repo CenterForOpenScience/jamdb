@@ -5,7 +5,7 @@ from behave import given
 
 import requests
 
-from iodm import auth
+from jam import auth
 
 
 @given('document {document} exists in {namespace}/{collection}')

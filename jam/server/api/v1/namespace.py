@@ -2,11 +2,11 @@ import datetime
 import operator
 import functools
 
-from iodm import O
-from iodm import Q
-from iodm import NamespaceManager
-from iodm.auth import Permissions
-from iodm.server.api.v1.base import APIResource
+from jam import O
+from jam import Q
+from jam import NamespaceManager
+from jam.auth import Permissions
+from jam.server.api.v1.base import APIResource
 
 
 manager = NamespaceManager()

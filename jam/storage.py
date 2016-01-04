@@ -1,10 +1,10 @@
 import json
 import hashlib
 
-from iodm import Q
-from iodm.models import DataObject
-from iodm.util import order_dictionary
-from iodm.backends.ext import TranslatingBackend
+from jam import Q
+from jam.models import DataObject
+from jam.util import order_dictionary
+from jam.backends.ext import TranslatingBackend
 
 
 class ReadOnlyStorage:

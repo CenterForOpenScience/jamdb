@@ -1,6 +1,6 @@
-from iodm import NamespaceManager
-from iodm import exceptions
-from iodm.auth import Permissions
+from jam import NamespaceManager
+from jam import exceptions
+from jam.auth import Permissions
 
 
 creator = 'tracked-SHARE|users-chris'
@@ -22,9 +22,16 @@ def main():
         })
 
     try:
-        ns.get_collection('share-data')
+        ns.get_collection('normalized')
     except exceptions.NotFound:
-        ns.create_collection('share-data', creator, permissions={
+        ns.create_collection('normalized', creator, permissions={
+            '*': Permissions.READ
+        })
+
+    try:
+        ns.get_collection('authors')
+    except exceptions.NotFound:
+        ns.create_collection('authors', creator, permissions={
             '*': Permissions.READ
         })
 

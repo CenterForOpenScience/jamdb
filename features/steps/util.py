@@ -9,7 +9,7 @@ import requests
 
 from freezegun import freeze_time
 
-from iodm import auth
+from jam import auth
 
 
 @when('{user} {method} "{url}"')

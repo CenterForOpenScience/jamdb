@@ -1,6 +1,6 @@
 from behave import given
 
-from iodm import auth
+from jam import auth
 
 
 @given('{user} have {permission} permissions to {rtype} {resource}')

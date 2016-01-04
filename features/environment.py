@@ -1,4 +1,4 @@
-from iodm import settings
+from jam import settings
 # Hack to force all storages into memory
 
 settings.NAMESPACE_BACKENDS = {
@@ -22,10 +22,10 @@ import requests
 import threading
 import time
 
-from iodm import NamespaceManager
-from iodm import server
-from iodm.backends import EphemeralBackend
-import iodm
+from jam import NamespaceManager
+from jam import server
+from jam.backends import EphemeralBackend
+import jam
 
 
 class ServerThread(threading.Thread):
@@ -35,7 +35,7 @@ class ServerThread(threading.Thread):
         self.loop = asyncio.new_event_loop()
 
     def run(self):
-        logger = logging.getLogger(iodm.__name__)
+        logger = logging.getLogger(jam.__name__)
         logger.setLevel(logging.ERROR)
         asyncio.set_event_loop(self.loop)
         server.main(debug=False, port=self.port)

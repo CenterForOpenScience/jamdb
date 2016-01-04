@@ -1,40 +1,40 @@
 # !/usr/local/bin/python3.5
-import iodm
-import iodm.auth
+import jam
+import jam.auth
 
-nsm = iodm.NamespaceManager()
+nsm = jam.NamespaceManager()
 
 try:
     share_ns = nsm.create_namespace('SHARE', 'tracked-SHARE|users-scrapi')
-except iodm.exceptions.KeyExists:
+except jam.exceptions.KeyExists:
     share_ns = nsm.get_namespace('SHARE')
 
 try:
     users_col = share_ns.create_collection('share-contributor', 'tracked-SHARE|users-scrapi', permissions={
-        '*': iodm.auth.Permissions.READ
+        '*': jam.auth.Permissions.READ
     })
-except iodm.exceptions.KeyExists:
+except jam.exceptions.KeyExists:
     pass
 
 try:
     share_ns.create_collection('share-data', 'tracked-SHARE|users-scrapi', permissions={
-        '*': iodm.auth.Permissions.READ
+        '*': jam.auth.Permissions.READ
     })
-except iodm.exceptions.KeyExists:
+except jam.exceptions.KeyExists:
     pass
 
 try:
     share_ns.create_collection('contributor-curation', 'tracked-SHARE|users-scrapi', permissions={
-        'user-osf-*': iodm.auth.Permissions.CREATE
+        'user-osf-*': jam.auth.Permissions.CREATE
     })
-except iodm.exceptions.KeyExists:
+except jam.exceptions.KeyExists:
     share_ns.update('contributor-curation', {'permissions': {
-        'user-osf-*': iodm.auth.Permissions.CREATE
+        'user-osf-*': jam.auth.Permissions.CREATE
     }}, 'tracked-SHARE|users-scrapi')
 
 try:
     users_col = share_ns.create_collection('users', 'tracked-SHARE|users-scrapi')
-except iodm.exceptions.KeyExists:
+except jam.exceptions.KeyExists:
     users_col = share_ns.get_collection('users')
 
 schema = dict(
@@ -73,5 +73,5 @@ for username in ('chris', 'scrapi'):
                 'password': '$2b$12$iujjM4DtPMWVL1B2roWjBeHzjzxaNEP8HbXxdZwRha/j5Pc8E1n2G'
             }, ''
         )
-    except iodm.exceptions.KeyExists:
+    except jam.exceptions.KeyExists:
         print('\nUser {user} already exists in the users collection'.format(user=username))

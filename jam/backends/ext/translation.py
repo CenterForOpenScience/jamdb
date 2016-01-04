@@ -1,4 +1,4 @@
-from iodm.backends.base import Backend
+from jam.backends.base import Backend
 
 
 class TranslatingBackend(Backend):

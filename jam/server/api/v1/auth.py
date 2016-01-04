@@ -8,8 +8,8 @@ import aiohttp
 import tornado.web
 from stevedore import driver
 
-from iodm.auth import User
-from iodm.server.api.base import BaseAPIHandler
+from jam.auth import User
+from jam.server.api.base import BaseAPIHandler
 
 
 logger = logging.getLogger(__name__)
@@ -25,7 +25,7 @@ class AuthHandler(BaseAPIHandler):
         assert data.get('type') == 'users', "'type' must be 'users', not {}".format(data.get('type', 'null'))
 
         provider = driver.DriverManager(
-            namespace='iodm.auth.providers',
+            namespace='jam.auth.providers',
             name=data['attributes'].pop('provider'),
             invoke_on_load=True,
         ).driver

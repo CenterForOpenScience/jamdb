@@ -1,10 +1,10 @@
-import iodm
-from iodm import O
-from iodm import Q
-from iodm import exceptions
-from iodm.base import Operation
-from iodm.schemas import load_schema
-from iodm.backends.util import load_backend
+import jam
+from jam import O
+from jam import Q
+from jam import exceptions
+from jam.base import Operation
+from jam.schemas import load_schema
+from jam.backends.util import load_backend
 
 
 class ReadOnlyCollection:
@@ -19,9 +19,9 @@ class ReadOnlyCollection:
     @classmethod
     def from_dict(cls, data):
         return cls(
-            iodm.Storage(load_backend(data['storage']['backend'], **data['storage']['settings'])),
-            iodm.Logger(load_backend(data['logger']['backend'], **data['logger']['settings'])),
-            iodm.State(load_backend(data['state']['backend'], **data['state']['settings'])),
+            jam.Storage(load_backend(data['storage']['backend'], **data['storage']['settings'])),
+            jam.Logger(load_backend(data['logger']['backend'], **data['logger']['settings'])),
+            jam.State(load_backend(data['state']['backend'], **data['state']['settings'])),
             schema=data.get('schema'),
             permissions=data.get('permissions'),
         )

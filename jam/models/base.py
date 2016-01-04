@@ -1,4 +1,4 @@
-from iodm.models.fields import Field
+from jam.models.fields import Field
 
 
 class ModelMeta(type):

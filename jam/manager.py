@@ -1,26 +1,26 @@
 import uuid
 
-import iodm
-from iodm import settings
-from iodm import exceptions
-from iodm.auth import Permissions
-from iodm.namespace import Namespace
-from iodm.collection import Collection
-from iodm.backends.util import get_backend
+import jam
+from jam import settings
+from jam import exceptions
+from jam.auth import Permissions
+from jam.namespace import Namespace
+from jam.collection import Collection
+from jam.backends.util import get_backend
 
 
 class NamespaceManager(Collection):
 
     def __init__(self, name=None):
-        self.uuid = self.name = name or 'iodm'
+        self.uuid = self.name = name or 'jam'
         storage_backend = get_backend(settings.NAMESPACEMANAGER_BACKENDS['storage'])
         logger_backend = get_backend(settings.NAMESPACEMANAGER_BACKENDS['logger'])
         state_backend = get_backend(settings.NAMESPACEMANAGER_BACKENDS['state'])
 
         super().__init__(
-            iodm.Storage(storage_backend(**storage_backend.settings_for('manager', self.uuid, 'storage'))),
-            iodm.Logger(logger_backend(**logger_backend.settings_for('manager', self.uuid, 'logger'))),
-            iodm.State(state_backend(**state_backend.settings_for('manager', self.uuid, 'state'))),
+            jam.Storage(storage_backend(**storage_backend.settings_for('manager', self.uuid, 'storage'))),
+            jam.Logger(logger_backend(**logger_backend.settings_for('manager', self.uuid, 'logger'))),
+            jam.State(state_backend(**state_backend.settings_for('manager', self.uuid, 'state'))),
         )
 
     def create_namespace(self, name, user, permissions=None):

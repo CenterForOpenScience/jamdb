@@ -1,10 +1,10 @@
 from pymongo import MongoClient
 
-from iodm import settings
-from iodm import exceptions
-from iodm.backends import query as queries
-from iodm.backends.base import Backend
-from iodm.backends.util import QueryCommand
+from jam import settings
+from jam import exceptions
+from jam.backends import query as queries
+from jam.backends.base import Backend
+from jam.backends.util import QueryCommand
 
 
 def sanitize(data):

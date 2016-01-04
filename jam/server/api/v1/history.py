@@ -2,10 +2,10 @@ import operator
 import functools
 import datetime
 
-import iodm
-from iodm.auth import Permissions
-from iodm.server.api.v1.base import APIResource
-from iodm.server.api.v1.document import DocumentResource
+import jam
+from jam.auth import Permissions
+from jam.server.api.v1.base import APIResource
+from jam.server.api.v1.document import DocumentResource
 
 
 class HistoryResource(APIResource):
@@ -52,13 +52,13 @@ class HistoryResource(APIResource):
 
     def list(self, user, page=0, filter=None):
         selector = self.collection._logger._backend.select().order_by(
-            iodm.O.Ascending('ref')
+            jam.O.Ascending('ref')
         ).page(page, self.page_size)
 
         query = functools.reduce(operator.and_, [
-            iodm.Q(key, 'eq', value)
+            jam.Q(key, 'eq', value)
             for key, value in
             (filter or {}).items()
-        ], iodm.Q('record_id', 'eq', self.document.ref))
+        ], jam.Q('record_id', 'eq', self.document.ref))
 
         return selector.where(query)

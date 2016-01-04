@@ -1,5 +1,5 @@
 from behave import *  # noqa
-from iodm import exceptions
+from jam import exceptions
 
 
 @given('namespace {namespace} does not exist')
