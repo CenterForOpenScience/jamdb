@@ -1,4 +1,4 @@
-from redis import Redis
+# from redis import Redis
 
 from iodm.backends.base import Backend
 
