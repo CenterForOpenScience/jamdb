@@ -10,10 +10,10 @@ Feature: Reading a document
       """
         {
           "errors": [{
-            "code": "C404",
+            "code": "D404",
             "status": "404",
             "title": "Document not found",
-            "detail": "Document \"arXiv\" not found"
+            "detail": "Document \"arXiv\" was not found"
           }]
         }
         """

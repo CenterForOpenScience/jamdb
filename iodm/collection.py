@@ -86,10 +86,17 @@ class ReadOnlyCollection:
         return self._state.keys()
 
     def read(self, key):
-        doc = self._state.get(key)
-        if doc.data is None and doc.data_ref:
-            doc.data = self._storage.get(doc.data_ref)
-        return doc
+        try:
+            doc = self._state.get(key)
+            if doc.data is None and doc.data_ref:
+                doc.data = self._storage.get(doc.data_ref)
+            return doc
+        except exceptions.NotFound:
+            raise exceptions.NotFound(
+                code='D404',
+                title='Document not found',
+                detail='Document "{}" was not found'.format(key)
+            )
 
     def history(self, key):
         return self._logger.history(key)

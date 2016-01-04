@@ -4,9 +4,10 @@ Feature: Deleting a document
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
     And document Drone exists in StarCraft/Zerg
-    And we have <permission> permissions to <rtype> <resource>
+    And we have DELETE permissions to collection Zerg
     When we DELETE "/v1/namespaces/StarCraft/collections/Zerg/documents/Drone"
-    Then the response code will be 204
+    When we DELETE "/v1/namespaces/StarCraft/collections/Zerg/documents/Drone"
+    Then the response code will be 404
 
   Scenario Outline: Allowed permissions
     Given namespace StarCraft exists

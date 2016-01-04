@@ -8,16 +8,27 @@ Feature: Creating a document
     When we create document quetzal in doomoven/doomstove
     Then the response code will be 409
     And the response will contain
-      """
-        {
-          "errors": [{
+    """
+      {
+        "errors": [{
             "code": "D409",
             "status": "409",
             "title": "Document already exists",
-            "detail": "Document \"quetzal\" already exists in collection \"foo\""
+            "detail": "Document \"quetzal\" already exists"
           }]
         }
-        """
+      """
+
+      # """
+      #   {
+      #     "errors": [{
+      #       "code": "D409",
+      #       "status": "409",
+      #       "title": "Document already exists",
+      #       "detail": "Document \"quetzal\" already exists in collection \"foo\""
+      #     }]
+      #   }
+      #   """
 
   Scenario: New document
     Given the time is 2015-01-01T00:00:00.0000Z
@@ -132,7 +143,6 @@ Feature: Creating a document
         | UPDATE     | collection | cow       |
         | DELETE     | collection | cow       |
 
-  @wip
   Scenario Outline: Bad data
     Given namespace meatspace exists
     And collection cow exists in namespace meatspace

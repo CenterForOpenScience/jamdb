@@ -43,7 +43,10 @@ def response_contains(context):
                 dict_compare(value, target[key])
             elif isinstance(value, list):
                 for i, subvalue in enumerate(value):
-                    dict_compare(subvalue, target[key][i])
+                    if isinstance(subvalue, dict):
+                        dict_compare(subvalue, target[key][i])
+                    else:
+                        assert subvalue == target[key][i], 'Expected "{}", got "{}"'.format(subvalue, target[key][i])
             else:
                 assert value == target[key], 'Expected "{}", got "{}"'.format(value, target[key])
 
