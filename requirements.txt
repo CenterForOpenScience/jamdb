@@ -13,3 +13,4 @@ tornado
 requests
 jsonschema
 colorlog
+docopt

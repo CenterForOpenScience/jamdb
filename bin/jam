@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+"""
+Usage: jam [--version] [--help] <command> [<args>...]
+
+Options:
+  -h, --help  Show this screen.
+  -v, --version  Show version.
+
+Commands:
+   server        Run the jamdb server
+   namespace     Manage namespaces
+
+See 'jam help <command>' for more information on a specific command.
+
+"""
+from docopt import docopt
+
+
+def jam_server(argv):
+    """
+    Usage: jam server [--port=PORT] [--debug] [--host=HOST]
+
+    Options:
+        -d, --debug  Run in debug mode
+        -p, --port=PORT  The port to bind to [default: 1212]
+        -h, --host=HOST  The host to bind to [default: 127.0.0.1]
+    """
+    args = docopt(jam_server.__doc__, version='jam 0.0.1', argv=argv)
+    from jam.server import main
+    main(debug=args['--debug'], host=args['--host'], port=args['--port'])
+
+
+def jam_namespace(argv):
+    """
+    Usage: jam namespace create <name> [--creator=USERID]
+           jam namespace update <name>
+           jam namespace delete <name>
+
+    Options:
+        -c, --creator=USERID  The user id for the creator [default: system]
+    """
+    import jam
+    args = docopt(jam_namespace.__doc__, version='jam 0.0.1', argv=argv)
+    if args['create']:
+        jam.NamespaceManager().create_namespace(args['<name>'], args['--creator'])
+    elif args['delete']:
+        # TODO Clean up collections
+        jam.NamespaceManager().delete(args['<name>'], args['--creator'])
+
+
+def main():
+    args = docopt(__doc__, version='jam 0.0.1', options_first=True)
+    try:
+        return {
+            'server': jam_server,
+            'namespace': jam_namespace
+        }[args['<command>']]([args['<command>']] + args['<args>'])
+    except KeyError:
+        pass
+
+
+if __name__ == '__main__':
+    main()

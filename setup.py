@@ -13,6 +13,7 @@ requirements = parse_requirements('requirements.txt')
 setup(
     name='jam',
     version=__version__,
+    scripts=['bin/jam'],
     namespace_packages=[
         'jam',
         'jam.auth',
