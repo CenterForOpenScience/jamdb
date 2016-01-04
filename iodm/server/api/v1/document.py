@@ -59,10 +59,6 @@ class DocumentResource(APIResource):
     def collection(self):
         return self.parent.resource
 
-    # @property
-    # def name(self):
-    #     return self.collection.name
-
     def __init__(self):
         super().__init__('document', CollectionResource)
 

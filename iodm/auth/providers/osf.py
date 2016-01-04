@@ -9,7 +9,7 @@ class OSFAuthProvider(BaseAuthProvider):
 
     async def _authenticate(self, data):
         resp = await aiohttp.request('GET', 'https://staging-accounts.osf.io/oauth2/profile', headers={
-            'Authorization': 'Bearer {}'.format(data['access_token'])
+            'Authorization': 'Bearer {}'.format(data.get('access_token'))
         })
 
         assert resp.status == 200
