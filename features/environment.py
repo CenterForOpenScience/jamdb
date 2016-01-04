@@ -58,7 +58,7 @@ def before_all(context):
             requests.get(context.base_url)
             break
         except requests.exceptions.ConnectionError:
-            time.sleep(1000)
+            time.sleep(5)
     else:
         raise Exception('Unable to connect to testing server at {}'.format(context.base_url))
 
