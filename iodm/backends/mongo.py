@@ -7,6 +7,20 @@ from iodm.backends.base import Backend
 from iodm.backends.util import QueryCommand
 
 
+def sanitize(data):
+    def keys(dict_obj):
+        for key, value in dict_obj.items():
+            yield key
+            if not isinstance(value, (tuple, list)):
+                value = [value]
+            for sub in value:
+                if isinstance(sub, dict):
+                    yield from keys(sub)
+    for key in keys(data):
+        if '.' in key or key.startswith('$'):
+            raise exceptions.MalformedData()
+
+
 class MongoBackend(Backend):
 
     DEFAULT_CONNECTION = MongoClient()
@@ -38,7 +52,9 @@ class MongoBackend(Backend):
         return self._collection.find(sort=order)
 
     def set(self, key, data):
-        self._collection.update({'_id': key}, {**data, '_id': key}, upsert=True)
+        data = {**data, '_id': key}
+        sanitize(data)
+        self._collection.update({'_id': key}, data, upsert=True)
 
     def unset(self, key):
         self._collection.remove({'_id': key})
