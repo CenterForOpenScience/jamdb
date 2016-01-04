@@ -20,6 +20,7 @@ import asyncio
 import logging
 import requests
 import threading
+import time
 
 from iodm import NamespaceManager
 from iodm import server
@@ -52,6 +53,14 @@ def before_all(context):
     context.base_url = 'http://localhost:{}'.format(port)
     context.server_thread = ServerThread(port)
     context.server_thread.start()
+    for _ in range(5):
+        try:
+            requests.get(context.base_url)
+            break
+        except requests.exceptions.ConnectionError:
+            time.sleep(1000)
+    else:
+        raise Exception('Unable to connect to testing server at {}'.format(context.base_url))
 
 
 def after_all(context):
