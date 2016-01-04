@@ -11,14 +11,20 @@ class ResourceHandler(BaseAPIHandler):
 
     @property
     def page(self):
-        raw = self.get_query_argument('page', default=1)
+        return self.parse_int_with_bounds(self.get_query_argument('page', default=1), lower=1)
+
+    @property
+    def page_size(self):
+        return self.parse_int_with_bounds(self.get_query_argument('size', default=self.resource.PAGE_SIZE), lower=0)
+
+    def parse_int_with_bounds(self, raw, lower=None, upper=None):
         try:
-            page = int(raw)
+            num = int(raw)
         except (TypeError, ValueError):
             raise Exception()
-        if page < 1:
+        if (lower and num < lower) or (upper and num > upper):
             raise Exception()
-        return page
+        return num
 
     def initialize(self, resource):
         self.resource = resource()
@@ -77,7 +83,7 @@ class ResourceHandler(BaseAPIHandler):
             'data': [self.resource.__class__.serialize(x, self.request) for x in selector],
             'meta': {
                 'total': selector.count(),
-                'perPage': self.resource.PAGE_SIZE
+                'perPage': self.page_size
             },
             'links': {}
         })

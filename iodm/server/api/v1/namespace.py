@@ -55,7 +55,7 @@ class NamespaceResource(APIResource):
         return super().load(manager.get_namespace(namespace_id))
 
     def list(self, user, page=0, filter=None):
-        selector = manager.select().order_by(O.Ascending('ref')).page(page, self.PAGE_SIZE)
+        selector = manager.select().order_by(O.Ascending('ref')).page(page, self.page_size)
 
         # TODO These should technically be bitwise...
         query = functools.reduce(operator.or_, [
