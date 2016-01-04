@@ -65,6 +65,10 @@ class SearchHandler(ResourceHandler):
             }
         })
 
+    @property
+    def start(self):
+        return ((self.page - 1) * self.page_size)
+
     def get(self, *args, **kwargs):
         if self.resource.resource is not None:
             raise HTTPError(405)
@@ -73,7 +77,7 @@ class SearchHandler(ResourceHandler):
 
         query = self.get_query_argument('q', default=None)
         if query:
-            search = search.query(elasticsearch_dsl.Q('query_string', query=query))
+            search = search.query(elasticsearch_dsl.Q('query_string', query=query))[self.start:self.start + self.page_size]
 
         self.write_search_result(search)
 
