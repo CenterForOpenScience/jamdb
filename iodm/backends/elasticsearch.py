@@ -1,5 +1,6 @@
 import operator
 import functools
+import logging
 
 import elasticsearch_dsl
 from elasticsearch import Elasticsearch
@@ -7,6 +8,8 @@ from elasticsearch import Elasticsearch
 from iodm import exceptions
 from iodm.backends import query as queries
 from iodm.backends.base import Backend
+
+logging.getLogger('elasticsearch').setLevel(logging.WARNING)
 
 
 class ElasticsearchBackend(Backend):
