@@ -24,6 +24,15 @@ except iodm.exceptions.KeyExists:
     pass
 
 try:
+    share_ns.create_collection('contributor-curation', 'tracked-SHARE|users-scrapi', permissions={
+        'user-osf-*': iodm.auth.Permissions.CREATE
+    })
+except iodm.exceptions.KeyExists:
+    share_ns.update('contributor-curation', {'permissions': {
+        'user-osf-*': iodm.auth.Permissions.CREATE
+    }}, 'tracked-SHARE|users-scrapi')
+
+try:
     users_col = share_ns.create_collection('users', 'tracked-SHARE|users-scrapi')
 except iodm.exceptions.KeyExists:
     users_col = share_ns.get_collection('users')
