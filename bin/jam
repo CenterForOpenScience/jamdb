@@ -16,6 +16,24 @@ See 'jam help <command>' for more information on a specific command.
 from docopt import docopt
 
 
+def jam_regenerate(argv):
+    """
+    Usage: jam regenerate
+    """
+    docopt(jam_regenerate.__doc__, version='jam 0.0.1', argv=argv)
+    import jam
+    jam.NamespaceManager().regenerate()
+
+
+def jam_list(argv):
+    """
+    Usage: jam list
+    """
+    docopt(jam_list.__doc__, version='jam 0.0.1', argv=argv)
+    import jam
+    print('\n'.join(jam.NamespaceManager().keys()))
+
+
 def jam_server(argv):
     """
     Usage: jam server [--port=PORT] [--debug] [--host=HOST]
@@ -32,9 +50,12 @@ def jam_server(argv):
 
 def jam_namespace(argv):
     """
-    Usage: jam namespace create <name> [--creator=USERID]
-           jam namespace update <name>
-           jam namespace delete <name>
+    Usage: jam (ns|namespace) create <name> [--creator=USERID]
+           jam (ns|namespace) update <name>
+           jam (ns|namespace) delete <name>
+           jam (ns|namespace) regen <name>
+           jam (ns|namespace) list <name>
+           jam (ns|namespace) regenerate <name>
 
     Options:
         -c, --creator=USERID  The user id for the creator [default: system]
@@ -46,17 +67,38 @@ def jam_namespace(argv):
     elif args['delete']:
         # TODO Clean up collections
         jam.NamespaceManager().delete(args['<name>'], args['--creator'])
+    elif args['regenerate'] or args['regen']:
+        jam.NamespaceManager().get_namespace(args['<name>']).regenerate()
+    elif args['list']:
+        print('\n'.join(jam.NamespaceManager().get_namespace(args['<name>']).keys()))
+
+
+def jam_token(argv):
+    """
+    Usage: jam token <user> [--exp=TIME]
+
+    Options:
+        -e, --exp=TIME  The user id for the creator [default: 1]
+    """
+    from jam.auth import User
+    args = docopt(jam_token.__doc__, version='jam 0.0.1', argv=argv)
+    print(User.create(*args['<user>'].split('-'), exp=int(args['--exp'])).token.decode('utf-8'))
 
 
 def main():
     args = docopt(__doc__, version='jam 0.0.1', options_first=True)
     try:
         return {
+            'ns': jam_namespace,
+            'list': jam_list,
+            'token': jam_token,
             'server': jam_server,
-            'namespace': jam_namespace
+            'regen': jam_regenerate,
+            'namespace': jam_namespace,
+            'regenerate': jam_regenerate,
         }[args['<command>']]([args['<command>']] + args['<args>'])
     except KeyError:
-        pass
+        print('Invalid command "{}"'.format(args['<command>']))
 
 
 if __name__ == '__main__':
