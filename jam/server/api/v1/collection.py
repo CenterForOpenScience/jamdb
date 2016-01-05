@@ -95,11 +95,10 @@ class CollectionResource(APIResource):
         self.namespace.create_collection(data['id'], user.uid, **data['attributes'])
         return self.namespace.read(data['id'])
 
-    def list(self, user, page=0, filter=None):
-        query = self.get_query_argument('page', default=None)
+    def list(self, user, filter=None):
         selector = self.namespace.select().order_by(
             jam.O.Ascending('ref')
-        ).page(page, self.page_size)
+        )
 
         if not filter:
             query = None

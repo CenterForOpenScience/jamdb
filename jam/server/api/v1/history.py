@@ -50,10 +50,10 @@ class HistoryResource(APIResource):
     def read(self, user):
         return self.resource
 
-    def list(self, user, page=0, filter=None):
+    def list(self, user, filter=None):
         selector = self.collection._logger._backend.select().order_by(
             jam.O.Ascending('ref')
-        ).page(page, self.page_size)
+        )
 
         query = functools.reduce(operator.and_, [
             jam.Q(key, 'eq', value)

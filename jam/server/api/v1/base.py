@@ -79,9 +79,9 @@ class ResourceHandler(BaseAPIHandler):
             })
 
         # Resource listing
-        selector = self.resource.list(self.current_user, page=self.page - 1, filter=self.parse_filter())
+        selector = self.resource.list(self.current_user, filter=self.parse_filter())
         return self.write({
-            'data': [self.resource.__class__.serialize(x, self.request) for x in selector],
+            'data': [self.resource.__class__.serialize(x, self.request) for x in selector.page(self.page - 1, self.page_size)],
             'meta': {
                 'total': selector.count(),
                 'perPage': self.page_size

@@ -100,10 +100,10 @@ class DocumentResource(APIResource):
             merger=None
         )
 
-    def list(self, user, page=0, filter=None):
+    def list(self, user, filter=None):
         selector = self.collection.select().order_by(
             jam.O.Ascending('ref')
-        ).page(page, self.page_size)
+        )
 
         if not user.permissions & Permissions.READ:
             if not user.uid:
