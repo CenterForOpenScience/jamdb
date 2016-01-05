@@ -17,44 +17,60 @@ See 'jam help <command>' for more information on a specific command.
 from docopt import docopt
 
 import jam
+import jam.auth
+import jam.server
 import jam.settings
 
 __version__ = 'jam {}'.format(jam.__version__)
 
 
-def jam_regenerate(argv):
+def command(func):
+    def inner(argv):
+        return func(
+            docopt(func.__doc__, version=__version__, argv=argv),
+            argv
+        )
+    return inner
+
+
+@command
+def jam_regenerate(args, argv):
     """
     Usage: jam regenerate
     """
-    docopt(jam_regenerate.__doc__, version=__version__, argv=argv)
-    import jam
     jam.NamespaceManager().regenerate()
 
 
-def jam_list(argv):
+@command
+def jam_list(args, argv):
     """
     Usage: jam list
     """
-    docopt(jam_list.__doc__, version=__version__, argv=argv)
-    import jam
     print('\n'.join(jam.NamespaceManager().keys()))
 
 
-def jam_server(argv):
+@command
+def jam_server(args, argv):
     """
-    Usage: jam server [--port=PORT] [--debug] [--host=HOST]
+    Usage: jam server [--port=PORT] [--debug] [--host=HOST] [--fork]
 
     Options:
+        -f, --fork  Fork the server
         -d, --debug  Run in debug mode
         -p, --port=PORT  The port to bind to [default: 1212]
         -h, --host=HOST  The host to bind to [default: 127.0.0.1]
     """
-    args = docopt(jam_server.__doc__, version=__version__, argv=argv)
-    from jam.server import main
-    main(debug=args['--debug'], host=args['--host'], port=args['--port'])
+    del args['server']
+    jam.settings.update({
+        key.lstrip('-').upper(): val
+        for key, val in args.items()
+        if key in argv
+    })
+    jam.server.main()
 
 
-def jam_namespace(argv):
+@command
+def jam_namespace(args, argv):
     """
     Usage: jam (ns|namespace) create <name> [--creator=USERID]
            jam (ns|namespace) update <name>
@@ -66,8 +82,6 @@ def jam_namespace(argv):
     Options:
         -c, --creator=USERID  The user id for the creator [default: system]
     """
-    import jam
-    args = docopt(jam_namespace.__doc__, version=__version__, argv=argv)
     if args['create']:
         jam.NamespaceManager().create_namespace(args['<name>'], args['--creator'])
     elif args['delete']:
@@ -79,16 +93,15 @@ def jam_namespace(argv):
         print('\n'.join(jam.NamespaceManager().get_namespace(args['<name>']).keys()))
 
 
-def jam_token(argv):
+@command
+def jam_token(args, argv):
     """
     Usage: jam token <user> [--exp=TIME]
 
     Options:
         -e, --exp=TIME  The user id for the creator [default: 1]
     """
-    from jam.auth import User
-    args = docopt(jam_token.__doc__, version=__version__, argv=argv)
-    print(User.create(*args['<user>'].split('-'), exp=int(args['--exp'])).token.decode('utf-8'))
+    print(jam.auth.User.create(*args['<user>'].split('-'), exp=int(args['--exp'])).token.decode('utf-8'))
 
 
 def main():
