@@ -52,9 +52,9 @@ def main():
         server.bind(settings.PORT, settings.HOST)
         server.start(settings.FORK)
         asyncio.get_event_loop().set_debug(settings.DEBUG)
-        tornado.ioloop.IOLoop.current().start()
+        return tornado.ioloop.IOLoop.current().start()
 
-    tornado.platform.asyncio.AsyncIOLoop().install()
+    tornado.platform.asyncio.AsyncIOMainLoop().install()
     app.listen(settings.PORT, settings.HOST)
     asyncio.get_event_loop().set_debug(settings.DEBUG)
     return asyncio.get_event_loop().run_forever()
