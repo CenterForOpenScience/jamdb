@@ -4,23 +4,32 @@ import Ember from 'ember';
 function objectToJsTree(obj) {
     return Object.keys(obj).map((attr) => {
         if (Array.isArray(obj[attr]))
-            return {
-                text: attr,
-                icon: 'fa fa-list',
-                children: obj[attr].map((val, i) => ({text: i, children: [objectToJsTree(val)]}))
-            };
+          return {
+            title: attr,
+            data: {
+              value: `Array [${obj[attr].length}]`,
+              type: 'Array',
+            },
+            children: obj[attr].map((val, i) => objectToJsTree({[i]: val})[0])
+          };
         if (typeof(obj[attr]) === typeof({}))
             return {
-                text: attr,
-                icon: 'fa fa-map',
+                title: attr,
+                data: {
+                  value: `{ ${Object.keys(obj[attr]).length} fields }`,
+                    type: 'Object'
+                },
+                // text: attr,
+                // icon: 'fa fa-map',
                 children: objectToJsTree(obj[attr])
             };
         return {
-            icon: 'fa fa-quote-right',
-            text: attr,
-            data: {
-                attr: obj[attr]
-            }
+          // icon: 'fa fa-quote-right',
+          title: attr,
+          data: {
+            value: obj[attr],
+            type: typeof obj[attr]
+          }
         };
     });
 }
@@ -51,12 +60,9 @@ export default Ember.Controller.extend({
         let self = this;
         return Ember.ObjectProxy.extend(Ember.PromiseProxyMixin).create({
             promise: new Ember.RSVP.Promise(resolve =>
-                self.get('documents').then(docs => resolve({data: docs.map(el => ({
-                        id: el.get('id'),
-                        icon: 'fa fa-map',
-                        text: el.get('id'),
-                        children: objectToJsTree(el.get('data.attributes'))
-            }))})))
+                self.get('documents').then(docs => resolve({data: docs.map(el => objectToJsTree({
+                  [el.get('id')]: el.get('data.attributes')
+                })[0])})))
         });
     }.property('documents'),
 

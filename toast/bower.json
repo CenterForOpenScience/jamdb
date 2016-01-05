@@ -17,6 +17,7 @@
     "font-awesome": "~4.4.0",
     "jsoneditor": "~4.2.1",
     "jstree": "~3.2.1",
-    "uri-templates": "~0.1.9"
+    "uri-templates": "~0.1.9",
+    "jquery.fancytree": "fancytree#~2.14.0"
   }
 }

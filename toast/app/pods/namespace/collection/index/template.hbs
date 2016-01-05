@@ -9,11 +9,24 @@
       {{#if jsTreeData.isPending}}
         <h1>Loading...</h1>
       {{else}}
-      {{ember-jstree
-        data=jsTreeData.data
-        plugins='wholerow'
-        eventDidChange='jsTreeChange'
-        gridOptions=jsTreeOptions}}
+      {{#ember-fancytree data=jsTreeData.data}}
+            <!-- <colgroup> -->
+            <!--   <col width="30px"> -->
+            <!--   <col width="30px"> -->
+            <!--   <col width="*"> -->
+            <!--   <col width="50px"> -->
+            <!--   <col width="30px"> -->
+            <!-- </colgroup> -->
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Value</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+      {{/ember-fancytree}}
       {{/if}}
     </div>
   </div>

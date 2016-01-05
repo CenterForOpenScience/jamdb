@@ -8,7 +8,9 @@ module.exports = function(defaults) {
     // Add options here
   });
 
-  app.import('vendor/jstreegrid/jstreegrid.js');
+  app.import('bower_components/jquery-ui/jquery-ui.js');
+  app.import('bower_components/jquery.fancytree/dist/jquery.fancytree-all.js');
+  // app.import('bower_components/jquery.fancytree/dist/skin-bootstrap-n/ui.fancytree.css');
 
   // Use `app.import` to add additional libraries to the generated
   // output files.
