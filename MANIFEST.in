@@ -1,0 +1,2 @@
+recursive-include jam/* *.py
+include jam/settings/defaults.yml

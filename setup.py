@@ -21,7 +21,8 @@ setup(
         'jam.backends',
         'jam.auth.providers'
     ],
-    packages=find_packages(exclude=("tests*", )),
+    install_requires=requirements,
+    packages=find_packages(exclude=('tests*', 'examples')),
     package_dir={'jam': 'jam'},
     include_package_data=True,
     zip_safe=False,
