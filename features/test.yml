@@ -1,3 +1,9 @@
+DEBUG: false
+
+FORK: false
+PORT: 50325
+HOST: localhost
+
 NAMESPACE_BACKENDS:
     state: ephemeral
     logger: ephemeral
