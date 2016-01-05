@@ -17,3 +17,5 @@ NAMESPACE_DEFAULT_BACKENDS = {
     'logger': 'mongo',
     'storage': 'mongo',
 }
+
+SECRET_KEY = 'TestKey'
