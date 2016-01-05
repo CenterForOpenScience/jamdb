@@ -14,7 +14,7 @@ class User:
         return cls(jwt.encode({
             'sub': '-'.join([type, provider or '', id]),
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=exp),
-        }, settings.SECRET_KEY))
+        }, settings.JWT_SECRET))
 
     def __init__(self, jwt_token, verify=True):
         if not jwt_token:
@@ -26,7 +26,7 @@ class User:
             self.provider = None
             return
         self.token = jwt_token
-        self.jwt = jwt.decode(jwt_token, settings.SECRET_KEY, verify=verify, option={'require_exp': True})
+        self.jwt = jwt.decode(jwt_token, settings.JWT_SECRET, verify=verify, option={'require_exp': True})
         self.uid = self.jwt['sub']
         type_, provider, *parts = self.uid.split('-')
 

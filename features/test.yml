@@ -1,0 +1,16 @@
+NAMESPACE_BACKENDS:
+    state: ephemeral
+    logger: ephemeral
+    storage: ephemeral
+
+NAMESPACE_DEFAULT_BACKENDS:
+    state: ephemeral
+    logger: ephemeral
+    storage: ephemeral
+
+NAMESPACEMANAGER_BACKENDS:
+    state: ephemeral
+    logger: ephemeral
+    storage: ephemeral
+
+JWT_SECRET: TestKey

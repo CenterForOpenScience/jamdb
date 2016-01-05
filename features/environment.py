@@ -1,21 +1,8 @@
+import os
 from jam import settings
 # Hack to force all storages into memory
+settings.load(os.path.join(os.path.dirname(__file__), 'test.yml'))
 
-settings.NAMESPACE_BACKENDS = {
-    'state': 'ephemeral',
-    'logger': 'ephemeral',
-    'storage': 'ephemeral',
-}
-settings.NAMESPACE_DEFAULT_BACKENDS = {
-    'state': 'ephemeral',
-    'logger': 'ephemeral',
-    'storage': 'ephemeral',
-}
-settings.NAMESPACEMANAGER_BACKENDS = {
-    'state': 'ephemeral',
-    'logger': 'ephemeral',
-    'storage': 'ephemeral',
-}
 import asyncio
 import logging
 import requests
