@@ -2,8 +2,11 @@ import asyncio
 import logging
 
 import tornado.web
+import tornado.ioloop
+import tornado.httpserver
 import tornado.platform.asyncio
 
+from jam import settings
 from jam.server.api import v1
 from jam.server.api.base import Default404Handler
 
@@ -11,7 +14,7 @@ from jam.server.api.base import Default404Handler
 logger = logging.getLogger(__name__)
 
 
-def make_app(debug=True):
+def make_app():
     endpoints = [
         ('/v1/auth/?', v1.AuthHandler)
     ]
@@ -27,25 +30,34 @@ def make_app(debug=True):
 
     return tornado.web.Application(
         endpoints,
-        debug=debug,
+        debug=settings.DEBUG,
         default_handler_class=Default404Handler,
     )
 
 
 def profile(ktime=10):
     asyncio.get_event_loop().call_later(ktime, lambda: asyncio.get_event_loop().stop())
-    main(debug=False)
+    settings.DEBUG = False
+    main()
 
 
-def main(debug=True, host='127.0.0.1', port=1212):
-    tornado.platform.asyncio.AsyncIOMainLoop().install()
+def main():
+    app = make_app()
 
-    app = make_app(debug)
+    if settings.FORK:
+        if settings.FORK is True:
+            settings.FORK = 0
+        tornado.ioloop.IOLoop.configure('tornado.platform.asyncio.AsyncIOLoop')
+        server = tornado.httpserver.HTTPServer(app)
+        server.bind(settings.PORT, settings.HOST)
+        server.start(settings.FORK)
+        asyncio.get_event_loop().set_debug(settings.DEBUG)
+        tornado.ioloop.IOLoop.current().start()
 
-    app.listen(port, host)
-
-    asyncio.get_event_loop().set_debug(debug)
-    asyncio.get_event_loop().run_forever()
+    tornado.platform.asyncio.AsyncIOLoop().install()
+    app.listen(settings.PORT, settings.HOST)
+    asyncio.get_event_loop().set_debug(settings.DEBUG)
+    return asyncio.get_event_loop().run_forever()
 
 
 if __name__ == '__main__':
