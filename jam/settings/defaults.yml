@@ -1,4 +1,7 @@
-MONGO_DB_NAME: jam
+MONGO_URI: mongodb://localhost:27017/
+MONGO_DATABASE_NAME: jam
+
+ELASTICSEARCH_URI: http://localhost:4200/
 
 NAMESPACE_BACKENDS:
   state: mongo

@@ -20,4 +20,7 @@ class _Settings:
         with open(path, 'r') as settings:
             self.__dict__.update(yaml.load(settings.read()))
 
+    def __getattr__(self, attr):
+        raise AttributeError('No setting for "{}"'.format(attr))
+
 sys.modules[__name__] = _Settings()

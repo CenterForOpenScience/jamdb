@@ -5,6 +5,7 @@ import logging
 import elasticsearch_dsl
 from elasticsearch import Elasticsearch
 
+from jam import settings
 from jam import exceptions
 from jam.backends import query as queries
 from jam.backends.base import Backend
@@ -14,7 +15,7 @@ logging.getLogger('elasticsearch').setLevel(logging.WARNING)
 
 class ElasticsearchBackend(Backend):
 
-    DEFAULT_CONNECTION = Elasticsearch()
+    DEFAULT_CONNECTION = Elasticsearch(settings.ELASTICSEARCH_URI)
 
     ES_MAPPING = {'dynamic_templates': [{
         'inner_data': {
