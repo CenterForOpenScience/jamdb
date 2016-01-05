@@ -14,3 +14,4 @@ requests
 jsonschema
 colorlog
 docopt
+pyyaml
