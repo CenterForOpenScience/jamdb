@@ -30,6 +30,7 @@ def make_app():
 
     return tornado.web.Application(
         endpoints,
+        xheaders=settings.XHEADERS,
         debug=settings.DEBUG,
         default_handler_class=Default404Handler,
     )
@@ -42,20 +43,19 @@ def profile(ktime=10):
 
 
 def main():
-    app = make_app()
-
     if settings.FORK:
         if settings.FORK is True:
             settings.FORK = 0
+        assert not settings.DEBUG, 'Cannot run in multiprocess mode and debug mode'
         tornado.ioloop.IOLoop.configure('tornado.platform.asyncio.AsyncIOLoop')
-        server = tornado.httpserver.HTTPServer(app)
+        server = tornado.httpserver.HTTPServer(make_app())
         server.bind(settings.PORT, settings.HOST)
         server.start(settings.FORK)
         asyncio.get_event_loop().set_debug(settings.DEBUG)
         return tornado.ioloop.IOLoop.current().start()
 
     tornado.platform.asyncio.AsyncIOMainLoop().install()
-    app.listen(settings.PORT, settings.HOST)
+    make_app().listen(settings.PORT, settings.HOST)
     asyncio.get_event_loop().set_debug(settings.DEBUG)
     return asyncio.get_event_loop().run_forever()
 

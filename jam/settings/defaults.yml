@@ -4,6 +4,7 @@ DEBUG: false
 FORK: false  # Maybe true, false or intger
 PORT: 1212
 HOST: localhost
+XHEADERS: False
 
 MONGO_URI: mongodb://localhost:27017/
 MONGO_DATABASE_NAME: jam
