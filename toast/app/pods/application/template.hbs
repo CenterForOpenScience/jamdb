@@ -8,6 +8,9 @@
     {{#al-main-sidebar}}
         <ul class="nav sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
+            {{#if session.isAuthenticated}}
+              <li class="header">{{session.session.content.authenticated.id}}</li>
+            {{/if}}
             {{#link-to "namespaces" tagName="li" }}
                 {{#link-to "namespaces" as |link|}}
                     <i class="fa fa-circle-o"></i> Namespaces
