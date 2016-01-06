@@ -2,6 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
+    jamdbURL: 'http://localhost:1212',
     modulePrefix: 'toast',
     podModulePrefix: 'toast/pods',
     environment: environment,
