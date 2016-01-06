@@ -1,10 +1,12 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  tagName: 'table',
-  classNames: ['table', 'table-condensed'],
   data: [],
   fancyTree: null,
+  tabbable: false,
+  tagName: 'table',
+  titlesTabbable: false,
+  classNames: ['table', 'table-condensed'],
   didInsertElement: function() {
     this.set('fancyTree', this.$().fancytree({
       checkbox: true,
