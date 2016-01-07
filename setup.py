@@ -1,6 +1,22 @@
+import re
 from setuptools import setup, find_packages
 
-from jam import __version__
+
+def find_version(fname):
+    """Attempts to find the version number in the file names fname.
+    Raises RuntimeError if not found.
+    """
+    version = ''
+    with open(fname, 'r') as fp:
+        reg = re.compile(r'__version__ = [\'"]([^\'"]*)[\'"]')
+        for line in fp:
+            m = reg.match(line)
+            if m:
+                version = m.group(1)
+                break
+    if not version:
+        raise RuntimeError('Cannot find version information')
+    return version
 
 
 def parse_requirements(requirements):
@@ -12,7 +28,7 @@ requirements = parse_requirements('requirements.txt')
 
 setup(
     name='jam',
-    version=__version__,
+    version=find_version('jam/__init__.py'),
     scripts=['bin/jam'],
     namespace_packages=[
         'jam',

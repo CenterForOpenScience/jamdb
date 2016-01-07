@@ -1,2 +1,4 @@
-recursive-include jam/* *.py
+global-exclude *.pyc *.pyo *.pyd
+recursive-include jam *.py
 include jam/settings/defaults.yml
+recursive-include jam/server/static *
