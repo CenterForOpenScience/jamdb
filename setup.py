@@ -43,6 +43,9 @@ setup(
     include_package_data=True,
     zip_safe=False,
     provides=[
+        'jam',
+        'jam.auth',
+        'jam.schemas',
         'jam.backends',
         'jam.auth.providers',
     ],
