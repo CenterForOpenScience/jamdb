@@ -3,6 +3,7 @@ DEBUG: false
 FORK: false
 PORT: 50325
 HOST: localhost
+SENTRY_DSN: null
 
 NAMESPACE_BACKENDS:
     state: ephemeral

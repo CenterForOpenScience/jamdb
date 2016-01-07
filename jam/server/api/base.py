@@ -7,6 +7,8 @@ import furl
 
 import tornado.web
 
+from raven.contrib.tornado import SentryMixin
+
 from jam.auth import User
 from jam import exceptions
 
@@ -28,7 +30,7 @@ CORS_EXPOSE_HEADERS = [
 ]
 
 
-class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
+class BaseAPIHandler(tornado.web.RequestHandler, SentryMixin, metaclass=abc.ABCMeta):
 
     def get_current_user(self):
         try:
@@ -75,6 +77,7 @@ class BaseAPIHandler(tornado.web.RequestHandler, metaclass=abc.ABCMeta):
     def log_exception(self, typ, value, tb):
         if isinstance(value, exceptions.JamException) and not value.should_log:
             return
+        self.captureException((typ, value, tb))
         super().log_exception(typ, value, tb)
 
     def write_error(self, status_code, exc_info):

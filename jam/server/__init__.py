@@ -9,6 +9,7 @@ import tornado.platform.asyncio
 
 from jam import settings
 from jam.server.api import v1
+from jam.server.util import patch_sentry
 from jam.server.api.base import Default404Handler
 
 
@@ -31,12 +32,12 @@ def make_app():
         endpoints.append(endpoint)
         logger.info('Loaded {} endpoint "{}"'.format(v1.__name__, endpoint[0]))
 
-    return tornado.web.Application(
+    return patch_sentry(tornado.web.Application(
         endpoints,
         xheaders=settings.XHEADERS,
         debug=settings.DEBUG,
         default_handler_class=Default404Handler,
-    )
+    ))
 
 
 def profile(ktime=10):
