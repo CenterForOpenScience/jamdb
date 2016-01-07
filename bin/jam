@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 Usage: jam [--version] [--help] [--config=PATH] <command> [<args>...]
 
@@ -47,6 +47,40 @@ def jam_list(args, argv):
     Usage: jam list
     """
     print('\n'.join(jam.NamespaceManager().keys()))
+
+
+@command
+def jam_info(args, argv):
+    """
+    Usage: jam info <namespace>
+    """
+    ns_doc = jam.NamespaceManager().read(args['<namespace>'])
+    print('Name: ', ns_doc.ref)
+    print('Creator: ', ns_doc.created_by)
+    print('Last Modifed By: ', ns_doc.modified_by)
+    print('Permissions:\n', '\n'.join(['\t{}: {!r}'.format(k, jam.auth.Permissions(v)) for (k, v) in ns_doc.data['permissions'].items()]))
+
+
+@command
+def jam_update(args, argv):
+    """
+    Usage: jam update <namespace> [--user=USER] [--rename=NAME] [--permissions (<user-id> <permission>)]...
+
+    Options:
+        -p, --permissions  Permissions to update in the form of <user-id> <permission as int>
+        -r, --rename=NAME  Rename namespace to NAME
+        -u, --user=USER  The user to perform this update as [default: sys]
+        -d, --delete-permissions=ID  Delete the permissions for ID
+    """
+    if args['--permissions']:
+        ns_doc = jam.NamespaceManager().read(args['<namespace>'])
+        jam.NamespaceManager().update(args['<namespace>'], {
+            'permissions': {**{
+                uid: getattr(jam.auth.Permissions, p.upper())
+                for (uid, p)
+                in zip(args['<user-id>'], args['<permission>'])
+            }, **ns_doc.data['permissions']}
+        }, args['--user'])
 
 
 @command
@@ -113,9 +147,11 @@ def main():
     try:
         return {
             'ns': jam_namespace,
+            'info': jam_info,
             'list': jam_list,
             'token': jam_token,
             'server': jam_server,
+            'update': jam_update,
             'regen': jam_regenerate,
             'namespace': jam_namespace,
             'regenerate': jam_regenerate,
