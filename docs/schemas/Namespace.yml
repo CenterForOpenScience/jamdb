@@ -1,0 +1,11 @@
+permissions:
+  type: object
+  patternProperties:
+    ^\w+\-w*\-\w+$:
+      enum:
+      - READ
+      - WRITE
+      - CREATE
+      - UPDATE
+      - DELETE
+      - ADMIN

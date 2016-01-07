@@ -1,0 +1,26 @@
+{
+    "required": [
+        "data"
+    ],
+    "meta": {
+        "meta": {
+            "create-on": {
+                "type": "string",
+                "format": "date-time"
+            },
+            "modified-by": {
+                "type": "string",
+                "pattern": "^.+\\-.*\\-.+$"
+            },
+            "created-by": {
+                "type": "string",
+                "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-on": {
+                "type": "string",
+                "format": "date-time"
+            }
+        }
+    },
+    "data": null
+}

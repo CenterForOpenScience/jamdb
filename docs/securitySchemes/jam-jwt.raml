@@ -1,0 +1,21 @@
+description: |
+    [Javascript Web Tokens](https://jwt.io) are used to authenticate all JamDB API requests.
+type: x-JWT
+describedBy:
+    headers:
+        Authorization:
+            description: |
+                Used to send a valid JWT.
+                Unlike other methods of authorization JamDB requires no prefix before its token.
+            example: "Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0LXRlc3QtdGVzdCIsImV4cCI6MTQ1MjExMjI5NH0.hDrGvj3lm5OiiCOZ63rn8ti5piS9wCkEvvjQxy0_f1w"
+            type: string
+    # responses:
+    #     401:
+    #         description: |
+    #             Bad or expired token. This can happen if the user or Dropbox
+    #             revoked or expired an access token. To fix, you should re-
+    #             authenticate the user.
+    #     403:
+    #         description: |
+    #             Bad OAuth request (wrong consumer key, bad nonce, expired
+    #             timestamp...). Unfortunately, re-authenticating the user won't help here.

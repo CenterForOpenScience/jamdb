@@ -1,0 +1,1970 @@
+{
+  "data": [{
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00021637ff2e57410246d37f0bc437d247db9cbd/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00021637ff2e57410246d37f0bc437d247db9cbd/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "00021637ff2e57410246d37f0bc437d247db9cbd",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:32:14.430742",
+      "created-on": "2015-12-28T15:32:14.430742"
+    },
+    "attributes": {
+      "sameAs": [],
+      "givenName": "Andr\u00e9",
+      "additionalName": "M.",
+      "familyName": "Bienfait",
+      "researchObjects": [{
+        "title": "Ln(II)/Pb(II)\u2013Ln(III)/Pb(0) Redox Approach toward Rare-Earth-Metal Half-Sandwich Complexes",
+        "id": "6e3a20ddd0f85d29007ca587d6280af1c1403cd6"
+      }],
+      "name": "Andr\u00e9 M. Bienfait"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/000262ebe425ae8b158d2822523e440f6a3a420a/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/000262ebe425ae8b158d2822523e440f6a3a420a/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "000262ebe425ae8b158d2822523e440f6a3a420a",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:45:14.921253",
+      "created-on": "2015-12-28T16:45:14.921253"
+    },
+    "attributes": {
+      "familyName": "\u0412\u043e\u043b\u043e\u0433\u0436\u0430\u043d\u0438\u043d",
+      "name": "\u0412\u043e\u043b\u043e\u0433\u0436\u0430\u043d\u0438\u043d, \u0414.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u0410\u041b\u0413\u041e\u0420\u0418\u0422\u041c \u0414\u0418\u0410\u0413\u041d\u041e\u0421\u0422\u0418\u041a\u0418 \u0426\u0415\u041b\u0418\u0410\u041a\u0418\u0418 \u0423 \u0412\u0417\u0420\u041e\u0421\u041b\u042b\u0425",
+        "id": "3fb357becff515a7ab9e897b9a66f8e4f163df06"
+      }],
+      "givenName": "\u0414."
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0002c9e8f7114a82f8719d2bf7911d14feada112/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0002c9e8f7114a82f8719d2bf7911d14feada112/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0002c9e8f7114a82f8719d2bf7911d14feada112",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:41:08.725784",
+      "created-on": "2015-12-28T15:41:08.725784"
+    },
+    "attributes": {
+      "familyName": "Program",
+      "name": "Rolling Deck to Repository (R2R) Program",
+      "additionalName": "Deck to Repository",
+      "researchObjects": [{
+        "title": "Cruise WS0807 of RV F.G. Walton Smith operated by University of Miami, departing port Miami, Florida on date 2008-05-06 and arriving port Miami, Florida on date 2008-05-10",
+        "id": "38a3f09bf5ed34e478c7bb0ddb73b0aa574ba8b1"
+      }],
+      "givenName": "Rolling"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0005bc7179c32aa81ad447d186594e12e7ca4203/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0005bc7179c32aa81ad447d186594e12e7ca4203/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0005bc7179c32aa81ad447d186594e12e7ca4203",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:30:46.906934",
+      "created-on": "2015-12-28T16:30:46.906934"
+    },
+    "attributes": {
+      "familyName": "\u041f\u0415\u0422\u0420\u041e\u0412\u041d\u0410",
+      "name": "\u041b\u0415\u0411\u0415\u0414\u0415\u0412\u0410 \u042d\u041c\u0418\u041b\u0418\u042f \u041f\u0415\u0422\u0420\u041e\u0412\u041d\u0410",
+      "additionalName": "\u042d\u041c\u0418\u041b\u0418\u042f",
+      "researchObjects": [{
+        "title": "\u041e\u0426\u0415\u041d\u041a\u0410 \u0420\u041e\u0421\u0422\u0410 \u0418 \u0421\u0415\u041c\u0415\u041d\u041e\u0428\u0415\u041d\u0418\u042f \u041a\u041b\u041e\u041d\u041e\u0412\u042b\u0425 \u041f\u041e\u0422\u041e\u041c\u0421\u0422\u0412 \u0421\u041e\u0421\u041d\u042b \u041e\u0411\u042b\u041a\u041d\u041e\u0412\u0415\u041d\u041d\u041e\u0419 \u041d\u0410 \u041a\u041e\u041b\u041b\u0415\u041a\u0426\u0418\u041e\u041d\u041d\u041e-\u041c\u0410\u0422\u041e\u0427\u041d\u041e\u041c \u0423\u0427\u0410\u0421\u0422\u041a\u0415 \u0412 \u0420\u0415\u0421\u041f\u0423\u0411\u041b\u0418\u041a\u0415 \u041c\u0410\u0420\u0418\u0419 \u042d\u041b",
+        "id": "f27b5e6079389d6ea9ceb5e338dc40b334de15ba"
+      }],
+      "givenName": "\u041b\u0415\u0411\u0415\u0414\u0415\u0412\u0410"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00081047e6a6d48763947060120d0614d29de423/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00081047e6a6d48763947060120d0614d29de423/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "00081047e6a6d48763947060120d0614d29de423",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:46:16.527940",
+      "created-on": "2015-12-28T15:46:16.527940"
+    },
+    "attributes": {
+      "familyName": "Patrick",
+      "name": "BUAT-MENARD Patrick",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "EUMELI 4 LEG 1 cruise,L&#039;Atalante R/V",
+        "id": "e337863fb40e6cad37a71c05804c826c1e64560e"
+      }],
+      "givenName": "BUAT-MENARD"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/000e618c87cbedb69cd93dd521687f052a5e89ba/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/000e618c87cbedb69cd93dd521687f052a5e89ba/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "000e618c87cbedb69cd93dd521687f052a5e89ba",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:24:49.583566",
+      "created-on": "2015-12-28T15:24:49.583566"
+    },
+    "attributes": {
+      "sameAs": [],
+      "givenName": "Songchen",
+      "additionalName": "",
+      "familyName": "Han",
+      "researchObjects": [{
+        "title": "Robust Human Tracking Method Based on Apperance and Geometrical Features in Non-Overlapping Views",
+        "id": "c73ec639990164b23deae024487c6a6d14078799"
+      }],
+      "name": "Songchen Han"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/000e7cfa55766e41d2d14de815a7ad11fb3a84b8/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/000e7cfa55766e41d2d14de815a7ad11fb3a84b8/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "000e7cfa55766e41d2d14de815a7ad11fb3a84b8",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:37:03.302402",
+      "created-on": "2015-12-28T16:37:03.302402"
+    },
+    "attributes": {
+      "familyName": "\u041c\u0418\u0425\u0410\u0419\u041b\u041e\u0412\u041d\u0410",
+      "name": "\u0427\u0410\u0429\u0418\u041d\u0410 \u041a\u0421\u0415\u041d\u0418\u042f \u041c\u0418\u0425\u0410\u0419\u041b\u041e\u0412\u041d\u0410",
+      "additionalName": "\u041a\u0421\u0415\u041d\u0418\u042f",
+      "researchObjects": [{
+        "title": "\u041f\u0420\u0410\u041a\u0422\u0418\u0427\u0415\u0421\u041a\u041e\u0415 \u041f\u0420\u0418\u041c\u0415\u041d\u0415\u041d\u0418\u0415 \u041c\u0415\u0422\u041e\u0414\u0410 \u041a\u041e\u0420\u0420\u0415\u041b\u042f\u0426\u0418\u041e\u041d\u041d\u041e-\u0420\u0415\u0413\u0420\u0415\u0421\u0421\u0418\u041e\u041d\u041d\u041e\u0413\u041e \u0410\u041d\u0410\u041b\u0418\u0417\u0410 \u0414\u041b\u042f \u041e\u0426\u0415\u041d\u041a\u0418 \u042d\u0424\u0424\u0415\u041a\u0422\u0418\u0412\u041d\u041e\u0421\u0422\u0418 \u0418\u0421\u041f\u041e\u041b\u041d\u0415\u041d\u0418\u042f \u0423\u0421\u041b\u041e\u0412\u0418\u0419 \u041a\u041e\u041b\u041b\u0415\u041a\u0422\u0418\u0412\u041d\u042b\u0425 \u0414\u041e\u0413\u041e\u0412\u041e\u0420\u041e\u0412 \u0423\u0413\u041b\u0415\u0414\u041e\u0411\u042b\u0412\u0410\u042e\u0429\u0418\u0425 \u041f\u0420\u0415\u0414\u041f\u0420\u0418\u042f\u0422\u0418\u0419",
+        "id": "0245d5f4dc8868dd16e25e0a605995471c61d714"
+      }],
+      "givenName": "\u0427\u0410\u0429\u0418\u041d\u0410"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/000e84d54aefd6f9beb0dbb04a0e3cdd31942947/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/000e84d54aefd6f9beb0dbb04a0e3cdd31942947/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "000e84d54aefd6f9beb0dbb04a0e3cdd31942947",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:34:30.765419",
+      "created-on": "2015-12-28T15:34:30.765419"
+    },
+    "attributes": {
+      "sameAs": [],
+      "givenName": "Naoto",
+      "additionalName": "",
+      "familyName": "Yokoyama",
+      "researchObjects": [{
+        "title": "Heterogeneity of Loss Aversion in Pathological Gambling",
+        "id": "f85e9e32b351f597d33a8304af85712c4a99a731"
+      }],
+      "name": "Naoto Yokoyama"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/000f9712c0037fac0af17679cda449fed214e4ab/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/000f9712c0037fac0af17679cda449fed214e4ab/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "000f9712c0037fac0af17679cda449fed214e4ab",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:57:59.612344",
+      "created-on": "2015-12-28T15:57:59.612344"
+    },
+    "attributes": {
+      "familyName": "Blaufus",
+      "name": "Blaufus, Kay",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "The name game for contributions",
+        "id": "7b2ffb4b5670282dc7fbef0fc100e6ad55a22d03"
+      }],
+      "givenName": "Kay"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00173b1552d0cc6dc2445a46b8cdb3366f93e75b/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00173b1552d0cc6dc2445a46b8cdb3366f93e75b/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "00173b1552d0cc6dc2445a46b8cdb3366f93e75b",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:52:35.131608",
+      "created-on": "2015-12-28T16:52:35.131608"
+    },
+    "attributes": {
+      "familyName": "\u0421.\u041b.",
+      "name": "\u0421\u0418\u041d\u0415\u0411\u0420\u042e\u0425\u041e\u0412 \u0421.\u041b.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u042d\u041b\u0415\u041a\u0422\u0420\u041e\u0425\u0418\u041c\u0418\u0427\u0415\u0421\u041a\u0418\u0415 \u0418 \u041c\u0415\u0425\u0410\u041d\u0418\u0427\u0415\u0421\u041a\u0418\u0415 \u0421\u0412\u041e\u0419\u0421\u0422\u0412\u0410 \u0424\u041e\u0420\u041c\u0418\u0420\u0423\u0415\u041c\u042b\u0425 \u041d\u0410 \u041c\u0410\u0413\u041d\u0418\u0415\u0412\u042b\u0425 \u0421\u041f\u041b\u0410\u0412\u0410\u0425 \u041f\u042d\u041e-\u0421\u041b\u041e\u0415\u0412, \u0421\u041e\u0414\u0415\u0420\u0416\u0410\u0429\u0418\u0425 \u041d\u0410\u041d\u041e\u0427\u0410\u0421\u0422\u0418\u0426\u042b ZRO2 \u0418 SIO2",
+        "id": "62874729f049f7634e1c8e7ebc155cc3f2ab191c"
+      }],
+      "givenName": "\u0421\u0418\u041d\u0415\u0411\u0420\u042e\u0425\u041e\u0412"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0017ad3cb304bc68416c613a1b424f38a307168d/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0017ad3cb304bc68416c613a1b424f38a307168d/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0017ad3cb304bc68416c613a1b424f38a307168d",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:28:50.072896",
+      "created-on": "2015-12-28T16:28:50.072896"
+    },
+    "attributes": {
+      "familyName": "\u042e.\u0410.",
+      "name": "\u0414\u0423\u0411\u0420\u041e\u0412\u0421\u041a\u0418\u0419 \u042e.\u0410.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u041c\u041e\u0420\u0424\u041e\u041b\u041e\u0413\u041e-\u0413\u0415\u041d\u0415\u0422\u0418\u0427\u0415\u0421\u041a\u0418\u0415 \u041e\u0421\u041e\u0411\u0415\u041d\u041d\u041e\u0421\u0422\u0418 \u041f\u041e\u0427\u0412 \u0413\u041e\u0420\u041d\u042b\u0425 \u041b\u0423\u0413\u041e\u0412 \u0421\u0415\u0412\u0415\u0420\u041d\u041e\u0413\u041e \u0423\u0420\u0410\u041b\u0410",
+        "id": "4c579d88ae1658fdd2053e548e083402c4581ab4"
+      }],
+      "givenName": "\u0414\u0423\u0411\u0420\u041e\u0412\u0421\u041a\u0418\u0419"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/001a53781e5dd82b3a59df1c30b32f1256fe85ce/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/001a53781e5dd82b3a59df1c30b32f1256fe85ce/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "001a53781e5dd82b3a59df1c30b32f1256fe85ce",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:44:01.346374",
+      "created-on": "2015-12-28T16:44:01.346374"
+    },
+    "attributes": {
+      "familyName": "\u041b\u0435\u0431\u0435\u0434\u044c\u043a\u043e",
+      "name": "\u041b\u0435\u0431\u0435\u0434\u044c\u043a\u043e, \u041e.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u041a\u041b\u0418\u041d\u0418\u041a\u041e-\u041f\u0410\u0422\u041e\u0413\u0415\u041d\u0415\u0422\u0418\u0427\u0415\u0421\u041a\u041e\u0415 \u041e\u0411\u041e\u0421\u041d\u041e\u0412\u0410\u041d\u0418\u0415 \u041f\u0420\u0418\u041c\u0415\u041d\u0415\u041d\u0418\u042f \u0414\u0410\u041b\u0410\u0420\u0413\u0418\u041d\u0410 \u0423 \u041f\u0410\u0426\u0418\u0415\u041d\u0422\u041e\u0412 \u0421 \u0421\u0418\u041d\u0414\u0420\u041e\u041c\u041e\u041c \u0420\u0410\u0417\u0414\u0420\u0410\u0416\u0415\u041d\u041d\u041e\u0413\u041e \u041a\u0418\u0428\u0415\u0427\u041d\u0418\u041a\u0410 \u0421 \u0414\u0418\u0410\u0420\u0415\u0415\u0419 \u0418 \u0421\u0418\u041d\u0414\u0420\u041e\u041c\u041e\u041c \u0418\u0417\u0411\u042b\u0422\u041e\u0427\u041d\u041e\u0413\u041e \u0411\u0410\u041a\u0422\u0415\u0420\u0418\u0410\u041b\u042c\u041d\u041e\u0413\u041e \u0420\u041e\u0421\u0422\u0410",
+        "id": "6e5b092e06b4f1c26ea2365c79d7967f13e75024"
+      }],
+      "givenName": "\u041e."
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/001e2006293e98d42505cc0762815a00f0a3cd78/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/001e2006293e98d42505cc0762815a00f0a3cd78/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "001e2006293e98d42505cc0762815a00f0a3cd78",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:50:23.699769",
+      "created-on": "2015-12-28T15:50:23.699769"
+    },
+    "attributes": {
+      "familyName": "G\u00e9rard",
+      "name": "ELDIN  G\u00e9rard",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "PANDORA cruise,L&#039;Atalante R/V",
+        "id": "3b04e4a85bc601b69ebc5a7f041cdf514a8ec348"
+      }],
+      "givenName": "ELDIN"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/001e4f3932661ca2d12e54f5cf9773a9ad1987f1/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/001e4f3932661ca2d12e54f5cf9773a9ad1987f1/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "001e4f3932661ca2d12e54f5cf9773a9ad1987f1",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:32:38.335926",
+      "created-on": "2015-12-28T16:32:38.335926"
+    },
+    "attributes": {
+      "familyName": "\u0410\u041b\u0415\u041a\u0421\u0415\u0415\u0412\u041d\u0410",
+      "name": "\u0420\u041e\u0414\u0418\u041d\u0410 \u0415\u041a\u0410\u0422\u0415\u0420\u0418\u041d\u0410 \u0410\u041b\u0415\u041a\u0421\u0415\u0415\u0412\u041d\u0410",
+      "additionalName": "\u0415\u041a\u0410\u0422\u0415\u0420\u0418\u041d\u0410",
+      "researchObjects": [{
+        "title": "\u041e\u0411\u0429\u0415\u041d\u0418\u0415 \u0412 \u041c\u041b\u0410\u0414\u0415\u041d\u0427\u0415\u0421\u0422\u0412\u0415 (\u0421\u0420\u0410\u0412\u041d\u0418\u0422\u0415\u041b\u042c\u041d\u042b\u0419 \u0410\u041d\u0410\u041b\u0418\u0417 \u0422\u0420\u0415\u0425 \u041f\u041e\u0414\u0425\u041e\u0414\u041e\u0412)",
+        "id": "cb823eeb1d127bb07a06f78124af7cb14e83fe3e"
+      }],
+      "givenName": "\u0420\u041e\u0414\u0418\u041d\u0410"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/001e535a54ed2d22887c6500bcd8f47d8615b4b1/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/001e535a54ed2d22887c6500bcd8f47d8615b4b1/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "001e535a54ed2d22887c6500bcd8f47d8615b4b1",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:33:28.627019",
+      "created-on": "2015-12-28T16:33:28.627019"
+    },
+    "attributes": {
+      "familyName": "\u041c\u0435\u0434\u0443\u043d\u0438\u0446\u044b\u043d",
+      "name": "\u041c\u0435\u0434\u0443\u043d\u0438\u0446\u044b\u043d, \u041d.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u0412\u0410\u041a\u0426\u0418\u041d\u042b. \u041d\u041e\u0412\u042b\u0415 \u0421\u041f\u041e\u0421\u041e\u0411\u042b \u041f\u041e\u0412\u042b\u0428\u0415\u041d\u0418\u042f \u042d\u0424\u0424\u0415\u041a\u0422\u0418\u0412\u041d\u041e\u0421\u0422\u0418 \u0418 \u0411\u0415\u0417\u041e\u041f\u0410\u0421\u041d\u041e\u0421\u0422\u0418 \u0412\u0410\u041a\u0426\u0418\u041d\u0410\u0426\u0418\u0418",
+        "id": "abc92c1c4c84cc0bb74d071a86c025779b36fd5d"
+      }],
+      "givenName": "\u041d."
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0022a223fb608561b1e432f49a55ce4d442b8140/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0022a223fb608561b1e432f49a55ce4d442b8140/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0022a223fb608561b1e432f49a55ce4d442b8140",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:24:47.783555",
+      "created-on": "2015-12-28T16:24:47.783555"
+    },
+    "attributes": {
+      "familyName": "\u0411.\u041a.",
+      "name": "\u0410\u041b\u042c\u041c\u0423\u0420\u0417\u0410\u0415\u0412\u0410 \u0411.\u041a.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "C\u041e\u0426\u0418\u041e\u041a\u0423\u041b\u042c\u0422\u0423\u0420\u041d\u0410\u042f \u041d\u0410\u041f\u0420\u0410\u0412\u041b\u0415\u041d\u041d\u041e\u0421\u0422\u042c \u041f\u0420\u041e\u0426\u0415\u0421\u0421\u0410 \u041e\u0411\u0423\u0427\u0415\u041d\u0418\u042f \u0412\u00a0\u0421\u0415\u041b\u042c\u0421\u041a\u0418\u0425 \u0428\u041a\u041e\u041b\u0410\u0425 \u0420\u0415\u0421\u041f\u0423\u0411\u041b\u0418\u041a\u0418 \u041a\u0410\u0417\u0410\u0425\u0421\u0422\u0410\u041d (\u041d\u0410 \u041f\u0420\u0418\u041c\u0415\u0420\u0415 \u041c\u0410\u041b\u041e\u041a\u041e\u041c\u041f\u041b\u0415\u041a\u0422\u041d\u042b\u0425 \u0428\u041a\u041e\u041b)",
+        "id": "ac7d98bbd728a729659cd95d7cc295f9a0705445"
+      }],
+      "givenName": "\u0410\u041b\u042c\u041c\u0423\u0420\u0417\u0410\u0415\u0412\u0410"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002398739f350a6bf93ed37f89c9dcb5a851779c/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002398739f350a6bf93ed37f89c9dcb5a851779c/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "002398739f350a6bf93ed37f89c9dcb5a851779c",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:26:10.460689",
+      "created-on": "2015-12-28T15:26:10.460689"
+    },
+    "attributes": {
+      "sameAs": [],
+      "givenName": "Abu Kausar",
+      "additionalName": "",
+      "familyName": "",
+      "researchObjects": [{
+        "title": "Tuning Toehold Length and Temperature to Achieve Rapid, Colorimetric Detection of DNA from the Disassembly of DNA-Gold Nanoparticle Aggregates",
+        "id": "32d0b12e55e3a83dd585d8923c2aafd9a0f285e5"
+      }],
+      "name": "Abu Kausar"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00240dfbc64aca2e6f8791c4ae10dd783f0e75b2/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00240dfbc64aca2e6f8791c4ae10dd783f0e75b2/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "00240dfbc64aca2e6f8791c4ae10dd783f0e75b2",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:26:55.542371",
+      "created-on": "2015-12-28T15:26:55.542371"
+    },
+    "attributes": {
+      "sameAs": [],
+      "givenName": "Ariele",
+      "additionalName": "L.",
+      "familyName": "Greenfield",
+      "researchObjects": [{
+        "title": "Use of Cannabinoids for Spasticity and Pain Management in MS",
+        "id": "f2ef92e3fcf44c81af9c1a374a0eb58088eaea18"
+      }],
+      "name": "Ariele L. Greenfield"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0026bfad4dab5a623451fe0211e2a6ae781a3287/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0026bfad4dab5a623451fe0211e2a6ae781a3287/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0026bfad4dab5a623451fe0211e2a6ae781a3287",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:45:23.487936",
+      "created-on": "2015-12-28T16:45:23.487936"
+    },
+    "attributes": {
+      "familyName": "\u0410\u043b\u0435\u043a\u0441\u0435\u0435\u0432",
+      "name": "\u0410\u043b\u0435\u043a\u0441\u0435\u0435\u0432, \u041a.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u0421\u0410\u041c\u041e\u0420\u0410\u0421\u0428\u0418\u0420\u042f\u042e\u0429\u0418\u0415\u0421\u042f \u041d\u0418\u0422\u0418\u041d\u041e\u041b\u041e\u0412\u042b\u0415 \u0421\u0422\u0415\u041d\u0422\u042b \u041f\u0420\u0418 \u041c\u0415\u0425\u0410\u041d\u0418\u0427\u0415\u0421\u041a\u041e\u0419 \u0416\u0415\u041b\u0422\u0423\u0425\u0415 \u041e\u041f\u0423\u0425\u041e\u041b\u0415\u0412\u041e\u0413\u041e \u041f\u0420\u041e\u0418\u0421\u0425\u041e\u0416\u0414\u0415\u041d\u0418\u042f",
+        "id": "3778106d60864c0e184c18e87155c5d2e95d461d"
+      }],
+      "givenName": "\u041a."
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0027e855a9adc1ef83840ec6a08cfda42d1410ea/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0027e855a9adc1ef83840ec6a08cfda42d1410ea/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0027e855a9adc1ef83840ec6a08cfda42d1410ea",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:37:28.495491",
+      "created-on": "2015-12-28T16:37:28.495491"
+    },
+    "attributes": {
+      "familyName": "\u0415.\u0412.",
+      "name": "\u0411\u0410\u0425\u0418\u0414\u0417\u0415 \u0415.\u0412.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u0420\u041e\u041b\u042c \u0426\u0418\u0422\u041e\u041b\u041e\u0413\u0418\u0427\u0415\u0421\u041a\u041e\u0413\u041e \u0418 \u0412\u0418\u0420\u0423\u0421\u041e\u041b\u041e\u0413\u0418\u0427\u0415\u0421\u041a\u041e\u0413\u041e \u0418\u0421\u0421\u041b\u0415\u0414\u041e\u0412\u0410\u041d\u0418\u0419 \u041f\u0420\u0418 \u0412\u0422\u041e\u0420\u0418\u0427\u041d\u041e\u0419 \u041f\u0420\u041e\u0424\u0418\u041b\u0410\u041a\u0422\u0418\u041a\u0415 \u0420\u0410\u041a\u0410 \u0428\u0415\u0419\u041a\u0418 \u041c\u0410\u0422\u041a\u0418",
+        "id": "9271dc7549f801720f16c72901c8e5d5724bf295"
+      }],
+      "givenName": "\u0411\u0410\u0425\u0418\u0414\u0417\u0415"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002853ffe2d8258db9fe99db79963b21b18cba73/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002853ffe2d8258db9fe99db79963b21b18cba73/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "002853ffe2d8258db9fe99db79963b21b18cba73",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:47:17.890850",
+      "created-on": "2015-12-28T15:47:17.890850"
+    },
+    "attributes": {
+      "familyName": "Eric",
+      "name": "MORIZE Eric",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "GUIDEM 02 cruise,Antea R/V",
+        "id": "c9f8344dc023f8302e423be2be53047d0691f5e5"
+      }],
+      "givenName": "MORIZE"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0028725205bc17ae3657a100232c107d96e535fb/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0028725205bc17ae3657a100232c107d96e535fb/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0028725205bc17ae3657a100232c107d96e535fb",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:31:01.404320",
+      "created-on": "2015-12-28T16:31:01.404320"
+    },
+    "attributes": {
+      "familyName": "\u0410\u041b\u0415\u041a\u0421\u0410\u041d\u0414\u0420\u041e\u0412\u0418\u0427",
+      "name": "\u0414\u0415\u041d\u0418\u0421\u041e\u0412 \u0421\u0415\u0420\u0413\u0415\u0419 \u0410\u041b\u0415\u041a\u0421\u0410\u041d\u0414\u0420\u041e\u0412\u0418\u0427",
+      "additionalName": "\u0421\u0415\u0420\u0413\u0415\u0419",
+      "researchObjects": [{
+        "title": "\u041e\u0421\u041e\u0411\u0415\u041d\u041d\u041e\u0421\u0422\u0418 \u0420\u041e\u0421\u0422\u0410 \u041f\u041b\u0410\u041d\u0422\u0410\u0426\u0418\u041e\u041d\u041d\u042b\u0425 \u041a\u0423\u041b\u042c\u0422\u0423\u0420 \u0415\u041b\u0418 \u041f\u0420\u0418 \u0412\u042b\u0420\u0410\u0429\u0418\u0412\u0410\u041d\u0418\u0418 \u0411\u0410\u041b\u0410\u041d\u0421\u041e\u0412\u041e\u0419 \u0414\u0420\u0415\u0412\u0415\u0421\u0418\u041d\u042b \u0412 \u0421\u0412\u042f\u0417\u0418 \u0421 \u041b\u0415\u0421\u041e\u0412\u041e\u0414\u0421\u0422\u0412\u0415\u041d\u041d\u042b\u041c\u0418 \u0423\u0425\u041e\u0414\u0410\u041c\u0418",
+        "id": "a5d26d0c5cc6ea327ca16a5e289d996ee6957370"
+      }],
+      "givenName": "\u0414\u0415\u041d\u0418\u0421\u041e\u0412"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0028b6468af66b80306cb0e604b6ad2617ffc5e4/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0028b6468af66b80306cb0e604b6ad2617ffc5e4/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0028b6468af66b80306cb0e604b6ad2617ffc5e4",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:41:46.065740",
+      "created-on": "2015-12-28T16:41:46.065740"
+    },
+    "attributes": {
+      "familyName": "\u0410\u041b\u0415\u041a\u0421\u0410\u041d\u0414\u0420\u041e\u0412\u0418\u0427",
+      "name": "\u041a\u0418\u0420\u0415\u0415\u0412 \u0410\u041d\u0422\u041e\u041d \u0410\u041b\u0415\u041a\u0421\u0410\u041d\u0414\u0420\u041e\u0412\u0418\u0427",
+      "additionalName": "\u0410\u041d\u0422\u041e\u041d",
+      "researchObjects": [{
+        "title": "\u041a \u0412\u041e\u041f\u0420\u041e\u0421\u0423 \u041e \u0422\u0418\u041f\u041e\u041b\u041e\u0413\u0418\u0418 \u0410\u0417\u0418\u0410\u0422\u0421\u041a\u0418\u0425 \u0413\u0420\u0410\u041d\u0418\u0426 \u0420\u041e\u0421\u0421\u0418\u0418 (1 \u0427\u0410\u0421\u0422\u042c)",
+        "id": "244c00e5f10d7a29b6e5d450f481cf47b977571e"
+      }],
+      "givenName": "\u041a\u0418\u0420\u0415\u0415\u0412"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0028dd0314ae51f8ede67dfde2a3833e9c5bd53e/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0028dd0314ae51f8ede67dfde2a3833e9c5bd53e/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0028dd0314ae51f8ede67dfde2a3833e9c5bd53e",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:33:27.323590",
+      "created-on": "2015-12-28T15:33:27.323590"
+    },
+    "attributes": {
+      "sameAs": [],
+      "givenName": "Rui-Yi",
+      "additionalName": "",
+      "familyName": "Chen",
+      "researchObjects": [{
+        "title": "Next-generation sequencing yields the complete mitochondrial genome of the Redbelly yellowtail fusilier,Caesio cuning(Teleostei: Caesionidae)",
+        "id": "6925066840a51df04105832930b484021eb1aed4"
+      }],
+      "name": "Rui-Yi Chen"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0029d0c9da77b60f06465b760527b5e4f6208d18/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0029d0c9da77b60f06465b760527b5e4f6208d18/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0029d0c9da77b60f06465b760527b5e4f6208d18",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:32:33.716456",
+      "created-on": "2015-12-28T15:32:33.716456"
+    },
+    "attributes": {
+      "sameAs": [],
+      "givenName": "J.",
+      "additionalName": "",
+      "familyName": "Ng",
+      "researchObjects": [{
+        "title": " Identification of a novel HLA-A*02 variant, HLA-A*02:586 , in a Taiwanese bone marrow hematopoietic stem cell donor ",
+        "id": "ae0c34e11852c452aa51374b4937822e45a1acc5"
+      }],
+      "name": "J. Ng"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0029e92922f7deea1f8fec4c9a23de709e8d4b18/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0029e92922f7deea1f8fec4c9a23de709e8d4b18/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0029e92922f7deea1f8fec4c9a23de709e8d4b18",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:38:43.909748",
+      "created-on": "2015-12-28T16:38:43.909748"
+    },
+    "attributes": {
+      "familyName": "\u041f\u0438\u043d\u0435\u0436\u0430\u043d\u0438\u043d\u043e\u0432\u0430",
+      "name": "\u041f\u0438\u043d\u0435\u0436\u0430\u043d\u0438\u043d\u043e\u0432\u0430, \u041d.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u0421\u041c\u0415\u0422\u0410\u041d\u0418\u041d\u0410 \u041d. \u041f. \u041d\u0415\u041f\u0420\u0410\u0413\u041c\u0410\u0422\u0418\u0427\u0415\u0421\u041a\u0418\u0415 \u0410\u0421\u041f\u0415\u041a\u0422\u042b \u0420\u0423\u0421\u0421\u041a\u041e\u0419 \u0424\u041e\u041d\u0415\u0422\u0418\u041a\u0418",
+        "id": "038b77394749c64914bfaff9b0c802e5a5fccf2a"
+      }],
+      "givenName": "\u041d."
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002b13cf513f417e025bc5abb4388975eb3faef9/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002b13cf513f417e025bc5abb4388975eb3faef9/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "002b13cf513f417e025bc5abb4388975eb3faef9",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:42:55.739278",
+      "created-on": "2015-12-28T16:42:55.739278"
+    },
+    "attributes": {
+      "familyName": "\u0415\u0412\u0413\u0415\u041d\u042c\u0415\u0412\u0418\u0427",
+      "name": "\u041a\u0410\u0420\u0410\u0422\u0415\u0415\u0412 \u0414\u041c\u0418\u0422\u0420\u0418\u0419 \u0415\u0412\u0413\u0415\u041d\u042c\u0415\u0412\u0418\u0427",
+      "additionalName": "\u0414\u041c\u0418\u0422\u0420\u0418\u0419",
+      "researchObjects": [{
+        "title": "\u0415\u0412\u0420\u041e\u041f\u0415\u0419\u0421\u041a\u0418\u0419 \u0424\u041e\u0420\u0423\u041c \u041f\u041e \u0420\u0415\u0413\u0418\u0421\u0422\u0420\u0410\u041c (EU REGISTRIES FORUM MEETING) - \u041d\u041e\u0412\u042b\u0419 \u0428\u0410\u0413 \u0412 \u0420\u0410\u0417\u0412\u0418\u0422\u0418\u0418 \u041c\u0415\u0416\u0414\u0423\u041d\u0410\u0420\u041e\u0414\u041d\u041e\u0413\u041e \u0421\u041e\u0422\u0420\u0423\u0414\u041d\u0418\u0427\u0415\u0421\u0422\u0412\u0410 \u0412 \u041e\u0411\u041b\u0410\u0421\u0422\u0418 \u0420\u0415\u0413\u0418\u0421\u0422\u0420\u041e\u0412 \u0411\u041e\u041b\u042c\u041d\u042b\u0425 \u0421 \u0420\u0415\u0412\u041c\u0410\u0422\u0418\u0427\u0415\u0421\u041a\u0418\u041c\u0418 \u0417\u0410\u0411\u041e\u041b\u0415\u0412\u0410\u041d\u0418\u042f\u041c\u0418",
+        "id": "4f0b6abb01b545b13fff25651130c739d9d9c3d4"
+      }],
+      "givenName": "\u041a\u0410\u0420\u0410\u0422\u0415\u0415\u0412"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002b7274f91445d7fea99ddba3005e81851434d3/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002b7274f91445d7fea99ddba3005e81851434d3/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "002b7274f91445d7fea99ddba3005e81851434d3",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:37:00.443432",
+      "created-on": "2015-12-28T15:37:00.443432"
+    },
+    "attributes": {
+      "familyName": "van der Laan",
+      "name": "Laura N. van der Laan",
+      "additionalName": "N.",
+      "researchObjects": [{
+        "title": "Sweet lies: neural, visual, and behavioral measures reveal a lack of self-control conflict during food choice in weight-concerned women",
+        "id": "d8c6abd89351f28adf83d1d601a963abe588eb77"
+      }],
+      "givenName": "Laura"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002c3a32807407f7b4c32b179e8ee5179cf00fb4/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002c3a32807407f7b4c32b179e8ee5179cf00fb4/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "002c3a32807407f7b4c32b179e8ee5179cf00fb4",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:54:58.984529",
+      "created-on": "2015-12-28T15:54:58.984529"
+    },
+    "attributes": {
+      "familyName": "Frank",
+      "name": "MAHEUX Frank",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "CAMPAGNES IGA : IMPACT DES GRANDS AM\u00c9NAGEMENTS",
+        "id": "753afd3b29ae59ea70563784849038f0cc994770"
+      }],
+      "givenName": "MAHEUX"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002cba0434db61db107dfaddf534e56d2645658c/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002cba0434db61db107dfaddf534e56d2645658c/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "002cba0434db61db107dfaddf534e56d2645658c",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:40:46.136212",
+      "created-on": "2015-12-28T16:40:46.136212"
+    },
+    "attributes": {
+      "familyName": "\u0410\u041b\u0415\u041a\u0421\u0410\u041d\u0414\u0420\u041e\u0412\u041d\u0410",
+      "name": "\u041c\u041e\u0421\u0423\u041d\u041e\u0412\u0410 \u041b\u042e\u0414\u041c\u0418\u041b\u0410 \u0410\u041b\u0415\u041a\u0421\u0410\u041d\u0414\u0420\u041e\u0412\u041d\u0410",
+      "additionalName": "\u041b\u042e\u0414\u041c\u0418\u041b\u0410",
+      "researchObjects": [{
+        "title": "\u041a \u0412\u041e\u041f\u0420\u041e\u0421\u0423 \u041e \u041f\u041e\u041d\u0418\u041c\u0410\u041d\u0418\u0418 \u0422\u0415\u041a\u0421\u0422\u041e\u0412 \u041a\u041b\u0410\u0421\u0421\u0418\u0427\u0415\u0421\u041a\u041e\u0419 \u041b\u0418\u0422\u0415\u0420\u0410\u0422\u0423\u0420\u042b",
+        "id": "5a2542306eda9e5da79b8debe35400de7c81e7c1"
+      }],
+      "givenName": "\u041c\u041e\u0421\u0423\u041d\u041e\u0412\u0410"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002d5e19e142fbe036366133803093d5e83d8a9e/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002d5e19e142fbe036366133803093d5e83d8a9e/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "002d5e19e142fbe036366133803093d5e83d8a9e",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:35:24.629904",
+      "created-on": "2015-12-28T15:35:24.629904"
+    },
+    "attributes": {
+      "sameAs": [],
+      "givenName": "K.",
+      "additionalName": "",
+      "familyName": "Koike",
+      "researchObjects": [{
+        "title": "Second order asymptotic comparison of the MLE and MCLE for a two-sided truncated exponential family of distributions",
+        "id": "9fef1f34e555d80e752a4f165384e5b9c3c1d579"
+      }],
+      "name": "K. Koike"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002e5d9d649e0e4f26cb064f9b132dba3f9b0e41/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002e5d9d649e0e4f26cb064f9b132dba3f9b0e41/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "002e5d9d649e0e4f26cb064f9b132dba3f9b0e41",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:41:35.504904",
+      "created-on": "2015-12-28T15:41:35.504904"
+    },
+    "attributes": {
+      "familyName": "Boris",
+      "name": "MARCAILLOU Boris",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "ANTITHESIS2 RECUP cruise,Antea R/V",
+        "id": "bbf5e8e7c747e91f1fef3ee49ce52c2a646bf3b0"
+      }],
+      "givenName": "MARCAILLOU"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002e9a8548030ef139c5a4e735fdccb25ebbb6f3/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002e9a8548030ef139c5a4e735fdccb25ebbb6f3/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "002e9a8548030ef139c5a4e735fdccb25ebbb6f3",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:34:44.695663",
+      "created-on": "2015-12-28T16:34:44.695663"
+    },
+    "attributes": {
+      "familyName": "\u0421\u043e\u043b\u0434\u0430\u0442\u043e\u0432\u0430",
+      "name": "\u0421\u043e\u043b\u0434\u0430\u0442\u043e\u0432\u0430, \u0418.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u0421\u0425\u041e\u0414\u0421\u0422\u0412\u041e \u041f\u0420\u041e\u0424\u0418\u041b\u0415\u0419 \u042d\u041a\u0421\u041f\u0420\u0415\u0421\u0421\u0418\u0418 \u0420\u0410\u041a\u041e\u0412\u041e-\u0422\u0415\u0421\u0422\u0418\u041a\u0423\u041b\u042f\u0420\u041d\u042b\u0425 \u0413\u0415\u041d\u041e\u0412 \u041f\u0420\u0418 \u0425\u0420\u041e\u041d\u0418\u0427\u0415\u0421\u041a\u0418\u0425 \u041c\u0418\u0415\u041b\u041e\u041f\u0420\u041e\u041b\u0418\u0424\u0415\u0420\u0410\u0422\u0418\u0412\u041d\u042b\u0425 \u0417\u0410\u0411\u041e\u041b\u0415\u0412\u0410\u041d\u0418\u042f\u0425 \u0418 \u0425\u0420\u041e\u041d\u0418\u0427\u0415\u0421\u041a\u041e\u041c \u041c\u0418\u0415\u041b\u041e\u0418\u0414\u041d\u041e\u041c \u041b\u0415\u0419\u041a\u041e\u0417\u0415",
+        "id": "a600229c74a7920b4864c2fea00d17af8bda2f9f"
+      }],
+      "givenName": "\u0418."
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002ebb00fa169a80e35400494662b9b35a51945d/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/002ebb00fa169a80e35400494662b9b35a51945d/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "002ebb00fa169a80e35400494662b9b35a51945d",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:40:36.394838",
+      "created-on": "2015-12-28T16:40:36.394838"
+    },
+    "attributes": {
+      "familyName": "\u0421\u0415\u0420\u0413\u0415\u0415\u0412\u041d\u0410",
+      "name": "\u041f\u041e\u0420\u0428\u041d\u0415\u0412\u0410 \u0410\u041b\u0418\u0421\u0410 \u0421\u0415\u0420\u0413\u0415\u0415\u0412\u041d\u0410",
+      "additionalName": "\u0410\u041b\u0418\u0421\u0410",
+      "researchObjects": [{
+        "title": "\u0424\u0415\u041d\u041e\u041c\u0415\u041d \u041f\u0420\u041e\u0421\u0422\u0420\u0410\u041d\u0421\u0422\u0412\u0410 \u041d\u0410\u0426\u0418 \u0412 \u041d\u0415\u041c\u0415\u0426\u041a\u041e\u041c \u042d\u041c\u0418\u0413\u0420\u0410\u041d\u0422\u0421\u041a\u041e\u041c \u0420\u041e\u041c\u0410\u041d\u0415",
+        "id": "4c5cb602e3d9e9d0a453d1799764c6afcbaf1f2b"
+      }],
+      "givenName": "\u041f\u041e\u0420\u0428\u041d\u0415\u0412\u0410"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00304426d3fbf1a4deaa09915ff1ba00103c38f1/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00304426d3fbf1a4deaa09915ff1ba00103c38f1/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "00304426d3fbf1a4deaa09915ff1ba00103c38f1",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:31:07.025960",
+      "created-on": "2015-12-28T16:31:07.025960"
+    },
+    "attributes": {
+      "familyName": "\u041c\u0418\u0425\u0410\u0419\u041b\u041e\u0412\u0418\u0427",
+      "name": "\u041d\u041e\u0421\u041e\u0412 \u0410\u041b\u0415\u041a\u0421\u0410\u041d\u0414\u0420 \u041c\u0418\u0425\u0410\u0419\u041b\u041e\u0412\u0418\u0427",
+      "additionalName": "\u0410\u041b\u0415\u041a\u0421\u0410\u041d\u0414\u0420",
+      "researchObjects": [{
+        "title": "\u041a\u0418\u0421\u041b\u042b\u0415 \u042d\u0424\u0418\u0420\u042b \u0413\u0418\u041d\u0417\u0415\u041d\u041e\u0417\u0418\u0414\u041e\u0412 \u0412 \u0421\u0423\u0421\u041f\u0415\u041d\u0417\u0418\u041e\u041d\u041d\u041e\u0419 \u041a\u0423\u041b\u042c\u0422\u0423\u0420\u0415 \u041a\u041b\u0415\u0422\u041e\u041a PANAX JAPONICUS VAR. REPENS",
+        "id": "2b18a4b31c21dbf3143aec078e089a0edb54765e"
+      }],
+      "givenName": "\u041d\u041e\u0421\u041e\u0412"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00308ae36d145874be25fedee6a9417995d7dcbd/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00308ae36d145874be25fedee6a9417995d7dcbd/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "00308ae36d145874be25fedee6a9417995d7dcbd",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:45:23.693804",
+      "created-on": "2015-12-28T15:45:23.693804"
+    },
+    "attributes": {
+      "familyName": "C.",
+      "name": "CAILLART C.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "ESCYAN cruise,Le Nadir R/V",
+        "id": "cb858516f6e3830812b63ec3fbcec873c4e432b2"
+      }],
+      "givenName": "CAILLART"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/003504e2e09b486ef5a33cc3172a44f773459ec4/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/003504e2e09b486ef5a33cc3172a44f773459ec4/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "003504e2e09b486ef5a33cc3172a44f773459ec4",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:29:03.075020",
+      "created-on": "2015-12-28T15:29:03.075020"
+    },
+    "attributes": {
+      "sameAs": [],
+      "givenName": "Marcia",
+      "additionalName": "",
+      "familyName": "Castro",
+      "researchObjects": [{
+        "title": "SPATIAL 2015",
+        "id": "73889fa9e439f3b4305fac1c3d1b26e29a902aca"
+      }],
+      "name": "Marcia Castro"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0035cdf379033392c2706dabcc4fdd5533534524/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0035cdf379033392c2706dabcc4fdd5533534524/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0035cdf379033392c2706dabcc4fdd5533534524",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:58:53.424279",
+      "created-on": "2015-12-28T15:58:53.424279"
+    },
+    "attributes": {
+      "familyName": "Cary",
+      "name": "Cary, Stephen Craig",
+      "additionalName": "Craig",
+      "researchObjects": [{
+        "title": "Cruise AT15-39 of RV Atlantis operated by Woods Hole Oceanographic Institution, departing port Manzanillo, Mexico on date 2008-11-10 and arriving port Guaymas, Mexico on date 2008-11-30",
+        "id": "a0c8771d776c3389e0df218115bf5aa21c3520ac"
+      }],
+      "givenName": "Stephen"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0036421a34106f71299250222661422f1406ef33/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0036421a34106f71299250222661422f1406ef33/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0036421a34106f71299250222661422f1406ef33",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:38:43.596609",
+      "created-on": "2015-12-28T16:38:43.596609"
+    },
+    "attributes": {
+      "familyName": "\u0423\u0440\u0445\u0430\u043d\u043e\u0432\u0430",
+      "name": "\u0423\u0440\u0445\u0430\u043d\u043e\u0432\u0430, \u0420\u0438\u043c\u043c\u0430",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u041a \u041d\u0415\u041a\u041e\u0422\u041e\u0420\u042b\u041c \u041e\u0421\u041e\u0411\u0415\u041d\u041d\u041e\u0421\u0422\u042f\u041c \u041f\u0420\u0415\u041f\u041e\u0414\u0410\u0412\u0410\u041d\u0418\u042f \u0420\u0423\u0421\u0421\u041a\u041e\u0413\u041e \u042f\u0417\u042b\u041a\u0410 \u0412 \u042e\u0416\u041d\u041e\u041c \u0422\u0418\u0420\u041e\u041b\u0415 (\u0418\u0422\u0410\u041b\u0418\u042f)",
+        "id": "bc2777f3e0620f881183597288ee894fdc8bb983"
+      }],
+      "givenName": "\u0420\u0438\u043c\u043c\u0430"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00367a56311ae4826b54f29f4e8b267d0823c10f/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00367a56311ae4826b54f29f4e8b267d0823c10f/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "00367a56311ae4826b54f29f4e8b267d0823c10f",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:26:35.974957",
+      "created-on": "2015-12-28T16:26:35.974957"
+    },
+    "attributes": {
+      "familyName": "\u0414.\u0410.",
+      "name": "\u0417\u042e\u041a\u0418\u041d \u0414.\u0410.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u0418\u0421\u0421\u041b\u0415\u0414\u041e\u0412\u0410\u041d\u0418\u0415 \u0422\u0415\u041e\u0420\u0415\u0422\u0418\u0427\u0415\u0421\u041a\u0418\u0425 \u041e\u0421\u041d\u041e\u0412 \u0421\u0418\u041d\u0415\u0420\u0413\u0415\u0422\u0418\u0427\u0415\u0421\u041a\u041e\u0413\u041e \u041f\u041e\u0414\u0425\u041e\u0414\u0410 \u041a \u0424\u041e\u0420\u041c\u0418\u0420\u041e\u0412\u0410\u041d\u0418\u042e \u042d\u0424\u0424\u0415\u041a\u0422\u0418\u0412\u041d\u041e\u0413\u041e \u0424\u0423\u041d\u041a\u0426\u0418\u041e\u041d\u0418\u0420\u041e\u0412\u0410\u041d\u0418\u042f \u0418 \u0420\u0410\u0417\u0412\u0418\u0422\u0418\u042f \u042d\u041a\u041e\u041d\u041e\u041c\u0418\u041a\u0418*",
+        "id": "a12cfc21c23e190979c57d52c1d443ff10c9438b"
+      }],
+      "givenName": "\u0417\u042e\u041a\u0418\u041d"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0037e22ed436542dd693370eaa895c974ebc00b7/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0037e22ed436542dd693370eaa895c974ebc00b7/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0037e22ed436542dd693370eaa895c974ebc00b7",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:42:24.661016",
+      "created-on": "2015-12-28T15:42:24.661016"
+    },
+    "attributes": {
+      "familyName": "Didier",
+      "name": "JOLLIVET Didier",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "BIOSPEEDO cruise,L&#039;Atalante R/V",
+        "id": "99599bfa952f70c0055cefcf8db71fd7221f2545"
+      }],
+      "givenName": "JOLLIVET"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00388ebf8ee4b3e1fce5b31324f6cfa28f2598a3/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00388ebf8ee4b3e1fce5b31324f6cfa28f2598a3/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "00388ebf8ee4b3e1fce5b31324f6cfa28f2598a3",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:26:16.741755",
+      "created-on": "2015-12-28T15:26:16.741755"
+    },
+    "attributes": {
+      "sameAs": [],
+      "givenName": "Michelle",
+      "additionalName": "",
+      "familyName": "Hinojosa",
+      "researchObjects": [{
+        "title": "Ultrasound-detected activity in rheumatoid arthritis on methotrexate therapy: Which joints and tendons should be assessed to predict unstable remission?",
+        "id": "d42374f19af9d7a27e1a241778c1bb94d72a2aa2"
+      }],
+      "name": "Michelle Hinojosa"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/003b93748880c384520ba5697de2b7526f8fa6fd/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/003b93748880c384520ba5697de2b7526f8fa6fd/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "003b93748880c384520ba5697de2b7526f8fa6fd",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:28:10.619718",
+      "created-on": "2015-12-28T16:28:10.619718"
+    },
+    "attributes": {
+      "familyName": "\u0414.\u0422.",
+      "name": "\u041f\u0423\u0420\u042f\u0415\u0412 \u0414.\u0422.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u041a\u041e\u041d\u0422\u0420\u041e\u041b\u042c \u0424\u041e\u0420\u041c\u042b \u041f\u041e\u0412\u0415\u0420\u0425\u041d\u041e\u0421\u0422\u0418 \u0412\u0422\u041e\u0420\u0418\u0427\u041d\u041e\u0413\u041e \u0417\u0415\u0420\u041a\u0410\u041b\u0410 \u0420\u0410\u0414\u0418\u041e\u0422\u0415\u041b\u0415\u0421\u041a\u041e\u041f\u0410 \u00ab\u041c\u0418\u041b\u041b\u0418\u041c\u0415\u0422\u0420\u041e\u041d\u00bb",
+        "id": "659deb4463d94fa7c0a7f73fed4e33924b478d21"
+      }],
+      "givenName": "\u041f\u0423\u0420\u042f\u0415\u0412"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/003c3579d68f8d0c92b537c77fe5e7b9e0578e47/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/003c3579d68f8d0c92b537c77fe5e7b9e0578e47/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "003c3579d68f8d0c92b537c77fe5e7b9e0578e47",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:46:44.002912",
+      "created-on": "2015-12-28T16:46:44.002912"
+    },
+    "attributes": {
+      "familyName": "\u041a.\u041d.",
+      "name": "\u041e\u0420\u041e\u0411\u0415\u0426 \u041a.\u041d.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u041d\u0415\u041a\u041e\u0422\u041e\u0420\u042b\u0415 \u041f\u0420\u041e\u0411\u041b\u0415\u041c\u042b \u0418\u0421\u041f\u041e\u041b\u042c\u0417\u041e\u0412\u0410\u041d\u0418\u042f \u041f\u041e\u041d\u042f\u0422\u0418\u0419 \u042d\u041a\u041e\u041b\u041e\u0413\u0418\u0427\u0415\u0421\u041a\u041e\u0413\u041e \u041f\u0420\u0410\u0412\u0410 \u0412 \u0423\u0413\u041e\u041b\u041e\u0412\u041d\u041e-\u041f\u0420\u0410\u0412\u041e\u0412\u041e\u0419 \u041d\u0410\u0423\u041a\u0415",
+        "id": "d7b37423acf10f88319caccc495d43eb275436db"
+      }],
+      "givenName": "\u041e\u0420\u041e\u0411\u0415\u0426"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00439d96504372863b4778a6a9d3359475d26388/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/00439d96504372863b4778a6a9d3359475d26388/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "00439d96504372863b4778a6a9d3359475d26388",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:42:27.899688",
+      "created-on": "2015-12-28T16:42:27.899688"
+    },
+    "attributes": {
+      "familyName": "\u041c.\u0410.",
+      "name": "\u0411\u0410\u0420\u042b\u0428\u041d\u0418\u041a\u041e\u0412\u0410 \u041c.\u0410.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u0420\u0410\u0417\u0420\u0410\u0411\u041e\u0422\u041a\u0410 \u0418 \u0418\u0421\u0421\u041b\u0415\u0414\u041e\u0412\u0410\u041d\u0418\u0415 \u0418\u041c\u041c\u0423\u041d\u041e\u041b\u0418\u041f\u041e\u0421\u041e\u041c\u0410\u041b\u042c\u041d\u042b\u0425 \u041a\u041e\u041d\u0421\u0422\u0420\u0423\u041a\u0426\u0418\u0419 IN VITRO",
+        "id": "cf00d4c7c5f705355ea03fbcb92052f40db5ee86"
+      }],
+      "givenName": "\u0411\u0410\u0420\u042b\u0428\u041d\u0418\u041a\u041e\u0412\u0410"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0047eb104ec821b0eaf6aa837b483509950fd4f8/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/0047eb104ec821b0eaf6aa837b483509950fd4f8/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "0047eb104ec821b0eaf6aa837b483509950fd4f8",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:01:08.955975",
+      "created-on": "2015-12-28T16:01:08.955975"
+    },
+    "attributes": {
+      "familyName": "Vishwokarma",
+      "name": "Vishwokarma, Anu",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "Factors associated with neonatal deaths in Chitwan district of Nepal",
+        "id": "118fe6cfb0ddae60e207a4dc208364a3c01da06f"
+      }],
+      "givenName": "Anu"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/004a1d8bb41d15eeb0108af9b72809331c6db45f/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/004a1d8bb41d15eeb0108af9b72809331c6db45f/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "004a1d8bb41d15eeb0108af9b72809331c6db45f",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:29:32.199382",
+      "created-on": "2015-12-28T16:29:32.199382"
+    },
+    "attributes": {
+      "familyName": "\u0418.\u0410.",
+      "name": "\u0417\u042b\u0420\u042f\u041d\u041e\u0412\u0410 \u0418.\u0410.",
+      "additionalName": "",
+      "researchObjects": [{
+        "title": "\u041a \u0412\u041e\u041f\u0420\u041e\u0421\u0423 \u041e \u041f\u041e\u041d\u042f\u0422\u0418\u0418 \u041a\u041e\u0420\u0420\u0423\u041f\u0426\u0418\u041e\u041d\u041d\u041e\u0413\u041e \u041f\u0420\u0410\u0412\u041e\u041d\u0410\u0420\u0423\u0428\u0415\u041d\u0418\u042f \u0412 \u0418\u0417\u0411\u0418\u0420\u0410\u0422\u0415\u041b\u042c\u041d\u041e\u041c \u041f\u0420\u041e\u0426\u0415\u0421\u0421\u0415",
+        "id": "7ba390757dfa9bbda78fc33ee325fc7deadb3dac"
+      }],
+      "givenName": "\u0417\u042b\u0420\u042f\u041d\u041e\u0412\u0410"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/004dbc1c118d9e076b9d453f38bc25c5ff9a87ad/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/004dbc1c118d9e076b9d453f38bc25c5ff9a87ad/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "004dbc1c118d9e076b9d453f38bc25c5ff9a87ad",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T16:28:34.793564",
+      "created-on": "2015-12-28T16:28:34.793564"
+    },
+    "attributes": {
+      "familyName": "YEVGENYEVICH",
+      "name": "REUTOV VIKTOR YEVGENYEVICH",
+      "additionalName": "VIKTOR",
+      "researchObjects": [{
+        "title": "PROBLEMS OF INTERPRETATION AND STUDY OF ECONOMIC CRIME IN RUSSIA",
+        "id": "3ffbe7430efc8011f44718b6285f7ab44ff099bc"
+      }],
+      "givenName": "REUTOV"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/004f6d75bb7686783880948dc72d6f82ed75e707/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/004f6d75bb7686783880948dc72d6f82ed75e707/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "004f6d75bb7686783880948dc72d6f82ed75e707",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:32:28.683621",
+      "created-on": "2015-12-28T15:32:28.683621"
+    },
+    "attributes": {
+      "sameAs": [],
+      "givenName": "Laurence",
+      "additionalName": "",
+      "familyName": "Leherte",
+      "researchObjects": [{
+        "title": "Accessing the free energy profile of a ring closure in a proline-catalyzed reaction using a reactive force field",
+        "id": "87924ec73cfc51d12b214b78082dd4d56d1606be"
+      }],
+      "name": "Laurence Leherte"
+    }
+  }, {
+    "relationships": {
+      "history": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/005247c8db62ddc44ca4b054b0587056a165a462/history",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor/documents/005247c8db62ddc44ca4b054b0587056a165a462/history"
+        }
+      },
+      "collection": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor",
+          "related": "http://localhost:1212/v1/namespaces/SHARE/collections/share-contributor"
+        }
+      },
+      "namespace": {
+        "links": {
+          "self": "http://localhost:1212/v1/namespaces/SHARE",
+          "related": "http://localhost:1212/v1/namespaces/SHARE"
+        }
+      }
+    },
+    "type": "documents",
+    "id": "005247c8db62ddc44ca4b054b0587056a165a462",
+    "meta": {
+      "modified-by": "tracked-SHARE|users-scrapi",
+      "created-by": "tracked-SHARE|users-scrapi",
+      "modified-on": "2015-12-28T15:34:48.122172",
+      "created-on": "2015-12-28T15:34:48.122172"
+    },
+    "attributes": {
+      "sameAs": [],
+      "givenName": "Douglas",
+      "additionalName": "R.",
+      "familyName": "Kahl",
+      "researchObjects": [{
+        "title": "Fiduciary and legal considerations for student-managed investment funds",
+        "id": "369f146cf6e49ba532e990a23967c17d142f4003"
+      }],
+      "name": "Douglas R. Kahl"
+    }
+  }],
+  "links": {},
+  "meta": {
+    "total": 48249,
+    "perPage": 50
+  }
+}

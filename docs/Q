@@ -1,0 +1,11 @@
+
+  Usage: raml2html [options] [RAML input file]
+
+  Options:
+
+    -h, --help                 output usage information
+    -V, --version              output the version number
+    -i, --input [input]        RAML input file
+    -t, --template [template]  Filename of the custom Nunjucks template
+    -o, --output [output]      HTML output file
+

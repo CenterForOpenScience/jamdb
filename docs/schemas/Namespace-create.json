@@ -1,0 +1,40 @@
+{
+    "data": {
+        "attributes": {
+            "type": "object",
+            "required": [
+                "type",
+                "properties"
+            ],
+            "properties": {
+                "permissions": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^\\w+\\-w*\\-\\w+$": {
+                            "enum": [
+                                "READ",
+                                "WRITE",
+                                "CREATE",
+                                "UPDATE",
+                                "DELETE",
+                                "ADMIN"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "required": [
+            "attributes"
+        ],
+        "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+        },
+        "additionalProperties": false
+    },
+    "required": [
+        "data"
+    ],
+    "additionalProperties": false
+}

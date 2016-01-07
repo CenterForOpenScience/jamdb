@@ -1,0 +1,44 @@
+{
+    "data": {
+        "attributes": {
+            "type": "object",
+            "required": [
+                "type",
+                "properties"
+            ],
+            "properties": {
+                "ref": {
+                    "type": "string"
+                }
+            }
+        },
+        "required": [
+            "attributes"
+        ],
+        "additionalProperties": false
+    },
+    "meta": {
+        "meta": {
+            "modified-on": {
+                "type": "string",
+                "format": "date-time"
+            },
+            "create-on": {
+                "type": "string",
+                "format": "date-time"
+            },
+            "created-by": {
+                "type": "string",
+                "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-by": {
+                "type": "string",
+                "pattern": "^.+\\-.*\\-.+$"
+            }
+        }
+    },
+    "required": [
+        "data"
+    ],
+    "additionalProperties": false
+}
