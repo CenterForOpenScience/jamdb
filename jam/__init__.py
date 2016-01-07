@@ -1,5 +1,3 @@
-__import__('pkg_resources').declare_namespace(__name__)
-
 from jam.backends import Q
 from jam.backends import O
 from jam.state import State

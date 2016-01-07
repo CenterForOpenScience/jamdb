@@ -30,25 +30,11 @@ setup(
     name='jam',
     version=find_version('jam/__init__.py'),
     scripts=['bin/jam'],
-    namespace_packages=[
-        'jam',
-        'jam.auth',
-        'jam.schemas',
-        'jam.backends',
-        'jam.auth.providers'
-    ],
     install_requires=requirements,
     packages=find_packages(exclude=('tests*', 'examples')),
     package_dir={'jam': 'jam'},
     include_package_data=True,
     zip_safe=False,
-    provides=[
-        'jam',
-        'jam.auth',
-        'jam.schemas',
-        'jam.backends',
-        'jam.auth.providers',
-    ],
     entry_points={
         'jam.schemas': [
             'jsonschema = jam.schemas.jsonschema:JSONSchema'

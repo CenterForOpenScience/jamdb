@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 def make_app():
     endpoints = [
         ('/v1/auth/?', v1.AuthHandler),
-        ('/v1/docs/()?', tornado.web.StaticFileHandler, {'path': os.path.join(HERE, 'static/doc/v1.html')}),
+        ('/v1/docs/?()', tornado.web.StaticFileHandler, {'path': os.path.join(HERE, 'static/doc/v1.html')}),
     ]
 
     for endpoint in reversed(v1.RESOURCES):
