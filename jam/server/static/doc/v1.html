@@ -232,122 +232,202 @@
     }
   }
 }
-</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="namespaces" class="panel-title">/namespaces</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_namespaces"><span class="parent"></span>/namespaces</a> <span class="methods"><a href="#namespaces_get"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces_post"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a></span></h4></div><div id="panel_namespaces" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#namespaces_get'" class="list-group-item"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Get a list of all Namespaces that the authenticated user has at least READ access to.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces_post'" class="list-group-item"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Create a new Namespace. If an id is not provided one will be generated.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent"></span>/namespaces</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get a list of all Namespaces that the authenticated user has at least READ access to.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces_get_request" data-toggle="tab">Request</a></li><li><a href="#namespaces_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces_get_request"><h3>Query Parameters</h3><ul><li><strong>Page</strong>: <em>(integer - default: 1 - minimum: 1)</em><p>The page of data to fetch from the server. Similiar to offset or skip in other databases. Fetches results after <code>page * page[size]</code></p><p><strong>Example</strong>:</p><pre><code>page=4</code></pre></li><li><strong>Page Size</strong>: <em>(integer - default: 50 - minimum: 1 - maximum: 100)</em><p>The number of items to return</p><p><strong>Example</strong>:</p><pre><code>page[size]=5</code></pre></li></ul></div><div class="tab-pane" id="namespaces_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>Namespace-multiple</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent"></span>/namespaces</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new Namespace. If an id is not provided one will be generated.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces_post_request" data-toggle="tab">Request</a></li><li><a href="#namespaces_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces_post_request"><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "attributes": {
-            "type": "object",
-            "required": [
-                "type",
-                "properties"
-            ],
-            "properties": {
-                "permissions": {
-                    "type": "object",
-                    "patternProperties": {
-                        "^\\w+\\-w*\\-\\w+$": {
-                            "enum": [
-                                "READ",
-                                "WRITE",
-                                "CREATE",
-                                "UPDATE",
-                                "DELETE",
-                                "ADMIN"
-                            ]
-                        }
-                    }
-                }
-            }
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="namespaces" class="panel-title">/namespaces</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_namespaces"><span class="parent"></span>/namespaces</a> <span class="methods"><a href="#namespaces_get"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces_post"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a></span></h4></div><div id="panel_namespaces" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#namespaces_get'" class="list-group-item"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Get a list of all Namespaces that the authenticated user has at least READ access to.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces_post'" class="list-group-item"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Create a new Namespace. If an id, the "primary key", is not provided one will be generated.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent"></span>/namespaces</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get a list of all Namespaces that the authenticated user has at least READ access to.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces_get_request" data-toggle="tab">Request</a></li><li><a href="#namespaces_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces_get_request"><h3>Query Parameters</h3><ul><li><strong>Page</strong>: <em>(integer - default: 1 - minimum: 1)</em><p>The page of data to fetch from the server. Similiar to offset or skip in other databases. Fetches results after <code>page * page[size]</code></p><p><strong>Example</strong>:</p><pre><code>page=4</code></pre></li><li><strong>Page Size</strong>: <em>(integer - default: 50 - minimum: 1 - maximum: 100)</em><p>The number of items to return</p><p><strong>Example</strong>:</p><pre><code>page[size]=5</code></pre></li></ul></div><div class="tab-pane" id="namespaces_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "meta": {
+      "meta": {
+        "create-on": {
+          "format": "date-time",
+          "type": "string"
         },
-        "required": [
-            "attributes"
-        ],
-        "id": {
-            "type": "string",
-            "pattern": "[\\d\\w\\.\\-]{3,64}"
+        "modified-on": {
+          "format": "date-time",
+          "type": "string"
         },
-        "additionalProperties": false
+        "created-by": {
+          "type": "string",
+          "pattern": "^.+\\-.*\\-.+$"
+        },
+        "modified-by": {
+          "type": "string",
+          "pattern": "^.+\\-.*\\-.+$"
+        }
+      }
     },
     "required": [
-        "data"
+      "attributes",
+      "type"
     ],
-    "additionalProperties": false
-}</code></pre></div><div class="tab-pane" id="namespaces_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": {
-                    "permissions": {
-                        "type": "object",
-                        "patternProperties": {
-                            "^\\w+\\-w*\\-\\w+$": {
-                                "enum": [
-                                    "READ",
-                                    "WRITE",
-                                    "CREATE",
-                                    "UPDATE",
-                                    "DELETE",
-                                    "ADMIN"
-                                ]
-                            }
-                        }
-                    }
-                }
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
-        "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
-            }
-        },
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "[\\d\\w\\.\\-]{3,64}"
+      },
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
         "required": [
-            "data"
+          "type",
+          "properties"
         ],
-        "additionalProperties": false
-    },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
         "type": "object",
         "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
+          "permissions": {
+            "type": "object",
+            "patternProperties": {
+              "^\\w+\\-w*\\-\\w+$": {
+                "enum": [
+                  "READ",
+                  "WRITE",
+                  "CREATE",
+                  "UPDATE",
+                  "DELETE",
+                  "ADMIN"
+                ]
+              }
             }
+          }
         }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent"></span>/namespaces</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new Namespace. If an id, the "primary key", is not provided one will be generated.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces_post_request" data-toggle="tab">Request</a></li><li><a href="#namespaces_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces_post_request"><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "[\\d\\w\\.\\-]{3,64}"
+      },
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "required": [
+          "type",
+          "properties"
+        ],
+        "type": "object",
+        "properties": {
+          "permissions": {
+            "type": "object",
+            "patternProperties": {
+              "^\\w+\\-w*\\-\\w+$": {
+                "enum": [
+                  "READ",
+                  "WRITE",
+                  "CREATE",
+                  "UPDATE",
+                  "DELETE",
+                  "ADMIN"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div><div class="tab-pane" id="namespaces_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
+        "meta": {
+          "meta": {
+            "create-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "created-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            }
+          }
+        },
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "permissions": {
+                "type": "object",
+                "patternProperties": {
+                  "^\\w+\\-w*\\-\\w+$": {
+                    "enum": [
+                      "READ",
+                      "WRITE",
+                      "CREATE",
+                      "UPDATE",
+                      "DELETE",
+                      "ADMIN"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
     }
+  }
 }</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://jsonschema.net",
@@ -404,406 +484,537 @@
   }]
 }
 </code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_namespaces__Namespace_ID_"><span class="parent">/namespaces</span>/{Namespace_ID}</a> <span class="methods"><a href="#namespaces__Namespace_ID__get"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__put"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__patch"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__delete"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a></span></h4></div><div id="panel_namespaces__Namespace_ID_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#namespaces__Namespace_ID__get'" class="list-group-item"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Get this Namespace&#39;s data.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__put'" class="list-group-item"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p><strong>Replace</strong> the Namespace with the provided data.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__patch'" class="list-group-item"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Update the Namespace with the provided data. The provided data will be recursively merged with the existing data.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__delete'" class="list-group-item"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p><strong>Delete</strong> this Namespace</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces</span>/{Namespace_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get this Namespace&#39;s data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__get_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__get_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": {
-                    "permissions": {
-                        "type": "object",
-                        "patternProperties": {
-                            "^\\w+\\-w*\\-\\w+$": {
-                                "enum": [
-                                    "READ",
-                                    "WRITE",
-                                    "CREATE",
-                                    "UPDATE",
-                                    "DELETE",
-                                    "ADMIN"
-                                ]
-                            }
-                        }
-                    }
-                }
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
         "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
-            }
-        },
-        "required": [
-            "data"
-        ],
-        "additionalProperties": false
-    },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
-        "type": "object",
-        "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
-            }
-        }
-    }
-}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces</span>/{Namespace_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Replace</strong> the Namespace with the provided data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__put_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__put_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "attributes": {
-            "type": "object",
-            "required": [
-                "type",
-                "properties"
-            ],
-            "properties": {
-                "permissions": {
-                    "type": "object",
-                    "patternProperties": {
-                        "^\\w+\\-w*\\-\\w+$": {
-                            "enum": [
-                                "READ",
-                                "WRITE",
-                                "CREATE",
-                                "UPDATE",
-                                "DELETE",
-                                "ADMIN"
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "required": [
-            "attributes"
-        ],
-        "additionalProperties": false
-    },
-    "required": [
-        "data"
-    ],
-    "additionalProperties": false
-}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": {
-                    "permissions": {
-                        "type": "object",
-                        "patternProperties": {
-                            "^\\w+\\-w*\\-\\w+$": {
-                                "enum": [
-                                    "READ",
-                                    "WRITE",
-                                    "CREATE",
-                                    "UPDATE",
-                                    "DELETE",
-                                    "ADMIN"
-                                ]
-                            }
-                        }
-                    }
-                }
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
-        "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
-            }
-        },
-        "required": [
-            "data"
-        ],
-        "additionalProperties": false
-    },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
-        "type": "object",
-        "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
-            }
-        }
-    }
-}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__patch"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces</span>/{Namespace_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the Namespace with the provided data. The provided data will be recursively merged with the existing data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__patch_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__patch_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "attributes": {
-            "type": "object",
-            "properties": {
-                "permissions": {
-                    "type": "object",
-                    "patternProperties": {
-                        "^\\w+\\-w*\\-\\w+$": {
-                            "enum": [
-                                "READ",
-                                "WRITE",
-                                "CREATE",
-                                "UPDATE",
-                                "DELETE",
-                                "ADMIN"
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "required": [
-            "attributes"
-        ],
-        "additionalProperties": false
-    },
-    "required": [
-        "data"
-    ],
-    "additionalProperties": false
-}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": {
-                    "permissions": {
-                        "type": "object",
-                        "patternProperties": {
-                            "^\\w+\\-w*\\-\\w+$": {
-                                "enum": [
-                                    "READ",
-                                    "WRITE",
-                                    "CREATE",
-                                    "UPDATE",
-                                    "DELETE",
-                                    "ADMIN"
-                                ]
-                            }
-                        }
-                    }
-                }
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
-        "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
-            }
-        },
-        "required": [
-            "data"
-        ],
-        "additionalProperties": false
-    },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
-        "type": "object",
-        "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
-            }
-        }
-    }
-}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces</span>/{Namespace_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Delete</strong> this Namespace</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__delete_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__delete_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2><p>No body</p></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_namespaces__Namespace_ID__collections"><span class="parent">/namespaces/{Namespace_ID}</span>/collections</a> <span class="methods"><a href="#namespaces__Namespace_ID__collections_get"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections_post"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a></span></h4></div><div id="panel_namespaces__Namespace_ID__collections" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#namespaces__Namespace_ID__collections_get'" class="list-group-item"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Get a list of all Collections that the authenticated user has at least READ access to.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections_post'" class="list-group-item"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Create a new Collection. If an id is not provided one will be generated.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}</span>/collections</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get a list of all Collections that the authenticated user has at least READ access to.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections_get_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections_get_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li></ul><h3>Query Parameters</h3><ul><li><strong>Page</strong>: <em>(integer - default: 1 - minimum: 1)</em><p>The page of data to fetch from the server. Similiar to offset or skip in other databases. Fetches results after <code>page * page[size]</code></p><p><strong>Example</strong>:</p><pre><code>page=4</code></pre></li><li><strong>Page Size</strong>: <em>(integer - default: 50 - minimum: 1 - maximum: 100)</em><p>The number of items to return</p><p><strong>Example</strong>:</p><pre><code>page[size]=5</code></pre></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>Collection-multiple</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}</span>/collections</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new Collection. If an id is not provided one will be generated.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections_post_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections_post_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "attributes": {
-            "type": "object",
-            "required": [
-                "type",
-                "properties"
-            ],
-            "properties": null
-        },
-        "required": [
-            "attributes"
-        ],
-        "id": {
-            "type": "string",
-            "pattern": "[\\d\\w\\.\\-]{3,64}"
-        },
-        "additionalProperties": false
-    },
-    "meta": {
-        "meta": {
-            "modified-on": {
-                "type": "string",
-                "format": "date-time"
-            },
+          "meta": {
             "create-on": {
-                "type": "string",
-                "format": "date-time"
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
             },
             "created-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
             },
             "modified-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
             }
-        }
-    },
-    "required": [
-        "data"
-    ],
-    "additionalProperties": false
-}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": null
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
-        "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
-            }
+          }
         },
         "required": [
-            "data"
+          "attributes",
+          "type"
         ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "permissions": {
+                "type": "object",
+                "patternProperties": {
+                  "^\\w+\\-w*\\-\\w+$": {
+                    "enum": [
+                      "READ",
+                      "WRITE",
+                      "CREATE",
+                      "UPDATE",
+                      "DELETE",
+                      "ADMIN"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
         "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
     },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
+    }
+  }
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces</span>/{Namespace_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Replace</strong> the Namespace with the provided data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__put_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__put_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "required": [
+          "type",
+          "properties"
+        ],
         "type": "object",
         "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
+          "permissions": {
+            "type": "object",
+            "patternProperties": {
+              "^\\w+\\-w*\\-\\w+$": {
+                "enum": [
+                  "READ",
+                  "WRITE",
+                  "CREATE",
+                  "UPDATE",
+                  "DELETE",
+                  "ADMIN"
+                ]
+              }
             }
+          }
         }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
+        "meta": {
+          "meta": {
+            "create-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "created-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            }
+          }
+        },
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "permissions": {
+                "type": "object",
+                "patternProperties": {
+                  "^\\w+\\-w*\\-\\w+$": {
+                    "enum": [
+                      "READ",
+                      "WRITE",
+                      "CREATE",
+                      "UPDATE",
+                      "DELETE",
+                      "ADMIN"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
     }
+  }
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__patch"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces</span>/{Namespace_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the Namespace with the provided data. The provided data will be recursively merged with the existing data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__patch_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__patch_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "type": "object",
+        "properties": {
+          "permissions": {
+            "type": "object",
+            "patternProperties": {
+              "^\\w+\\-w*\\-\\w+$": {
+                "enum": [
+                  "READ",
+                  "WRITE",
+                  "CREATE",
+                  "UPDATE",
+                  "DELETE",
+                  "ADMIN"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
+        "meta": {
+          "meta": {
+            "create-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "created-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            }
+          }
+        },
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "permissions": {
+                "type": "object",
+                "patternProperties": {
+                  "^\\w+\\-w*\\-\\w+$": {
+                    "enum": [
+                      "READ",
+                      "WRITE",
+                      "CREATE",
+                      "UPDATE",
+                      "DELETE",
+                      "ADMIN"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
+    }
+  }
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces</span>/{Namespace_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Delete</strong> this Namespace</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__delete_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__delete_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2><p>No body</p></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_namespaces__Namespace_ID__collections"><span class="parent">/namespaces/{Namespace_ID}</span>/collections</a> <span class="methods"><a href="#namespaces__Namespace_ID__collections_get"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections_post"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a></span></h4></div><div id="panel_namespaces__Namespace_ID__collections" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#namespaces__Namespace_ID__collections_get'" class="list-group-item"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Get a list of all Collections that the authenticated user has at least READ access to.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections_post'" class="list-group-item"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Create a new Collection. If an id, the "primary key", is not provided one will be generated.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}</span>/collections</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get a list of all Collections that the authenticated user has at least READ access to.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections_get_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections_get_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li></ul><h3>Query Parameters</h3><ul><li><strong>Page</strong>: <em>(integer - default: 1 - minimum: 1)</em><p>The page of data to fetch from the server. Similiar to offset or skip in other databases. Fetches results after <code>page * page[size]</code></p><p><strong>Example</strong>:</p><pre><code>page=4</code></pre></li><li><strong>Page Size</strong>: <em>(integer - default: 50 - minimum: 1 - maximum: 100)</em><p>The number of items to return</p><p><strong>Example</strong>:</p><pre><code>page[size]=5</code></pre></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "meta": {
+      "meta": {
+        "create-on": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "modified-on": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "created-by": {
+          "type": "string",
+          "pattern": "^.+\\-.*\\-.+$"
+        },
+        "modified-by": {
+          "type": "string",
+          "pattern": "^.+\\-.*\\-.+$"
+        }
+      }
+    },
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "[\\d\\w\\.\\-]{3,64}"
+      },
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "required": [
+          "type",
+          "properties"
+        ],
+        "type": "object",
+        "properties": {
+          "permissions": {
+            "type": "object",
+            "patternProperties": {
+              "^\\w+\\-w*\\-\\w+$": {
+                "enum": [
+                  "READ",
+                  "WRITE",
+                  "CREATE",
+                  "UPDATE",
+                  "DELETE",
+                  "ADMIN"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}</span>/collections</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new Collection. If an id, the "primary key", is not provided one will be generated.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections_post_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections_post_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "[\\d\\w\\.\\-]{3,64}"
+      },
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "required": [
+          "type",
+          "properties"
+        ],
+        "type": "object",
+        "properties": {
+          "permissions": {
+            "type": "object",
+            "patternProperties": {
+              "^\\w+\\-w*\\-\\w+$": {
+                "enum": [
+                  "READ",
+                  "WRITE",
+                  "CREATE",
+                  "UPDATE",
+                  "DELETE",
+                  "ADMIN"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
+        "meta": {
+          "meta": {
+            "create-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "created-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            }
+          }
+        },
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "permissions": {
+                "type": "object",
+                "patternProperties": {
+                  "^\\w+\\-w*\\-\\w+$": {
+                    "enum": [
+                      "READ",
+                      "WRITE",
+                      "CREATE",
+                      "UPDATE",
+                      "DELETE",
+                      "ADMIN"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
+    }
+  }
 }</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://jsonschema.net",
@@ -860,374 +1071,501 @@
   }]
 }
 </code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_namespaces__Namespace_ID__collections__Collection_ID_"><span class="parent">/namespaces/{Namespace_ID}/collections</span>/{Collection_ID}</a> <span class="methods"><a href="#namespaces__Namespace_ID__collections__Collection_ID__get"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections__Collection_ID__put"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections__Collection_ID__patch"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections__Collection_ID__delete"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a></span></h4></div><div id="panel_namespaces__Namespace_ID__collections__Collection_ID_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__get'" class="list-group-item"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Get this Collection&#39;s data.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__put'" class="list-group-item"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p><strong>Replace</strong> the Collection with the provided data.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__patch'" class="list-group-item"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Update the Collection with the provided data. The provided data will be recursively merged with the existing data.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__delete'" class="list-group-item"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p><strong>Delete</strong> this Collection</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections</span>/{Collection_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get this Collection&#39;s data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__get_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__get_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": null
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
         "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
-            }
-        },
-        "required": [
-            "data"
-        ],
-        "additionalProperties": false
-    },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
-        "type": "object",
-        "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
-            }
-        }
-    }
-}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections</span>/{Collection_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Replace</strong> the Collection with the provided data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__put_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__put_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "attributes": {
-            "type": "object",
-            "required": [
-                "type",
-                "properties"
-            ],
-            "properties": null
-        },
-        "required": [
-            "attributes"
-        ],
-        "additionalProperties": false
-    },
-    "meta": {
-        "meta": {
-            "modified-on": {
-                "type": "string",
-                "format": "date-time"
-            },
+          "meta": {
             "create-on": {
-                "type": "string",
-                "format": "date-time"
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
             },
             "created-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
             },
             "modified-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
             }
-        }
-    },
-    "required": [
-        "data"
-    ],
-    "additionalProperties": false
-}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": null
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
-        "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
-            }
+          }
         },
         "required": [
-            "data"
+          "attributes",
+          "type"
         ],
-        "additionalProperties": false
-    },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
-        "type": "object",
         "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
-            }
-        }
-    }
-}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__patch"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections</span>/{Collection_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the Collection with the provided data. The provided data will be recursively merged with the existing data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__patch_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__patch_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "attributes": {
-            "type": "object",
-            "properties": null
-        },
-        "required": [
-            "attributes"
-        ],
-        "additionalProperties": false
-    },
-    "meta": {
-        "meta": {
-            "modified-on": {
-                "type": "string",
-                "format": "date-time"
-            },
-            "create-on": {
-                "type": "string",
-                "format": "date-time"
-            },
-            "created-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
-            },
-            "modified-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
-            }
-        }
-    },
-    "required": [
-        "data"
-    ],
-    "additionalProperties": false
-}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": null
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
-        "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
-            }
-        },
-        "required": [
-            "data"
-        ],
-        "additionalProperties": false
-    },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
-        "type": "object",
-        "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
-            }
-        }
-    }
-}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections</span>/{Collection_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Delete</strong> this Collection</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__delete_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__delete_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2><p>No body</p></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_namespaces__Namespace_ID__collections__Collection_ID__documents"><span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}</span>/documents</a> <span class="methods"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents_get"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections__Collection_ID__documents_post"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a></span></h4></div><div id="panel_namespaces__Namespace_ID__collections__Collection_ID__documents" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents_get'" class="list-group-item"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Get a list of all Documents that the authenticated user has at least READ access to.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents_post'" class="list-group-item"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Create a new Document. If an id is not provided one will be generated.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}</span>/documents</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get a list of all Documents that the authenticated user has at least READ access to.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents_get_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents_get_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li></ul><h3>Query Parameters</h3><ul><li><strong>Page</strong>: <em>(integer - default: 1 - minimum: 1)</em><p>The page of data to fetch from the server. Similiar to offset or skip in other databases. Fetches results after <code>page * page[size]</code></p><p><strong>Example</strong>:</p><pre><code>page=4</code></pre></li><li><strong>Page Size</strong>: <em>(integer - default: 50 - minimum: 1 - maximum: 100)</em><p>The number of items to return</p><p><strong>Example</strong>:</p><pre><code>page[size]=5</code></pre></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>Document-multiple</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}</span>/documents</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new Document. If an id is not provided one will be generated.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents_post_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents_post_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "attributes": {
-            "type": "object",
-            "required": [
-                "type",
-                "properties"
-            ],
-            "properties": {
-                "patternProperties": {
-                    "^[^$\\.]+$": null
-                }
-            }
-        },
-        "required": [
-            "attributes"
-        ],
-        "id": {
+          "id": {
             "type": "string",
             "pattern": "[\\d\\w\\.\\-]{3,64}"
-        },
-        "additionalProperties": false
-    },
-    "meta": {
-        "meta": {
-            "modified-on": {
-                "type": "string",
-                "format": "date-time"
-            },
-            "create-on": {
-                "type": "string",
-                "format": "date-time"
-            },
-            "created-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
-            },
-            "modified-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
-            }
-        }
-    },
-    "required": [
-        "data"
-    ],
-    "additionalProperties": false
-}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": {
-                    "patternProperties": {
-                        "^[^$\\.]+$": null
-                    }
-                }
-            },
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
             "required": [
-                "attributes"
+              "type",
+              "properties"
             ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
-        "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
+            "type": "object",
+            "properties": {
+              "permissions": {
+                "type": "object",
+                "patternProperties": {
+                  "^\\w+\\-w*\\-\\w+$": {
+                    "enum": [
+                      "READ",
+                      "WRITE",
+                      "CREATE",
+                      "UPDATE",
+                      "DELETE",
+                      "ADMIN"
+                    ]
+                  }
                 }
+              }
             }
+          }
         },
-        "required": [
-            "data"
-        ],
         "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
     },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
+    }
+  }
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections</span>/{Collection_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Replace</strong> the Collection with the provided data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__put_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__put_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "required": [
+          "type",
+          "properties"
+        ],
         "type": "object",
         "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
+          "permissions": {
+            "type": "object",
+            "patternProperties": {
+              "^\\w+\\-w*\\-\\w+$": {
+                "enum": [
+                  "READ",
+                  "WRITE",
+                  "CREATE",
+                  "UPDATE",
+                  "DELETE",
+                  "ADMIN"
+                ]
+              }
             }
+          }
         }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
+        "meta": {
+          "meta": {
+            "create-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "created-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            }
+          }
+        },
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "permissions": {
+                "type": "object",
+                "patternProperties": {
+                  "^\\w+\\-w*\\-\\w+$": {
+                    "enum": [
+                      "READ",
+                      "WRITE",
+                      "CREATE",
+                      "UPDATE",
+                      "DELETE",
+                      "ADMIN"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
     }
+  }
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__patch"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections</span>/{Collection_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the Collection with the provided data. The provided data will be recursively merged with the existing data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__patch_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__patch_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "type": "object",
+        "properties": {
+          "permissions": {
+            "type": "object",
+            "patternProperties": {
+              "^\\w+\\-w*\\-\\w+$": {
+                "enum": [
+                  "READ",
+                  "WRITE",
+                  "CREATE",
+                  "UPDATE",
+                  "DELETE",
+                  "ADMIN"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
+        "meta": {
+          "meta": {
+            "create-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "created-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            }
+          }
+        },
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "permissions": {
+                "type": "object",
+                "patternProperties": {
+                  "^\\w+\\-w*\\-\\w+$": {
+                    "enum": [
+                      "READ",
+                      "WRITE",
+                      "CREATE",
+                      "UPDATE",
+                      "DELETE",
+                      "ADMIN"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
+    }
+  }
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections</span>/{Collection_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Delete</strong> this Collection</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__delete_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__delete_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2><p>No body</p></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_namespaces__Namespace_ID__collections__Collection_ID__documents"><span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}</span>/documents</a> <span class="methods"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents_get"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections__Collection_ID__documents_post"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a></span></h4></div><div id="panel_namespaces__Namespace_ID__collections__Collection_ID__documents" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents_get'" class="list-group-item"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Get a list of all Documents that the authenticated user has at least READ access to.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents_post'" class="list-group-item"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Create a new Document. If an id, the "primary key", is not provided one will be generated.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}</span>/documents</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get a list of all Documents that the authenticated user has at least READ access to.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents_get_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents_get_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li></ul><h3>Query Parameters</h3><ul><li><strong>Page</strong>: <em>(integer - default: 1 - minimum: 1)</em><p>The page of data to fetch from the server. Similiar to offset or skip in other databases. Fetches results after <code>page * page[size]</code></p><p><strong>Example</strong>:</p><pre><code>page=4</code></pre></li><li><strong>Page Size</strong>: <em>(integer - default: 50 - minimum: 1 - maximum: 100)</em><p>The number of items to return</p><p><strong>Example</strong>:</p><pre><code>page[size]=5</code></pre></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "meta": {
+      "meta": {
+        "create-on": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "modified-on": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "created-by": {
+          "type": "string",
+          "pattern": "^.+\\-.*\\-.+$"
+        },
+        "modified-by": {
+          "type": "string",
+          "pattern": "^.+\\-.*\\-.+$"
+        }
+      }
+    },
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "[\\d\\w\\.\\-]{3,64}"
+      },
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "required": [
+          "type",
+          "properties"
+        ],
+        "type": "object",
+        "properties": {
+          "patternProperties": {
+            "^[^$\\.]+$": null
+          }
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}</span>/documents</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new Document. If an id, the "primary key", is not provided one will be generated.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents_post_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents_post_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "[\\d\\w\\.\\-]{3,64}"
+      },
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "required": [
+          "type",
+          "properties"
+        ],
+        "type": "object",
+        "properties": {
+          "patternProperties": {
+            "^[^$\\.]+$": null
+          }
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
+        "meta": {
+          "meta": {
+            "create-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "created-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            }
+          }
+        },
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "patternProperties": {
+                "^[^$\\.]+$": null
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
+    }
+  }
 }</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://jsonschema.net",
@@ -1284,394 +1622,441 @@
   }]
 }
 </code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID_"><span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents</span>/{Document_ID}</a> <span class="methods"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__get"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__put"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__patch"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__delete"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a></span></h4></div><div id="panel_namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__get'" class="list-group-item"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Get this Document&#39;s data.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__put'" class="list-group-item"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p><strong>Replace</strong> the Document with the provided data.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__patch'" class="list-group-item"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Update the Document with the provided data. The provided data will be recursively merged with the existing data.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__delete'" class="list-group-item"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p><strong>Delete</strong> this Document</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents</span>/{Document_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get this Document&#39;s data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__get_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__get_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": {
-                    "patternProperties": {
-                        "^[^$\\.]+$": null
-                    }
-                }
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
         "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
-            }
-        },
-        "required": [
-            "data"
-        ],
-        "additionalProperties": false
-    },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
-        "type": "object",
-        "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
-            }
-        }
-    }
-}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents</span>/{Document_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Replace</strong> the Document with the provided data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__put_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__put_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "attributes": {
-            "type": "object",
-            "required": [
-                "type",
-                "properties"
-            ],
-            "properties": {
-                "patternProperties": {
-                    "^[^$\\.]+$": null
-                }
-            }
-        },
-        "required": [
-            "attributes"
-        ],
-        "additionalProperties": false
-    },
-    "meta": {
-        "meta": {
-            "modified-on": {
-                "type": "string",
-                "format": "date-time"
-            },
+          "meta": {
             "create-on": {
-                "type": "string",
-                "format": "date-time"
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
             },
             "created-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
             },
             "modified-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
             }
-        }
-    },
-    "required": [
-        "data"
-    ],
-    "additionalProperties": false
-}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": {
-                    "patternProperties": {
-                        "^[^$\\.]+$": null
-                    }
-                }
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
-        "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
-            }
+          }
         },
         "required": [
-            "data"
+          "attributes",
+          "type"
         ],
-        "additionalProperties": false
-    },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
-        "type": "object",
         "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
-            }
-        }
-    }
-}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__patch"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents</span>/{Document_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the Document with the provided data. The provided data will be recursively merged with the existing data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__patch_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__patch_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "attributes": {
-            "type": "object",
-            "properties": {
-                "patternProperties": {
-                    "^[^$\\.]+$": null
-                }
-            }
-        },
-        "required": [
-            "attributes"
-        ],
-        "additionalProperties": false
-    },
-    "meta": {
-        "meta": {
-            "modified-on": {
-                "type": "string",
-                "format": "date-time"
-            },
-            "create-on": {
-                "type": "string",
-                "format": "date-time"
-            },
-            "created-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
-            },
-            "modified-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
-            }
-        }
-    },
-    "required": [
-        "data"
-    ],
-    "additionalProperties": false
-}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": {
-                    "patternProperties": {
-                        "^[^$\\.]+$": null
-                    }
-                }
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
-        "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
-            }
-        },
-        "required": [
-            "data"
-        ],
-        "additionalProperties": false
-    },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
-        "type": "object",
-        "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
-            }
-        }
-    }
-}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents</span>/{Document_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Delete</strong> this Document</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__delete_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__delete_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2><p>No body</p></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history"><span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents/{Document_ID}</span>/history</a> <span class="methods"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a></span></h4></div><div id="panel_namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get'" class="list-group-item"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Get a list of all Histories that the authenticated user has at least READ access to.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post'" class="list-group-item"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Create a new History. If an id is not provided one will be generated.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents/{Document_ID}</span>/history</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get a list of all Histories that the authenticated user has at least READ access to.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li></ul><h3>Query Parameters</h3><ul><li><strong>Page</strong>: <em>(integer - default: 1 - minimum: 1)</em><p>The page of data to fetch from the server. Similiar to offset or skip in other databases. Fetches results after <code>page * page[size]</code></p><p><strong>Example</strong>:</p><pre><code>page=4</code></pre></li><li><strong>Page Size</strong>: <em>(integer - default: 50 - minimum: 1 - maximum: 100)</em><p>The number of items to return</p><p><strong>Example</strong>:</p><pre><code>page[size]=5</code></pre></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>History-multiple</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents/{Document_ID}</span>/history</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new History. If an id is not provided one will be generated.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "attributes": {
-            "type": "object",
-            "required": [
-                "type",
-                "properties"
-            ],
-            "properties": {
-                "ref": {
-                    "type": "string"
-                }
-            }
-        },
-        "required": [
-            "attributes"
-        ],
-        "id": {
+          "id": {
             "type": "string",
             "pattern": "[\\d\\w\\.\\-]{3,64}"
-        },
-        "additionalProperties": false
-    },
-    "meta": {
-        "meta": {
-            "modified-on": {
-                "type": "string",
-                "format": "date-time"
-            },
-            "create-on": {
-                "type": "string",
-                "format": "date-time"
-            },
-            "created-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
-            },
-            "modified-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
-            }
-        }
-    },
-    "required": [
-        "data"
-    ],
-    "additionalProperties": false
-}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": {
-                    "ref": {
-                        "type": "string"
-                    }
-                }
-            },
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
             "required": [
-                "attributes"
+              "type",
+              "properties"
             ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
-        "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
+            "type": "object",
+            "properties": {
+              "patternProperties": {
+                "^[^$\\.]+$": null
+              }
             }
+          }
         },
-        "required": [
-            "data"
-        ],
         "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
     },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
+    }
+  }
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents</span>/{Document_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Replace</strong> the Document with the provided data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__put_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__put_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "required": [
+          "type",
+          "properties"
+        ],
         "type": "object",
         "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
-            }
+          "patternProperties": {
+            "^[^$\\.]+$": null
+          }
         }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
+        "meta": {
+          "meta": {
+            "create-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "created-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            }
+          }
+        },
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "patternProperties": {
+                "^[^$\\.]+$": null
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
     }
+  }
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__patch"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents</span>/{Document_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the Document with the provided data. The provided data will be recursively merged with the existing data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__patch_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__patch_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "type": "object",
+        "properties": {
+          "patternProperties": {
+            "^[^$\\.]+$": null
+          }
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
+        "meta": {
+          "meta": {
+            "create-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "created-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            }
+          }
+        },
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "patternProperties": {
+                "^[^$\\.]+$": null
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
+    }
+  }
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents</span>/{Document_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Delete</strong> this Document</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__delete_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__delete_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2><p>No body</p></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history"><span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents/{Document_ID}</span>/history</a> <span class="methods"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a></span></h4></div><div id="panel_namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get'" class="list-group-item"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Get a list of all Histories that the authenticated user has at least READ access to.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post'" class="list-group-item"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Create a new History. If an id, the "primary key", is not provided one will be generated.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents/{Document_ID}</span>/history</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get a list of all Histories that the authenticated user has at least READ access to.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li></ul><h3>Query Parameters</h3><ul><li><strong>Page</strong>: <em>(integer - default: 1 - minimum: 1)</em><p>The page of data to fetch from the server. Similiar to offset or skip in other databases. Fetches results after <code>page * page[size]</code></p><p><strong>Example</strong>:</p><pre><code>page=4</code></pre></li><li><strong>Page Size</strong>: <em>(integer - default: 50 - minimum: 1 - maximum: 100)</em><p>The number of items to return</p><p><strong>Example</strong>:</p><pre><code>page[size]=5</code></pre></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "meta": {
+      "meta": {
+        "create-on": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "modified-on": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "created-by": {
+          "type": "string",
+          "pattern": "^.+\\-.*\\-.+$"
+        },
+        "modified-by": {
+          "type": "string",
+          "pattern": "^.+\\-.*\\-.+$"
+        }
+      }
+    },
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "[\\d\\w\\.\\-]{3,64}"
+      },
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "required": [
+          "type",
+          "properties"
+        ],
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents/{Document_ID}</span>/history</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new History. If an id, the "primary key", is not provided one will be generated.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "[\\d\\w\\.\\-]{3,64}"
+      },
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "required": [
+          "type",
+          "properties"
+        ],
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
+        "meta": {
+          "meta": {
+            "create-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "created-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            }
+          }
+        },
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
+    }
+  }
 }</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://jsonschema.net",
@@ -1728,280 +2113,279 @@
   }]
 }
 </code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID_"><span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents/{Document_ID}/history</span>/{History_ID}</a> <span class="methods"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__get"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__put"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__patch"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a> <a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__delete"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span></a></span></h4></div><div id="panel_namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__get'" class="list-group-item"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Get this History&#39;s data.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__put'" class="list-group-item"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p><strong>Replace</strong> the History with the provided data.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__patch'" class="list-group-item"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p>Update the History with the provided data. The provided data will be recursively merged with the existing data.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__delete'" class="list-group-item"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span><div class="method_description"><p><strong>Delete</strong> this History</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents/{Document_ID}/history</span>/{History_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Get this History&#39;s data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__get_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__get_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li><li><strong>History_ID</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": {
-                    "ref": {
-                        "type": "string"
-                    }
-                }
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
         "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
+          "meta": {
+            "create-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "created-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
             }
+          }
         },
         "required": [
-            "data"
+          "attributes",
+          "type"
         ],
-        "additionalProperties": false
-    },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
-        "type": "object",
         "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string"
+              }
             }
-        }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
     }
+  }
 }</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents/{Document_ID}/history</span>/{History_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Replace</strong> the History with the provided data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__put_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__put_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li><li><strong>History_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "attributes": {
-            "type": "object",
-            "required": [
-                "type",
-                "properties"
-            ],
-            "properties": {
-                "ref": {
-                    "type": "string"
-                }
-            }
-        },
-        "required": [
-            "attributes"
-        ],
-        "additionalProperties": false
-    },
-    "meta": {
-        "meta": {
-            "modified-on": {
-                "type": "string",
-                "format": "date-time"
-            },
-            "create-on": {
-                "type": "string",
-                "format": "date-time"
-            },
-            "created-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
-            },
-            "modified-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
-            }
-        }
-    },
+  "data": {
     "required": [
-        "data"
+      "attributes",
+      "type"
     ],
+    "properties": {
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "required": [
+          "type",
+          "properties"
+        ],
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
 }</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": {
-                    "ref": {
-                        "type": "string"
-                    }
-                }
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
         "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
-            }
-        },
-        "required": [
-            "data"
-        ],
-        "additionalProperties": false
-    },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
-        "type": "object",
-        "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
-            }
-        }
-    }
-}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__patch"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents/{Document_ID}/history</span>/{History_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the History with the provided data. The provided data will be recursively merged with the existing data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__patch_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__patch_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li><li><strong>History_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "attributes": {
-            "type": "object",
-            "properties": {
-                "ref": {
-                    "type": "string"
-                }
-            }
-        },
-        "required": [
-            "attributes"
-        ],
-        "additionalProperties": false
-    },
-    "meta": {
-        "meta": {
-            "modified-on": {
-                "type": "string",
-                "format": "date-time"
-            },
+          "meta": {
             "create-on": {
-                "type": "string",
-                "format": "date-time"
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
             },
             "created-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
             },
             "modified-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
             }
-        }
-    },
-    "required": [
-        "data"
-    ],
-    "additionalProperties": false
-}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
-    "data": {
-        "data": {
-            "attributes": {
-                "type": "object",
-                "required": [
-                    "type",
-                    "properties"
-                ],
-                "properties": {
-                    "ref": {
-                        "type": "string"
-                    }
-                }
-            },
-            "required": [
-                "attributes"
-            ],
-            "id": {
-                "type": "string",
-                "pattern": "[\\d\\w\\.\\-]{3,64}"
-            },
-            "additionalProperties": false
-        },
-        "meta": {
-            "meta": {
-                "modified-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "create-on": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "created-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                },
-                "modified-by": {
-                    "type": "string",
-                    "pattern": "^.+\\-.*\\-.+$"
-                }
-            }
+          }
         },
         "required": [
-            "data"
+          "attributes",
+          "type"
         ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string"
+              }
+            }
+          }
+        },
         "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
     },
-    "links": {
-        "type": "object"
-    },
-    "meta": {
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
+    }
+  }
+}</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__patch"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_patch">patch <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents/{Document_ID}/history</span>/{History_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update the History with the provided data. The provided data will be recursively merged with the existing data.</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__patch_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__patch_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__patch_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li><li><strong>History_ID</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "data": {
+    "required": [
+      "attributes",
+      "type"
+    ],
+    "properties": {
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
         "type": "object",
         "properties": {
-            "perPage": {
-                "id": "total",
-                "type": "integer"
-            },
-            "total": {
-                "id": "total",
-                "type": "integer"
-            }
+          "ref": {
+            "type": "string"
+          }
         }
+      }
+    },
+    "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
+}</code></pre></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__patch_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/vnd.api+json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "links": {
+    "type": "object"
+  },
+  "data": {
+    "items": {
+      "data": {
+        "meta": {
+          "meta": {
+            "create-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "modified-on": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "created-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            },
+            "modified-by": {
+              "type": "string",
+              "pattern": "^.+\\-.*\\-.+$"
+            }
+          }
+        },
+        "required": [
+          "attributes",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "[\\d\\w\\.\\-]{3,64}"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "required": [
+              "type",
+              "properties"
+            ],
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "type": "array"
+  },
+  "meta": {
+    "type": "object",
+    "properties": {
+      "perPage": {
+        "id": "total",
+        "type": "integer"
+      },
+      "total": {
+        "id": "total",
+        "type": "integer"
+      }
     }
+  }
 }</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete <span class="glyphicon glyphicon-lock" title="Authentication required"></span></span> <span class="parent">/namespaces/{Namespace_ID}/collections/{Collection_ID}/documents/{Document_ID}/history</span>/{History_ID}</h4></div><div class="modal-body"><div class="alert alert-info"><p><strong>Delete</strong> this History</p></div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by</div><div class="alert alert-warning"><span class="glyphicon glyphicon-lock" title="Authentication required"></span> Secured by jwt<p><a href="https://jwt.io">Javascript Web Tokens</a> are used to authenticate all JamDB API requests.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__delete_request" data-toggle="tab">Request</a></li><li><a href="#namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__delete_request"><h3>URI Parameters</h3><ul><li><strong>Namespace_ID</strong>: <em>required (string)</em></li><li><strong>Collection_ID</strong>: <em>required (string)</em></li><li><strong>Document_ID</strong>: <em>required (string)</em></li><li><strong>History_ID</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="namespaces__Namespace_ID__collections__Collection_ID__documents__Document_ID__history__History_ID__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/204" target="_blank">204</a></h2><p>No body</p></div></div></div></div></div></div></div></div></div></div></div><div class="col-md-3"><div id="sidebar" class="hidden-print affix" role="complementary"><ul class="nav nav-pills nav-stacked"><li><a href="#auth">/auth</a></li><li><a href="#namespaces">/namespaces</a></li></ul></div></div></div></div></body></html>

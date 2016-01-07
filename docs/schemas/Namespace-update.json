@@ -1,32 +1,38 @@
 {
-    "data": {
-        "attributes": {
-            "type": "object",
-            "properties": {
-                "permissions": {
-                    "type": "object",
-                    "patternProperties": {
-                        "^\\w+\\-w*\\-\\w+$": {
-                            "enum": [
-                                "READ",
-                                "WRITE",
-                                "CREATE",
-                                "UPDATE",
-                                "DELETE",
-                                "ADMIN"
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "required": [
-            "attributes"
-        ],
-        "additionalProperties": false
-    },
+  "data": {
     "required": [
-        "data"
+      "attributes",
+      "type"
     ],
+    "properties": {
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "type": "object",
+        "properties": {
+          "permissions": {
+            "type": "object",
+            "patternProperties": {
+              "^\\w+\\-w*\\-\\w+$": {
+                "enum": [
+                  "READ",
+                  "WRITE",
+                  "CREATE",
+                  "UPDATE",
+                  "DELETE",
+                  "ADMIN"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
     "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
 }

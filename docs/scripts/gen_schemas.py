@@ -34,11 +34,15 @@ ID = {
 
 SINGLE = {
     'data': {
-        'attributes': None,
-        'required': ['attributes'],
+        'properties': {
+            'attributes': None,
+            'type': {
+                'type': 'string',
+            }
+        },
+        'required': ['attributes', 'type'],
         'additionalProperties': False,
     },
-    # 'meta': META,
     'required': ['data'],
     'additionalProperties': False,
 }
@@ -71,23 +75,24 @@ for resource in ('Namespace', 'Collection', 'Document', 'History'):
     with open(os.path.join(HERE, '../schemas/{}.yml'.format(resource)), 'r') as fobj:
         schema = yaml.load(fobj.read())
 
-    SINGLE['data'].pop('id', None)
-    SINGLE['data']['attributes'] = {'type': 'object', 'properties': schema}
+    SINGLE['data'].pop('meta', None)
+    SINGLE['data']['properties'].pop('id', None)
+    SINGLE['data']['properties']['attributes'] = {'type': 'object', 'properties': schema}
     with open(os.path.join(HERE, '../schemas/{}-update.json'.format(resource)), 'w') as fobj:
-        json.dump(SINGLE, fobj, indent=4)
+        json.dump(SINGLE, fobj, indent=2)
 
-    SINGLE['data']['attributes']['required'] = list(SINGLE['data']['attributes'].keys())
+    SINGLE['data']['properties']['attributes']['required'] = list(SINGLE['data']['properties']['attributes'].keys())
     with open(os.path.join(HERE, '../schemas/{}-replace.json'.format(resource)), 'w') as fobj:
-        json.dump(SINGLE, fobj, indent=4)
+        json.dump(SINGLE, fobj, indent=2)
 
-    SINGLE['data']['id'] = ID
+    SINGLE['data']['properties']['id'] = ID
     with open(os.path.join(HERE, '../schemas/{}-create.json'.format(resource)), 'w') as fobj:
-        json.dump(SINGLE, fobj, indent=4)
+        json.dump(SINGLE, fobj, indent=2)
 
-    SINGLE['meta'] = META
+    SINGLE['data']['meta'] = META
     with open(os.path.join(HERE, '../schemas/{}-multiple.json'.format(resource)), 'w') as fobj:
-        json.dump(SINGLE, fobj, indent=4)
+        json.dump(SINGLE, fobj, indent=2)
 
-    MULTIPLE['data'] = SINGLE
+    MULTIPLE['data']['items'] = SINGLE
     with open(os.path.join(HERE, '../schemas/{}-single.json'.format(resource)), 'w') as fobj:
-        json.dump(MULTIPLE, fobj, indent=4)
+        json.dump(MULTIPLE, fobj, indent=2)

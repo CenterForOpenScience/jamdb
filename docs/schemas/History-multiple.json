@@ -1,48 +1,54 @@
 {
-    "data": {
-        "attributes": {
-            "type": "object",
-            "required": [
-                "type",
-                "properties"
-            ],
-            "properties": {
-                "ref": {
-                    "type": "string"
-                }
-            }
-        },
-        "required": [
-            "attributes"
-        ],
-        "id": {
-            "type": "string",
-            "pattern": "[\\d\\w\\.\\-]{3,64}"
-        },
-        "additionalProperties": false
-    },
+  "data": {
     "meta": {
-        "meta": {
-            "modified-on": {
-                "type": "string",
-                "format": "date-time"
-            },
-            "create-on": {
-                "type": "string",
-                "format": "date-time"
-            },
-            "created-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
-            },
-            "modified-by": {
-                "type": "string",
-                "pattern": "^.+\\-.*\\-.+$"
-            }
+      "meta": {
+        "create-on": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "modified-on": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "created-by": {
+          "type": "string",
+          "pattern": "^.+\\-.*\\-.+$"
+        },
+        "modified-by": {
+          "type": "string",
+          "pattern": "^.+\\-.*\\-.+$"
         }
+      }
     },
     "required": [
-        "data"
+      "attributes",
+      "type"
     ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "[\\d\\w\\.\\-]{3,64}"
+      },
+      "type": {
+        "type": "string"
+      },
+      "attributes": {
+        "required": [
+          "type",
+          "properties"
+        ],
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "additionalProperties": false
+  },
+  "required": [
+    "data"
+  ],
+  "additionalProperties": false
 }
