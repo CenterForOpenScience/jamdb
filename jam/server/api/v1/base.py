@@ -15,7 +15,7 @@ class ResourceHandler(BaseAPIHandler):
 
     @property
     def page_size(self):
-        return self.parse_int_with_bounds(self.get_query_argument('size', default=self.resource.PAGE_SIZE), lower=0)
+        return self.parse_int_with_bounds(self.get_query_argument('page[size]', default=self.resource.PAGE_SIZE), lower=0)
 
     def parse_int_with_bounds(self, raw, lower=None, upper=None):
         try:
