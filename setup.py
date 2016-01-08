@@ -21,20 +21,31 @@ def find_version(fname):
 
 def parse_requirements(requirements):
     with open(requirements) as f:
-        return [l.strip('\n') for l in f if l.strip('\n') and not l.startswith('#')]
+        reqs, deps = [], []
+        for req in [l.strip('\n') for l in f if l.strip('\n') and not l.startswith('#')]:
+            if req.startswith('git+'):
+                deps.append(req.lstrip('git+'))
+            else:
+                reqs.append(req)
+    return reqs, deps
 
-
-requirements = parse_requirements('requirements.txt')
+requirements, dependency_links = parse_requirements('requirements.txt')
 
 setup(
     name='jam',
     version=find_version('jam/__init__.py'),
     scripts=['bin/jam'],
     install_requires=requirements,
+    dependency_links=dependency_links,
     packages=find_packages(exclude=('tests*', 'examples')),
     package_dir={'jam': 'jam'},
     include_package_data=True,
     zip_safe=False,
+    provides=[
+        'jam.schemas',
+        'jam.backends',
+        'jam.auth.providers',
+    ],
     entry_points={
         'jam.schemas': [
             'jsonschema = jam.schemas.jsonschema:JSONSchema'
