@@ -1,11 +1,16 @@
 import Ember from 'ember';
 
+const TYPE_MAP = {
+  'string': 'fa fa-quote-right'
+};
+
 
 function objectToJsTree(obj) {
     return Object.keys(obj).map((attr) => {
         if (Array.isArray(obj[attr]))
           return {
             title: attr,
+            icon: 'fa fa-list',
             data: {
               value: `Array [${obj[attr].length}]`,
               type: 'Array',
@@ -19,16 +24,15 @@ function objectToJsTree(obj) {
                   value: `{ ${Object.keys(obj[attr]).length} fields }`,
                     type: 'Object'
                 },
-                // text: attr,
-                // icon: 'fa fa-map',
                 children: objectToJsTree(obj[attr])
             };
         return {
-          // icon: 'fa fa-quote-right',
+          icon: TYPE_MAP[typeof obj[attr]],
           title: attr,
           data: {
+            editable: true,
             value: obj[attr],
-            type: typeof obj[attr]
+            type: (typeof obj[attr]).capitalize()
           }
         };
     });
@@ -39,7 +43,14 @@ export default Ember.Controller.extend({
 
     selectedID: null,
     page: 1,
+    totalPages: 0,
     queryParams: ['page'],
+    hasPrev: function() {
+      return this.get('page') > 1;
+    }.property('page', 'totalPages'),
+    hasNext: function() {
+      return this.get('page') < this.get('totalPages');
+    }.property('page', 'totalPages'),
     jsTreeOptions: {
         columns: [
             {header: "Nodes", width: '100%'},
@@ -53,6 +64,10 @@ export default Ember.Controller.extend({
             this.set('adapterContext.collection', this.get('model'));
             return this.store.query('document', {
                 page: this.get('page'),
+            }).then(docs => {
+              console.log(docs.get('meta'));
+              this.set('totalPages', docs.get('meta.total') / docs.get('meta.perPage'));
+              return docs;
             });
         });
     }.property('model', 'page'),
@@ -76,6 +91,9 @@ export default Ember.Controller.extend({
         },
         nextPage(event) {
             this.transitionToRoute({ queryParams: { page: this.get('page') + 1 }});
+        },
+        prevPage(event) {
+            this.transitionToRoute({ queryParams: { page: this.get('page') - 1 }});
         }
     }
 });

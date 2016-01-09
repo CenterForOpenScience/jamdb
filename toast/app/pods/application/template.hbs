@@ -1,28 +1,44 @@
 <div class="{{skin}} wrapper">
-    {{#al-main-header}}
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-        </a>
-    {{/al-main-header}}
 
-    {{#al-main-sidebar}}
-        <ul class="nav sidebar-menu">
-            <li class="header">MAIN NAVIGATION</li>
-            {{#if session.isAuthenticated}}
-              <li class="header">{{session.session.content.authenticated.id}}</li>
-            {{/if}}
-            {{#link-to "namespaces" tagName="li" }}
-                {{#link-to "namespaces" as |link|}}
-                    <i class="fa fa-circle-o"></i> Namespaces
-                {{/link-to}}
-            {{/link-to}}
-            {{#each model as |namespace|}}
-              {{namespace-entry namespace}}
-            {{/each}}
-        </ul>
-    {{/al-main-sidebar}}
+<header class="main-header">
+  <!-- Logo -->
+  <a href="/" class="logo">
+    <!-- mini logo for sidebar mini 50x50 pixels -->
+    <span class="logo-mini"><b>Toast</b></span>
+    <!-- logo for regular state and mobile devices -->
+    <span class="logo-lg"><b>Toast</b> Admin</span>
+  </a>
+  <!-- Header Navbar: style can be found in header.less -->
+  <nav class="navbar navbar-static-top" role="navigation">
 
-    <div class="content-wrapper" style="height: 100vh;">
-        {{outlet}}
+    <div class="navbar-custom-menu">
+      <ul class="nav navbar-nav">
+        {{#if session.isAuthenticated}}
+          <li class="footer"><a>{{session.session.content.authenticated.id}}</a></li>
+        {{/if}}
+      </ul>
     </div>
+  </nav>
+</header>
+
+{{#al-main-sidebar}}
+  <ul class="nav sidebar-menu">
+    <li class="header">MAIN NAVIGATION</li>
+    {{#if session.isAuthenticated}}
+      <li class="header">{{session.session.content.authenticated.id}}</li>
+    {{/if}}
+    {{#link-to "namespaces" tagName="li" }}
+      {{#link-to "namespaces" as |link|}}
+        <i class="fa fa-circle-o"></i> Namespaces
+      {{/link-to}}
+    {{/link-to}}
+    {{#each model as |namespace|}}
+      {{namespace-entry namespace}}
+    {{/each}}
+  </ul>
+{{/al-main-sidebar}}
+
+<div class="content-wrapper" style="height: 100vh;">
+  {{outlet}}
+</div>
 </div>

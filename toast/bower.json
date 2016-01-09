@@ -18,6 +18,8 @@
     "jsoneditor": "~4.2.1",
     "jstree": "~3.2.1",
     "uri-templates": "~0.1.9",
-    "jquery.fancytree": "fancytree#~2.14.0"
+    "jquery.fancytree": "fancytree#~2.14.0",
+    "AdminLTE": "admin-lte#~2.3.2",
+    "x-editable": "~1.5.1"
   }
 }

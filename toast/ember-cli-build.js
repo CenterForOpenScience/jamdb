@@ -10,7 +10,12 @@ module.exports = function(defaults) {
 
   app.import('bower_components/jquery-ui/jquery-ui.js');
   app.import('bower_components/jquery.fancytree/dist/jquery.fancytree-all.js');
-  // app.import('bower_components/jquery.fancytree/dist/skin-bootstrap-n/ui.fancytree.css');
+  app.import('bower_components/jquery.fancytree/dist/skin-awesome/ui.fancytree.css');
+
+  app.import('bower_components/bootstrap/dist/js/bootstrap.js');
+
+  app.import('bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js');
+  app.import('bower_components/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css');
 
   // Use `app.import` to add additional libraries to the generated
   // output files.
