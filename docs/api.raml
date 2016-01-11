@@ -36,6 +36,7 @@ resourceTypes:
   - crudList: !include resourceTypes/crud-list.raml
 traits:
   - paginated: !include traits/paginated.raml
+  - filterable: !include traits/filterable.raml
 securitySchemes:
   - jwt: !include securitySchemes/jam-jwt.raml
 documentation:
@@ -76,6 +77,30 @@ documentation:
           type: { crudList: { resourceType: Document } }
 
           /_search:
+            securedBy: [ null, jwt ]
+            get:
+              description: |
+                An interface to JamDB's underlying elasticsearch query engine.
+                Results are returned in the same format as any other "listing" endpoint.
+                Elasticsearch's ["score"](https://www.elastic.co/guide/en/elasticsearch/guide/master/relevance-intro.html#explain) field will be included in the result's "meta" field.
+              is: [ paginated ]
+              queryParameters:
+                q:
+                  description: |
+                    A lucene formatted search query.
+                    See [here](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax) for more detail.
+                  # default: '*'
+                  type: string
+                  example: |
+                      q=KEY:VALUE AND NOT KEY:OTHER_VALUE
+                      q=KEY:(VALUE1 OR VALUE2)
+                      q=Starwars episode *
+                      q=*saur
+              responses:
+                200:
+                  body:
+                    application/vnd.api+json:
+                      schema: Document-multiple
 
           /{Document_ID}:
             securedBy: [ null, jwt ]
