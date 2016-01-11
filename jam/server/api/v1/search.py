@@ -1,3 +1,5 @@
+import datetime
+
 import elasticsearch_dsl
 from tornado.web import HTTPError
 
@@ -36,12 +38,43 @@ class SearchResource(APIResource):
 
 class SearchHandler(ResourceHandler):
 
+    @property
+    def collection_id(self):
+        return self.request.path.split('/')[5]
+
+    @property
+    def namespace_id(self):
+        return self.request.path.split('/')[3]
+
+    @property
+    def relationships(self):
+        return {
+            'namespace': {
+                'links': {
+                    'self': '{}://{}/v1/namespaces/{}'.format(self.request.protocol, self.request.host, self.namespace_id),
+                    'related': '{}://{}/v1/namespaces/{}'.format(self.request.protocol, self.request.host, self.namespace_id),
+                    }
+                },
+            'collection': {
+                'links': {
+                    'self': '{}://{}/v1/namespaces/{}/collections/{}'.format(self.request.protocol, self.request.host, self.namespace_id, self.collection_id),
+                    'related': '{}://{}/v1/namespaces/{}/collections/{}'.format(self.request.protocol, self.request.host, self.namespace_id, self.collection_id),
+                    }
+                }
+            }
+
+    @property
+    def start(self):
+        return ((self.page - 1) * self.page_size)
+
     def write_search_result(self, search):
         search = search.params(**{
             key: val[-1].decode('utf-8')
             for key, val in self.request.query_arguments.items()
             if key in ('pretty', 'search_type')
         })
+
+        search = search[self.start:self.start + self.page_size]
 
         result = search.execute().to_dict()
         json_api_results = []
@@ -50,24 +83,33 @@ class SearchHandler(ResourceHandler):
         for hit in result['hits']['hits']:
             json_api_results.append({
                 'id': hit['_id'],
+                'type': 'documents',
                 'attributes': hit['_source']['data'],
                 'meta': {
                     'score': hit['_score'],
+                    'created-by': hit['_source']['created_by'],
+                    'modified-by': hit['_source']['modified_by'],
+                    'created-on': datetime.datetime.fromtimestamp(hit['_source']['created_on']).isoformat(),
+                    'modified-on': datetime.datetime.fromtimestamp(hit['_source']['created_on']).isoformat()
                 },
                 'relationships': {
+                    **self.relationships,
+                    'history': {
+                        'links': {
+                            'self': self.relationships['collection']['links']['self'] + '/documents/{}/history'.format(hit['_id']),
+                            'related': self.relationships['collection']['links']['self'] + '/documents/{}/history'.format(hit['_id']),
+                        }
+                    }
                 }
             })
 
         self.write({
             'data': json_api_results,
             'meta': {
+                'perPage': self.page_size,
                 'total': result['hits']['total']
             }
         })
-
-    @property
-    def start(self):
-        return ((self.page - 1) * self.page_size)
 
     def get(self, *args, **kwargs):
         if self.resource.resource is not None:
@@ -77,11 +119,16 @@ class SearchHandler(ResourceHandler):
 
         query = self.get_query_argument('q', default=None)
         if query:
-            search = search.query(elasticsearch_dsl.Q('query_string', query=query))[self.start:self.start + self.page_size]
+            search = search.query(elasticsearch_dsl.Q('query_string', query=query))
+        else:
+            # This should technically be elsewhere but the search object
+            # does not provide a nice way to figure out if there is a query or not.
+            search = search.sort({'ref': 'asc'})
 
         self.write_search_result(search)
 
     def post(self, *args, **kwargs):
+        raise HTTPError(405)  # Disable for the moment
         if self.resource.resource is not None:
             raise HTTPError(405)
 
