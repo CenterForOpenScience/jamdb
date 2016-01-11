@@ -60,6 +60,7 @@ class ElasticsearchBackend(Backend):
         self.search = elasticsearch_dsl.Search(self._connection, index=index, doc_type=doc_type)
 
     def get(self, key):
+        assert not key.startswith('_'), 'Elasticsearch keys may not being with _'
         res = self._connection.get(index=self._index, doc_type=self._doc_type, id=key, ignore=404)
 
         if res.get('status') == 404 or not res['found']:
@@ -73,7 +74,9 @@ class ElasticsearchBackend(Backend):
     def list(self, order=None):
         search = self.search
         if order:
-            search = search.order(str(order.order).replace('1', '') + order.key)
+            search = search.sort({
+                order.key: 'asc' if order.order > 0 else 'desc'
+            })
 
         resp = search.execute()
         from_, size, total = 0, 10, resp.hits.total
