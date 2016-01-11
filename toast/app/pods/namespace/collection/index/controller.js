@@ -1,5 +1,6 @@
 import Ember from 'ember';
 
+const OPromise = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
 const TYPE_MAP = {
   'string': 'fa fa-quote-right'
 };
@@ -22,7 +23,7 @@ function objectToJsTree(obj) {
                 title: attr,
                 data: {
                   value: `{ ${Object.keys(obj[attr]).length} fields }`,
-                    type: 'Object'
+                  type: 'Object'
                 },
                 children: objectToJsTree(obj[attr])
             };
@@ -38,62 +39,64 @@ function objectToJsTree(obj) {
     });
 }
 
+function tablify(docs) {
+  return docs.map(el =>
+    objectToJsTree({
+      [el.get('id')]: el.get('data.attributes')
+  })[0]);
+}
+
 export default Ember.Controller.extend({
     adapterContext: Ember.inject.service(),
 
-    selectedID: null,
     page: 1,
+    pageSize: 50,
     totalPages: 0,
+    queryText: '',
     queryParams: ['page'],
+
+    tableData: OPromise.create(),
+
+    _init: function() {
+      this.notifyPropertyChange('queryText');
+    }.observes('model'),
+
     hasPrev: function() {
       return this.get('page') > 1;
     }.property('page', 'totalPages'),
+
     hasNext: function() {
       return this.get('page') < this.get('totalPages');
     }.property('page', 'totalPages'),
-    jsTreeOptions: {
-        columns: [
-            {header: "Nodes", width: '100%'},
-            // {width: 30, header: "Price", value: "price"}
-        ]
-    },
 
-    documents: function() {
-        return this.get('model.namespace').then(namespace => {
-            this.set('adapterContext.namespace', namespace);
-            this.set('adapterContext.collection', this.get('model'));
-            return this.store.query('document', {
-                page: this.get('page'),
-            }).then(docs => {
-              console.log(docs.get('meta'));
-              this.set('totalPages', docs.get('meta.total') / docs.get('meta.perPage'));
-              return docs;
-            });
-        });
-    }.property('model', 'page'),
-    jsTreeData: function() {
-        let self = this;
-        return Ember.ObjectProxy.extend(Ember.PromiseProxyMixin).create({
-            promise: new Ember.RSVP.Promise(resolve =>
-                self.get('documents').then(docs => resolve({data: docs.map(el => objectToJsTree({
-                  [el.get('id')]: el.get('data.attributes')
-                })[0])})))
-        });
-    }.property('documents'),
+    search: function() {
+      this.set('tableData', OPromise.create());
+    }.observes('page', 'queryText'),
+
+    doSearch: _.debounce(function() {
+      let params = {
+        page: this.get('page'),
+        'page[size]': this.get('pageSize'),
+      };
+
+      if (this.get('queryText').trim().length > 0)
+        params.q = this.get('queryText');
+
+      this.set('tableData.promise', this.store
+        .query('document', params)
+        .then(docs => {
+            this.set('totalPages', docs.get('meta.total') / docs.get('meta.perPage'));
+            return docs;
+        })
+        .then(tablify));
+      }, 500).observes('page', 'queryText'),
 
     actions: {
-        jsTreeChange(event) {
-            if (event.selected.length != 1) return;
-            if (this.get('selectedID') == event.selected[0]){
-                return this.transitionToRoute('namespace.collection.document', event.selected[0]);
-            }
-            this.set('selectedID', event.selected[0]);
-        },
         nextPage(event) {
-            this.transitionToRoute({ queryParams: { page: this.get('page') + 1 }});
+          this.set('page', this.get('page') + 1);
         },
         prevPage(event) {
-            this.transitionToRoute({ queryParams: { page: this.get('page') - 1 }});
+          this.set('page', this.get('page') - 1);
         }
     }
 });

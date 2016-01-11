@@ -8,6 +8,8 @@ module.exports = function(defaults) {
     // Add options here
   });
 
+  app.import('bower_components/lodash/lodash.js');
+
   app.import('bower_components/jquery-ui/jquery-ui.js');
   app.import('bower_components/jquery.fancytree/dist/jquery.fancytree-all.js');
   app.import('bower_components/jquery.fancytree/dist/skin-awesome/ui.fancytree.css');

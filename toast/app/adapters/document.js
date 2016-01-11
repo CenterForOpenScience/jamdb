@@ -9,6 +9,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, UrlTemplates, {
 
     adapterContext: Ember.inject.service(),
     urlTemplate: '{+host}/v1/namespaces/{namespaceId}/collections{/collectionId}/documents{/id}',
+    queryUrlTemplate: '{+host}/v1/namespaces/{namespaceId}/collections{/collectionId}/_search',
 
     urlSegments: {
         collectionId(type, id, snapshot, query) {
