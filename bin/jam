@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """
 Usage: jam [--version] [--help] [--config=PATH] <command> [<args>...]
 
@@ -9,7 +9,12 @@ Options:
 
 Commands:
    server        Run the JamDB server
-   namespace     Manage namespaces
+   regenerate    Regenerate a namespace or the manager
+   list          List all namespaces
+   create        Create a new namespace
+   info          Get info for a namepsace
+   update        Update a namespace's attributes
+   delete        Delete a namespace
 
 See 'jam help <command>' for more information on a specific command.
 
@@ -36,8 +41,13 @@ def command(func):
 @command
 def jam_regenerate(args, argv):
     """
-    Usage: jam regenerate
+    Usage: jam regenerate [<namespace>]
+
+    Regenerates the jam namespace manager.
+    If a namespace is given, the namespace will be regenerated
     """
+    if args['<namespace>']:
+        return jam.NamespaceManager().get_namespace(args['<namespace>']).regenerate()
     jam.NamespaceManager().regenerate()
 
 
@@ -84,6 +94,17 @@ def jam_update(args, argv):
 
 
 @command
+def jam_create(args, argv):
+    """
+    Usage: jam create <name> [--creator=USERID] [--collection] [--document]
+
+    Options:
+        -c, --creator=USERID  The user id for the creator [default: system]
+    """
+    jam.NamespaceManager().create_namespace(args['<name>'], args['--creator'])
+
+
+@command
 def jam_server(args, argv):
     """
     Usage: jam server [--port=PORT] [--debug] [--host=HOST] [--fork]
@@ -104,30 +125,6 @@ def jam_server(args, argv):
 
 
 @command
-def jam_namespace(args, argv):
-    """
-    Usage: jam (ns|namespace) create <name> [--creator=USERID]
-           jam (ns|namespace) update <name>
-           jam (ns|namespace) delete <name>
-           jam (ns|namespace) regen <name>
-           jam (ns|namespace) list <name>
-           jam (ns|namespace) regenerate <name>
-
-    Options:
-        -c, --creator=USERID  The user id for the creator [default: system]
-    """
-    if args['create']:
-        jam.NamespaceManager().create_namespace(args['<name>'], args['--creator'])
-    elif args['delete']:
-        # TODO Clean up collections
-        jam.NamespaceManager().delete(args['<name>'], args['--creator'])
-    elif args['regenerate'] or args['regen']:
-        jam.NamespaceManager().get_namespace(args['<name>']).regenerate()
-    elif args['list']:
-        print('\n'.join(jam.NamespaceManager().get_namespace(args['<name>']).keys()))
-
-
-@command
 def jam_token(args, argv):
     """
     Usage: jam token <user> [--exp=TIME]
@@ -138,6 +135,14 @@ def jam_token(args, argv):
     print(jam.auth.User.create(*args['<user>'].split('-'), exp=int(args['--exp'])).token.decode('utf-8'))
 
 
+@command
+def jam_help(args, argv):
+    """
+    Usage: jam help <command>
+    """
+    print('todo')
+
+
 def main():
     args = docopt(__doc__, version=__version__, options_first=True)
     from jam import settings
@@ -146,14 +151,14 @@ def main():
         settings.load(args['--config'])
     try:
         return {
-            'ns': jam_namespace,
+            'create': jam_create,
             'info': jam_info,
+            'help': jam_help,
             'list': jam_list,
             'token': jam_token,
             'server': jam_server,
             'update': jam_update,
             'regen': jam_regenerate,
-            'namespace': jam_namespace,
             'regenerate': jam_regenerate,
         }[args['<command>']]([args['<command>']] + args['<args>'])
     except KeyError:
