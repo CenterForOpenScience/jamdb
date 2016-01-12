@@ -13,7 +13,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, UrlTemplates, {
 
     urlSegments: {
         namespaceId(type, id, snapshot, query) {
-            return this.get('adapterContext.namespace.id');
+            return snapshot.record.get('namespace.id') || this.get('adapterContext.namespace.id');
         }
     }
 });
