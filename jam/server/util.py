@@ -16,8 +16,11 @@ class AioSentryClient(AsyncSentryClient):
             self.error_logger.error(message)
             return
 
-        future = aiohttp.request('POST', url, data=data, headers=headers)
-        asyncio.async(future)
+        async def _future():
+            resp = await aiohttp.request('POST', url, data=data, headers=headers)
+            await resp.release()
+
+        asyncio.ensure_future(_future())
 
 
 def patch_sentry(app):
