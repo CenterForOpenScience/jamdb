@@ -123,7 +123,10 @@ class SearchHandler(ResourceHandler):
         else:
             # This should technically be elsewhere but the search object
             # does not provide a nice way to figure out if there is a query or not.
-            search = search.sort({'ref': 'asc'})
+            search = search.sort({'ref': {
+                'order': 'asc',
+                'unmapped_type': 'string'
+            }})
 
         self.write_search_result(search)
 
