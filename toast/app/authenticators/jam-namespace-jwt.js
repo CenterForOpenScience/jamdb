@@ -5,13 +5,13 @@ const { RSVP } = Ember;
 export default Base.extend({
     url: 'http://localhost:1212/v1/auth',
     restore(data) {
-        //TODO when to reject? Maybe restore here?
-        return new RSVP.Promise((resolve, reject) => {
-            resolve(data);
-        });
+        let token = JSON.parse(atob(data.attributes.token.split('.')[1]));
+        if (token.exp > moment().unix())
+          return RSVP.resolve(data);
+        return RSVP.reject(data);
     },
     authenticate(namespace, username, password) {
-        var request = Ember.$.ajax({
+        return Ember.$.ajax({
             method: 'POST',
             url: this.url,
             dataType: 'json',
@@ -27,13 +27,7 @@ export default Base.extend({
                     password: password,
                 }
             }})
-        });
-
-        return new RSVP.Promise((resolve, reject) => {
-            request
-            .then((data) => resolve(data.data))
-            .fail(() => reject());
-        });
+        }).then(data => data.data);
     }
     // invalidate(data) {
     //     debugger;
