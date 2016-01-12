@@ -35,9 +35,9 @@ class Namespace(Collection):
 
     def create_collection(self, name, user, logger=None, storage=None, state=None, permissions=None, schema=None):
         uid = str(uuid.uuid4()).replace('-', '')
-        state = state or settings.NAMESPACE_DEFAULT_BACKENDS['state']
-        logger = logger or settings.NAMESPACE_DEFAULT_BACKENDS['logger']
-        storage = storage or settings.NAMESPACE_DEFAULT_BACKENDS['storage']
+        state = state or settings.COLLECTION_BACKENDS['state']
+        logger = logger or settings.COLLECTION_BACKENDS['logger']
+        storage = storage or settings.COLLECTION_BACKENDS['storage']
 
         collection_dict = {
             'uuid': uid,

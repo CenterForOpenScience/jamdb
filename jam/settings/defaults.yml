@@ -22,8 +22,8 @@ NAMESPACEMANAGER_BACKENDS:
   logger: mongo
   storage: mongo
 
-NAMESPACE_DEFAULT_BACKENDS:
-  state: mongo
+COLLECTION_BACKENDS:
+  state: elasticsearch
   logger: mongo
   storage: mongo
 

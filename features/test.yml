@@ -10,7 +10,7 @@ NAMESPACE_BACKENDS:
     logger: ephemeral
     storage: ephemeral
 
-NAMESPACE_DEFAULT_BACKENDS:
+COLLECTION_BACKENDS:
     state: ephemeral
     logger: ephemeral
     storage: ephemeral
