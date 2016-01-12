@@ -46,6 +46,26 @@ function tablify(docs) {
   })[0]);
 }
 
+//Ghetto hack
+let doSearch = function() {
+  let params = {
+    page: this.get('page'),
+    'page[size]': this.get('pageSize'),
+  };
+
+  if (this.get('queryText').trim().length > 0)
+    params.q = this.get('queryText');
+
+  this.set('tableData.promise', this.store
+      .query('document', params)
+      .then(docs => {
+        this.set('totalPages', docs.get('meta.total') / docs.get('meta.perPage'));
+        return docs;
+      })
+      .then(tablify));
+};
+
+
 export default Ember.Controller.extend({
     adapterContext: Ember.inject.service(),
 
@@ -53,12 +73,20 @@ export default Ember.Controller.extend({
     pageSize: 50,
     totalPages: 0,
     queryText: '',
-    queryParams: ['page'],
+    queryParams: ['page', {'queryText': 'q'}],
 
     tableData: OPromise.create(),
 
     _init: function() {
-      this.notifyPropertyChange('queryText');
+      this.setProperties({
+        'page': 1,
+        'totalPages': 0,
+        'queryText': ''
+      });
+      //Stop the triggered event
+      //Better than hacking into ember...
+      this.doSearch.cancel();
+      this._doSearch();
     }.observes('model'),
 
     hasPrev: function() {
@@ -73,30 +101,15 @@ export default Ember.Controller.extend({
       this.set('tableData', OPromise.create());
     }.observes('page', 'queryText'),
 
-    doSearch: _.debounce(function() {
-      let params = {
-        page: this.get('page'),
-        'page[size]': this.get('pageSize'),
-      };
-
-      if (this.get('queryText').trim().length > 0)
-        params.q = this.get('queryText');
-
-      this.set('tableData.promise', this.store
-        .query('document', params)
-        .then(docs => {
-            this.set('totalPages', docs.get('meta.total') / docs.get('meta.perPage'));
-            return docs;
-        })
-        .then(tablify));
-      }, 500).observes('page', 'queryText'),
+    _doSearch: doSearch,  //Allow for instant queries
+    doSearch: _.debounce(doSearch, 500).observes('page', 'queryText'),
 
     actions: {
         nextPage(event) {
-          this.set('page', this.get('page') + 1);
+          this.incrementProperty('page');
         },
         prevPage(event) {
-          this.set('page', this.get('page') - 1);
+          this.decrementProperty('page');
         }
     }
 });

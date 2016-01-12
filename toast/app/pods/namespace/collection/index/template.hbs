@@ -30,6 +30,10 @@
             <div style="text-align: center;">
               <i class="fa fa-spinner fa-pulse"></i>
             </div>
+          {{else if tableData.isRejected}}
+            <span style="margin: 0 auto;">
+              Oops, looks like that was an invalid query.
+            </span>
           {{else}}
             {{#ember-fancytree data=tableData}}
               <colgroup>
