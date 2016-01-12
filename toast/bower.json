@@ -19,8 +19,7 @@
     "jstree": "~3.2.1",
     "uri-templates": "~0.1.9",
     "jquery.fancytree": "fancytree#~2.14.0",
-    "AdminLTE": "admin-lte#~2.3.2",
-    "x-editable": "~1.5.1",
-    "lodash": "~3.10.1"
+    "lodash": "~3.10.1",
+    "moment": "~2.11.1"
   }
 }

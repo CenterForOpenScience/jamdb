@@ -20,7 +20,6 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
-    "ember-admin-lte": "*",
     "ember-cli": "^1.13.13",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-babel": "^5.1.6",
@@ -40,7 +39,6 @@
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
     "ember-jsoneditor": "0.1.1",
-    "ember-simple-auth": "1.0.1",
-    "jstreegrid": "^3.4.10"
+    "ember-simple-auth": "1.0.1"
   }
 }
