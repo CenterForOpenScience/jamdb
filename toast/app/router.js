@@ -10,9 +10,9 @@ Router.map(function() {
   this.route('namespaces', function() {
       this.route('new');
   });
-  this.route('namespace', {path: '/namespace/:namespace_id'}, function() {
-    this.route('collection', {path: '/collection/:collection_id'}, function() {
-        this.route('document', {path: '/document/:document_id'});
+  this.route('namespace', {path: '/n/:namespace_id'}, function() {
+    this.route('collection', {path: '/c/:collection_id'}, function() {
+        this.route('document', {path: '/d/:document_id'});
     });
   });
 });
