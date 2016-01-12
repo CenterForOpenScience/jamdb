@@ -7,6 +7,10 @@ HOST: localhost
 XHEADERS: False
 SENTRY_DSN: null
 
+
+# SQLITE_URI: sqlite://jam.db
+SQLITE_URI: jam.db
+
 MONGO_URI: mongodb://localhost:27017/
 MONGO_DATABASE_NAME: jam
 
