@@ -4,31 +4,33 @@
   <!-- Logo -->
   {{#link-to "index" class="logo"}}
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>Toast</b></span>
+    <span class="logo-mini"><b>T</b> A</span>
     <!-- logo for regular state and mobile devices -->
     <span class="logo-lg"><b>Toast</b> Admin</span>
   {{/link-to}}
 
   <nav class="navbar navbar-static-top" role="navigation">
     <div class="navbar-custom-menu">
-      <ul class="nav navbar-nav">
-        {{#if session.isAuthenticated}}
-          <li class="footer"><a>{{session.session.content.authenticated.id}}</a></li>
-        {{/if}}
-      </ul>
     </div>
   </nav>
 </header>
 
-{{#al-main-sidebar}}
-  <ul class="nav sidebar-menu">
-    <li class="header">Namespaces</li>
-    {{#each model as |namespace|}}
-      {{namespace-entry namespace}}
-    {{/each}}
-    <!-- <li><a><i class="fa fa-plus"></i>New Namespace</a></li> -->
-  </ul>
-{{/al-main-sidebar}}
+  <aside class="main-sidebar">
+    <section class="sidebar" style="height: auto;">
+        {{#if session.isAuthenticated}}
+          <div class="user-panel" style="display: flex; justify-content: center;">
+            <a><b>{{session.session.content.authenticated.attributes.pid}}</b> via <b>{{session.session.content.authenticated.attributes.provider}}</b></a>
+          </div>
+        {{/if}}
+      <ul class="nav sidebar-menu">
+        <li class="header">Namespaces</li>
+        {{#each model as |namespace|}}
+          {{namespace-entry namespace}}
+        {{/each}}
+        <!-- <li><a><i class="fa fa-plus"></i>New Namespace</a></li> -->
+      </ul>
+    </section>
+  </aside>
 
 <div class="content-wrapper" style="height: 100vh;">
   {{outlet}}

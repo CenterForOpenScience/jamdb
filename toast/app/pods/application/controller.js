@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
 
     queryParams: {'skinParam': 'skin'},
     skin: Ember.computed('skinParam', function() {
-        return 'skin-' + (this.skinParam || 'blue');
+        return 'skin-' + (this.skinParam || 'black');
     }),
 
 });
