@@ -67,3 +67,5 @@ bower_components
 # Ignore for toast
 toast/tmp
 local.yml
+
+*.db
