@@ -5,3 +5,7 @@
 .new-namespace {
   width: 98%
 }
+
+.fancytree-active {
+  background-color: #e8e8e8;
+}
