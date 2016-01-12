@@ -1,3 +1,7 @@
 .fancytree-container:focus {
   outline: none;
 }
+
+.new-namespace {
+  width: 98%
+}
