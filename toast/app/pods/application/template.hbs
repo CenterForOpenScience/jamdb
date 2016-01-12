@@ -2,15 +2,14 @@
 
 <header class="main-header">
   <!-- Logo -->
-  <a href="/" class="logo">
+  {{#link-to "index" class="logo"}}
     <!-- mini logo for sidebar mini 50x50 pixels -->
     <span class="logo-mini"><b>Toast</b></span>
     <!-- logo for regular state and mobile devices -->
     <span class="logo-lg"><b>Toast</b> Admin</span>
-  </a>
-  <!-- Header Navbar: style can be found in header.less -->
-  <nav class="navbar navbar-static-top" role="navigation">
+  {{/link-to}}
 
+  <nav class="navbar navbar-static-top" role="navigation">
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
         {{#if session.isAuthenticated}}
@@ -23,18 +22,11 @@
 
 {{#al-main-sidebar}}
   <ul class="nav sidebar-menu">
-    <li class="header">MAIN NAVIGATION</li>
-    {{#if session.isAuthenticated}}
-      <li class="header">{{session.session.content.authenticated.id}}</li>
-    {{/if}}
-    {{#link-to "namespaces" tagName="li" }}
-      {{#link-to "namespaces" as |link|}}
-        <i class="fa fa-circle-o"></i> Namespaces
-      {{/link-to}}
-    {{/link-to}}
+    <li class="header">Namespaces</li>
     {{#each model as |namespace|}}
       {{namespace-entry namespace}}
     {{/each}}
+    <!-- <li><a><i class="fa fa-plus"></i>New Namespace</a></li> -->
   </ul>
 {{/al-main-sidebar}}
 
