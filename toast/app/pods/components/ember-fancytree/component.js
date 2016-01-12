@@ -30,12 +30,8 @@ export default Ember.Component.extend({
   tabbable: false,
   tagName: 'table',
   titlesTabbable: false,
-  classNames: ['table', 'table-condensed', 'table-striped'],
+  classNames: ['table', 'table-condensed'],
   didInsertElement: function() {
-    // Ember.$.fn.editable.defaults.mode = 'inline';
-
-    // Ember.$.fn.editableform.buttons = '<button type="submit" class="btn btn-primary btn-sm editable-submit"><i class="fa fa-check"></i></button><button type="button" class="btn btn-default btn-sm editable-cancel"><i class="fa fa-remove"></i></button>';
-
 
     this.set('fancyTree', this.$().fancytree({
       tabbable: false,
@@ -43,22 +39,16 @@ export default Ember.Component.extend({
       glyph: GLYPH_OPTIONS,
       table: TABLE_OPTIONS,
       source: this.get('data'),
+      click: (event, data) => {
+        console.log(event, data);
+      },
       renderColumns: function(event, data) {
         let node = data.node,
         $tdList = $(node.tr).find('>td');
         $tdList.eq(1).text(node.data.value);
-        // if (node.data.editable) {
-        //   $tdList.eq(1).append($('<a></a>').text(node.data.value).addClass('editable'));
-        // } else {
-        //   $tdList.eq(1).text(node.data.value);
-        // }
-        $tdList.eq(2).text(node.data.type);
+        $tdList.eq(2).append(node.data.type + ' ');
+        $tdList.eq(2).append($('<i class="fa fa-gear"></i>'));
       },
     }));
-    // this.$().editable({
-    //   type: 'text',
-    //   selector: '.editable',
-    //   tpl: '<input type="text">',
-    // });
   }
 });

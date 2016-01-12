@@ -1,27 +1,35 @@
 <section class="content">
 <div class="row">
   <div class="col-md-12">
+
     <div class="box">
       <div class="box-header">
-        <h3 class="box-title">{{model.name}}</h3>
-        <div class="box-tools" style="width: 100%">
-          <div class="row">
-            <div class="col-md-4">
-            </div>
-            <div class="col-md-4">
-                {{input value=queryText type="text" class="form-control" placeholder="Search"}}
-            </div>
-            <div class="col-md-4">
-              <ul class="pagination pagination-sm no-margin pull-right">
-                {{#if hasPrev}}
-                  <li><a style="cursor: pointer;" {{action 'prevPage'}}>«</a></li>
-                {{/if}}
-                <li><a>{{page}}</a></li>
-                {{#if hasNext}}
-                  <li><a style="cursor: pointer;" {{action 'nextPage'}}>»</a></li>
-                {{/if}}
-              </ul>
-            </div>
+          <h3 class="box-title">{{model.name}}</h3>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-header">
+        <div class="row">
+          <div class="col-xs-4">
+            <h3 class="box-title">{{model.name}}</h3>
+          </div>
+          <div class="col-xs-4">
+            {{input value=queryText type="text" class="form-control" placeholder="Search"}}
+          </div>
+          <div class="col-xs-4">
+            <ul class="pagination pagination-sm no-margin pull-right">
+              {{#if hasPrev}}
+                <li><a style="cursor: pointer;" {{action 'prevPage'}}>«</a></li>
+              {{/if}}
+              <li><a>{{page}}</a></li>
+              {{#if hasNext}}
+                <li><a style="cursor: pointer;" {{action 'nextPage'}}>»</a></li>
+              {{/if}}
+            </ul>
           </div>
         </div>
         </div>
@@ -31,15 +39,15 @@
               <i class="fa fa-spinner fa-pulse"></i>
             </div>
           {{else if tableData.isRejected}}
-            <span style="margin: 0 auto;">
+            <div style="text-align: center;">
               Oops, looks like that was an invalid query.
-            </span>
-          {{else}}
+            </div>
+          {{else if tableData.length}}
             {{#ember-fancytree data=tableData}}
               <colgroup>
                 <col width="40%">
-                <col width="55%">
-                <col width="5%">
+                <col width="50%">
+                <col width="10%">
               </colgroup>
               <thead>
                 <tr>
@@ -51,6 +59,10 @@
               <tbody>
               </tbody>
             {{/ember-fancytree}}
+          {{else}}
+            <div style="text-align: center;">
+              Shucks, this collection is empty.
+            </div>
           {{/if}}
         </div>
       </div>

@@ -1,17 +1,21 @@
 <a style="cursor:pointer;" {{action "toggle"}}>
 <i class="fa fa-database"></i>
 <span> {{namespace.name}}</span>
-{{#if namespace.collections.isPending}}
-  <i class="fa fa-spinner fa-pulse pull-right"></i>
+{{#if showCollections}}
+    <i class="fa pull-right {{if namespace.collections.isPending "fa-spinner fa-pulse" "fa-angle-down"}}"></i>
 {{else}}
-  <i class="fa pull-right {{if showCollections "fa-angle-down" "fa-angle-left"}}"></i>
+    <i class="fa pull-right fa-angle-left"></i>
 {{/if}}
 </a>
 
 {{#if showCollections}}
   {{#unless namespace.collections.isPending}}
     <ul class="treeview-menu menu-open">
-      <li><a><i class="fa fa-tasks"></i> Manage</a></li>
+      {{#link-to "namespace.index" namespace.id tagName="li" }}
+        {{#link-to "namespace.index" namespace.id}}
+          <i class="fa fa-tasks"></i> Manage
+        {{/link-to}}
+      {{/link-to}}
       {{#each namespace.collections as |collection|}}
         {{#link-to "namespace.collection" namespace.id collection.id tagName="li" }}
           {{#link-to "namespace.collection" namespace.id collection.id}}
