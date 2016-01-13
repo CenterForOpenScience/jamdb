@@ -19,9 +19,9 @@ module.exports = function(defaults) {
   app.import('bower_components/bootstrap/dist/js/bootstrap.js');
   app.import('bower_components/bootstrap/dist/css/bootstrap.css');
 
-  app.import('bower_components/admin-lte/dist/css/AdminLTE.css');
-  // app.import('bower_components/admin-lte/dist/css/skins/skin-black-light.css');
-  app.import('bower_components/admin-lte/dist/css/skins/_all-skins.css');
+  app.import('bower_components/AdminLTE/dist/css/AdminLTE.css');
+  // app.import('bower_components/AdminLTE/dist/css/skins/skin-black-light.css');
+  app.import('bower_components/AdminLTE/dist/css/skins/_all-skins.css');
 
   app.import('bower_components/font-awesome/css/font-awesome.css');
   app.import('bower_components/font-awesome/fonts/fontawesome-webfont.eot', {destDir: 'fonts'});
