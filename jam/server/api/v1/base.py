@@ -110,7 +110,7 @@ class ResourceHandler(BaseAPIHandler):
         assert self.resource.resource is not None
         data = self.json['data']
         assert data['id'] == self.path_kwargs[self.resource.name + '_id']
-        assert data['type'] == self.resource.name
+        assert data['type'] == self.resource.type
         return self.write({
             'data': self.resource.__class__.serialize(self.resource.replace(data, self.current_user), self.request)
         })

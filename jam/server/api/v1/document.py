@@ -101,9 +101,10 @@ class DocumentResource(APIResource):
         )
 
     def list(self, user, filter=None):
-        selector = self.collection.select().order_by(
-            jam.O.Ascending('ref')
-        )
+        selector = self.collection.select()
+        # .order_by(
+        #     jam.O.Ascending('ref')
+        # )
 
         if not user.permissions & Permissions.READ:
             if not user.uid:
