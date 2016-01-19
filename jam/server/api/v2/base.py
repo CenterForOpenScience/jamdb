@@ -141,9 +141,9 @@ class ResourceHandler(JSONAPIHandler):
                 new.append(self._view.create(entry.get('id'), entry['attributes'], self.current_user))
             except exceptions.JamException as e:
                 new.append(None)
-                error.append(e.serialize())
+                errors.append(e.serialize())
             else:
-                error.append(None)
+                errors.append(None)
         self.write({
             'data': [self.serialize(n) for n in new],
             'errors': errors
