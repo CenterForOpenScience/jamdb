@@ -99,7 +99,7 @@ class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
         spl = self.request.headers.get('Content-Type', '').split('ext=')
         if len(spl) < 2:
             return []
-        return [ext.strip() for ext in spl[1].split(',')]
+        return [ext.strip() for ext in spl[1].strip('";').split(',')]
 
     def set_default_headers(self):
         super().set_default_headers()
