@@ -248,7 +248,6 @@ class Serializer:
     @classmethod
     def serialize(cls, request, inst, *parents):
         return {
-            # Ignore the Manager instance in parents
             'id': ':'.join([p.name for p in parents] + [inst.ref]),
             'type': cls.type,
             'meta': cls.meta(inst),
