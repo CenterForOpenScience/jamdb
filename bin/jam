@@ -129,8 +129,10 @@ def jam_token(args, argv):
     """
     Usage: jam token <user> [--exp=TIME]
 
+    User is formatted as {type}-{provider}-{id}
+
     Options:
-        -e, --exp=TIME  The user id for the creator [default: 1]
+        -e, --exp=TIME  The time, in hours, for the token to last for [default: 1]
     """
     print(jam.auth.User.create(*args['<user>'].split('-'), exp=int(args['--exp'])).token.decode('utf-8'))
 
