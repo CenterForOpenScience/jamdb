@@ -270,6 +270,7 @@ class Serializer:
         return {
             name: relation.serialize(request, inst, *parents)
             for name, relation in cls.relations.items()
+            if relation.included
         }
 
     @classmethod
@@ -283,6 +284,7 @@ class Serializer:
 
 
 class Relationship:
+    included = True
 
     @classmethod
     def serialize(cls, request, inst, *parents):
@@ -294,7 +296,11 @@ class Relationship:
         }
 
     @classmethod
-    def view(request, inst, *parents):
+    def view(inst, *parents):
+        raise NotImplementedError()
+
+    @classmethod
+    def serializer(cls):
         raise NotImplementedError()
 
     @classmethod
