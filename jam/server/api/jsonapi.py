@@ -15,9 +15,9 @@ def parse_int(raw, lo=None, hi=None):
         num = int(raw)
     except (TypeError, ValueError):
         raise tornado.web.HTTPError(http.client.BAD_REQUEST)
-    if lo is not None and raw < lo:
+    if lo is not None and num < lo:
         raise tornado.web.HTTPError(http.client.BAD_REQUEST)
-    if hi is not None and raw > hi:
+    if hi is not None and num > hi:
         raise tornado.web.HTTPError(http.client.BAD_REQUEST)
     return num
 
