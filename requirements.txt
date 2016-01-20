@@ -5,6 +5,7 @@ elasticsearch-dsl==0.0.9
 elasticsearch==1.7.0
 stevedore==1.10.0
 bcrypt==2.0.0
+jsonpatch==1.12
 git+https://github.com/jmcarp/raven-python
 
 # APIs very unlikely to change
