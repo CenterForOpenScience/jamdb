@@ -17,8 +17,11 @@ ENDING = r'(?:/{})?/?'
 def ResourceEndpoint(view, serializer):
     v1, v2, kwargs = [], [], {'view': view, 'serializer': serializer}
     selector = r'(?P<{}_id>{})'.format(view.name, ID_RE)
+
     for v in view.lineage()[:-1]:
+        # Just of list of resource id regexes that will be concatenated with :
         v2.append(r'(?P<{}_id>{})'.format(v.name, ID_RE))
+        # Builds /resources/regexeforresourceid
         v1.extend([v.plural, r'(?P<{}_id>{})'.format(v.name, ID_RE)])
 
     relationships = '/v2/{}/{}/(?P<relationship>{})/?'.format(
@@ -37,6 +40,7 @@ def ResourceEndpoint(view, serializer):
         (v2, ResourceHandler, kwargs),
     ]
 
+    # If the serializer has relationships add a relationship handler
     if serializer.relations:
         endpoints.append((relationships, ResourceHandler, kwargs))
 
@@ -86,11 +90,14 @@ class ResourceHandler(JSONAPIHandler):
                 loaded.append(view.load(self.path_kwargs[key], *loaded))
         except exceptions.NotFound as e:
             err = e
+            # Load as many resources as are available to do a permissions check
+            # A 404 will be thrown if the user has the required permissions
+            self._view = view(*loaded)
         else:
             err = None
+            self._view = self._view_class(*loaded)
 
-        self._view = self._view_class(*loaded)
-
+        # If this is a relationship swap out the current view with the relation
         if 'relationship' in self.path_kwargs:
             relationship = self._serializer.relations[self.path_kwargs['relationship']]
             self._view = relationship.view(*loaded)
@@ -102,11 +109,13 @@ class ResourceHandler(JSONAPIHandler):
         # For use later on
         self.current_user.permissions = permissions
 
+        # Check permissions
         if (required_permissions & permissions) != required_permissions:
             if self.current_user.uid is None:
                 raise exceptions.Unauthorized()
             raise exceptions.Forbidden(required_permissions)
 
+        # Not found is always raised AFTER permissions checks
         if err:
             raise err
 
@@ -116,9 +125,9 @@ class ResourceHandler(JSONAPIHandler):
         if not isinstance(self.json, dict):
             raise exceptions.MalformedData()
 
-        data = self.json.get('data', {})
-        if data.get('type') != self._view.plural:
-            raise exceptions.IncorrectParameter('data.type', self._view.type, data.get('type', 'null'))
+        # data = self.json.get('data', {})
+        # if data.get('type') != self._view.plural:
+        #     raise exceptions.IncorrectParameter('data.type', self._view.type, data.get('type', 'null'))
 
     # Create
     def post(self, **args):
@@ -251,6 +260,7 @@ class Serializer:
             'id': ':'.join([p.name for p in parents] + [inst.ref]),
             'type': cls.type,
             'meta': cls.meta(inst),
+            # 'links': cls.links(request, inst, *parents),
             'attributes': cls.attributes(inst),
             'relationships': cls.relationships(request, inst, *parents)
         }
