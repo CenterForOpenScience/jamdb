@@ -95,5 +95,6 @@ class MongoBackend(Backend):
                 queries.In: '$in',
                 queries.Equal: '$eq',
                 queries.NotEqual: '$ne',
+                queries.BitwiseAnd: '$bitsAllSet',
             }[query.__class__]: query.value}
         }

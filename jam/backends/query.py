@@ -151,6 +151,8 @@ def Q(key, operator, value):
             'eq': Equal,
             'ne': NotEqual,
             'lt': LessThan,
+            'or': BitwiseOr,
+            'and': BitwiseAnd,
             'gt': GreaterThan,
             'lte': LessThanOrEqualTo,
             'gte': GreaterThanOrEqualTo,
