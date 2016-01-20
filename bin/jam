@@ -19,6 +19,7 @@ Commands:
 See 'jam help <command>' for more information on a specific command.
 
 """
+import json
 from docopt import docopt
 
 import jam
@@ -54,43 +55,81 @@ def jam_regenerate(args, argv):
 @command
 def jam_list(args, argv):
     """
-    Usage: jam list
+    Usage: jam list [<namespace> [<collection>]]
     """
-    print('\n'.join(jam.NamespaceManager().keys()))
+    subj = jam.NamespaceManager()
+    if args['<namespace>']:
+        subj = subj.get_namespace(args['<namespace>'])
+    if args['<collection>']:
+        subj = subj.get_collcetion(args['<collection>'])
+
+    print('\n'.join(subj.keys()))
 
 
 @command
 def jam_info(args, argv):
     """
-    Usage: jam info <namespace>
+    Usage: jam info <namespace> [<collection>]
     """
-    ns_doc = jam.NamespaceManager().read(args['<namespace>'])
-    print('Name: ', ns_doc.ref)
-    print('Creator: ', ns_doc.created_by)
-    print('Last Modifed By: ', ns_doc.modified_by)
-    print('Permissions:\n', '\n'.join(['\t{}: {!r}'.format(k, jam.auth.Permissions(v)) for (k, v) in ns_doc.data['permissions'].items()]))
+    if args['<collection>']:
+        doc = jam.NamespaceManager().get_namespace(args['<namespace>']).read(args['<collection>'])
+    else:
+        doc = jam.NamespaceManager().read(args['<namespace>'])
+    print('Name: ', doc.ref)
+    print('Creator: ', doc.created_by)
+    print('Schema:\n', json.dumps(doc.data.get('schema'), indent=4))
+    print('Last Modifed By: ', doc.modified_by)
+    print('Permissions:\n', '\n'.join(['\t{}: {!r}'.format(k, jam.auth.Permissions(v)) for (k, v) in doc.data['permissions'].items()]))
 
 
 @command
 def jam_update(args, argv):
     """
-    Usage: jam update <namespace> [--user=USER] [--rename=NAME] [--permissions (<user-id> <permission>)]...
+    Usage: jam update <namespace> [--user=USER] [--rename=NAME] [--delete-permissions <user-id>]... [--permissions (<user-id> <permission>)]...
 
     Options:
         -p, --permissions  Permissions to update in the form of <user-id> <permission as int>
         -r, --rename=NAME  Rename namespace to NAME
-        -u, --user=USER  The user to perform this update as [default: sys]
-        -d, --delete-permissions=ID  Delete the permissions for ID
+        -u, --user=USER  The user to perform this update as [default: system]
+        -d, --delete-permissions=UID  Delete the permissions for ID
     """
     if args['--permissions']:
-        ns_doc = jam.NamespaceManager().read(args['<namespace>'])
-        jam.NamespaceManager().update(args['<namespace>'], {
-            'permissions': {**{
-                uid: getattr(jam.auth.Permissions, p.upper())
-                for (uid, p)
-                in zip(args['<user-id>'], args['<permission>'])
-            }, **ns_doc.data['permissions']}
-        }, args['--user'])
+        jam.NamespaceManager().update(args['<namespace>'], [
+            {'op': 'add', 'path': '/permissions/{}'.format(uid), 'value': getattr(jam.auth.Permissions, p.upper())}
+            for (uid, p) in zip(args['<user-id>'], args['<permission>'])
+        ], args['--user'])
+
+    if args['--delete-permissions']:
+        jam.NamespaceManager().update(args['<namespace>'], [
+            {'op': 'remove', 'path': '/permissions/{}'.format(uid)}
+            for uid in args['--delete-permissions']
+        ], args['--user'])
+
+
+@command
+def jam_userify(args, argv):
+    """
+    Usage: jam userify <namespace> <collection> [--user=USER]
+
+    Options:
+        -u, --user=USER  The user to perform this update as [default: system]
+    """
+    ns = jam.NamespaceManager().get_namespace(args['<namespace>'])
+    ns.update(args['<collection>'], [{
+        'op': 'test', 'path': '/schema', 'value': None
+    }, {
+        'op': 'add', 'path': '/schema', 'value': {
+            'type': 'jsonschema',
+            'schema': {
+                'password': {
+                    'id': 'password',
+                    'type': 'string',
+                    'pattern': '^\$2b\$1[0-3]\$\S{53}$'
+                },
+                'required': ['password']
+            }
+        }
+    }], args['--user'])
 
 
 @command
@@ -160,6 +199,7 @@ def main():
             'token': jam_token,
             'server': jam_server,
             'update': jam_update,
+            'userify': jam_userify,
             'regen': jam_regenerate,
             'regenerate': jam_regenerate,
         }[args['<command>']]([args['<command>']] + args['<args>'])
