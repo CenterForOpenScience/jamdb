@@ -64,7 +64,7 @@ Feature: Getting a collection
       """
       {
         "data": {
-            "id": "construct:additional-pylons",
+            "id": "construct.additional-pylons",
             "type": "collections",
             "attributes": {
               "name": "additional-pylons",

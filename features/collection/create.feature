@@ -43,7 +43,7 @@ Feature: Creating a collection
       """
       {
         "data": {
-            "id": "foo:bar",
+            "id": "foo.bar",
             "type": "collections",
             "attributes": {
               "name": "bar",

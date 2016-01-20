@@ -37,7 +37,7 @@ Feature: Reading a document
       """
       {
         "data": {
-            "id": "Probe",
+            "id": "StarCraft.Protoss.Probe",
             "type": "documents",
             "attributes": {
               "hp": 100,
