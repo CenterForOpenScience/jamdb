@@ -1,10 +1,8 @@
-import Em from 'ember';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
     permissions: DS.attr(),
-    name: Em.computed.alias('id'),
-    // name: DS.attr('string'),
+    name: DS.attr('string'),
     state: DS.attr('string'),
     logger: DS.attr('string'),
     storage: DS.attr('string'),

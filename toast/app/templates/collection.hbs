@@ -6,6 +6,7 @@
       <div class="box-header">
           <h3 class="box-title">{{model.name}}</h3>
       </div>
+      <button><i class="fa fa-history"></i></button>
     </div>
   </div>
 </div>
@@ -43,7 +44,7 @@
               Oops, looks like that was an invalid query.
             </div>
           {{else if tableData.length}}
-            {{#ember-fancytree data=tableData}}
+            {{#ember-fancytree data=tableData history="historyClick"}}
               <colgroup>
                 <col width="40%">
                 <col width="50%">
@@ -61,7 +62,11 @@
             {{/ember-fancytree}}
           {{else}}
             <div style="text-align: center;">
-              Shucks, this collection is empty.
+              {{#if queryText}}
+                No results found.
+              {{else}}
+                Shucks, this collection is empty.
+              {{/if}}
             </div>
           {{/if}}
         </div>

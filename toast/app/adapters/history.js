@@ -8,13 +8,13 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, UrlTemplates, {
     host: ENV.jamdbURL,
     namespace: 'v2',
 
-    queryUrlTemplate: '{+host}/v2/collections{/collectionId}/_search',
+    queryUrlTemplate: '{+host}/v2/documents{/documentId}/history',
 
     urlSegments: {
-        collectionId(type, id, snapshot, query) {
-          let collectionId = query.collection.id;
-          delete query.collection;
-          return collectionId;
+        documentId(type, id, snapshot, query) {
+          let dId = query.document.id;
+          delete query.document;
+          return dId;
         }
     }
 });

@@ -8,12 +8,9 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('login');
   this.route('error', {path: '/oops'});
-  this.route('namespace', {path: '/n/:namespace_id'}, function() {
-    this.route('index', {path: '/'});
-    this.route('collection', {path: '/c/:collection_id'}, function() {
-        this.route('document', {path: '/d/:document_id'});
-    });
-  });
+  this.route('document', {path: '/d/:document_id'});
+  this.route('namespace', {path: '/n/:namespace_id'});
+  this.route('collection', {path: '/c/:collection_id'});
 });
 
 export default Router;

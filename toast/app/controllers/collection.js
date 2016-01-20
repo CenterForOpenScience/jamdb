@@ -50,6 +50,7 @@ function tablify(docs) {
 let doSearch = function() {
   let params = {
     page: this.get('page'),
+    collection: this.get('model'),
     'page[size]': this.get('pageSize'),
   };
 
@@ -67,8 +68,6 @@ let doSearch = function() {
 
 
 export default Ember.Controller.extend({
-    adapterContext: Ember.inject.service(),
-
     page: 1,
     pageSize: 50,
     totalPages: 0,
@@ -105,6 +104,10 @@ export default Ember.Controller.extend({
     doSearch: _.debounce(doSearch, 500).observes('page', 'queryText'),
 
     actions: {
+        historyClick(documentId) {
+          this.transitionToRoute('document', documentId);
+          return false;
+        },
         nextPage(event) {
           this.incrementProperty('page');
         },

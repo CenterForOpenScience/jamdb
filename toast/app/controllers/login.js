@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
     actions: {
         authenticate() {
             this.get('session').authenticate('authenticator:jam-namespace-jwt', 'SHARE', this.get('username'), this.get('password'));
-            this.store.findAll('namespace');
+            this.store.unloadAll('namespace');
         }
     }
 });
