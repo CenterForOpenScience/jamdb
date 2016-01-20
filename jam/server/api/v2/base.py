@@ -143,7 +143,7 @@ class ResourceHandler(JSONAPIHandler):
 
     def post_bulk(self):
         if 'bulk' not in self.extensions:
-            raise Exception()
+            raise exceptions.MissingExtension('bulk')
         new, errors = [], []
         for entry in self.json['data']:
             try:

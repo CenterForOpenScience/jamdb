@@ -84,3 +84,14 @@ class IncorrectParameter(JamException):
 
     def __init__(self, field, expected, value):
         super().__init__('Expected field {} to be {}. Got {}'.format(field, expected, value), http.client.BAD_REQUEST)
+
+
+class MissingExtension(JamException):
+    should_log = False
+    status = http.client.UNSUPPORTED_MEDIA_TYPE
+    title = 'Missing extension'
+
+    def __init__(self, extension):
+        super().__init__(
+            detail='Expected Content-Type to contain ext="{}";'.format(extension)
+        )
