@@ -1,7 +1,3 @@
-import operator
-import functools
-
-from jam import Q
 from jam.auth import Permissions
 from jam.server.api.v2.base import View
 from jam.server.api.v2.base import Serializer
@@ -9,7 +5,6 @@ from jam.server.api.v2.base import Relationship
 from jam.server.api.v2.namespace import NamespaceView
 from jam.server.api.v2.search import SearchRelationship
 from jam.server.api.v2.namespace import NamespaceSerializer
-
 
 
 class CollectionView(View):

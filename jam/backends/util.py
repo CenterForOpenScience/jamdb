@@ -1,5 +1,3 @@
-import operator
-
 from stevedore import driver
 
 

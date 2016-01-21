@@ -1,12 +1,10 @@
 import http.client
-import datetime
 
 import elasticsearch_dsl
 import tornado.web
 
 from jam.auth import Permissions
 from jam.server.api.v2.base import View
-from jam.server.api.v2.base import Serializer
 from jam.server.api.v2.base import Relationship
 
 
@@ -92,6 +90,7 @@ class SearchRelationship(Relationship):
     def serializer(cls):
         from jam.server.api.v2.document import DocumentSerializer
         # TODO FIX ME
+
         class SearchSerializer(DocumentSerializer):
 
             @classmethod

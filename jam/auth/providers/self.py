@@ -1,10 +1,8 @@
-import json
 import asyncio
 
 import bcrypt
 
 from jam import NamespaceManager
-from jam.util import order_dictionary
 from jam.auth.providers.base import BaseAuthProvider
 
 manager = NamespaceManager()

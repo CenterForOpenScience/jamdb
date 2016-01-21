@@ -60,4 +60,3 @@ class NamespaceManager(Collection):
                 title='Namespace not found',
                 detail='Namespace "{}" was not found'.format(name)
             )
-

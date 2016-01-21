@@ -57,4 +57,3 @@ class HistoryView(View):
             filter = Q('record_id', 'eq', self._document.ref)
 
         return selector.where(filter).page(page, page_size).order_by(sort)
-

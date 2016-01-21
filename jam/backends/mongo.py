@@ -4,7 +4,6 @@ from jam import settings
 from jam import exceptions
 from jam.backends import query as queries
 from jam.backends.base import Backend
-from jam.backends.util import QueryCommand
 
 
 def sanitize(data):

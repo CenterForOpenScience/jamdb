@@ -267,7 +267,7 @@ class Serializer:
     @classmethod
     def serialize(cls, request, inst, *parents):
         return {
-            'id': NAMESPACER.join([getattr(p, 'name', None) or p.ref  for p in parents] + [inst.ref]),
+            'id': NAMESPACER.join([getattr(p, 'name', None) or p.ref for p in parents] + [inst.ref]),
             'type': cls.type,
             'meta': cls.meta(inst),
             # 'links': cls.links(request, inst, *parents),
