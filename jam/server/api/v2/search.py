@@ -74,7 +74,7 @@ class SearchView(View):
             }})
 
         start = page * page_size
-        search = search[start:start+page_size]
+        search = search[start:start + page_size]
 
         return SearchResultWrapper(search)
 

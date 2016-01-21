@@ -53,15 +53,15 @@ class SearchHandler(ResourceHandler):
                 'links': {
                     'self': '{}://{}/v1/namespaces/{}'.format(self.request.protocol, self.request.host, self.namespace_id),
                     'related': '{}://{}/v1/namespaces/{}'.format(self.request.protocol, self.request.host, self.namespace_id),
-                    }
-                },
+                }
+            },
             'collection': {
                 'links': {
                     'self': '{}://{}/v1/namespaces/{}/collections/{}'.format(self.request.protocol, self.request.host, self.namespace_id, self.collection_id),
                     'related': '{}://{}/v1/namespaces/{}/collections/{}'.format(self.request.protocol, self.request.host, self.namespace_id, self.collection_id),
-                    }
                 }
             }
+        }
 
     @property
     def start(self):

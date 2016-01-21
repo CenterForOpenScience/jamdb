@@ -87,7 +87,7 @@ class ElasticsearchBackend(Backend):
             for hit in resp.hits.hits:
                 yield hit['_source']
             from_ += len(resp.hits)
-            resp = search[from_:from_+size].execute()
+            resp = search[from_:from_ + size].execute()
 
     def set(self, key, data):
         self._connection.index(index=self._index, doc_type=self._doc_type, id=key, body=data)

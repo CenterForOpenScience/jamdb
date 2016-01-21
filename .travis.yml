@@ -10,5 +10,4 @@ install:
 
 script:
   - python setup.py develop
-  - flake8 jam
-  - behave
+  - flake8 jam && behave
