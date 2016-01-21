@@ -1,3 +1,5 @@
+import jsonpatch
+
 import jam
 from jam import O
 from jam import Q
@@ -144,11 +146,10 @@ class Collection(ReadOnlyCollection):
             user
         ), data)
 
-    def update(self, key, data, user, merger=lambda x, y: {**x, **y}):
+    def update(self, key, patch, user):
         previous = self._state.get(key)
 
-        if merger:
-            data = merger(previous.data, data)
+        data = jsonpatch.apply_patch(previous.data, patch)
 
         if self.schema:
             self.schema.validate(data)
@@ -160,7 +161,8 @@ class Collection(ReadOnlyCollection):
             Operation.UPDATE,
             data_object.ref,
             user,
-            previous=previous
+            previous=previous,
+            operation_parameters={'patch': patch}
         ), data)
 
     def delete(self, key, user):
