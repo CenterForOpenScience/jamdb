@@ -14,12 +14,6 @@ class SelfAuthProvider(BaseAuthProvider):
     name = 'self'
     type = 'tracked'
 
-    USERNAME_SCHEMA = {
-        'id': 'username',
-        'type': 'string',
-        'pattern': '^\w{1,64}$'
-    }
-
     PASSWORD_SCHEMA = {
         'id': 'password',
         'type': 'string',
@@ -33,9 +27,7 @@ class SelfAuthProvider(BaseAuthProvider):
         # TODO handle exceptions
         if not (
             collection.schema
-            and 'username' in collection.schema._schema['required']
             and 'password' in collection.schema._schema['required']
-            and collection.schema._schema['properties']['username'] == self.USERNAME_SCHEMA
             and collection.schema._schema['properties']['password'] == self.PASSWORD_SCHEMA
         ):
             raise Exception('BAD SCHEMA')
