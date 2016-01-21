@@ -67,6 +67,8 @@ class ResourceHandler(JSONAPIHandler):
             return User(None)
 
     def serialize(self, inst):
+        if inst is None:
+            return None
         return self._serializer.serialize(self.request, inst, *self._view.parents)
 
     def initialize(self, view, serializer):

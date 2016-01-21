@@ -41,7 +41,7 @@ Feature: Creating a document
       """
       {
         "data": {
-            "id": "steak",
+            "id": "meatspace.cow.steak",
             "type": "documents",
             "attributes": {},
             "meta": {
@@ -80,7 +80,7 @@ Feature: Creating a document
       """
       {
         "data": {
-            "id": "steak",
+            "id": "meatspace.cow.steak",
             "type": "documents",
             "attributes": {
               "isRare": 1,
@@ -163,3 +163,149 @@ Feature: Creating a document
       | 193     | {"errors":[{"code":"400","status":"400","title":"Malformed data"}]}    |
       | invalid | {"errors":[{"code":"400","status":"400","title":"Malformed data"}]}    |
       | {{{{{}}}}} | {"errors":[{"code":"400","status":"400","title":"Malformed data"}]} |
+
+  Scenario: Bulk document creation
+    Given the time is 2015-01-01T00:00:00.0000Z
+    And namespace things-that-make-me exists
+    And collection happy exists in namespace things-that-make-me
+    And we have ADMIN permissions to namespace things-that-make-me
+    When the content type is application/vnd.api+json; ext="bulk";
+    When we POST "/v1/namespaces/things-that-make-me/collections/happy/documents"
+      """
+      {
+        "data": [
+          {
+            "id": "Nothing",
+            "attributes": {}
+          }
+        ]
+      }
+      """
+    Then the response code will be 201
+    And the response will contain
+      """
+      {
+        "errors": [null],
+        "data": [{
+            "id": "things-that-make-me.happy.Nothing",
+            "type": "documents",
+            "attributes": {
+            },
+            "meta": {
+              "created-by": "user-testing-we",
+              "modified-by": "user-testing-we",
+              "created-on": "2015-01-01T00:00:00",
+              "modified-on": "2015-01-01T00:00:00"
+            },
+            "relationships": {
+              "history": {
+                "links": {
+                  "self": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/Nothing/history",
+                  "related": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/Nothing/history"
+                }
+              }
+            }
+          }]
+        }
+        """
+
+  Scenario: Bulk document creation missing extension
+    Given the time is 2015-01-01T00:00:00.0000Z
+    And namespace things-that-make-me exists
+    And collection happy exists in namespace things-that-make-me
+    And we have ADMIN permissions to namespace things-that-make-me
+    When the content type is application/vnd.api+json;
+    When we POST "/v1/namespaces/things-that-make-me/collections/happy/documents"
+      """
+      {
+        "data": [
+          {
+            "id": "Nothing",
+            "type": "documents",
+            "attributes": {}
+          }
+        ]
+      }
+      """
+    Then the response code will be 415
+    And the response will contain
+      """
+      {
+        "errors": [{
+            "code": "415",
+            "status": "415",
+            "title": "Missing extension",
+            "detail": "Expected Content-Type to contain ext=\"bulk\";"
+        }]
+      }
+      """
+
+  Scenario: Bulk document creation with bad data
+    Given the time is 2015-01-01T00:00:00.0000Z
+    And namespace things-that-make-me exists
+    And collection happy exists in namespace things-that-make-me
+    And we have ADMIN permissions to namespace things-that-make-me
+    When the content type is application/vnd.api+json; ext="bulk";
+    When we POST "/v1/namespaces/things-that-make-me/collections/happy/documents"
+      """
+      {
+        "data": [
+          {
+            "id": "NotMuch",
+            "attributes": {}
+          }, {
+          }, {
+            "id": "Nothing",
+            "attributes": {}
+          }
+        ]
+      }
+      """
+    Then the response code will be 201
+    And the response will contain
+      """
+      {
+      "errors": [null, {"detail": "Malformed data", "title": "Malformed data", "status": "400", "code": "400"}, null],
+      "data": [{
+            "id": "things-that-make-me.happy.NotMuch",
+            "type": "documents",
+            "attributes": {
+            },
+            "meta": {
+              "created-by": "user-testing-we",
+              "modified-by": "user-testing-we",
+              "created-on": "2015-01-01T00:00:00",
+              "modified-on": "2015-01-01T00:00:00"
+            },
+            "relationships": {
+              "history": {
+                "links": {
+                  "self": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/NotMuch/history",
+                  "related": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/NotMuch/history"
+                }
+              }
+            }
+          },
+          null,
+          {
+            "id": "things-that-make-me.happy.Nothing",
+            "type": "documents",
+            "attributes": {
+            },
+            "meta": {
+              "created-by": "user-testing-we",
+              "modified-by": "user-testing-we",
+              "created-on": "2015-01-01T00:00:00",
+              "modified-on": "2015-01-01T00:00:00"
+            },
+            "relationships": {
+              "history": {
+                "links": {
+                  "self": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/Nothing/history",
+                  "related": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/Nothing/history"
+                }
+              }
+            }
+          }]
+        }
+        """
