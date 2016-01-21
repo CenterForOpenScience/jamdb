@@ -1,6 +1,7 @@
+import Ember from 'ember';
 import Base from 'ember-simple-auth/authenticators/base';
 
-const { RSVP } = Ember;
+const { $, RSVP } = Ember;
 
 export default Base.extend({
     url: 'http://localhost:1212/v1/auth',
@@ -10,8 +11,8 @@ export default Base.extend({
           return RSVP.resolve(data);
         return RSVP.reject(data);
     },
-    authenticate(namespace, username, password) {
-        return Ember.$.ajax({
+    authenticate(attrs) {
+        return $.ajax({
             method: 'POST',
             url: this.url,
             dataType: 'json',
@@ -19,13 +20,7 @@ export default Base.extend({
             xhrFields: {withCredentials: true},
             data: JSON.stringify({data: {
                 type: 'users',
-                attributes: {
-                    provider: 'self',
-                    collection: 'users',
-                    namespace: namespace,
-                    username: username,
-                    password: password,
-                }
+                attributes: attrs
             }})
         }).then(data => data.data);
     }

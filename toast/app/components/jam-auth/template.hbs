@@ -1,0 +1,20 @@
+<form class="form-horizontal" submit={{action "authenticate"}}>
+<div class="form-group">
+  <div class="col-sm-6">
+    <label class="control-label">Namespace</label>
+    {{input value=namespace class="form-control" type="text"}}
+  </div>
+
+  <div class="col-sm-6">
+    <label class="control-label">Collection</label>
+    {{input value=collection class="form-control" type="text"}}
+  </div>
+</div>
+
+<label class="control-label">Username</label>
+{{input value=username class="form-control" type="text"}}
+<label class="control-label">Password</label>
+{{input value=password class="form-control" type="password"}}
+<br>
+<button {{action "authenticate"}} class="btn btn-primary bg-black" style="width: 100%">Login</button>
+</form>

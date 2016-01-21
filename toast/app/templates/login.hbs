@@ -1,13 +1,21 @@
 <section class="content">
-<form submit={{action "authenticate"}}>
+
+<form class="form-inline">
   <div class="form-group">
-    <label class="control-label">Username</label>
-    {{input value=username class="form-control" type="text"}}
-    <label class="control-label">Password</label>
-    {{input value=password class="form-control" type="password"}}
+    <label class="control-label">Login with</label>
+    <select class="form-control" onchange={{action "selectAuthMethod" value="target.value"}}>
+      {{#each authDrivers as |driver|}}
+        <option value={{driver}}>{{driver}}</option>
+      {{/each}}
+    </select>
+
   </div>
-  <button {{action "authenticate"}} class="btn btn-primary">Login</button>
 </form>
+
+<hr>
+
+{{component driver login=(action 'authenticate')}}
+
 </section>
 
 {{outlet}}

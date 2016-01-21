@@ -3,8 +3,12 @@
 module.exports = function(environment) {
   var ENV = {
     jamdbURL: 'http://localhost:1212',
+    OSF: {
+        clientId: 'db1ff76b6001460c884c33b74b2784f8',
+        scope: 'osf.users.all_read',
+        url: 'https://staging-accounts.osf.io',
+    },
     modulePrefix: 'toast',
-    podModulePrefix: 'toast/pods',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
@@ -27,9 +31,6 @@ module.exports = function(environment) {
         'style-src': "'self' 'unsafe-inline' fonts.googleapis.com",
         'connect-src': "'self' localhost:1212",
         'child-src': "'self' blob:",
-    },
-    'ember-adminlte': {
-        skin: 'green'
     }
   };
 
