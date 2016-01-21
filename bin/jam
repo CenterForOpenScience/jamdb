@@ -116,8 +116,6 @@ def jam_userify(args, argv):
     """
     ns = jam.NamespaceManager().get_namespace(args['<namespace>'])
     ns.update(args['<collection>'], [{
-        'op': 'test', 'path': '/schema', 'value': None
-    }, {
         'op': 'add', 'path': '/schema', 'value': {
             'type': 'jsonschema',
             'schema': {
