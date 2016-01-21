@@ -5,6 +5,8 @@ import jwt
 
 import tornado.web
 
+from raven.contrib.tornado import SentryMixin
+
 from jam.auth import User
 from jam import exceptions
 from jam.auth import Permissions
@@ -48,7 +50,7 @@ def ResourceEndpoint(view, serializer):
     return endpoints
 
 
-class ResourceHandler(JSONAPIHandler):
+class ResourceHandler(JSONAPIHandler, SentryMixin):
     TYPE_DATA_SET = {
         'PUT': {},
         'GET': {type(None)},
@@ -209,7 +211,7 @@ class ResourceHandler(JSONAPIHandler):
     def log_exception(self, typ, value, tb):
         if isinstance(value, exceptions.JamException) and not value.should_log:
             return
-        # self.captureException((typ, value, tb))
+        self.captureException((typ, value, tb))
         super().log_exception(typ, value, tb)
 
     def write_error(self, status_code, exc_info):
