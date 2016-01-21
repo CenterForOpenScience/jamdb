@@ -22,7 +22,7 @@ def sanitize(data):
 
 class MongoBackend(Backend):
 
-    DEFAULT_CONNECTION = MongoClient(settings.MONGO_URI)
+    DEFAULT_CONNECTION = MongoClient(settings.MONGO_URI, connect=False)
 
     @classmethod
     def settings_for(cls, namespace_id, collection_id, type_):
