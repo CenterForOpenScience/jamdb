@@ -21,7 +21,7 @@ class AuthHandler(JSONAPIHandler):
                 self.get_query_argument('token', default=None),
                 verify=False
             )
-        except jwt.DecodeError:
+        except jwt.InvalidTokenError:
             return User(None)
 
     def prepare(self):

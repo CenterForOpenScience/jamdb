@@ -65,7 +65,7 @@ class ResourceHandler(JSONAPIHandler, SentryMixin):
                 self.request.headers.get('Authorization') or
                 self.get_query_argument('token', default=None)
             )
-        except jwt.ExpiredSignatureError:
+        except jwt.InvalidTokenError:
             return User(None)
 
     def serialize(self, inst):
