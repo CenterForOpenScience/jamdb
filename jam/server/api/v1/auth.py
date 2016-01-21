@@ -1,5 +1,7 @@
 import logging
 
+import jwt
+
 from stevedore import driver
 
 from jam.auth import User
@@ -13,11 +15,14 @@ logger = logging.getLogger(__name__)
 class AuthHandler(JSONAPIHandler):
 
     def get_current_user(self):
-        return User(
-            self.request.headers.get('Authorization') or
-            self.get_query_argument('token', default=None),
-            verify=False
-        )
+        try:
+            return User(
+                self.request.headers.get('Authorization') or
+                self.get_query_argument('token', default=None),
+                verify=False
+            )
+        except jwt.DecodeError:
+            return User(None)
 
     def prepare(self):
         self.user = User(self.get_cookie('cookie'), verify=False)
