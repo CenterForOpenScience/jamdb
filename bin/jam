@@ -121,10 +121,14 @@ def jam_userify(args, argv):
         'op': 'add', 'path': '/schema', 'value': {
             'type': 'jsonschema',
             'schema': {
-                'password': {
-                    'id': 'password',
-                    'type': 'string',
-                    'pattern': '^\$2b\$1[0-3]\$\S{53}$'
+                'id': '/',
+                'type': 'object',
+                'properties': {
+                    'password': {
+                        'id': 'password',
+                        'type': 'string',
+                        'pattern': '^\$2b\$1[0-3]\$\S{53}$'
+                    },
                 },
                 'required': ['password']
             }
