@@ -22,7 +22,7 @@ def make_request(context, user, method, url):
     headers = {}
     if user not in context.ignored_auth:
         headers['Authorization'] = auth.User.create('user', 'testing', user).token
-    headers['Content-Type'] = getattr(context, 'content_type', 'application/json')
+    headers['Content-Type'] = getattr(context, 'content_type', 'application/vnd.api+json')
     context.response = getattr(requests, method.lower())(context.base_url + url, headers=headers, data=context.text)
 
 
