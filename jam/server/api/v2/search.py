@@ -64,7 +64,7 @@ class SearchView(View):
             raise
 
         if self._request.query_arguments.get('q'):
-            search = search.query(elasticsearch_dsl.Q('query_string', query=self._request.query_arguments['q']))
+            search = search.query(elasticsearch_dsl.Q('query_string', query=self._request.query_arguments['q'][-1].decode('utf-8')))
         else:
             # This should technically be elsewhere but the search object
             # does not provide a nice way to figure out if there is a query or not.
