@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import ENV from 'toast/config/environment';
 
 export default Ember.Component.extend({
-  namespace: 'SHARE',
-  collection: 'users',
+  namespace: ENV.auth.self.defaultNamespace,
+  collection: ENV.auth.self.defaultCollection,
 
   username: null,
   password: null,

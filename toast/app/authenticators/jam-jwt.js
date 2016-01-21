@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import ENV from 'toast/config/environment';
 import Base from 'ember-simple-auth/authenticators/base';
 
 const { $, RSVP } = Ember;
 
 export default Base.extend({
-    url: 'http://localhost:1212/v1/auth',
+    url: `${ENV.jamdbURL}/v1/auth`,
     restore(data) {
         let token = JSON.parse(atob(data.attributes.token.split('.')[1]));
         if (token.exp > moment().unix())

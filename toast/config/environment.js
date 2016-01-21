@@ -3,10 +3,16 @@
 module.exports = function(environment) {
   var ENV = {
     jamdbURL: 'http://localhost:1212',
-    OSF: {
-        clientId: 'db1ff76b6001460c884c33b74b2784f8',
-        scope: 'osf.users.all_read',
-        url: 'https://staging-accounts.osf.io',
+    auth: {
+      self: {
+        defaultNamespace: 'SHARE',
+        defaultCollection: 'users',
+      },
+      osf: {
+          clientId: 'db1ff76b6001460c884c33b74b2784f8',
+          scope: 'osf.users.all_read',
+          url: 'https://staging-accounts.osf.io',
+      },
     },
     modulePrefix: 'toast',
     environment: environment,
@@ -44,6 +50,7 @@ module.exports = function(environment) {
 
   if (environment === 'stage') {
     ENV.jamdbURL = 'https://staging-metadata.osf.io';
+    ENV.auth.self.defaultNamespace = 'COS';
   }
 
   if (environment === 'test') {
