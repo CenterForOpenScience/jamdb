@@ -7,6 +7,7 @@ from jam.server.api.v2.base import View
 from jam.server.api.v2.base import Serializer
 from jam.server.api.v2.base import Relationship
 from jam.server.api.v2.namespace import NamespaceView
+from jam.server.api.v2.search import SearchRelationship
 from jam.server.api.v2.namespace import NamespaceSerializer
 
 
@@ -42,16 +43,17 @@ class CollectionView(View):
     def read(self, user):
         return self._namespace.read(self.resource.name)
 
-    def list(self, filter, sort, page, page_size, user):
-        # TODO These should technically be bitwise...
-        query = functools.reduce(operator.or_, [
-            Q('data.permissions.*', 'eq', Permissions.ADMIN),
-            Q('data.permissions.{0.type}-*'.format(user), 'eq', Permissions.ADMIN),
-            Q('data.permissions.{0.type}-{0.provider}-*'.format(user), 'eq', Permissions.ADMIN),
-            Q('data.permissions.{0.type}-{0.provider}-{0.id}'.format(user), 'eq', Permissions.ADMIN),
-        ])
+    # def list(self, filter, sort, page, page_size, user):
+    #     import ipdb; ipdb.set_trace()
+    #     # TODO These should technically be bitwise...
+    #     query = functools.reduce(operator.or_, [
+    #         Q('data.permissions.*', 'eq', Permissions.ADMIN),
+    #         Q('data.permissions.{0.type}-*'.format(user), 'eq', Permissions.ADMIN),
+    #         Q('data.permissions.{0.type}-{0.provider}-*'.format(user), 'eq', Permissions.ADMIN),
+    #         Q('data.permissions.{0.type}-{0.provider}-{0.id}'.format(user), 'eq', Permissions.ADMIN),
+    #     ])
 
-        return super().list((filter & query) if filter else query, sort, page, page_size, user)
+    #     return super().list((filter & query) if filter else query, sort, page, page_size, user)
 
 
 class NamespaceRelationship(Relationship):
@@ -104,7 +106,9 @@ class DocumentsRelationship(Relationship):
 
 class CollectionSerializer(Serializer):
     type = 'collections'
+
     relations = {
+        '_search': SearchRelationship,
         'namespace': NamespaceRelationship,
         'documents': DocumentsRelationship,
     }

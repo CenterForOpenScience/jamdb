@@ -3,15 +3,8 @@ from jam import exceptions
 from jam.auth import Permissions
 from jam.server.api.v2.base import View
 from jam.server.api.v2.base import Serializer
+from jam.server.api.v2.base import Relationship
 from jam.server.api.v2.collection import CollectionView
-
-
-class DocumentSerializer(Serializer):
-    type = 'documents'
-
-    @classmethod
-    def attributes(cls, inst):
-        return inst.data
 
 
 class DocumentView(View):
@@ -57,3 +50,40 @@ class DocumentView(View):
                 filter = Q('created_by', 'eq', user.uid)
 
         return super().list(filter, sort, page, page_size, user)
+
+
+class HistoryRelationship(Relationship):
+
+    @classmethod
+    def view(cls, namespace, collection, document):
+        from jam.server.api.v2.history import HistoryView
+        return HistoryView(namespace, collection, document)
+
+    @classmethod
+    def serializer(cls):
+        from jam.server.api.v2.history import HistorySerializer
+        return HistorySerializer
+
+    @classmethod
+    def self_link(cls, request, document, namespace, collection):
+        if 'v1' in request.path:
+            return '{}://{}/v1/namespaces/{}/collections/{}/documents/{}/history'.format(request.protocol, request.host, namespace.name, collection.name, document.ref)
+        return '{}://{}/v2/documents/{}/history'.format(request.protocol, request.host, document.ref)
+
+    @classmethod
+    def related_link(cls, request, document, namespace, collection):
+        if 'v1' in request.path:
+            return '{}://{}/v1/namespaces/{}/collections/{}/documents/{}/history'.format(request.protocol, request.host, namespace.name, collection.name, document.ref)
+        return '{}://{}/v2/documents/{}/history'.format(request.protocol, request.host, document.ref)
+
+
+class DocumentSerializer(Serializer):
+    type = 'documents'
+
+    relations = {
+        'history': HistoryRelationship
+    }
+
+    @classmethod
+    def attributes(cls, inst):
+        return inst.data

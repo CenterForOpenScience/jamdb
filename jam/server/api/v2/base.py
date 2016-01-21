@@ -10,7 +10,8 @@ from jam import exceptions
 from jam.auth import Permissions
 from jam.server.api.jsonapi import JSONAPIHandler
 
-ID_RE = r'[\d\w\.\-]{3,64}'
+NAMESPACER = '.'
+ID_RE = r'[\d\w\-]{3,64}'
 ENDING = r'(?:/{})?/?'
 
 
@@ -19,21 +20,21 @@ def ResourceEndpoint(view, serializer):
     selector = r'(?P<{}_id>{})'.format(view.name, ID_RE)
 
     for v in view.lineage()[:-1]:
-        # Just of list of resource id regexes that will be concatenated with :
+        # Just of list of resource id regexes that will be concatenated with NAMESPACER
         v2.append(r'(?P<{}_id>{})'.format(v.name, ID_RE))
         # Builds /resources/regexeforresourceid
         v1.extend([v.plural, r'(?P<{}_id>{})'.format(v.name, ID_RE)])
 
     relationships = '/v2/{}/{}/(?P<relationship>{})/?'.format(
         view.plural,
-        ':'.join(v2 + [selector]),
+        NAMESPACER.join(v2 + [selector]),
         '|'.join(serializer.relations.keys())
     )
 
     v1.append(view.plural)
 
     v1 = '/v1/' + '/'.join(v1) + ENDING.format(selector)
-    v2 = '/v2/' + view.plural + ENDING.format(':'.join(v2 + [selector]))
+    v2 = '/v2/' + view.plural + ENDING.format(NAMESPACER.join(v2 + [selector]))
 
     endpoints = [
         (v1, ResourceHandler, kwargs),
@@ -148,6 +149,13 @@ class ResourceHandler(JSONAPIHandler):
         for entry in self.json['data']:
             try:
                 new.append(self._view.create(entry.get('id'), entry['attributes'], self.current_user))
+            except KeyError as e:
+                new.append(None)
+                # TODO take KeyError into account
+                errors.append(exceptions.MalformedData().serialize())
+            except (TypeError, ValueError):
+                new.append(None)
+                errors.append(exceptions.MalformedData().serialize())
             except exceptions.JamException as e:
                 new.append(None)
                 errors.append(e.serialize())
@@ -257,7 +265,7 @@ class Serializer:
     @classmethod
     def serialize(cls, request, inst, *parents):
         return {
-            'id': ':'.join([p.name for p in parents] + [inst.ref]),
+            'id': NAMESPACER.join([getattr(p, 'name', None) or p.ref  for p in parents] + [inst.ref]),
             'type': cls.type,
             'meta': cls.meta(inst),
             # 'links': cls.links(request, inst, *parents),

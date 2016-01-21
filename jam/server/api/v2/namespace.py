@@ -86,3 +86,8 @@ class NamespaceSerializer(Serializer):
             'name': inst.ref,
             'permissions': inst.data['permissions'],
         }
+
+    @classmethod
+    def links(cls, request, inst):
+        return {
+        }

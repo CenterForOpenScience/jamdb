@@ -50,7 +50,7 @@ class HistoryView(View):
         return self._collection.update(self._document.ref, attributes, user.uid, merger=None)
 
     def list(self, filter, sort, page, page_size, user):
-        selector = self.collection._logger._backend.select()
+        selector = self._collection._logger._backend.select()
         if filter:
             filter &= Q('record_id', 'eq', self._document.ref)
         else:
