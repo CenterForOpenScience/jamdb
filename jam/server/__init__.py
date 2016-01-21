@@ -61,7 +61,7 @@ def main():
         server = tornado.httpserver.HTTPServer(make_app())
         server.bind(settings.PORT, settings.HOST)
         server.start(settings.FORK)
-        asyncio.get_event_loop().set_debug(settings.DEBUG)
+        asyncio.set_event_loop(tornado.ioloop.IOLoop.current().asyncio_loop)
         return tornado.ioloop.IOLoop.current().start()
 
     tornado.platform.asyncio.AsyncIOMainLoop().install()

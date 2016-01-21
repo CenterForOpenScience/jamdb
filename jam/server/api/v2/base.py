@@ -50,7 +50,7 @@ def ResourceEndpoint(view, serializer):
     return endpoints
 
 
-class ResourceHandler(JSONAPIHandler, SentryMixin):
+class ResourceHandler(SentryMixin, JSONAPIHandler):
     TYPE_DATA_SET = {
         'PUT': {},
         'GET': {type(None)},
