@@ -28,9 +28,9 @@ try:
         'user-osf-*': jam.auth.Permissions.CREATE
     })
 except jam.exceptions.KeyExists:
-    share_ns.update('contributor-curation', {'permissions': {
-        'user-osf-*': jam.auth.Permissions.CREATE
-    }}, 'tracked-SHARE|users-scrapi')
+    share_ns.update('contributor-curation', [{
+        'op': 'add', 'path': '/permissions/user-osf-*', 'value': jam.auth.Permissions.CREATE
+    }], 'tracked-SHARE|users-scrapi')
 
 try:
     users_col = share_ns.create_collection('users', 'tracked-SHARE|users-scrapi')
@@ -63,7 +63,7 @@ schema = dict(
     )
 )
 
-share_ns.update('users', schema, '', lambda x, y: {**x, **y})
+share_ns.update('users', [{'op': 'add', 'path': '/schema', 'value': schema}], 'system')
 
 for username in ('chris', 'scrapi'):
     try:
