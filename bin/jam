@@ -8,13 +8,14 @@ Options:
   -c, --config=FILE  The config file to load.
 
 Commands:
-   server        Run the JamDB server
    regenerate    Regenerate a namespace or the manager
+   server        Run the JamDB server
+   token         Generate a JWT to authenticate to JamDB
    list          List all namespaces
-   create        Create a new namespace
-   info          Get info for a namepsace
+   create        Create a new namespace, collection, or document
+   info          Get info for a namepsace or collection
    update        Update a namespace's attributes
-   delete        Delete a namespace
+   delete        Delete a namespace, collection, or document
 
 See 'jam help <command>' for more information on a specific command.
 
@@ -42,14 +43,17 @@ def command(func):
 @command
 def jam_regenerate(args, argv):
     """
-    Usage: jam regenerate [<namespace>]
+    Usage: jam regenerate [<namespace> [<collection>]]
 
     Regenerates the jam namespace manager.
     If a namespace is given, the namespace will be regenerated
     """
-    if args['<namespace>']:
+    if args['<collection>']:
+        return jam.NamespaceManager().get_namespace(args['<namespace>']).get_collection(args['<collection>']).regenerate()
+    elif args['<namespace>']:
         return jam.NamespaceManager().get_namespace(args['<namespace>']).regenerate()
-    jam.NamespaceManager().regenerate()
+    else:
+        jam.NamespaceManager().regenerate()
 
 
 @command
@@ -64,6 +68,50 @@ def jam_list(args, argv):
         subj = subj.get_collcetion(args['<collection>'])
 
     print('\n'.join(subj.keys()))
+
+
+@command
+def jam_userify(args, argv):
+    """
+    Usage: jam userify <namespace> <collection> [--user=USER]
+
+    Attaches a json schema that allows the given collection to be used for authentication.
+
+    Options:
+        -u, --user=USER  The user to perform this update as [default: system]
+    """
+    ns = jam.NamespaceManager().get_namespace(args['<namespace>'])
+    ns.update(args['<collection>'], [{
+        'op': 'add', 'path': '/schema', 'value': {
+            'type': 'jsonschema',
+            'schema': {
+                'id': '/',
+                'type': 'object',
+                'properties': {
+                    'password': {
+                        'id': 'password',
+                        'type': 'string',
+                        'pattern': '^\$2b\$1[0-3]\$\S{53}$'
+                    },
+                },
+                'required': ['password']
+            }
+        }
+    }], args['--user'])
+
+
+@command
+def jam_create(args, argv):
+    """
+    Usage: jam create <namespace> [<collection>] [--creator=USERID]
+
+    Options:
+        -c, --creator=USERID  The user id for the creator [default: system]
+    """
+    if not args['<collection>']:
+        jam.NamespaceManager().create_namespace(args['<namespace>'], args['--creator'])
+    else:
+        jam.NamespaceManager().get_namespace(args['<namespace>']).create_collection(args['<collection>'], args['--creator'])
 
 
 @command
@@ -107,42 +155,19 @@ def jam_update(args, argv):
 
 
 @command
-def jam_userify(args, argv):
+def jam_delete(args, argv):
     """
-    Usage: jam userify <namespace> <collection> [--user=USER]
+    Usage: jam delete <namespace> [<collection> [<document>]] [--creator=USERID]
 
     Options:
-        -u, --user=USER  The user to perform this update as [default: system]
+        -c, --creator=USERID  The user id for the deleter [default: system]
     """
-    ns = jam.NamespaceManager().get_namespace(args['<namespace>'])
-    ns.update(args['<collection>'], [{
-        'op': 'add', 'path': '/schema', 'value': {
-            'type': 'jsonschema',
-            'schema': {
-                'id': '/',
-                'type': 'object',
-                'properties': {
-                    'password': {
-                        'id': 'password',
-                        'type': 'string',
-                        'pattern': '^\$2b\$1[0-3]\$\S{53}$'
-                    },
-                },
-                'required': ['password']
-            }
-        }
-    }], args['--user'])
-
-
-@command
-def jam_create(args, argv):
-    """
-    Usage: jam create <name> [--creator=USERID] [--collection] [--document]
-
-    Options:
-        -c, --creator=USERID  The user id for the creator [default: system]
-    """
-    jam.NamespaceManager().create_namespace(args['<name>'], args['--creator'])
+    if args['<document>']:
+        jam.NamespaceManager().get_namespace(args['<namespace>']).get_collection(args['<collection>']).delete(args['<document>'], args['--creator'])
+    elif args['<collection>']:
+        jam.NamespaceManager().get_namespace(args['<namespace>']).delete(args['<collection>'], args['--creator'])
+    else:
+        jam.NamespaceManager().delete(args['<namespace>'], args['--creator'])
 
 
 @command
@@ -175,6 +200,8 @@ def jam_token(args, argv):
     Options:
         -e, --exp=TIME  The time, in hours, for the token to last for [default: 1]
     """
+    if len(args['<user>'].split('-')) != 3:
+        return print('Invalid user id "{}"\nSee jam token --help for more info'.format(args['<user>']))
     print(jam.auth.User.create(*args['<user>'].split('-'), exp=int(args['--exp'])).token.decode('utf-8'))
 
 
