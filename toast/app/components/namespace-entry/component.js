@@ -21,16 +21,15 @@ const Component = Ember.Component.extend({
     },
     newCollection(name) {
       this.get('store').createRecord('collection', {
-          id: name,
-          namespace: this.get('namespace')
-      }).save();
-      this.toggleProperty('isCreating');
+        id: [this.get('namespace.id'), name].join('.'),
+        namespace: this.get('namespace')
+      }).save().then(() => this.toggleProperty('isCreating'));
     }
   },
 
   init() {
     this._super.apply(this, arguments);
-    if (this.get('adapterContext.namespace.id') == this.namespace.id)
+    if (this.get('adapterContext.namespace.id') === this.namespace.id)
       this.set('showCollections', true);
   }
 });
