@@ -8,6 +8,15 @@ const TYPE_MAP = {
 
 function objectToJsTree(obj) {
     return Object.keys(obj).map((attr) => {
+      if (obj[attr] === null)
+          return {
+              title: attr,
+              data: {
+                  value: 'null',
+                  type: 'String',
+                  editable: true,
+              }
+          };
         if (Array.isArray(obj[attr]))
           return {
             title: attr,
