@@ -1,3 +1,5 @@
+import bson
+
 from jam import Q
 from jam import exceptions
 from jam.auth import Permissions
@@ -28,8 +30,15 @@ class DocumentView(View):
             return Permissions.NONE
         return super().get_permissions(request)
 
-    def create(self, id, attributes, user, **relationships):
-        return self._collection.create(id, attributes, user.uid)
+    def create(self, payload, user):
+        *parent_ids, id = payload.get('id', str(bson.ObjectId())).split('.')
+        if parent_ids:
+            for (parent, pid) in zip_longest(self.parents, parent_ids):
+                assert parent.name == pid
+        try:
+            return self._collection.create(id, payload['attributes'], user.uid)
+        except KeyError:
+            raise exceptions.MalformedData()
 
     def update(self):
         pass

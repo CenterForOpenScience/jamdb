@@ -57,7 +57,7 @@ class CORSMixin:
 
     def options(self, *args, **kwargs):
         self.set_status(204)
-        self.set_header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE')
+        self.set_header('Access-Control-Allow-Methods', 'GET, PUT, PATCH, POST, DELETE')
 
 
 class BaseAPIHandler(tornado.web.RequestHandler, SentryMixin, metaclass=abc.ABCMeta):
@@ -102,7 +102,7 @@ class BaseAPIHandler(tornado.web.RequestHandler, SentryMixin, metaclass=abc.ABCM
 
     def options(self, *args, **kwargs):
         self.set_status(204)
-        self.set_header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE')
+        self.set_header('Access-Control-Allow-Methods', 'GET, PUT, PATCH, POST, DELETE')
 
     def log_exception(self, typ, value, tb):
         if isinstance(value, exceptions.JamException) and not value.should_log:
