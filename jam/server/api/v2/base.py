@@ -1,3 +1,4 @@
+from itertools import zip_longest
 import datetime
 import http.client
 
@@ -142,7 +143,7 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
         if isinstance(self.json['data'], list):
             return self.post_bulk()
 
-        new = self._view.create(self.json['data'].get('id'), self.json['data']['attributes'], self.current_user)
+        new = self._view.create(self.json['data'], self.current_user)
         self.write({'data': self.serialize(new)})
         self.set_status(http.client.CREATED)
 
@@ -152,7 +153,7 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
         new, errors = [], []
         for entry in self.json['data']:
             try:
-                new.append(self._view.create(entry.get('id'), entry['attributes'], self.current_user))
+                new.append(self._view.create(entry, self.current_user))
             except KeyError as e:
                 new.append(None)
                 # TODO take KeyError into account
@@ -246,7 +247,14 @@ class View:
     def get_permissions(self, request):
         return Permissions.from_method(request.method)
 
-    def create(self):
+    def create(self, payload, user):
+        *parent_ids, id = payload['id'].split('.')
+        if parent_ids:
+            for (parent, pid) in zip_longest(self.parents, parent_ids):
+                assert parent.name == pid
+        return self.do_create(id, payload['attributes'], user)
+
+    def do_create(self, id, attributes, user):
         raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)
 
     def read(self, user):

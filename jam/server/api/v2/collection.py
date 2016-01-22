@@ -28,7 +28,7 @@ class CollectionView(View):
             return Permissions.ADMIN
         return super().get_permissions(request)
 
-    def create(self, id, attributes, user):
+    def do_create(self, id, attributes, user):
         # TODO Better validation
         if set(attributes.keys()) - {'logger', 'storage', 'state', 'permissions'}:
             raise Exception()
@@ -37,18 +37,6 @@ class CollectionView(View):
 
     def read(self, user):
         return self._namespace.read(self.resource.name)
-
-    # def list(self, filter, sort, page, page_size, user):
-    #     import ipdb; ipdb.set_trace()
-    #     # TODO These should technically be bitwise...
-    #     query = functools.reduce(operator.or_, [
-    #         Q('data.permissions.*', 'eq', Permissions.ADMIN),
-    #         Q('data.permissions.{0.type}-*'.format(user), 'eq', Permissions.ADMIN),
-    #         Q('data.permissions.{0.type}-{0.provider}-*'.format(user), 'eq', Permissions.ADMIN),
-    #         Q('data.permissions.{0.type}-{0.provider}-{0.id}'.format(user), 'eq', Permissions.ADMIN),
-    #     ])
-
-    #     return super().list((filter & query) if filter else query, sort, page, page_size, user)
 
 
 class NamespaceRelationship(Relationship):
@@ -112,5 +100,6 @@ class CollectionSerializer(Serializer):
     def attributes(cls, inst):
         return {
             'name': inst.ref,
+            'schema': inst.data.get('schema'),
             'permissions': inst.data['permissions'],
         }
