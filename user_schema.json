@@ -5,12 +5,12 @@
     "username": {
       "id": "username",
       "type": "string",
-      "pattern": "^\w{1,64}$"
+      "pattern": "^\\w{1,64}$"
     },
     "password": {
       "id": "password",
       "type": "string",
-      "pattern": "^\$2b\$1[0-3]\$\S{53}$"
+      "pattern": "^\\$2b\\$1[0-3]\\$\\S{53}$"
     }
   },
   "required": [
