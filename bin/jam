@@ -20,6 +20,7 @@ Commands:
 See 'jam help <command>' for more information on a specific command.
 
 """
+import sys
 import json
 from docopt import docopt
 
@@ -65,7 +66,7 @@ def jam_list(args, argv):
     if args['<namespace>']:
         subj = subj.get_namespace(args['<namespace>'])
     if args['<collection>']:
-        subj = subj.get_collcetion(args['<collection>'])
+        subj = subj.get_collection(args['<collection>'])
 
     print('\n'.join(subj.keys()))
 
@@ -103,15 +104,19 @@ def jam_userify(args, argv):
 @command
 def jam_create(args, argv):
     """
-    Usage: jam create <namespace> [<collection>] [--creator=USERID]
+    Usage: jam create <namespace> [<collection> [<document> --force]] [--creator=USERID]
 
     Options:
         -c, --creator=USERID  The user id for the creator [default: system]
+        -f, --force  If a namespace/collection/document already exists with the given key replace the existing
     """
-    if not args['<collection>']:
-        jam.NamespaceManager().create_namespace(args['<namespace>'], args['--creator'])
-    else:
+    if args['<document>']:
+        data = json.loads(sys.stdin.read())
+        jam.NamespaceManager().get_namespace(args['<namespace>']).get_collection(args['<collection>']).create(args['<document>'], data, args['--creator'])
+    elif args['<collection>']:
         jam.NamespaceManager().get_namespace(args['<namespace>']).create_collection(args['<collection>'], args['--creator'])
+    else:
+        jam.NamespaceManager().create_namespace(args['<namespace>'], args['--creator'])
 
 
 @command
