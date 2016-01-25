@@ -138,25 +138,44 @@ def jam_info(args, argv):
 @command
 def jam_update(args, argv):
     """
-    Usage: jam update <namespace> [--user=USER] [--rename=NAME] [--delete-permissions <user-id>]... [--permissions (<user-id> <permission>)]...
+    Usage: jam update <namespace> [<collection> --schema=PATH] [--user=USER] [--rename=NAME] [--delete-permissions <user-id>]... [--permissions (<user-id> <permission>)]...
 
     Options:
         -p, --permissions  Permissions to update in the form of <user-id> <permission as int>
         -r, --rename=NAME  Rename namespace to NAME
         -u, --user=USER  The user to perform this update as [default: system]
         -d, --delete-permissions=UID  Delete the permissions for ID
+        -s, --schema=PATH  Path to a json file containing a jsonschema
     """
+    if args['<collection>']:
+        key = args['<collection>']
+        resource = jam.NamespaceManager().get_namespace(args['<namespace>'])
+    else:
+        key = args['<namespace>']
+        resource = jam.NamespaceManager()
+
     if args['--permissions']:
-        jam.NamespaceManager().update(args['<namespace>'], [
+        resource.update(key, [
             {'op': 'add', 'path': '/permissions/{}'.format(uid), 'value': getattr(jam.auth.Permissions, p.upper())}
             for (uid, p) in zip(args['<user-id>'], args['<permission>'])
         ], args['--user'])
 
     if args['--delete-permissions']:
-        jam.NamespaceManager().update(args['<namespace>'], [
+        resource.update(key, [
             {'op': 'remove', 'path': '/permissions/{}'.format(uid)}
             for uid in args['--delete-permissions']
         ], args['--user'])
+
+    if args['--schema']:
+        with open(args['--schema'], 'r') as schema:
+            resource.update(key, [{
+                'op': 'add',
+                'path': '/schema',
+                'value': {
+                    'type': 'jsonschema',
+                    'schema': json.load(schema)
+                }
+            }], args['--user'])
 
 
 @command
