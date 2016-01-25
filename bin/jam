@@ -138,10 +138,11 @@ def jam_info(args, argv):
 @command
 def jam_update(args, argv):
     """
-    Usage: jam update <namespace> [<collection> --schema=PATH] [--user=USER] [--rename=NAME] [--delete-permissions <user-id>]... [--permissions (<user-id> <permission>)]...
+    Usage: jam update <namespace> [--user=USER] [--rename=NAME] [--delete-permissions=<remove-id>...] [--permissions=<add-id>...]
+           jam update <namespace> <collection> [--schema=PATH] [--user=USER] [--rename=NAME] [--delete-permissions=<remove-id>...] [--permissions=<add-id>...]
 
     Options:
-        -p, --permissions  Permissions to update in the form of <user-id> <permission as int>
+        -p, --permissions=UID  Permissions to update in the form of <user-id> <permission as int>
         -r, --rename=NAME  Rename namespace to NAME
         -u, --user=USER  The user to perform this update as [default: system]
         -d, --delete-permissions=UID  Delete the permissions for ID
@@ -157,7 +158,7 @@ def jam_update(args, argv):
     if args['--permissions']:
         resource.update(key, [
             {'op': 'add', 'path': '/permissions/{}'.format(uid), 'value': getattr(jam.auth.Permissions, p.upper())}
-            for (uid, p) in zip(args['<user-id>'], args['<permission>'])
+            for (uid, p) in [perm.split(' ') for perm in args['--permissions']]
         ], args['--user'])
 
     if args['--delete-permissions']:
