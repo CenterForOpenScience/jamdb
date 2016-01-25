@@ -192,7 +192,8 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
         })
 
     def put(self, **args):
-        return super().put()
+        raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)
+        # self._view.replace(self.json['id'], self.json['data']['attributes'], self.current_user)
 
     def patch(self, **args):
         # assert self._view.resource is not None
