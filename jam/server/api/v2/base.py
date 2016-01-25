@@ -128,7 +128,7 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
         if self.request.method in ('GET', 'DELETE'):
             return  # GET and DELETE bodies are ignored
 
-        if not isinstance(self.json, dict):
+        if not isinstance(self.json, (dict, list)):
             raise exceptions.MalformedData()
 
         # data = self.json.get('data', {})
