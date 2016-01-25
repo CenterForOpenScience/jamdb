@@ -1,5 +1,3 @@
-from itertools import zip_longest
-
 import bson
 
 from jam import Q
@@ -33,10 +31,7 @@ class DocumentView(View):
         return super().get_permissions(request)
 
     def create(self, payload, user):
-        *parent_ids, id = payload.get('id', str(bson.ObjectId())).split('.')
-        if parent_ids:
-            for (parent, pid) in zip_longest(self.parents, parent_ids):
-                assert parent.name == pid
+        id = self.validate_id(payload.get('id', str(bson.ObjectId())))
         try:
             return self._collection.create(id, payload['attributes'], user.uid)
         except KeyError:

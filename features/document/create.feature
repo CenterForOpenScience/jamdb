@@ -309,3 +309,28 @@ Feature: Creating a document
           }]
         }
         """
+
+  Scenario: Invalid Id
+    Given namespace StarCraft exists
+    And collection Zerg exists in namespace StarCraft
+    And we have ADMIN permissions to namespace StarCraft
+    When we create document foo.bar in StarCraft/Zerg
+    Then the response code will be 400
+    And the response will contain
+      """
+        {
+          "errors": [{
+            "code": "400",
+            "status": "400",
+            "title": "Invalid id",
+            "detail": "Expected detail to match the Regex [\\d\\w\\-]{3,64}, optionally prefixed by its parents ids seperated via ."
+          }]
+        }
+      """
+
+  Scenario: Parent Ids
+    Given namespace StarCraft exists
+    And collection Zerg exists in namespace StarCraft
+    And we have ADMIN permissions to namespace StarCraft
+    When we create document StarCraft.Zerg.Baneling in StarCraft/Zerg
+    Then the response code will be 201

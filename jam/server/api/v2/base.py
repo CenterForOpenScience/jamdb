@@ -1,4 +1,4 @@
-from itertools import zip_longest
+import re
 import datetime
 import http.client
 
@@ -247,11 +247,19 @@ class View:
     def get_permissions(self, request):
         return Permissions.from_method(request.method)
 
+    def validate_id(self, id):
+        parent_re = r'\.'.join([parent.name for parent in self.parents])
+        if re.match(r'^({}\.)?{}$'.format(parent_re, ID_RE), id) is None:
+            raise exceptions.JamException(
+                '400',
+                http.client.BAD_REQUEST,
+                'Invalid id',
+                'Expected detail to match the Regex {}, optionally prefixed by its parents ids seperated via .'.format(ID_RE)
+            )
+        return id.split('.')[-1]
+
     def create(self, payload, user):
-        *parent_ids, id = payload['id'].split('.')
-        if parent_ids:
-            for (parent, pid) in zip_longest(self.parents, parent_ids):
-                assert parent.name == pid
+        id = self.validate_id(payload.get('id', ''))
         return self.do_create(id, payload['attributes'], user)
 
     def do_create(self, id, attributes, user):
