@@ -108,4 +108,3 @@ class JsonPatchTestFailed(JamException):
 
     def __init__(self, exception):
         super().__init__(detail=str(exception))
-
