@@ -37,14 +37,14 @@ class DocumentView(View):
         except KeyError:
             raise exceptions.MalformedData()
 
-    def update(self):
-        pass
+    def update(self, patches, user):
+        return self._collection.update(self._document.ref, patches, user.uid)
 
     def delete(self, user):
         self._collection.delete(self.resource.ref, user.uid)
 
     def replace(self, attributes, user):
-        return self._collection.update(self._document.ref, attributes, user.uid, merger=None)
+        return self._collection.replace(self._document.ref, attributes, user.uid, merger=None)
 
     def list(self, filter, sort, page, page_size, user):
         if not user.permissions & Permissions.READ:

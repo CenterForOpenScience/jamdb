@@ -31,6 +31,12 @@ def response_code(context, code):
     assert context.response.status_code == code, '{} != {}\n{}\n{}'.format(context.response.status_code, code, context.response, context.response.json())
 
 
+@then('the content type will be "{content_type}"')
+def content_type_check(context, content_type):
+    expected, actual = context.response.headers['Content-Type'], content_type
+    assert expected == actual, '{} != {}'.format(expected, actual)
+
+
 @given('the time is {ftime}')
 def freeze(context, ftime):
     offset = (-time.timezone//3600)

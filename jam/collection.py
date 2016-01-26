@@ -149,7 +149,13 @@ class Collection(ReadOnlyCollection):
     def update(self, key, patch, user):
         previous = self._state.get(key)
 
-        data = jsonpatch.apply_patch(previous.data, patch)
+        if isinstance(patch, dict):
+            patch = jsonpatch.JsonPatch.from_diff(previous.data, patch)
+
+        try:
+            data = jsonpatch.apply_patch(previous.data, patch)
+        except jsonpatch.JsonPatchTestFailed as e:
+            raise exceptions.JsonPatchTestFailed(e)
 
         if self.schema:
             self.schema.validate(data)
@@ -162,7 +168,24 @@ class Collection(ReadOnlyCollection):
             data_object.ref,
             user,
             previous=previous,
-            operation_parameters={'patch': patch}
+            operation_parameters={'patch': list(patch)}
+        ), data)
+
+    # TODO
+    def replace(self, key, data, user):
+        previous = self._state.get(key)
+
+        if self.schema:
+            self.schema.validate(data)
+
+        data_object = self._storage.create(data)
+
+        return self._state.apply(self._logger.create(
+            key,
+            Operation.UPDATE,
+            data_object.ref,
+            user,
+            previous=previous,
         ), data)
 
     def delete(self, key, user):

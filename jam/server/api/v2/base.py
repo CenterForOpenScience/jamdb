@@ -1,4 +1,5 @@
 import re
+import json
 import datetime
 import http.client
 
@@ -83,9 +84,6 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
         super().prepare()
         if self.request.method == 'OPTIONS':
             return  # Dont do anything for OPTIONS requests
-
-        # if type(self.json) not in self.TYPE_DATA_SET[self.request.method]:
-        #     raise Exception()
 
         loaded = []
         try:
@@ -191,17 +189,36 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
             'data': [self.serialize(resource) for resource in selector]
         })
 
+    # Replace
     def put(self, **args):
-        raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)
+        raise tornado.web.HTTPError(http.client.NOT_IMPLEMENTED)
         # self._view.replace(self.json['id'], self.json['data']['attributes'], self.current_user)
 
+    # Update
     def patch(self, **args):
-        # assert self._view.resource is not None
-        if 'jsonpatch' in self.extensions:
-            assert isinstance(self.json, list)
-            self._view.update(self.json, self.current_user)
+        if not self._view.resource:
+            # Currently dont support creation/deletion via patch
+            # See here for me detail http://jsonapi.org/extensions/jsonpatch/
+            raise tornado.web.HTTPError(http.client.NOT_IMPLEMENTED)
+
+        # I'm so sorry. Minimizes the amount of code needed for this check.
+        # JsonPatch must have a list anything else must have a dict
+        if ('jsonpatch' in self.extensions) ^ isinstance(self.json, list):
+            if 'jsonpatch' not in self.extensions:
+                raise exceptions.MissingExtension('jsonpatch')  # Got a list with incorrect Content-Type
+            else:
+                raise exceptions.InvalidParameterType('', 'List', 'Object')  # Got a dict with jsonpatch
+
+        if isinstance(self.json, dict):
+            patch = self.json['data']['attributes']
         else:
-            self._view.replace(self.json['attributes'], self.current_user)
+            patch = self.json
+
+        # NOTE: This response format diverges from the jsonpatch spec.
+        # See here for me detail http://jsonapi.org/extensions/jsonpatch/
+        return self.write({
+            'data': self.serialize(self._view.update(patch, self.current_user))
+        })
 
     # Delete
     def delete(self, **args):

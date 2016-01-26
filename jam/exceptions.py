@@ -92,10 +92,20 @@ class IncorrectParameter(JamException):
 
 class MissingExtension(JamException):
     should_log = False
-    status = http.client.UNSUPPORTED_MEDIA_TYPE
     title = 'Missing extension'
+    status = http.client.UNSUPPORTED_MEDIA_TYPE
 
     def __init__(self, extension):
         super().__init__(
             detail='Expected Content-Type to contain ext="{}";'.format(extension)
         )
+
+
+class JsonPatchTestFailed(JamException):
+    should_log = False
+    title = 'Json patch test failed'
+    status = http.client.PRECONDITION_FAILED
+
+    def __init__(self, exception):
+        super().__init__(detail=str(exception))
+
