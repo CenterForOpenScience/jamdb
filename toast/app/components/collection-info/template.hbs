@@ -1,0 +1,24 @@
+<div class="box-header">
+<h3 class="box-title">{{collection.name}}</h3>
+</div>
+<div class="box-content">
+  <dl class="dl-horizontal">
+    <dt>Schema</dt>
+    <dd>
+    {{#if collection.schema}}
+      {{collection.schema}}
+    {{else}}
+      None provided
+    {{/if}}
+    </dd>
+    <dt>Created By</dt>
+    <dd>{{collection.createdBy}}</dd>
+    <dt>Created On</dt>
+    <dd>{{collection.createdOn}}</dd>
+    <dt>Modified By</dt>
+    <dd>{{collection.modifiedBy}}</dd>
+    <dt>Last Modified</dt>
+    <dd>{{collection.modifiedOn}}</dd>
+  </dl>
+  <br>
+</div>

@@ -1,12 +1,8 @@
 import DS from 'ember-data';
-import Ember from 'ember';
+import JamModel from '../mixins/jam-model';
 
-export default DS.Model.extend({
-    collection: DS.belongsTo('collection'),
+export default DS.Model.extend(JamModel, {
     attributes: DS.attr(),
-    createdOn: DS.attr('date'),
-    createdBy: DS.attr('string'),
-    modifiedOn: DS.attr('date'),
-    modifiedBy: DS.attr('string'),
+    collection: DS.belongsTo('collection'),
     history: DS.hasMany('history', {async: true})
 });
