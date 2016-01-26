@@ -74,16 +74,20 @@ class MalformedData(JamException):
 
 class InvalidParameterType(JamException):
     should_log = False
+    title = 'Invalid type'
+    status = http.client.BAD_REQUEST
 
     def __init__(self, field, expected, value):
-        super().__init__('Expected field {} to be of type {}. Got {}'.format(field, expected, type(value)), http.client.BAD_REQUEST)
+        super().__init__(detail='Expected field {} to be of type {}. Got {}'.format(field, expected, value))
 
 
 class IncorrectParameter(JamException):
     should_log = False
+    title = 'Incorrect Paramter'
+    status = http.client.BAD_REQUEST
 
     def __init__(self, field, expected, value):
-        super().__init__('Expected field {} to be {}. Got {}'.format(field, expected, value), http.client.BAD_REQUEST)
+        super().__init__(detail='Expected field {} to be {}. Got {}'.format(field, expected, value))
 
 
 class MissingExtension(JamException):
