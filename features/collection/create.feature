@@ -48,7 +48,7 @@ Feature: Creating a collection
             "attributes": {
               "name": "bar",
               "permissions": {
-                "user-testing-we": 9223372036854775807
+                "user-testing-we": "ADMIN"
               }
             },
             "meta": {

@@ -84,10 +84,8 @@ class NamespaceSerializer(Serializer):
     def attributes(cls, inst):
         return {
             'name': inst.ref,
-            'permissions': inst.data['permissions'],
-        }
-
-    @classmethod
-    def links(cls, request, inst):
-        return {
+            'permissions': {
+                sel: Permissions(perm).name
+                for sel, perm in inst.data['permissions'].items()
+            }
         }

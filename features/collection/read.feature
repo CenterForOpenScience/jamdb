@@ -69,8 +69,8 @@ Feature: Getting a collection
             "attributes": {
               "name": "additional-pylons",
               "permissions": {
-                "user-testing-we": 2,
-                "user-testing-system": 9223372036854775807
+                "user-testing-we": "READ",
+                "user-testing-system": "ADMIN"
               }
             },
             "meta": {
