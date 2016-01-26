@@ -7,6 +7,12 @@ Feature: Updating a document
     When we PATCH "/v1/namespaces/StarCraft/collections/Terran/documents/SCV"
     Then the response code will be 404
 
+  Scenario: No permissions to namespace
+    Given namespace StarCraft exists
+    And collection Terran exists in namespace StarCraft
+    When we PATCH "/v1/namespaces/StarCraft/collections/Terran/documents/SCV"
+    Then the response code will be 403
+
   Scenario: Deleted document
     Given namespace StarCraft exists
     And collection Terran exists in namespace StarCraft

@@ -105,6 +105,36 @@ Feature: Creating a document
         }
         """
 
+  Scenario Outline: New document with incorrect type
+    Given namespace meatspace exists
+    And collection cow exists in namespace meatspace
+    And we have CREATE permissions to namespace meatspace
+    When we POST "/v1/namespaces/meatspace/collections/cow/documents"
+      """
+        {
+          "data": {
+            "id": "NewId",
+            "type": <type>
+            "attributes": {}
+          }
+        }
+      """
+    Then the response code will be 400
+    And the response will contain
+      """
+        {
+          "errors": [{
+            "detail": <detail>
+          }]
+        }
+      """
+
+    Examples: Types
+      | type          | detail |
+      | null          | string |
+      | 12            | string |
+      | "incorrect"   | string |
+      | {}            | string |
 
   Scenario Outline: Allowed permissions
     Given namespace meatspace exists
@@ -309,6 +339,84 @@ Feature: Creating a document
           }]
         }
         """
+
+  Scenario: Can create single via PATCH
+    Given namespace StarCraft exists
+    And collection Zerg exists in namespace StarCraft
+    And we have CRUD permissions to collection Zerg
+    When we PATCH "/v1/namespaces/StarCraft/collections/Zerg/documents"
+    """
+      [{
+        "data": [{
+          "id": "Zergling",
+          "type": "documents",
+          "attributes": {
+            "Health": 100
+          }
+        }]
+      }]
+    """
+    Then the response code will be 200
+    And the content type will be "application/vnd.api+json; ext=jsonpatch"
+    And the response will contain
+    """
+      [{
+        "data": [{
+          "id": "Zergling",
+          "type": "documents",
+          "attributes": {
+            "Health": 100
+          }
+        }]
+      }]
+      """
+
+  Scenario: Can create many via PATCH
+    Given namespace StarCraft exists
+    And collection Zerg exists in namespace StarCraft
+    And we have CRUD permissions to collection Zerg
+    When we PATCH "/v1/namespaces/StarCraft/collections/Terran/documents"
+    """
+      [{
+        "data": [{
+          "id": "Roach",
+          "type": "documents",
+          "attributes": {
+            "Health": 110
+          }
+        }]
+      }, {
+        "data": [{
+          "id": "Baneling",
+          "type": "documents",
+          "attributes": {
+            "Health": 80
+          }
+        }]
+      }]
+    """
+    Then the response code will be 200
+    And the content type will be "application/vnd.api+json; ext=jsonpatch"
+    And the response will contain
+    """
+      [{
+        "data": [{
+          "id": "Marine",
+          "type": "documents",
+          "attributes": {
+            "Health": 110
+          }
+        }]
+      }, {
+        "data": [{
+          "id": "Reaper",
+          "type": "documents",
+          "attributes": {
+            "Health": 80
+          }
+        }]
+      }]
+      """
 
   Scenario: Invalid Id
     Given namespace StarCraft exists
