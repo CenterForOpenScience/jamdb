@@ -88,4 +88,24 @@ Feature: Updating a namespace
         {
           "errors": [null]
         }
+        """
+
+  Scenario: Can not add additional properties
+    Given namespace StarCraft exists
+    And we have ADMIN permissions to namespace StarCraft
+    When the content type is application/vnd.api+json; ext="jsonpatch";
+    And we PATCH "/v1/namespaces/StarCraft"
       """
+        [{
+          "op": "add",
+          "path": "/SomeOtherKey",
+          "value": {"A new": "Hope"}
+        }]
+      """
+    Then the response code will be 400
+    And the response will contain
+      """
+        {
+          "errors": [null]
+        }
+        """
