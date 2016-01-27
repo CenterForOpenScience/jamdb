@@ -113,7 +113,6 @@ class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
 
         # TODO Implement content negotiation
         # http://jsonapi.org/format/#content-negotiation-servers
-        # import ipdb; ipdb.set_trace()
         # if not self.request.headers.get('Content-Type')
         # if not self.get_content_type().startswith('application/vnd.api+json'):
         #     raise tornado.web.HTTPError(http.client.UNSUPPORTED_MEDIA_TYPE)
@@ -125,7 +124,7 @@ class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
         self.set_status(int(status_code))
         self.finish({
             'errors': [{
-                'status': status_code,
+                'status': str(status_code),
                 'detail': self._reason,
             }]
         })

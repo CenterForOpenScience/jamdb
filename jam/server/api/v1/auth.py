@@ -4,6 +4,8 @@ import jwt
 
 from stevedore import driver
 
+from raven.contrib.tornado import SentryMixin
+
 from jam.auth import User
 from jam import exceptions
 from jam.server.api.jsonapi import JSONAPIHandler
@@ -12,7 +14,7 @@ from jam.server.api.jsonapi import JSONAPIHandler
 logger = logging.getLogger(__name__)
 
 
-class AuthHandler(JSONAPIHandler):
+class AuthHandler(SentryMixin, JSONAPIHandler):
 
     def get_current_user(self):
         try:
