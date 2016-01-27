@@ -59,6 +59,12 @@ class Forbidden(JamException):
         )
 
 
+class BadRequest(JamException):
+    should_log = False
+    status = http.client.BAD_REQUEST
+    title = 'Bad request'
+
+
 class Unauthorized(JamException):
     should_log = False
 

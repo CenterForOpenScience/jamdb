@@ -24,9 +24,6 @@ class AuthHandler(JSONAPIHandler):
         except jwt.InvalidTokenError:
             return User(None)
 
-    def prepare(self):
-        self.user = User(self.get_cookie('cookie'), verify=False)
-
     async def post(self):
         try:
             data = self.json['data']
@@ -36,13 +33,19 @@ class AuthHandler(JSONAPIHandler):
         if data.get('type') != 'users':
             raise exceptions.IncorrectParameter('data.type', 'users', data.get('type', 'null'))
 
-        provider = driver.DriverManager(
-            namespace='jam.auth.providers',
-            name=data['attributes'].pop('provider'),
-            invoke_on_load=True,
-        ).driver
+        if not isinstance(data.get('attributes'), dict):
+            raise exceptions.InvalidType('data.attributes', 'dict', type(data.get('type')))
 
-        user = await provider.authenticate(self.user, data['attributes'])
+        try:
+            provider = driver.DriverManager(
+                namespace='jam.auth.providers',
+                name=data['attributes'].pop('provider'),
+                invoke_on_load=True,
+            ).driver
+        except (KeyError, driver.NoMatches):
+            raise exceptions.BadRequest(detail='Unknown provider')
+
+        user = await provider.authenticate(self.current_user, data['attributes'])
 
         self.write({'data': {
             'id': user.uid,
@@ -55,3 +58,18 @@ class AuthHandler(JSONAPIHandler):
                 'refreshable': provider.refreshable,
             }
         }})
+
+    def log_exception(self, typ, value, tb):
+        if isinstance(value, exceptions.JamException) and not value.should_log:
+            return
+        self.captureException((typ, value, tb))
+        super().log_exception(typ, value, tb)
+
+    def write_error(self, status_code, exc_info):
+        etype, exc, _ = exc_info
+
+        if not issubclass(etype, exceptions.JamException):
+            return super().write_error(status_code, exc_info)
+
+        self.set_status(int(exc.status))
+        self.finish({'errors': [exc.serialize()]})
