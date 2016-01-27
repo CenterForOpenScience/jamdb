@@ -32,17 +32,13 @@ CORS_EXPOSE_HEADERS = [
 
 class CORSMixin:
     CORS_ACCEPT_HEADERS = [
-        'Range',
         'Content-Type',
         'Authorization',
         'Cache-Control',
-        'X-Requested-With',
+        # 'X-Requested-With',
     ]
 
     CORS_EXPOSE_HEADERS = [
-        'Range',
-        'Accept-Ranges',
-        'Content-Range',
         'Content-Length',
         'Content-Encoding',
     ]
