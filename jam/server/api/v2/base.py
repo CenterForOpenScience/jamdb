@@ -137,6 +137,9 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
         if self._view.resource:
             raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)
 
+        if not isinstance(self.json.get('data'), (list, dict)):
+            raise exceptions.InvalidParameterType('data', 'List or Object', type(self.json.get('data')))
+
         if isinstance(self.json['data'], list):
             return self.post_bulk()
 
@@ -209,7 +212,10 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
                 raise exceptions.InvalidParameterType('', 'List', 'Object')  # Got a dict with jsonpatch
 
         if isinstance(self.json, dict):
-            patch = self.json['data']['attributes']
+            try:
+                patch = self.json['data']['attributes']
+            except (KeyError, TypeError):
+                raise exceptions.MalformedData()
         else:
             patch = self.json
 
@@ -279,9 +285,6 @@ class View:
         id = self.validate_id(payload.get('id', ''))
         return self.do_create(id, payload['attributes'], user)
 
-    def do_create(self, id, attributes, user):
-        raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)
-
     def read(self, user):
         return self.resource
 
@@ -293,6 +296,9 @@ class View:
 
     def list(self, filter, sort, page, page_size, user):
         return self.parents[-1].select().where(filter).page(page, page_size).order_by(sort)
+
+    def do_create(self, id, attributes, user):
+        raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)
 
 
 class Serializer:

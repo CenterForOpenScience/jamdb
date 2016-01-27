@@ -7,6 +7,11 @@ from jam.auth import Permissions
 from jam.server.api.v2.base import View
 from jam.server.api.v2.base import Relationship
 
+# Suggested ES Settings
+# script.file: off
+# script.indexed: off
+# script.inline: off
+
 
 class DotDict:
     __slots__ = ('_inner', )
@@ -42,9 +47,15 @@ class SearchView(View):
             return Permissions.ADMIN
         return Permissions.READ
 
-    def create(self):
-        # TODO Post querys/aggs
-        raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)
+    def create(self, data, user):
+        try:
+            search = self.parents[-1]._state._backend.raw_backend().search
+        except AttributeError:
+            print('Tried to search on an unsearchable collection')
+            raise
+        search = search.from_dict(data)
+
+        return SearchResultWrapper(search)
 
     def read(self, user):
         raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)

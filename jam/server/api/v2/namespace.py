@@ -32,6 +32,9 @@ class NamespaceView(View):
         # TODO Allow serializing of namespace objects
         return self.MANAGER.read(self.resource.name)
 
+    def update(self, patch, user):
+        return self.MANAGER.update(self._namespace.name, patch, user.uid)
+
     def list(self, filter, sort, page, page_size, user):
         # TODO These should technically be bitwise...
         query = functools.reduce(operator.or_, [

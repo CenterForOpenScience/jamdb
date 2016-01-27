@@ -30,13 +30,16 @@ class CollectionView(View):
 
     def do_create(self, id, attributes, user):
         # TODO Better validation
-        if set(attributes.keys()) - {'logger', 'storage', 'state', 'permissions'}:
+        if set(attributes.keys()) - {'logger', 'storage', 'state', 'permissions', 'schema'}:
             raise Exception()
         self._namespace.create_collection(id, user.uid, **attributes)
         return self._namespace.read(id)
 
     def read(self, user):
         return self._namespace.read(self.resource.name)
+
+    def update(self, patch, user):
+        return self._namespace.update(self.resource.name, patch, user.uid)
 
 
 class NamespaceRelationship(Relationship):
