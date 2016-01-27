@@ -63,3 +63,11 @@ def response_contains(context):
                 assert value == target[key], 'Expected "{}", got "{}"'.format(value, target[key])
 
     dict_compare(expected, context.response.json())
+
+
+@then('the headers will contain')
+def response_contains(context):
+    expected = json.loads(context.text)
+
+    for key, value in json.loads(context.text).items():
+        assert context.response.headers[key] == value, 'Header {} does not match\n{} != {}'.format(key, value, context.response.headers[key])

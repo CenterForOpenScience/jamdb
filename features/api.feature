@@ -142,6 +142,79 @@ Feature: Global API Features
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | 84ni013*)       |
 
 
+  Scenario Outline: Many resource points dont respond to DELETE, PATCH or PUT
+    Given namespace StarCraft exists
+    And collection Zerg exists in namespace StarCraft
+    And document drone exists in StarCraft/Zerg
+    And we have ADMIN permissions to namespace StarCraft
+    When we <METHOD> "<URL>"
+    Then the response code will be <CODE>
+
+    Examples:
+      | METHOD | URL                                                               | CODE |
+      | DELETE | /v1/namespaces/                                                   | 405  |
+      | PUT    | /v1/namespaces/                                                   | 405  |
+      | PATCH  | /v1/namespaces/                                                   | 501  |
+      | DELETE | /v1/namespaces/StarCraft/collections                              | 405  |
+      | PUT    | /v1/namespaces/StarCraft/collections                              | 405  |
+      | PATCH  | /v1/namespaces/StarCraft/collections                              | 501  |
+      | DELETE | /v1/namespaces/StarCraft/collections/Zerg/documents               | 405  |
+      | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents               | 405  |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents               | 501  |
+      | DELETE | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 405  |
+      | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 405  |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 501  |
+
+
+  Scenario Outline: Single resource endpoints dont respond to POST or PUT
+    Given namespace StarCraft exists
+    And collection Zerg exists in namespace StarCraft
+    And document drone exists in StarCraft/Zerg
+    And we have ADMIN permissions to namespace StarCraft
+    When we <METHOD> "<URL>"
+    Then the response code will be <CODE>
+
+    Examples:
+      | METHOD | URL                                                                         | CODE |
+      | POST   | /v1/namespaces/StarCraft                                                    | 405  |
+      | PUT    | /v1/namespaces/StarCraft                                                    | 405  |
+      | POST   | /v1/namespaces/StarCraft/collections/Zerg                                   | 405  |
+      | PUT    | /v1/namespaces/StarCraft/collections/Zerg                                   | 405  |
+      | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone                   | 405  |
+      | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone                   | 405  |
+      | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history/historyid | 405  |
+      | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history/historyid | 405  |
+
+
+  Scenario Outline: All endpoints respond with CORS headers to OPTIONS
+    When we OPTIONS "<URL>"
+    Then the response code will be 204
+    And the headers will contain
+    """
+      {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Methods": "GET, PUT, PATCH, POST, DELETE",
+        "Access-Control-Expose-Headers": "Content-Length, Content-Encoding",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, Cache-Control"
+      }
+    """
+
+    Examples:
+      | URL                                                                         |
+      | /doesnt/exist                                                               |
+      | /v1/auth                                                                    |
+      | /v1/namespaces                                                              |
+      | /v1/namespaces/StarCraft                                                    |
+      | /v1/namespaces/StarCraft/collections                                        |
+      | /v1/namespaces/StarCraft/collections/Zerg                                   |
+      | /v1/namespaces/StarCraft/collections/Zerg/documents                         |
+      | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone                   |
+      | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history           |
+      | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history/historyid |
+
+
+
   Scenario Outline: Incorrect types are rejected
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
