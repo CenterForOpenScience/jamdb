@@ -9,6 +9,7 @@ class BaseSchema(abc.ABC):
         raise NotImplemented
 
     def __init__(self, schema):
+        self.__class__.validate_schema(schema)
         self._schema = schema
 
     @abc.abstractmethod

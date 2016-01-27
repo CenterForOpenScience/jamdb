@@ -75,6 +75,7 @@ Feature: Creating a collection
     When we create collection bar in namespace foo
     Then the response code will be 401
 
+
   Scenario Outline: Insufficient permissions to namespace
     Given namespace foo does exist
     And we have <permission> permissions to namespace foo
@@ -89,3 +90,143 @@ Feature: Creating a collection
       | DELETE     |
       | CRUD       |
       | READ_WRITE |
+
+
+  Scenario: Initial schema
+    Given the time is 2015-01-01T00:00:00.0000Z
+    And namespace StarCraft exists
+    And we have ADMIN permissions to namespace StarCraft
+    When we POST "/v1/namespaces/StarCraft/collections"
+      """
+        {
+          "data": {
+            "id": "StarCraft.Terran",
+            "type": "collections",
+            "attributes": {
+              "schema": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Health": {
+                      "type": "integer"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "Unit"
+                  ]
+                },
+                "type": "jsonschema"
+              }
+            }
+          }
+        }
+      """
+    Then the response code will be 201
+    And the response will contain
+      """
+      {
+        "data": {
+            "id": "StarCraft.Terran",
+            "type": "collections",
+            "attributes": {
+              "name": "Terran",
+              "permissions": {
+                "user-testing-we": "ADMIN"
+              },
+              "schema": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Health": {
+                      "type": "integer"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "Unit"
+                  ]
+                },
+                "type": "jsonschema"
+              }
+            },
+            "meta": {
+              "created-by": "user-testing-we",
+              "modified-by": "user-testing-we",
+              "created-on": "2015-01-01T00:00:00",
+              "modified-on": "2015-01-01T00:00:00"
+            },
+            "relationships": {
+              "documents": {
+                "links": {
+                  "self": "http://localhost:50325/v1/namespaces/StarCraft/collections/Terran/documents",
+                  "related": "http://localhost:50325/v1/namespaces/StarCraft/collections/Terran/documents"
+                }
+              }
+            }
+          }
+      }
+      """
+
+
+  Scenario: Bad initial schema
+    Given namespace StarCraft exists
+    And we have ADMIN permissions to namespace StarCraft
+    When we POST "/v1/namespaces/StarCraft/collections"
+      """
+        {
+          "data": {
+            "id": "StarCraft.Terran",
+            "type": "collections",
+            "attributes": {
+              "schema": {
+                "schema": 1,
+                "type": "Not found"
+              }
+            }
+          }
+        }
+      """
+    Then the response code will be 400
+    And the response will contain
+      """
+        {
+          "errors": [{
+            "code": "C400",
+            "status": "400",
+            "title": "Invalid schema type",
+            "detail": "\"Not found\" is not a valid schema type"
+          }]
+        }
+      """
+
+
+  Scenario: Bad jsonschema
+    Given namespace StarCraft exists
+    And we have ADMIN permissions to namespace StarCraft
+    When we POST "/v1/namespaces/StarCraft/collections"
+      """
+        {
+          "data": {
+            "id": "StarCraft.Terran",
+            "type": "collections",
+            "attributes": {
+              "schema": {
+                "schema": 1,
+                "type": "jsonschema"
+              }
+            }
+          }
+        }
+      """
+    Then the response code will be 400
+      """
+        {
+          "errors": [{
+            "code": "C400",
+            "status": "400",
+            "title": "Invalid schema",
+            "detail": "The supplied data was an invalid jsonschema schema"
+          }]
+        }
+      """

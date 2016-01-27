@@ -114,3 +114,23 @@ class JsonPatchTestFailed(JamException):
 
     def __init__(self, exception):
         super().__init__(detail=str(exception))
+
+
+class NoSuchSchema(JamException):
+    should_log = False
+    code = 'C400'
+    title = 'Invalid schema type'
+    status = http.client.BAD_REQUEST
+
+    def __init__(self, name):
+        super().__init__(detail='"{}" is not a valid schema type'.format(name))
+
+
+class InvalidSchema(JamException):
+    should_log = False
+    code = 'C400'
+    title = 'Invalid schema'
+    status = http.client.BAD_REQUEST
+
+    def __init__(self, type_):
+        super().__init__(detail='The supplied data was an invalid {} schema '.format(type_))
