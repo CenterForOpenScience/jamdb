@@ -134,3 +134,32 @@ class InvalidSchema(JamException):
 
     def __init__(self, type_):
         super().__init__(detail='The supplied data was an invalid {} schema '.format(type_))
+
+
+class InvalidPermission(JamException):
+    should_log = False
+    code = 'P400'
+    title = 'Invalid permission'
+    status = http.client.BAD_REQUEST
+
+    def __init__(self, permission):
+        super().__init__(detail='"{}" is not a valid permission level'.format(permission))
+
+
+class InvalidField(JamException):
+    should_log = False
+    title = 'Invalid field'
+    status = http.client.BAD_REQUEST
+
+    def __init__(self, field):
+        super().__init__(detail='Values at "{}" may not be altered'.format(field))
+
+
+class SchemaValidationFailed(JamException):
+    should_log = False
+    title = 'Schema validation failed'
+    code = 'S400'
+    status = http.client.BAD_REQUEST
+
+    def __init__(self, detail):
+        super().__init__(detail=detail)

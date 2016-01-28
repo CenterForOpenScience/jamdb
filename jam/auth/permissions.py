@@ -11,8 +11,16 @@ class Permissions(enum.IntEnum):
     UPDATE = 0x1 << 2
     DELETE = 0x1 << 3
 
+    C = CREATE
+    CR = C | READ
+    CRU = CR | UPDATE
+    CRUD = CRU | DELETE
+
+    RU = READ | UPDATE
+    RUD = RU | DELETE
+
     READ_WRITE = CREATE | READ | UPDATE
-    CRUD = READ_WRITE | DELETE
+
     ADMIN = sys.maxsize  # Grants all possible permission
 
     @classmethod

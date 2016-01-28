@@ -1,3 +1,6 @@
+import json
+from jam.util import order_dictionary
+
 import jsonschema
 
 from jam import exceptions
@@ -15,4 +18,13 @@ class JSONSchema(BaseSchema):
 
     def validate(self, data):
         # TODO Translate to custom exceptions
-        jsonschema.validate(data, self._schema)
+        try:
+            jsonschema.validate(data, self._schema)
+        except jsonschema.ValidationError as e:
+            raise exceptions.SchemaValidationFailed(
+                'Validation error "{}" at "{}" against schema "{}"'.format(
+                    e.message,
+                    '/'.join(e.absolute_path),
+                    json.dumps(order_dictionary(e.schema))
+                )
+            )

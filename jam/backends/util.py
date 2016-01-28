@@ -1,6 +1,20 @@
 from stevedore import driver
 
 
+BACKEND_SCHEMA = {
+    'type': 'object',
+    'properties': {
+        'backend': {
+            'type': 'string'
+        },
+        'settings': {
+            'type': 'object',
+        }
+    },
+    'additionalProperties': False
+}
+
+
 def get_backend(name):
     return driver.DriverManager('jam.backends', name).driver
 

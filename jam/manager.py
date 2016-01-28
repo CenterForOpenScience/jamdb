@@ -1,4 +1,6 @@
 import uuid
+import operator
+from functools import reduce
 
 import jam
 from jam import settings
@@ -21,6 +23,7 @@ class NamespaceManager(Collection):
             jam.Storage(storage_backend(**storage_backend.settings_for('manager', self.uuid, 'storage'))),
             jam.Logger(logger_backend(**logger_backend.settings_for('manager', self.uuid, 'logger'))),
             jam.State(state_backend(**state_backend.settings_for('manager', self.uuid, 'state'))),
+            schema={'type': 'jsonschema', 'schema': Namespace.SCHEMA}
         )
 
     def create_namespace(self, name, user, permissions=None):
@@ -60,3 +63,18 @@ class NamespaceManager(Collection):
                 title='Namespace not found',
                 detail='Namespace "{}" was not found'.format(name)
             )
+
+    def update(self, key, patch, user):
+        if isinstance(patch, dict):
+            patch = jsonpatch.JsonPatch.from_diff(previous.data, patch)
+
+        for blob in patch:
+            if not blob['path'].split('/')[1] in Namespace.WHITELIST:
+                raise exceptions.InvalidField(blob['path'])
+            if blob.get('value') and blob['path'].startswith('/permissions'):
+                try:
+                    blob['value'] = Permissions(reduce(operator.or_, [Permissions[p.strip()] for p in blob['value'].split(',')], Permissions.NONE))
+                except (AttributeError, KeyError):
+                    raise exceptions.InvalidPermission(blob['value'])
+
+        return super().update(key, patch, user)

@@ -5,11 +5,39 @@ from jam import settings
 from jam import exceptions
 from jam.auth import Permissions
 from jam.collection import Collection
+from jam.auth import PERMISSIONS_SCHEMA
 from jam.backends.util import get_backend
 from jam.backends.util import load_backend
+from jam.backends.util import BACKEND_SCHEMA
 
 
 class Namespace(Collection):
+
+    WHITELIST = {'permissions'}
+
+    SCHEMA = {
+        'type': 'object',
+        'properties': {
+            'permissions': PERMISSIONS_SCHEMA,
+            'uuid': {
+                'type': 'string',
+                'pattern': '^[a-fA-F0-9]{32}$'
+            },
+            'logger': BACKEND_SCHEMA,
+            'state': BACKEND_SCHEMA,
+            'storage': BACKEND_SCHEMA,
+        },
+        'additionalProperties': False,
+        'required': [
+            'logger',
+            'permissions',
+            'state',
+            'storage',
+            'uuid'
+        ]
+    }
+
+    WHITELIST = {'permissions'}
 
     def __init__(self, uuid, name, storage, logger, state, permissions=None):
         self.uuid = uuid
