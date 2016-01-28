@@ -1,7 +1,13 @@
 <section class="content">
 <div class="row">
   <div class="col-md-12">
-    {{namespace-info model}}
+    {{#namespace-info model}}
+      <div class="row">
+        <div class="col-xs-offset-1 col-xs-10">
+          {{permissions-editor model.permissions onchange=(action 'permissionsUpdated')}}
+        </div>
+      </div>
+    {{/namespace-info}}
   </div>
 </div>
 </section>

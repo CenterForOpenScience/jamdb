@@ -122,6 +122,10 @@ export default Ember.Controller.extend({
         },
         prevPage(event) {
           this.decrementProperty('page');
+        },
+        permissionsUpdated(permissions) {
+          this.set('model.permissions', permissions);
+          this.get('model').save();
         }
     }
 });
