@@ -330,7 +330,7 @@ class Serializer:
             'created-by': inst.created_by,
             'modified-by': inst.modified_by,
             'created-on': datetime.datetime.fromtimestamp(inst.created_on).isoformat(),
-            'modified-on': datetime.datetime.fromtimestamp(inst.created_on).isoformat()
+            'modified-on': datetime.datetime.fromtimestamp(inst.modified_on).isoformat()
         }
 
 
