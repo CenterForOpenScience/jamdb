@@ -6,7 +6,9 @@ from jam import Q
 from jam import exceptions
 from jam.base import Operation
 from jam.schemas import load_schema
+from jam.auth import PERMISSIONS_SCHEMA
 from jam.backends.util import load_backend
+from jam.backends.util import BACKEND_SCHEMA
 
 
 class ReadOnlyCollection:
@@ -116,6 +118,43 @@ class FrozenCollection(ReadOnlyCollection):
 
 
 class Collection(ReadOnlyCollection):
+
+    WHITELIST = {'permissions', 'schema'}
+
+    SCHEMA = {
+        'type': 'object',
+        'properties': {
+            'permissions': PERMISSIONS_SCHEMA,
+            'uuid': {
+                'type': 'string',
+                'pattern': '^[a-fA-F0-9]{32}$'
+            },
+            'logger': BACKEND_SCHEMA,
+            'state': BACKEND_SCHEMA,
+            'storage': BACKEND_SCHEMA,
+            'schema': {
+                'oneOf': [
+                    {'type': 'null'},
+                    {
+                        'type': 'object',
+                        'properties': {
+                            'schema': {},
+                            'type': {'type': 'string'}
+                        },
+                        'required': ['type', 'schema']
+                    }
+                ]
+            }
+        },
+        'additionalProperties': False,
+        'required': [
+            'logger',
+            'permissions',
+            'state',
+            'storage',
+            'uuid'
+        ]
+    }
 
     def snapshot(self):
         data_object = self._storage.create([(doc.log_ref, doc.data_ref) for doc in self._state.list()])

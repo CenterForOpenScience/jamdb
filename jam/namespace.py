@@ -1,4 +1,6 @@
 import uuid
+import operator
+from functools import reduce
 
 import jam
 from jam import settings
@@ -46,7 +48,8 @@ class Namespace(Collection):
             jam.Storage(load_backend(storage['backend'], **storage['settings'])),
             jam.Logger(load_backend(logger['backend'], **logger['settings'])),
             jam.State(load_backend(state['backend'], **state['settings'])),
-            permissions=permissions
+            permissions=permissions,
+            schema={'type': 'jsonschema', 'schema': Collection.SCHEMA}
         )
 
     def get_collection(self, name):
@@ -101,3 +104,18 @@ class Namespace(Collection):
             )
 
         return collection
+
+    def update(self, key, patch, user):
+        if isinstance(patch, dict):
+            patch = jsonpatch.JsonPatch.from_diff(previous.data, patch)
+
+        for blob in patch:
+            if not blob['path'].split('/')[1] in Collection.WHITELIST:
+                raise exceptions.InvalidField(blob['path'])
+            if blob.get('value') and blob['path'].startswith('/permissions'):
+                try:
+                    blob['value'] = Permissions(reduce(operator.or_, [Permissions[p.strip()] for p in blob['value'].split(',')], Permissions.NONE))
+                except (AttributeError, KeyError):
+                    raise exceptions.InvalidPermission(blob['value'])
+
+        return super().update(key, patch, user)

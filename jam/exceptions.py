@@ -89,7 +89,7 @@ class InvalidParameterType(JamException):
 
 class IncorrectParameter(JamException):
     should_log = False
-    title = 'Incorrect Paramter'
+    title = 'Incorrect Parameter'
     status = http.client.BAD_REQUEST
 
     def __init__(self, field, expected, value):

@@ -1,4 +1,3 @@
-@wip
 Feature: Updating a collection
 
   Scenario: Updating Permissions via jsonpatch
@@ -19,11 +18,10 @@ Feature: Updating a collection
       """
       {
         "data": {
-            "id": "Starcraft",
-            "type": "namespaces",
+            "id": "StarCraft.Protoss",
+            "type": "collections",
             "attributes": {
               "permissions": {
-                "user-testing-we": "ADMIN",
                 "jam-Starcraft.Terran-*": "ADMIN"
               }
             }
@@ -48,7 +46,12 @@ Feature: Updating a collection
     And the response will contain
       """
         {
-          "errors": [null]
+          "errors": [{
+            "code": "P400",
+            "status": "400",
+            "title": "Invalid permission",
+            "detail": "\"Reaver\" is not a valid permission level"
+          }]
         }
       """
 
@@ -69,7 +72,12 @@ Feature: Updating a collection
     And the response will contain
       """
         {
-          "errors": [null]
+          "errors": [{
+            "code": "P400",
+            "status": "400",
+            "title": "Invalid permission",
+            "detail": "\"42\" is not a valid permission level"
+          }]
         }
       """
 
@@ -90,9 +98,14 @@ Feature: Updating a collection
     And the response will contain
       """
         {
-          "errors": [null]
+          "errors": [{
+            "code": "S400",
+            "status": "400",
+            "title": "Schema validation failed",
+            "detail": "Validation error \"Additional properties are not allowed ('justsomejumbleduptext' was unexpected)\" at \"permissions\" against schema \"{\"additionalProperties\": false, \"patternProperties\": {\"^(\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\-\\\\*]+\\\\-\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\-\\\\*]+)$\": {\"type\": \"integer\"}}, \"type\": \"object\"}\""
+          }]
         }
-        """
+      """
 
 
   Scenario: Can not add additional properties
@@ -112,6 +125,11 @@ Feature: Updating a collection
     And the response will contain
       """
         {
-          "errors": [null]
+          "errors": [{
+            "code": "400",
+            "status": "400",
+            "title": "Invalid field",
+            "detail": "Values at \"/SomeOtherKey\" may not be altered"
+          }]
         }
-        """
+      """
