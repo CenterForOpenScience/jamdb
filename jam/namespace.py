@@ -107,7 +107,13 @@ class Namespace(Collection):
 
     def update(self, key, patch, user):
         if isinstance(patch, dict):
-            patch = jsonpatch.JsonPatch.from_diff(previous.data, patch)
+            keys = set(patch.keys())
+            if not keys.issubset(Collection.WHITELIST):
+                raise exceptions.InvalidFields(keys - Collection.WHITELIST)
+
+            previous = self._state.get(key)
+            patch = jsonpatch.JsonPatch.from_diff(previous.data, {**previous.data, **patch})
+            patch = list(filter(lambda p: p['path'].split('/')[1] in Namespace.WHITELIST, patch))
 
         for blob in patch:
             if not blob['path'].split('/')[1] in Collection.WHITELIST:

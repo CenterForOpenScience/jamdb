@@ -1,5 +1,39 @@
 Feature: Updating a collection
 
+  Scenario: Updating Permissions
+    Given namespace StarCraft exists
+    And collection Protoss exists in namespace StarCraft
+    And we have ADMIN permissions to namespace StarCraft
+    When we PATCH "/v1/namespaces/StarCraft/collections/Protoss"
+      """
+      {
+        "data": {
+            "id": "StarCraft.Protoss",
+            "type": "collections",
+            "attributes": {
+              "permissions": {
+                "jam-Starcraft.Terran-*": "ADMIN"
+              }
+            }
+          }
+        }
+      """
+    Then the response code will be 200
+    And the response will contain
+      """
+      {
+        "data": {
+            "id": "StarCraft.Protoss",
+            "type": "collections",
+            "attributes": {
+              "permissions": {
+                "jam-Starcraft.Terran-*": "ADMIN"
+              }
+            }
+          }
+        }
+      """
+
   Scenario: Updating Permissions via jsonpatch
     Given namespace StarCraft exists
     And collection Protoss exists in namespace StarCraft

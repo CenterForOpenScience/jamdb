@@ -1,5 +1,41 @@
 Feature: Updating a namespace
 
+  Scenario: Updating Permissions
+    Given namespace StarCraft exists
+    And we have ADMIN permissions to namespace StarCraft
+    When we PATCH "/v1/namespaces/StarCraft"
+      """
+        {
+          "data": {
+            "id": "StarCraft",
+            "type": "namespaces",
+            "attributes": {
+              "permissions": {
+                "user-testing-we": "ADMIN",
+                "jam-Starcraft.Terran-*": "ADMIN"
+              }
+            }
+          }
+        }
+      """
+    Then the response code will be 200
+    And the response will contain
+      """
+      {
+        "data": {
+            "id": "StarCraft",
+            "type": "namespaces",
+            "attributes": {
+              "permissions": {
+                "user-testing-we": "ADMIN",
+                "jam-Starcraft.Terran-*": "ADMIN"
+              }
+            }
+          }
+        }
+      """
+
+
   Scenario: Updating Permissions via jsonpatch
     Given namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
