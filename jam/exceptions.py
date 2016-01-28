@@ -155,6 +155,11 @@ class InvalidField(JamException):
         super().__init__(detail='Values at "{}" may not be altered'.format(field))
 
 
+class InvalidFields(InvalidField):
+    def __init__(self, fields):
+        super().__init__(', '.join(sorted(fields)))
+
+
 class SchemaValidationFailed(JamException):
     should_log = False
     title = 'Schema validation failed'
