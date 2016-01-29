@@ -39,7 +39,7 @@ def content_type_check(context, content_type):
 
 @given('the time is {ftime}')
 def freeze(context, ftime):
-    offset = (-time.timezone//3600)
+    offset = (-time.timezone // 3600)
     context.time = freeze_time(ftime, tz_offset=offset)
     context.time.start()
     time.time.__class__.__call__ = lambda self: self.time_to_freeze().timestamp()
@@ -66,8 +66,6 @@ def response_contains(context):
 
 
 @then('the headers will contain')
-def response_contains(context):
-    expected = json.loads(context.text)
-
+def headers_contains(context):
     for key, value in json.loads(context.text).items():
         assert context.response.headers[key] == value, 'Header {} does not match\n{} != {}'.format(key, value, context.response.headers[key])
