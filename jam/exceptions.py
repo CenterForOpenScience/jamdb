@@ -8,12 +8,14 @@ class JamException(Exception):
     status = http.client.INTERNAL_SERVER_ERROR
     title = 'An error has occured'
 
-    def __init__(self, code=None, status=None, title=None, detail=None):
+    def __init__(self, code=None, status=None, title=None, detail=None, should_log=None):
         self.title = title or self.__class__.title
         self.status = status or self.__class__.status
 
         self.code = code or self.__class__.code or str(int(self.status))
         self.detail = detail or self.__class__.detail or self.title
+
+        self.should_log = should_log if should_log is not None else self.__class__.should_log
 
     def serialize(self):
         return {
@@ -84,7 +86,12 @@ class InvalidParameterType(JamException):
     status = http.client.BAD_REQUEST
 
     def __init__(self, field, expected, value):
-        super().__init__(detail='Expected field {} to be of type {}. Got {}'.format(field, expected, value))
+        super().__init__(detail='Expected field {} to be of type {}. Got {}'.format(field, expected, {
+            dict: 'object',
+            list: 'list',
+            str: 'string',
+            type(None): 'null',
+        }[value]))
 
 
 class IncorrectParameter(JamException):
@@ -93,6 +100,8 @@ class IncorrectParameter(JamException):
     status = http.client.BAD_REQUEST
 
     def __init__(self, field, expected, value):
+        if value is None:
+            value = 'null'
         super().__init__(detail='Expected field {} to be {}. Got {}'.format(field, expected, value))
 
 
