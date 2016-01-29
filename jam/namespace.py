@@ -45,6 +45,7 @@ class Namespace(Collection):
 
     def __init__(self, uuid, name, storage, logger, state, permissions=None):
         self.uuid = uuid
+        self.ref = name
         self.name = name
         super().__init__(
             jam.Storage(load_backend(storage['backend'], **storage['settings'])),
@@ -57,7 +58,8 @@ class Namespace(Collection):
     def get_collection(self, name):
         try:
             col = Collection.from_dict(self.read(name).data)
-            col.name = name  # TODO Fix me, this just makes life much easier
+            col.ref = name  # TODO Fix me, this just makes life much easier
+            col.name = name
             return col
         except exceptions.NotFound:
             raise exceptions.NotFound(
