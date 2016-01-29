@@ -52,13 +52,6 @@ def ResourceEndpoint(view, serializer):
 
 
 class ResourceHandler(SentryMixin, JSONAPIHandler):
-    TYPE_DATA_SET = {
-        'PUT': {},
-        'GET': {type(None)},
-        'DELETE': {type(None)},
-        'POST': {dict, list},
-        'PATCH': {dict, list},
-    }
 
     def get_current_user(self):
         try:
@@ -128,9 +121,21 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
         if not isinstance(self.json, (dict, list)):
             raise exceptions.MalformedData()
 
-        # data = self.json.get('data', {})
-        # if data.get('type') != self._view.plural:
-        #     raise exceptions.IncorrectParameter('data.type', self._view.type, data.get('type', 'null'))
+        return
+        if isinstance(self.json, dict) and not self.extensions:
+            data = self.json.get('data')
+            if not isinstance(data, dict):
+                raise exceptions.InvalidParameterType('data', 'object', type(data))
+
+            # Type validation
+            if data.get('type') != self._view.plural:
+                raise exceptions.IncorrectParameter('data.type', self._view.plural, data.get('type', 'null'))
+
+            # ID Validation
+            if self._view.resource:
+                ref = getattr(self._view.resource, 'name', None) or getattr(self._view.resource, 'ref')
+                if not str(data.get('id')).endswith(ref):
+                    raise exceptions.IncorrectParameter('data.id', ref, data.get('id', 'null'))
 
     # Create
     def post(self, **args):
@@ -138,10 +143,13 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
             raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)
 
         if not isinstance(self.json.get('data'), (list, dict)):
-            raise exceptions.InvalidParameterType('data', 'List or Object', type(self.json.get('data')))
+            raise exceptions.InvalidParameterType('data', 'list or object', type(self.json.get('data')))
 
         if isinstance(self.json['data'], list):
             return self.post_bulk()
+
+        if self.json['data'].get('type') != self._view.plural:
+            raise exceptions.IncorrectParameter('data.type', self._view.plural, self.json['data'].get('type', 'null'))
 
         new = self._view.create(self.json['data'], self.current_user)
         self.write({'data': self.serialize(new)})
@@ -152,6 +160,10 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
             raise exceptions.MissingExtension('bulk')
         new, errors = [], []
         for entry in self.json['data']:
+
+            if entry.get('type') != self._view.plural:
+                raise exceptions.IncorrectParameter('data.type', self._view.plural, entry.get('type', 'null'))
+
             try:
                 new.append(self._view.create(entry, self.current_user))
             except KeyError as e:
@@ -166,6 +178,7 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
                 errors.append(e.serialize())
             else:
                 errors.append(None)
+
         self.write({
             'data': [self.serialize(n) for n in new],
             'errors': errors
@@ -193,6 +206,8 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
 
     # Replace
     def put(self, **args):
+        if not self._view.resource:
+            raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)
         raise tornado.web.HTTPError(http.client.NOT_IMPLEMENTED)
         # self._view.replace(self.json['id'], self.json['data']['attributes'], self.current_user)
 
@@ -209,13 +224,18 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
             if 'jsonpatch' not in self.extensions:
                 raise exceptions.MissingExtension('jsonpatch')  # Got a list with incorrect Content-Type
             else:
-                raise exceptions.InvalidParameterType('', 'List', 'Object')  # Got a dict with jsonpatch
+                raise exceptions.InvalidParameterType('', 'list', dict)  # Got a dict with jsonpatch
 
         if isinstance(self.json, dict):
             try:
                 patch = self.json['data']['attributes']
             except (KeyError, TypeError):
                 raise exceptions.MalformedData()
+
+            self._view.validate_id(self.json['data'].get('id', ''))
+
+            if self.json['data'].get('type') != self._view.plural:
+                raise exceptions.IncorrectParameter('data.type', self._view.plural, self.json['data'].get('type', 'null'))
         else:
             patch = self.json
 
@@ -271,13 +291,17 @@ class View:
         return Permissions.from_method(request.method)
 
     def validate_id(self, id):
-        parent_re = r'\.'.join([parent.name for parent in self.parents])
-        if re.match(r'^({}\.)?{}$'.format(parent_re, ID_RE), id) is None:
+        parent_re = r'\.'.join([re.escape(parent.ref) for parent in self.parents])
+        tail = ID_RE if self.resource is None else re.escape(self.resource.ref)
+        if re.match(r'^({}\.)?{}$'.format(parent_re, tail), str(id)) is None:
             raise exceptions.JamException(
                 '400',
                 http.client.BAD_REQUEST,
                 'Invalid id',
-                'Expected detail to match the Regex {}, optionally prefixed by its parents ids seperated via .'.format(ID_RE)
+                'Expected data.id {}, optionally prefixed by its parents ids seperated via .'.format(
+                    'to match the Regex ' + ID_RE if self.resource is None else 'to be ' + self.resource.ref
+                ),
+                should_log=False
             )
         return id.split('.')[-1]
 
