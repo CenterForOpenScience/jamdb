@@ -54,42 +54,40 @@ Feature: Deleting a document
     And we DELETE "/v1/namespaces/StarCraft/collections/Zerg/documents/Drone"
     Then the response code will be 204
 
-  @wip
-  Scenario: Can delete one via PATCH
-    Given namespace StarCraft exists
-    And collection Zerg exists in namespace StarCraft
-    And we have CREATE permissions to collection Zerg
-    And document Drone exists in StarCraft/Zerg
-    When we PATCH "/v1/namespaces/StarCraft/collections/Zerg/documents"
-      """
-        [{
-          "op": "remove",
-          "path": "",
-          "value": [{"type": "documents", "id": "Drone"}]
-        }]
-      """
-    Then the response code will be 204
-    And the content type will be "application/vnd.api+json; ext=jsonpatch"
+  # Scenario: Can delete one via PATCH
+  #   Given namespace StarCraft exists
+  #   And collection Zerg exists in namespace StarCraft
+  #   And we have CREATE permissions to collection Zerg
+  #   And document Drone exists in StarCraft/Zerg
+  #   When we PATCH "/v1/namespaces/StarCraft/collections/Zerg/documents"
+  #     """
+  #       [{
+  #         "op": "remove",
+  #         "path": "",
+  #         "value": [{"type": "documents", "id": "Drone"}]
+  #       }]
+  #     """
+  #   Then the response code will be 204
+  #   And the content type will be "application/vnd.api+json; ext=jsonpatch"
 
-  @wip
-  Scenario: Can delete many via PATCH
-    Given namespace StarCraft exists
-    And collection Zerg exists in namespace StarCraft
-    And we have CREATE permissions to collection Zerg
-    And document Drone exists in StarCraft/Zerg
-    And document Roach exists in StarCraft/Zerg
-    And document Mutalisk exists in StarCraft/Zerg
-    When we PATCH "/v1/namespaces/StarCraft/collections/Zerg/documents"
-      """
-        [{
-          "op": "remove",
-          "path": "",
-          "value": [
-            {"type": "documents", "id": "Drone"},
-            {"type": "documents", "id": "Roach"},
-            {"type": "documents", "id": "Mutalisk"},
-          ]
-        }]
-      """
-    Then the response code will be 204
-    And the content type will be "application/vnd.api+json; ext=jsonpatch"
+  # Scenario: Can delete many via PATCH
+  #   Given namespace StarCraft exists
+  #   And collection Zerg exists in namespace StarCraft
+  #   And we have CREATE permissions to collection Zerg
+  #   And document Drone exists in StarCraft/Zerg
+  #   And document Roach exists in StarCraft/Zerg
+  #   And document Mutalisk exists in StarCraft/Zerg
+  #   When we PATCH "/v1/namespaces/StarCraft/collections/Zerg/documents"
+  #     """
+  #       [{
+  #         "op": "remove",
+  #         "path": "",
+  #         "value": [
+  #           {"type": "documents", "id": "Drone"},
+  #           {"type": "documents", "id": "Roach"},
+  #           {"type": "documents", "id": "Mutalisk"},
+  #         ]
+  #       }]
+  #     """
+  #   Then the response code will be 204
+  #   And the content type will be "application/vnd.api+json; ext=jsonpatch"
