@@ -122,14 +122,7 @@ class BaseAPIHandler(tornado.web.RequestHandler, SentryMixin, metaclass=abc.ABCM
             })
 
 
-class Default404Handler(tornado.web.RequestHandler):
-
-    def set_default_headers(self):
-        self.set_header('Access-Control-Allow-Credentials', 'true')
-        self.set_header('Access-Control-Allow-Headers', ', '.join(CORS_ACCEPT_HEADERS))
-        self.set_header('Access-Control-Expose-Headers', ', '.join(CORS_EXPOSE_HEADERS))
-        self.set_header('Cache-control', 'no-store, no-cache, must-revalidate, max-age=0')
-        self.set_header('Access-Control-Allow-Origin', self.request.headers.get('Origin', '*'))
+class Default404Handler(CORSMixin, tornado.web.RequestHandler):
 
     def get(self):
         raise tornado.web.HTTPError(http.client.NOT_FOUND)
@@ -143,21 +136,12 @@ class Default404Handler(tornado.web.RequestHandler):
     def delete(self):
         raise tornado.web.HTTPError(http.client.NOT_FOUND)
 
-    def options(self):
-        self.set_status(204)
-        self.set_header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE')
-
     def write_error(self, status_code, exc_info):
         etype, exc, _ = exc_info
-
-        if issubclass(etype, exceptions.JamException):
-            self.set_status(int(exc.status))
-            self.finish({'errors': [exc.serialize()]})
-        else:
-            self.set_status(int(status_code))
-            self.finish({
-                'errors': [{
-                    'status': str(int(status_code)),
-                    'detail': self._reason,
-                }]
-            })
+        self.set_status(int(status_code))
+        self.finish({
+            'errors': [{
+                'status': str(int(status_code)),
+                'detail': self._reason,
+            }]
+        })
