@@ -122,7 +122,7 @@ class Namespace(Collection):
         for blob in patch:
             if not blob['path'].split('/')[1] in Collection.WHITELIST:
                 raise exceptions.InvalidField(blob['path'])
-            if blob.get('value') and blob['path'].startswith('/permissions'):
+            if blob.get('value') and not isinstance(blob.get('value'), Permissions) and blob['path'].startswith('/permissions'):
                 try:
                     blob['value'] = Permissions(reduce(operator.or_, [Permissions[p.strip()] for p in blob['value'].split(',')], Permissions.NONE))
                 except (AttributeError, KeyError):

@@ -157,7 +157,7 @@ def jam_update(args, argv):
 
     if args['--permissions']:
         resource.update(key, [
-            {'op': 'add', 'path': '/permissions/{}'.format(uid), 'value': getattr(jam.auth.Permissions, p.upper())}
+            {'op': 'add', 'path': '/permissions/{}'.format(uid), 'value': p.upper()}
             for (uid, p) in [perm.split(' ') for perm in args['--permissions']]
         ], args['--user'])
 
