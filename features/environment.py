@@ -23,6 +23,7 @@ class ServerThread(threading.Thread):
     def run(self):
         logger = logging.getLogger(jam.__name__)
         logger.setLevel(logging.ERROR)
+        logging.getLogger('tornado.access').setLevel(logging.FATAL)
         asyncio.set_event_loop(self.loop)
         server.main()
 
