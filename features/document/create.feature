@@ -105,36 +105,6 @@ Feature: Creating a document
         }
         """
 
-  Scenario Outline: New document with incorrect type
-    Given namespace meatspace exists
-    And collection cow exists in namespace meatspace
-    And we have CREATE permissions to namespace meatspace
-    When we POST "/v1/namespaces/meatspace/collections/cow/documents"
-      """
-        {
-          "data": {
-            "id": "NewId",
-            "type": <type>
-            "attributes": {}
-          }
-        }
-      """
-    Then the response code will be 400
-    And the response will contain
-      """
-        {
-          "errors": [{
-            "detail": <detail>
-          }]
-        }
-      """
-
-    Examples: Types
-      | type          | detail |
-      | null          | string |
-      | 12            | string |
-      | "incorrect"   | string |
-      | {}            | string |
 
   Scenario Outline: Allowed permissions
     Given namespace meatspace exists
@@ -194,6 +164,7 @@ Feature: Creating a document
       | invalid | {"errors":[{"code":"400","status":"400","title":"Malformed data"}]}    |
       | {{{{{}}}}} | {"errors":[{"code":"400","status":"400","title":"Malformed data"}]} |
 
+  @wip
   Scenario: Bulk document creation
     Given the time is 2015-01-01T00:00:00.0000Z
     And namespace things-that-make-me exists
@@ -206,6 +177,7 @@ Feature: Creating a document
         "data": [
           {
             "id": "Nothing",
+            "type": "documents",
             "attributes": {}
           }
         ]
@@ -282,10 +254,13 @@ Feature: Creating a document
         "data": [
           {
             "id": "NotMuch",
+            "type": "documents",
             "attributes": {}
           }, {
+            "type": "documents"
           }, {
             "id": "Nothing",
+            "type": "documents",
             "attributes": {}
           }
         ]
@@ -431,7 +406,7 @@ Feature: Creating a document
             "code": "400",
             "status": "400",
             "title": "Invalid id",
-            "detail": "Expected detail to match the Regex [\\d\\w\\-]{3,64}, optionally prefixed by its parents ids seperated via ."
+            "detail": "Expected data.id to match the Regex [\\d\\w\\-]{3,64}, optionally prefixed by its parents ids seperated via ."
           }]
         }
       """

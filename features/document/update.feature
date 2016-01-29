@@ -107,7 +107,7 @@ Feature: Updating a document
             "code": "400",
             "status": "400",
             "title": "Invalid type",
-            "detail": "Expected field  to be of type List. Got Object"
+            "detail": "Expected field  to be of type list. Got object"
           }]
         }
       """
