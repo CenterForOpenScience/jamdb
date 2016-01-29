@@ -23,17 +23,19 @@ def parse_int(raw, lo=None, hi=None):
 
 
 class cached_property:
+    _cache = {}
 
     def __init__(self, get_func, set_func=False):
         functools.wraps(self, get_func)
         self._get_func = get_func
         self._set_func = set_func
-        self._cache = {}
+        self._key = id(get_func)
 
     def __get__(self, inst, type=None):
-        if id(inst) not in self._cache:
-            self._cache[id(inst)] = self._get_func(inst)
-        return self._cache[id(inst)]
+        cache = self.__class__._cache.setdefault(id(inst), {})
+        if self._key not in cache:
+            cache[self._key] = self._get_func(inst)
+        return cache[self._key]
 
 
 class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
@@ -128,3 +130,6 @@ class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
                 'detail': self._reason,
             }]
         })
+
+    def __del__(self):
+        cached_property._cache.pop(id(self), None)
