@@ -241,7 +241,7 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
     def write_error(self, status_code, exc_info):
         etype, exc, _ = exc_info
 
-        if not issubclass(etype, exceptions.JamException):
+        if not isinstance(exc, exceptions.JamException):
             return super().write_error(status_code, exc_info)
 
         self.set_status(int(exc.status))

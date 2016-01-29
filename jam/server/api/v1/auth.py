@@ -53,11 +53,11 @@ class AuthHandler(SentryMixin, JSONAPIHandler):
             'id': user.uid,
             'type': 'users',
             'attributes': {
-                'pid': user.id,
+                'id': user.id,
                 'type': user.type,
                 'provider': user.provider,
                 'token': user.token.decode(),
-                'refreshable': provider.refreshable,
+                # 'refreshable': provider.refreshable, #TODO Implement refreshing
             }
         }})
 
@@ -70,7 +70,7 @@ class AuthHandler(SentryMixin, JSONAPIHandler):
     def write_error(self, status_code, exc_info):
         etype, exc, _ = exc_info
 
-        if not issubclass(etype, exceptions.JamException):
+        if not isinstance(exc, exceptions.JamException):
             return super().write_error(status_code, exc_info)
 
         self.set_status(int(exc.status))
