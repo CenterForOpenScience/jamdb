@@ -1,7 +1,8 @@
-[![Build Status](https://travis-ci.org/chrisseto/iodm.svg)](https://travis-ci.org/chrisseto/iodm)
 # IODMs
 
 Immutable, content-addressable, reusable
+
+**This document is out of date**
 
 ##Definitions
 
