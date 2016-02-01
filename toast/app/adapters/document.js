@@ -8,7 +8,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, UrlTemplates, {
     host: ENV.jamdbURL,
     namespace: 'v1/id',
 
-    queryUrlTemplate: '{+host}/v2/collections{/collectionId}/_search',
+    queryUrlTemplate: '{+host}/v1/id/collections{/collectionId}/_search',
 
     urlSegments: {
         collectionId(type, id, snapshot, query) {
