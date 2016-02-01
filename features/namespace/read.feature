@@ -76,3 +76,77 @@ Feature: Getting a Namespace
     And we have READ permissions to namespace foobar
     When we GET "/v1/namespaces/foobar"
     Then the response code will be 403
+
+  Scenario: Namespace hierachical return value
+    Given the time is 2015-01-01T00:00:00.0000Z
+    And namespace StarCraft exists
+    And we have ADMIN permissions to namespace StarCraft
+    When we GET "/v1/namespaces/StarCraft"
+    Then the response code will be 200
+    And the response will be
+      """
+      {
+        "data": {
+            "id": "StarCraft",
+            "type": "namespaces",
+            "attributes": {
+              "name": "StarCraft",
+              "permissions": {
+                "user-testing-we": "ADMIN",
+                "user-testing-system": "ADMIN"
+              }
+            },
+            "meta": {
+              "created-by": "user-testing-system",
+              "modified-by": "user-testing-system",
+              "created-on": "2015-01-01T00:00:00",
+              "modified-on": "2015-01-01T00:00:00"
+            },
+            "relationships": {
+              "collections": {
+                "links": {
+                  "self": "http://localhost:50325/v1/namespaces/StarCraft/collections",
+                  "related": "http://localhost:50325/v1/namespaces/StarCraft/collections"
+                }
+              }
+            }
+          }
+        }
+        """
+
+  Scenario: Namespace id return value
+    Given the time is 2015-01-01T00:00:00.0000Z
+    And namespace StarCraft exists
+    And we have ADMIN permissions to namespace StarCraft
+    When we GET "/v1/id/namespaces/StarCraft"
+    Then the response code will be 200
+    And the response will be
+      """
+      {
+        "data": {
+            "id": "StarCraft",
+            "type": "namespaces",
+            "attributes": {
+              "name": "StarCraft",
+              "permissions": {
+                "user-testing-we": "ADMIN",
+                "user-testing-system": "ADMIN"
+              }
+            },
+            "meta": {
+              "created-by": "user-testing-system",
+              "modified-by": "user-testing-system",
+              "created-on": "2015-01-01T00:00:00",
+              "modified-on": "2015-01-01T00:00:00"
+            },
+            "relationships": {
+              "collections": {
+                "links": {
+                  "self": "http://localhost:50325/v1/id/namespaces/StarCraft/collections",
+                  "related": "http://localhost:50325/v1/id/namespaces/StarCraft/collections"
+                }
+              }
+            }
+          }
+        }
+        """

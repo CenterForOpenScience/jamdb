@@ -164,7 +164,6 @@ Feature: Creating a document
       | invalid | {"errors":[{"code":"400","status":"400","title":"Malformed data"}]}    |
       | {{{{{}}}}} | {"errors":[{"code":"400","status":"400","title":"Malformed data"}]} |
 
-  @wip
   Scenario: Bulk document creation
     Given the time is 2015-01-01T00:00:00.0000Z
     And namespace things-that-make-me exists
@@ -187,7 +186,6 @@ Feature: Creating a document
     And the response will contain
       """
       {
-        "errors": [null],
         "data": [{
             "id": "things-that-make-me.happy.Nothing",
             "type": "documents",

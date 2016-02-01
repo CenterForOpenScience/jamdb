@@ -5,11 +5,17 @@ from behave import then
 from behave import when
 from behave import given
 
+import nose
+
 import requests
 
 from freezegun import freeze_time
 
 from jam import auth
+
+
+# Hack to print full diffs
+nose.tools.assert_equal.__self__.maxDiff = None
 
 
 @when('the content type is {content_type}')
@@ -28,13 +34,13 @@ def make_request(context, user, method, url):
 
 @then('the response code will be {:d}')
 def response_code(context, code):
-    assert context.response.status_code == code, '{} != {}\n{}\n{}'.format(context.response.status_code, code, context.response, context.response.json())
+    nose.tools.assert_equal(context.response.status_code, code)
 
 
 @then('the content type will be "{content_type}"')
 def content_type_check(context, content_type):
     expected, actual = context.response.headers['Content-Type'], content_type
-    assert expected == actual, '{} != {}'.format(expected, actual)
+    nose.tools.assert_equal(expected, actual)
 
 
 @given('the time is {ftime}')
@@ -58,14 +64,20 @@ def response_contains(context):
                     if isinstance(subvalue, dict):
                         dict_compare(subvalue, target[key][i])
                     else:
-                        assert subvalue == target[key][i], 'Expected "{}", got "{}"'.format(subvalue, target[key][i])
+                        nose.tools.assert_equal(subvalue, target[key][i])
             else:
-                assert value == target[key], 'Expected "{}", got "{}"'.format(value, target[key])
+                nose.tools.assert_equal(value, target[key])
 
     dict_compare(expected, context.response.json())
+
+
+@then('the response will be')
+def response_exact(context):
+    expected = json.loads(context.text)
+    nose.tools.assert_equal(expected, context.response.json())
 
 
 @then('the headers will contain')
 def headers_contains(context):
     for key, value in json.loads(context.text).items():
-        assert context.response.headers[key] == value, 'Header {} does not match\n{} != {}'.format(key, value, context.response.headers[key])
+        nose.tools.assert_equal(context.response.headers[key], value)
