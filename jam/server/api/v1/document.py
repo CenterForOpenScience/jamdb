@@ -3,10 +3,10 @@ import bson
 from jam import Q
 from jam import exceptions
 from jam.auth import Permissions
-from jam.server.api.v2.base import View
-from jam.server.api.v2.base import Serializer
-from jam.server.api.v2.base import Relationship
-from jam.server.api.v2.collection import CollectionView
+from jam.server.api.v1.base import View
+from jam.server.api.v1.base import Serializer
+from jam.server.api.v1.base import Relationship
+from jam.server.api.v1.collection import CollectionView
 
 
 class DocumentView(View):
@@ -62,12 +62,12 @@ class HistoryRelationship(Relationship):
 
     @classmethod
     def view(cls, namespace, collection, document):
-        from jam.server.api.v2.history import HistoryView
+        from jam.server.api.v1.history import HistoryView
         return HistoryView(namespace, collection, document)
 
     @classmethod
     def serializer(cls):
-        from jam.server.api.v2.history import HistorySerializer
+        from jam.server.api.v1.history import HistorySerializer
         return HistorySerializer
 
     @classmethod

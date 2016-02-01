@@ -4,9 +4,9 @@ import functools
 from jam import Q
 from jam import NamespaceManager
 from jam.auth import Permissions
-from jam.server.api.v2.base import View
-from jam.server.api.v2.base import Serializer
-from jam.server.api.v2.base import Relationship
+from jam.server.api.v1.base import View
+from jam.server.api.v1.base import Serializer
+from jam.server.api.v1.base import Relationship
 
 
 class NamespaceView(View):
@@ -56,12 +56,12 @@ class CollectionRelationship(Relationship):
 
     @classmethod
     def view(cls, namespace):
-        from jam.server.api.v2.collection import CollectionView
+        from jam.server.api.v1.collection import CollectionView
         return CollectionView(namespace)
 
     @classmethod
     def serializer(cls):
-        from jam.server.api.v2.collection import CollectionSerializer
+        from jam.server.api.v1.collection import CollectionSerializer
         return CollectionSerializer
 
     @classmethod

@@ -1,8 +1,8 @@
 from jam import Q
 from jam.auth import Permissions
-from jam.server.api.v2.base import View
-from jam.server.api.v2.base import Serializer
-from jam.server.api.v2.document import DocumentView
+from jam.server.api.v1.base import View
+from jam.server.api.v1.base import Serializer
+from jam.server.api.v1.document import DocumentView
 
 
 class HistorySerializer(Serializer):

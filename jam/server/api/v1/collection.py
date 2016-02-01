@@ -1,10 +1,10 @@
 from jam.auth import Permissions
-from jam.server.api.v2.base import View
-from jam.server.api.v2.base import Serializer
-from jam.server.api.v2.base import Relationship
-from jam.server.api.v2.namespace import NamespaceView
-from jam.server.api.v2.search import SearchRelationship
-from jam.server.api.v2.namespace import NamespaceSerializer
+from jam.server.api.v1.base import View
+from jam.server.api.v1.base import Serializer
+from jam.server.api.v1.base import Relationship
+from jam.server.api.v1.namespace import NamespaceView
+from jam.server.api.v1.search import SearchRelationship
+from jam.server.api.v1.namespace import NamespaceSerializer
 
 
 class CollectionView(View):
@@ -54,7 +54,7 @@ class NamespaceRelationship(Relationship):
 
     @classmethod
     def self_link(cls, request, inst, namespace):
-        if 'v1' in request.path:
+        if request.path.startswith('/v1/id'):
             return '{}://{}/v1/namespaces/{}'.format(request.protocol, request.host, namespace.name)
         return '{}://{}/v2/namespaces/{}'.format(request.protocol, request.host, namespace.name)
 
@@ -69,12 +69,12 @@ class DocumentsRelationship(Relationship):
 
     @classmethod
     def view(cls, namespace, collection):
-        from jam.server.api.v2.document import DocumentView
+        from jam.server.api.v1.document import DocumentView
         return DocumentView(namespace, collection)
 
     @classmethod
     def serializer(cls):
-        from jam.server.api.v2.document import DocumentSerializer
+        from jam.server.api.v1.document import DocumentSerializer
         return DocumentSerializer
 
     @classmethod

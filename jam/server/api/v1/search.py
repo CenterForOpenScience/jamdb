@@ -4,8 +4,8 @@ import elasticsearch_dsl
 import tornado.web
 
 from jam.auth import Permissions
-from jam.server.api.v2.base import View
-from jam.server.api.v2.base import Relationship
+from jam.server.api.v1.base import View
+from jam.server.api.v1.base import Relationship
 
 # Suggested ES Settings
 # script.file: off
@@ -99,7 +99,7 @@ class SearchRelationship(Relationship):
 
     @classmethod
     def serializer(cls):
-        from jam.server.api.v2.document import DocumentSerializer
+        from jam.server.api.v1.document import DocumentSerializer
         # TODO FIX ME
 
         class SearchSerializer(DocumentSerializer):
