@@ -6,7 +6,7 @@ import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 export default DS.JSONAPIAdapter.extend(DataAdapterMixin, UrlTemplates, {
     authorizer: 'authorizer:jam-jwt',
     host: ENV.jamdbURL,
-    namespace: 'v2',
+    namespace: 'v1/id',
 
     queryUrlTemplate: '{+host}/v2/collections{/collectionId}/_search',
 

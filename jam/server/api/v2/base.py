@@ -19,29 +19,29 @@ ENDING = r'(?:/{})?/?'
 
 
 def ResourceEndpoint(view, serializer):
-    v1, v2, kwargs = [], [], {'view': view, 'serializer': serializer}
+    hierachical, id_, kwargs = [], [], {'view': view, 'serializer': serializer}
     selector = r'(?P<{}_id>{})'.format(view.name, ID_RE)
 
     for v in view.lineage()[:-1]:
         # Just of list of resource id regexes that will be concatenated with NAMESPACER
-        v2.append(r'(?P<{}_id>{})'.format(v.name, ID_RE))
+        id_.append(r'(?P<{}_id>{})'.format(v.name, ID_RE))
         # Builds /resources/regexeforresourceid
-        v1.extend([v.plural, r'(?P<{}_id>{})'.format(v.name, ID_RE)])
+        hierachical.extend([v.plural, r'(?P<{}_id>{})'.format(v.name, ID_RE)])
 
-    relationships = '/v2/{}/{}/(?P<relationship>{})/?'.format(
+    relationships = '/v1/id/{}/{}/(?P<relationship>{})/?'.format(
         view.plural,
-        NAMESPACER.join(v2 + [selector]),
+        NAMESPACER.join(id_ + [selector]),
         '|'.join(serializer.relations.keys())
     )
 
-    v1.append(view.plural)
+    hierachical.append(view.plural)
 
-    v1 = '/v1/' + '/'.join(v1) + ENDING.format(selector)
-    v2 = '/v2/' + view.plural + ENDING.format(NAMESPACER.join(v2 + [selector]))
+    hierachical = '/v1/' + '/'.join(hierachical) + ENDING.format(selector)
+    id_ = '/v1/id/' + view.plural + ENDING.format(NAMESPACER.join(id_ + [selector]))
 
     endpoints = [
-        (v1, ResourceHandler, kwargs),
-        (v2, ResourceHandler, kwargs),
+        (hierachical, ResourceHandler, kwargs),
+        (id_, ResourceHandler, kwargs),
     ]
 
     # If the serializer has relationships add a relationship handler
