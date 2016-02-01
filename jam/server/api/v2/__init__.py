@@ -1,3 +1,4 @@
+from jam.server.api.v2.auth import AuthHandler
 from jam.server.api.v2.base import ResourceEndpoint
 from jam.server.api.v2.history import HistoryView, HistorySerializer
 from jam.server.api.v2.document import DocumentView, DocumentSerializer
@@ -11,3 +12,5 @@ ENDPOINTS = (
     ResourceEndpoint(NamespaceView, NamespaceSerializer),
     ResourceEndpoint(CollectionView, CollectionSerializer),
 )
+
+__all__ = ('ENDPOINTS', 'AuthHandler')

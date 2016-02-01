@@ -8,7 +8,7 @@ import tornado.httpserver
 import tornado.platform.asyncio
 
 from jam import settings
-from jam.server.api import v1
+# from jam.server.api import v1
 from jam.server.api import v2
 from jam.server.util import patch_sentry
 from jam.server.api.base import Default404Handler
@@ -20,18 +20,9 @@ logger = logging.getLogger(__name__)
 
 def make_app():
     endpoints = [
-        ('/v1/auth/?', v1.AuthHandler),
+        ('/v1/auth/?', v2.AuthHandler),
         ('/v1/docs/?()', tornado.web.StaticFileHandler, {'path': os.path.join(HERE, 'static/doc/v1.html')}),
     ]
-
-    # for endpoint in reversed(v1.RESOURCES):
-    #     endpoint = endpoint.as_handler_entry()
-    #     endpoint = (
-    #         '/{}{}'.format(v1.__name__.split('.')[-1], endpoint[0]),
-    #         endpoint[1], endpoint[2]
-    #     )
-    #     endpoints.append(endpoint)
-    #     logger.info('Loaded {} endpoint "{}"'.format(v1.__name__, endpoint[0]))
 
     for e in v2.ENDPOINTS:
         for endpoint in e:
