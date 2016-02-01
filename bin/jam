@@ -247,6 +247,7 @@ def main():
     try:
         return {
             'create': jam_create,
+            'delete': jam_delete,
             'info': jam_info,
             'help': jam_help,
             'list': jam_list,
