@@ -72,15 +72,15 @@ class HistoryRelationship(Relationship):
 
     @classmethod
     def self_link(cls, request, document, namespace, collection):
-        if 'v1' in request.path:
-            return '{}://{}/v1/namespaces/{}/collections/{}/documents/{}/history'.format(request.protocol, request.host, namespace.name, collection.name, document.ref)
-        return '{}://{}/v2/documents/{}/history'.format(request.protocol, request.host, document.ref)
+        if request.path.startswith('/v1/id'):
+            return '{}://{}/v1/id/documents/{}/history'.format(request.protocol, request.host, '.'.join((namespace.ref, collection.ref, document.ref)))
+        return '{}://{}/v1/namespaces/{}/collections/{}/documents/{}/history'.format(request.protocol, request.host, namespace.name, collection.name, document.ref)
 
     @classmethod
     def related_link(cls, request, document, namespace, collection):
-        if 'v1' in request.path:
-            return '{}://{}/v1/namespaces/{}/collections/{}/documents/{}/history'.format(request.protocol, request.host, namespace.name, collection.name, document.ref)
-        return '{}://{}/v2/documents/{}/history'.format(request.protocol, request.host, document.ref)
+        if request.path.startswith('/v1/id'):
+            return '{}://{}/v1/id/documents/{}/history'.format(request.protocol, request.host, '.'.join((namespace.ref, collection.ref, document.ref)))
+        return '{}://{}/v1/namespaces/{}/collections/{}/documents/{}/history'.format(request.protocol, request.host, namespace.name, collection.name, document.ref)
 
 
 class DocumentSerializer(Serializer):

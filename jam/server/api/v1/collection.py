@@ -55,14 +55,14 @@ class NamespaceRelationship(Relationship):
     @classmethod
     def self_link(cls, request, inst, namespace):
         if request.path.startswith('/v1/id'):
-            return '{}://{}/v1/namespaces/{}'.format(request.protocol, request.host, namespace.name)
-        return '{}://{}/v2/namespaces/{}'.format(request.protocol, request.host, namespace.name)
+            return '{}://{}/v1/id/namespaces/{}'.format(request.protocol, request.host, namespace.name)
+        return '{}://{}/v1/namespaces/{}'.format(request.protocol, request.host, namespace.name)
 
     @classmethod
     def related_link(cls, request, inst, namespace):
-        if 'v1' in request.path:
-            return '{}://{}/v1/namespaces/{}'.format(request.protocol, request.host, namespace.name)
-        return '{}://{}/v2/namespaces/{}'.format(request.protocol, request.host, namespace.name)
+        if request.path.startswith('/v1/id'):
+            return '{}://{}/v1/id/namespaces/{}'.format(request.protocol, request.host, namespace.name)
+        return '{}://{}/v1/namespaces/{}'.format(request.protocol, request.host, namespace.name)
 
 
 class DocumentsRelationship(Relationship):
@@ -79,15 +79,15 @@ class DocumentsRelationship(Relationship):
 
     @classmethod
     def self_link(cls, request, collection, namespace):
-        if 'v1' in request.path:
-            return '{}://{}/v1/namespaces/{}/collections/{}/documents'.format(request.protocol, request.host, namespace.name, collection.ref)
-        return '{}://{}/v2/collections/{}/documents'.format(request.protocol, request.host, collection.ref)
+        if request.path.startswith('/v1/id'):
+            return '{}://{}/v1/id/collections/{}/documents'.format(request.protocol, request.host, '.'.join((namespace.ref, collection.ref)))
+        return '{}://{}/v1/namespaces/{}/collections/{}/documents'.format(request.protocol, request.host, namespace.name, collection.ref)
 
     @classmethod
     def related_link(cls, request, collection, namespace):
-        if 'v1' in request.path:
-            return '{}://{}/v1/namespaces/{}/collections/{}/documents'.format(request.protocol, request.host, namespace.name, collection.ref)
-        return '{}://{}/v2/collections/{}/documents'.format(request.protocol, request.host, collection.ref)
+        if request.path.startswith('/v1/id'):
+            return '{}://{}/v1/id/collections/{}/documents'.format(request.protocol, request.host, '.'.join((namespace.ref, collection.ref)))
+        return '{}://{}/v1/namespaces/{}/collections/{}/documents'.format(request.protocol, request.host, namespace.name, collection.ref)
 
 
 class CollectionSerializer(Serializer):
