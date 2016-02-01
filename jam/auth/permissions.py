@@ -16,6 +16,7 @@ class Permissions(enum.IntEnum):
     CRU = CR | UPDATE
     CRUD = CRU | DELETE
 
+    CD = C | DELETE
     RU = READ | UPDATE
     RUD = RU | DELETE
 

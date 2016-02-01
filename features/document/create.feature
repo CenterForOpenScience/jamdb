@@ -415,3 +415,87 @@ Feature: Creating a document
     And we have ADMIN permissions to namespace StarCraft
     When we create document StarCraft.Zerg.Baneling in StarCraft/Zerg
     Then the response code will be 201
+
+  Scenario: Override document creator
+    Given the time is 2015-01-01T00:00:00.0000Z
+    And namespace StarCraft exists
+    And collection Zerg exists in namespace StarCraft
+    And we have ADMIN permissions to namespace StarCraft
+    When we POST "/v1/id/collections/StarCraft.Zerg/documents"
+      """
+      {
+        "data": {
+          "id": "QueenOfBlades",
+          "type": "documents",
+          "attributes": {},
+          "meta": {
+            "created-by": "jam-StarCraft|Zerg-Overmind"
+          }
+        }
+      }
+      """
+      Then the response code will be 201
+      And the response will be
+        """
+        {
+          "data": {
+              "id": "StarCraft.Zerg.QueenOfBlades",
+              "type": "documents",
+              "attributes": {},
+              "meta": {
+                "created-on": "2015-01-01T00:00:00",
+                "modified-on": "2015-01-01T00:00:00",
+                "created-by": "jam-StarCraft|Zerg-Overmind",
+                "modified-by": "jam-StarCraft|Zerg-Overmind"
+              },
+              "relationships": {
+                "history": {
+                  "links": {
+                    "self": "http://localhost:50325/v1/id/documents/StarCraft.Zerg.QueenOfBlades/history",
+                    "related": "http://localhost:50325/v1/id/documents/StarCraft.Zerg.QueenOfBlades/history"
+                  }
+                }
+              }
+            }
+          }
+          """
+
+  Scenario Outline: Override document creator must be ADMIN
+    Given the time is 2015-01-01T00:00:00.0000Z
+    And namespace StarCraft exists
+    And collection Zerg exists in namespace StarCraft
+    And we have <PERMISSION> permissions to namespace StarCraft
+    When we POST "/v1/id/collections/StarCraft.Zerg/documents"
+      """
+      {
+        "data": {
+          "id": "QueenOfBlades",
+          "type": "documents",
+          "attributes": {},
+          "meta": {
+            "created-by": "jam-StarCraft|Zerg-Overmind"
+          }
+        }
+      }
+      """
+    Then the response code will be 403
+    And the response will be
+      """
+      {
+        "errors": [{
+          "code": "403",
+          "status": "403",
+          "title": "Forbidden",
+          "detail": "ADMIN permission is request to alter metadata"
+        }]
+      }
+      """
+
+    Examples:
+      | PERMISSION |
+      | CREATE     |
+      | CRUD       |
+      | CR         |
+      | CRU        |
+      | CD         |
+      | READ_WRITE |

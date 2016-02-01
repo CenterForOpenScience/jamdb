@@ -32,8 +32,15 @@ class DocumentView(View):
 
     def create(self, payload, user):
         id = self.validate_id(payload.get('id', str(bson.ObjectId())))
+        creator = user.uid
+
+        if 'meta' in payload:
+            if (user.permissions & Permissions.ADMIN) != Permissions.ADMIN:
+                raise exceptions.Forbidden('ADMIN permission is request to alter metadata')
+            creator = payload['meta'].get('created-by', user.uid)
+
         try:
-            return self._collection.create(id, payload['attributes'], user.uid)
+            return self._collection.create(id, payload['attributes'], creator)
         except KeyError:
             raise exceptions.MalformedData()
 

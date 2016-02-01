@@ -53,12 +53,10 @@ class Forbidden(JamException):
     title = 'Forbidden'
 
     def __init__(self, required, **kwargs):
-        super().__init__(
-            detail='{} permission or higher is required to perform this action'.format(
-                str(required).split('.')[1]
-            ),
-            **kwargs
-        )
+        if not isinstance(required, str):
+            required = '{} permission or higher is required to perform this action'.format(required.name)
+
+        super().__init__(detail=required, **kwargs)
 
 
 class BadRequest(JamException):
