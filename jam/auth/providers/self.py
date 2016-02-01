@@ -2,6 +2,7 @@ import asyncio
 
 import bcrypt
 
+from jam import exceptions
 from jam import NamespaceManager
 from jam.auth.providers.base import BaseAuthProvider
 
@@ -10,7 +11,7 @@ manager = NamespaceManager()
 
 class SelfAuthProvider(BaseAuthProvider):
     name = 'self'
-    type = 'tracked'
+    type = 'jam'
 
     PASSWORD_SCHEMA = {
         'id': 'password',
@@ -28,7 +29,7 @@ class SelfAuthProvider(BaseAuthProvider):
             and 'password' in collection.schema._schema['required']
             and collection.schema._schema['properties']['password'] == self.PASSWORD_SCHEMA
         ):
-            raise Exception('BAD SCHEMA')
+            raise exceptions.BadRequest()  # TODO Better error message
 
         # TODO validate retrieved document
         doc = collection.read(data['username'])
@@ -37,5 +38,5 @@ class SelfAuthProvider(BaseAuthProvider):
         hashed = await asyncio.get_event_loop().run_in_executor(None, lambda: bcrypt.hashpw(data['password'].encode(), password))
 
         if hashed == password:
-            return 'tracked', '{}|{}'.format(namespace.name, data['collection']), data['username']
-        raise Exception('BAD PASSWORD')
+            return SelfAuthProvider.type, '{}:{}'.format(namespace.name, data['collection']), data['username']
+        raise exceptions.Unauthorized()
