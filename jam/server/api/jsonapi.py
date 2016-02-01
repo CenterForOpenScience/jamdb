@@ -3,6 +3,7 @@ import http.client
 import json
 import operator
 import re
+import weakref
 
 import tornado.web
 
@@ -23,19 +24,17 @@ def parse_int(raw, lo=None, hi=None):
 
 
 class cached_property:
-    _cache = {}
 
     def __init__(self, get_func, set_func=False):
-        functools.wraps(self, get_func)
+        self.__get__ = functools.wraps(self.__get__, get_func)
+        self._cache = weakref.WeakKeyDictionary()
         self._get_func = get_func
         self._set_func = set_func
-        self._key = id(get_func)
 
     def __get__(self, inst, type=None):
-        cache = self.__class__._cache.setdefault(id(inst), {})
-        if self._key not in cache:
-            cache[self._key] = self._get_func(inst)
-        return cache[self._key]
+        if inst not in self._cache:
+            self._cache[inst] = self._get_func(inst)
+        return self._cache[inst]
 
 
 class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
@@ -130,6 +129,3 @@ class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
                 'detail': self._reason,
             }]
         })
-
-    def __del__(self):
-        cached_property._cache.pop(id(self), None)
