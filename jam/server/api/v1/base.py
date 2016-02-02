@@ -4,8 +4,6 @@ import http.client
 
 import jwt
 
-import jsonschema
-
 import tornado.web
 
 from raven.contrib.tornado import SentryMixin
@@ -16,7 +14,6 @@ from jam.auth import Permissions
 from jam.server.api.jsonapi import JSONAPIHandler
 from jam.server.api.jsonapi import BulkPayload
 from jam.server.api.jsonapi import JsonAPIPayload
-from jam.server.api.jsonapi import JsonPatchPayload
 
 
 NAMESPACER = '.'

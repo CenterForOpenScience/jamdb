@@ -86,6 +86,7 @@ class InvalidParameterType(JamException):
     def __init__(self, field, expected, value):
         super().__init__(detail='Expected field {} to be of type {}. Got {}'.format(field, expected, {
             dict: 'object',
+            int: 'integer',
             list: 'list',
             str: 'string',
             type(None): 'null',
@@ -109,9 +110,7 @@ class MissingExtension(JamException):
     status = http.client.UNSUPPORTED_MEDIA_TYPE
 
     def __init__(self, extension):
-        super().__init__(
-            detail='Expected Content-Type to contain ext="{}";'.format(extension)
-        )
+        super().__init__(detail='Expected Content-Type to contain ext="{}";'.format(extension))
 
 
 class JsonPatchTestFailed(JamException):
@@ -140,7 +139,7 @@ class InvalidSchema(JamException):
     status = http.client.BAD_REQUEST
 
     def __init__(self, type_):
-        super().__init__(detail='The supplied data was an invalid {} schema '.format(type_))
+        super().__init__(detail='The supplied data was an invalid {} schema'.format(type_))
 
 
 class InvalidPermission(JamException):
@@ -175,3 +174,14 @@ class SchemaValidationFailed(JamException):
 
     def __init__(self, detail):
         super().__init__(detail=detail)
+
+
+class BadRequestBody(BadRequest):
+
+    def __init__(self, exc):
+        title = None
+        if 'not of type' in exc.message:
+            title = 'Invalid type'
+        if 'is a required property' in exc.message:
+            title = 'Missing property'
+        super().__init__(detail=exc.message, title=title)
