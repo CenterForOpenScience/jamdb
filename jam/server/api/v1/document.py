@@ -18,6 +18,9 @@ class DocumentView(View):
     @classmethod
     def load(self, id, namespace, collection):
         return collection.read(id)
+        # doc = collection.read(id)
+        # doc.permissions = {doc.created_by: collection.creator_permissions}
+        # return doc
 
     def __init__(self, namespace, collection, resource=None):
         super().__init__(namespace, collection, resource=resource)

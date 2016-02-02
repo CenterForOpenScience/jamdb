@@ -8,7 +8,9 @@ import weakref
 import tornado.web
 
 import jam
+from jam import exceptions
 from jam.server.api.base import CORSMixin
+from jam.server.api.jsonapi.parser import parse
 
 
 def parse_int(raw, lo=None, hi=None):
@@ -80,8 +82,11 @@ class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
         try:
             return json.loads(self.request.body.decode())
         except ValueError:
-            return None
-            # raise tornado.web.HTTPError(http.client.UNSUPPORTED_MEDIA_TYPE)
+            raise exceptions.MalformedData()
+
+    @cached_property
+    def payload(self):
+        return parse(self.request.method, self.json, self.extensions)
 
     @cached_property
     def sort(self):
@@ -121,7 +126,7 @@ class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
     def set_status(self, status, reason=None):
         return super().set_status(int(status), reason=reason)
 
-    def write_error(self, status_code, exc_info):
+    def write_error(self, status_code, exc_info) -> None:
         self.set_status(int(status_code))
         self.finish({
             'errors': [{

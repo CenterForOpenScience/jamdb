@@ -4,6 +4,8 @@ import http.client
 
 import jwt
 
+import jsonschema
+
 import tornado.web
 
 from raven.contrib.tornado import SentryMixin
@@ -12,6 +14,10 @@ from jam.auth import User
 from jam import exceptions
 from jam.auth import Permissions
 from jam.server.api.jsonapi import JSONAPIHandler
+from jam.server.api.jsonapi import BulkPayload
+from jam.server.api.jsonapi import JsonAPIPayload
+from jam.server.api.jsonapi import JsonPatchPayload
+
 
 NAMESPACER = '.'
 ID_RE = r'[\d\w\-]{3,64}'
@@ -118,54 +124,32 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
         if self.request.method in ('GET', 'DELETE'):
             return  # GET and DELETE bodies are ignored
 
-        if not isinstance(self.json, (dict, list)):
-            raise exceptions.MalformedData()
-
-        return
-        if isinstance(self.json, dict) and not self.extensions:
-            data = self.json.get('data')
-            if not isinstance(data, dict):
-                raise exceptions.InvalidParameterType('data', 'object', type(data))
-
-            # Type validation
-            if data.get('type') != self._view.plural:
-                raise exceptions.IncorrectParameter('data.type', self._view.plural, data.get('type', 'null'))
-
-            # ID Validation
-            if self._view.resource:
-                ref = getattr(self._view.resource, 'name', None) or getattr(self._view.resource, 'ref')
-                if not str(data.get('id')).endswith(ref):
-                    raise exceptions.IncorrectParameter('data.id', ref, data.get('id', 'null'))
+        self.payload  # Force payload to load and validate
 
     # Create
     def post(self, **args):
         if self._view.resource:
             raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)
 
-        if not isinstance(self.json.get('data'), (list, dict)):
-            raise exceptions.InvalidParameterType('data', 'list or object', type(self.json.get('data')))
-
-        if isinstance(self.json['data'], list):
+        if isinstance(self.payload, BulkPayload):
             return self.post_bulk()
 
-        if self.json['data'].get('type') != self._view.plural:
-            raise exceptions.IncorrectParameter('data.type', self._view.plural, self.json['data'].get('type', 'null'))
+        if self.payload.type != self._view.plural:
+            raise exceptions.IncorrectParameter('data.type', self._view.plural, self.payload.type)
 
-        new = self._view.create(self.json['data'], self.current_user)
+        new = self._view.create(self.payload._raw['data'], self.current_user)
         self.write({'data': self.serialize(new)})
         self.set_status(http.client.CREATED)
 
     def post_bulk(self):
-        if 'bulk' not in self.extensions:
-            raise exceptions.MissingExtension('bulk')
         new, errors = [], []
-        for entry in self.json['data']:
+        for entry in self.payload.payloads:
 
-            if entry.get('type') != self._view.plural:
-                raise exceptions.IncorrectParameter('data.type', self._view.plural, entry.get('type', 'null'))
+            if entry.type != self._view.plural:
+                raise exceptions.IncorrectParameter('data.type', self._view.plural, entry.type)
 
             try:
-                new.append(self._view.create(entry, self.current_user))
+                new.append(self._view.create(entry._raw['data'], self.current_user))
             except KeyError as e:
                 new.append(None)
                 # TODO take KeyError into account
@@ -218,26 +202,14 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
             # See here for me detail http://jsonapi.org/extensions/jsonpatch/
             raise tornado.web.HTTPError(http.client.NOT_IMPLEMENTED)
 
-        # I'm so sorry. Minimizes the amount of code needed for this check.
-        # JsonPatch must have a list anything else must have a dict
-        if ('jsonpatch' in self.extensions) ^ isinstance(self.json, list):
-            if 'jsonpatch' not in self.extensions:
-                raise exceptions.MissingExtension('jsonpatch')  # Got a list with incorrect Content-Type
-            else:
-                raise exceptions.InvalidParameterType('', 'list', dict)  # Got a dict with jsonpatch
+        if isinstance(self.payload, JsonAPIPayload):
+            patch = self.payload.attributes
+            self._view.validate_id(self.payload.id)
 
-        if isinstance(self.json, dict):
-            try:
-                patch = self.json['data']['attributes']
-            except (KeyError, TypeError):
-                raise exceptions.MalformedData()
-
-            self._view.validate_id(self.json['data'].get('id', ''))
-
-            if self.json['data'].get('type') != self._view.plural:
-                raise exceptions.IncorrectParameter('data.type', self._view.plural, self.json['data'].get('type', 'null'))
+            if self.payload.type != self._view.plural:
+                raise exceptions.IncorrectParameter('data.type', self._view.plural, self.payload.type)
         else:
-            patch = self.json
+            patch = self.payload.patches
 
         # NOTE: This response format diverges from the jsonpatch spec.
         # See here for me detail http://jsonapi.org/extensions/jsonpatch/

@@ -25,7 +25,7 @@ class HistoryView(View):
 
     @classmethod
     def load(self, id, namespace, collection, document):
-        return super().load(collection._logger.read(id))
+        return super().load(collection._logger.get(id))
 
     def __init__(self, namespace, collection, document, resource=None):
         super().__init__(namespace, collection, document, resource=resource)

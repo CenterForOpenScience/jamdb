@@ -104,6 +104,7 @@ class CollectionSerializer(Serializer):
         return {
             'name': inst.ref,
             'schema': inst.data.get('schema'),
+            # 'documentCreatorPermissions': Permissions(inst.data['documentCreatorPermissions']).name,
             'permissions': {
                 sel: Permissions(perm).name
                 for sel, perm in inst.data['permissions'].items()
