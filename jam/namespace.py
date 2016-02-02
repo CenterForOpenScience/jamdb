@@ -73,14 +73,13 @@ class Namespace(Collection):
         state = state or settings.COLLECTION_BACKENDS['state']
         logger = logger or settings.COLLECTION_BACKENDS['logger']
         storage = storage or settings.COLLECTION_BACKENDS['storage']
+        if isinstance(permissions or {}, dict):
+            permissions = {**(permissions or {}), user: Permissions.ADMIN}
 
         collection_dict = {
             'uuid': uid,
             'schema': schema,
-            'permissions': {
-                **(permissions or {}),
-                user: Permissions.ADMIN
-            },
+            'permissions': permissions,
             'logger': {
                 'backend': logger,
                 'settings': get_backend(logger).settings_for(self.uuid, uid, 'logger')
