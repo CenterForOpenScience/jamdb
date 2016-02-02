@@ -3,8 +3,11 @@ import abc
 
 def get(dictionary, key):
     val = dictionary
-    for k in key.split('.'):
-        val = val[k]
+    try:
+        for k in key.split('.'):
+            val = val[k]
+    except KeyError:
+        return None
     return val
 
 
