@@ -188,7 +188,7 @@ Feature: Creating a collection
         }
       """
     Then the response code will be 400
-    And the response will contain
+    And the response will be
       """
         {
           "errors": [{
@@ -201,7 +201,7 @@ Feature: Creating a collection
       """
 
 
-  Scenario: Bad jsonschema
+  Scenario Outline: Bad jsonschema
     Given namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     When we POST "/v1/namespaces/StarCraft/collections"
@@ -211,15 +211,13 @@ Feature: Creating a collection
             "id": "StarCraft.Terran",
             "type": "collections",
             "attributes": {
-              "schema": {
-                "schema": 1,
-                "type": "jsonschema"
-              }
+              "schema": <SCHEMA>
             }
           }
         }
       """
     Then the response code will be 400
+    And the response will be
       """
         {
           "errors": [{
@@ -229,4 +227,71 @@ Feature: Creating a collection
             "detail": "The supplied data was an invalid jsonschema schema"
           }]
         }
+        """
+
+    Examples:
+      | SCHEMA                               |
+      | {"schema": 1, "type": "jsonschema"}  |
+      | {"schema": "", "type": "jsonschema"} |
+
+
+  Scenario Outline: Bad schema
+    Given namespace StarCraft exists
+    And we have ADMIN permissions to namespace StarCraft
+    When we POST "/v1/namespaces/StarCraft/collections"
       """
+        {
+          "data": {
+            "id": "StarCraft.Terran",
+            "type": "collections",
+            "attributes": {
+              "schema": <SCHEMA>
+            }
+          }
+        }
+      """
+    Then the response code will be 400
+
+    Examples:
+      | {"schema": {}, "type": 1}            |
+      | {"schema": {}, "type": {}}           |
+      | {}                                   |
+      | "String"                             |
+      | 2                                    |
+
+
+  Scenario Outline: Malformed permissions
+    Given namespace StarCraft exists
+    And we have ADMIN permissions to namespace StarCraft
+    When we POST "/v1/namespaces/StarCraft/collections"
+      """
+        {
+          "data": {
+            "id": "StarCraft.Terran",
+            "type": "collections",
+            "attributes": {
+              "permissions": <PERMISSIONS>
+            }
+          }
+        }
+      """
+    Then the response code will be 400
+    And the response will contain
+      """
+        {
+          "errors": [{
+            "code": "S400",
+            "status": "400",
+            "title": "Schema validation failed"
+          }]
+        }
+      """
+
+    Examples:
+      | PERMISSIONS                          |
+      | {"schema": 1, "type": "jsonschema"}  |
+      | {"schema": "", "type": "jsonschema"} |
+      | {"schema": {}, "type": 1}            |
+      | {"schema": {}, "type": {}}           |
+      | "String"                             |
+      | 2                                    |

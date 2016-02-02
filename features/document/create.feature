@@ -152,17 +152,17 @@ Feature: Creating a document
       <data>
       """
     Then the response code will be 400
-    And the response will contain
+    And the response will be
       """
       <response>
       """
 
     Examples:
-      | data    | response                                                               |
-      | ""      | {"errors":[{"code":"400","status":"400","title":"Malformed data"}]}    |
-      | 193     | {"errors":[{"code":"400","status":"400","title":"Malformed data"}]}    |
-      | invalid | {"errors":[{"code":"400","status":"400","title":"Malformed data"}]}    |
-      | {{{{{}}}}} | {"errors":[{"code":"400","status":"400","title":"Malformed data"}]} |
+      | data       | response                                                                                                                       |
+      | ""         | {"errors":[{"code":"400","status":"400","title":"Invalid type","detail":"Expected field  to be of type object. Got string"}]}  |
+      | 193        | {"errors":[{"code":"400","status":"400","title":"Invalid type","detail":"Expected field  to be of type object. Got integer"}]} |
+      | invalid    | {"errors":[{"code":"400","status":"400","title":"Malformed data","detail":"Malformed data"}]}                                  |
+      | {{{{{}}}}} | {"errors":[{"code":"400","status":"400","title":"Malformed data","detail":"Malformed data"}]}                                  |
 
   Scenario: Bulk document creation
     Given the time is 2015-01-01T00:00:00.0000Z
@@ -264,54 +264,13 @@ Feature: Creating a document
         ]
       }
       """
-    Then the response code will be 201
-    And the response will contain
+    Then the response code will be 400
+    And the response will be
       """
       {
-      "errors": [null, {"detail": "Malformed data", "title": "Malformed data", "status": "400", "code": "400"}, null],
-      "data": [{
-            "id": "things-that-make-me.happy.NotMuch",
-            "type": "documents",
-            "attributes": {
-            },
-            "meta": {
-              "created-by": "user-testing-we",
-              "modified-by": "user-testing-we",
-              "created-on": "2015-01-01T00:00:00",
-              "modified-on": "2015-01-01T00:00:00"
-            },
-            "relationships": {
-              "history": {
-                "links": {
-                  "self": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/NotMuch/history",
-                  "related": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/NotMuch/history"
-                }
-              }
-            }
-          },
-          null,
-          {
-            "id": "things-that-make-me.happy.Nothing",
-            "type": "documents",
-            "attributes": {
-            },
-            "meta": {
-              "created-by": "user-testing-we",
-              "modified-by": "user-testing-we",
-              "created-on": "2015-01-01T00:00:00",
-              "modified-on": "2015-01-01T00:00:00"
-            },
-            "relationships": {
-              "history": {
-                "links": {
-                  "self": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/Nothing/history",
-                  "related": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/Nothing/history"
-                }
-              }
-            }
-          }]
-        }
-        """
+        "errors": [{"detail": "'attributes' is a required property", "title": "Missing property", "status": "400", "code": "400"}]
+      }
+      """
 
   # Scenario: Can create single via PATCH
   #   Given namespace StarCraft exists

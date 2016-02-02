@@ -19,20 +19,20 @@ Feature: Global API Features
       | POST   | /v1/namespaces                                                    | 400  | not json        |
       | POST   | /v1/namespaces                                                    | 400  | 84ni013*)       |
       | PATCH  | /v1/namespaces                                                    | 400  | 2               |
-      | PATCH  | /v1/namespaces                                                    | 501  | {}              |
-      | PATCH  | /v1/namespaces                                                    | 501  | {"data": 4}     |
-      | PATCH  | /v1/namespaces                                                    | 501  | {"data": {}}    |
-      | PATCH  | /v1/namespaces                                                    | 501  | {"data": "str"} |
+      | PATCH  | /v1/namespaces                                                    | 400  | {}              |
+      | PATCH  | /v1/namespaces                                                    | 400  | {"data": 4}     |
+      | PATCH  | /v1/namespaces                                                    | 400  | {"data": {}}    |
+      | PATCH  | /v1/namespaces                                                    | 400  | {"data": "str"} |
       | PATCH  | /v1/namespaces                                                    | 400  | "Datum"         |
       | PATCH  | /v1/namespaces                                                    | 400  | not json        |
       | PATCH  | /v1/namespaces                                                    | 400  | 84ni013*)       |
       | PUT    | /v1/namespaces                                                    | 400  | 2               |
-      | PUT    | /v1/namespaces                                                    | 405  | {}              |
+      | PUT    | /v1/namespaces                                                    | 400  | {}              |
       | PUT    | /v1/namespaces                                                    | 400  | "Datum"         |
       | PUT    | /v1/namespaces                                                    | 400  | not json        |
       | PUT    | /v1/namespaces                                                    | 400  | 84ni013*)       |
       | POST   | /v1/namespaces/StarCraft                                          | 400  | 2               |
-      | POST   | /v1/namespaces/StarCraft                                          | 405  | {}              |
+      | POST   | /v1/namespaces/StarCraft                                          | 400  | {}              |
       | POST   | /v1/namespaces/StarCraft                                          | 400  | "Datum"         |
       | POST   | /v1/namespaces/StarCraft                                          | 400  | not json        |
       | POST   | /v1/namespaces/StarCraft                                          | 400  | 84ni013*)       |
@@ -45,7 +45,7 @@ Feature: Global API Features
       | PATCH  | /v1/namespaces/StarCraft                                          | 400  | not json        |
       | PATCH  | /v1/namespaces/StarCraft                                          | 400  | 84ni013*)       |
       | PUT    | /v1/namespaces/StarCraft                                          | 400  | 2               |
-      | PUT    | /v1/namespaces/StarCraft                                          | 501  | {}              |
+      | PUT    | /v1/namespaces/StarCraft                                          | 400  | {}              |
       | PUT    | /v1/namespaces/StarCraft                                          | 400  | "Datum"         |
       | PUT    | /v1/namespaces/StarCraft                                          | 400  | not json        |
       | PUT    | /v1/namespaces/StarCraft                                          | 400  | 84ni013*)       |
@@ -55,20 +55,20 @@ Feature: Global API Features
       | POST   | /v1/namespaces/StarCraft/collections                              | 400  | not json        |
       | POST   | /v1/namespaces/StarCraft/collections                              | 400  | 84ni013*)       |
       | PATCH  | /v1/namespaces/StarCraft/collections                              | 400  | 2               |
-      | PATCH  | /v1/namespaces/StarCraft/collections                              | 501  | {}              |
-      | PATCH  | /v1/namespaces/StarCraft/collections                              | 501  | {"data": 4}     |
-      | PATCH  | /v1/namespaces/StarCraft/collections                              | 501  | {"data": {}}    |
-      | PATCH  | /v1/namespaces/StarCraft/collections                              | 501  | {"data": "str"} |
+      | PATCH  | /v1/namespaces/StarCraft/collections                              | 400  | {}              |
+      | PATCH  | /v1/namespaces/StarCraft/collections                              | 400  | {"data": 4}     |
+      | PATCH  | /v1/namespaces/StarCraft/collections                              | 400  | {"data": {}}    |
+      | PATCH  | /v1/namespaces/StarCraft/collections                              | 400  | {"data": "str"} |
       | PATCH  | /v1/namespaces/StarCraft/collections                              | 400  | "Datum"         |
       | PATCH  | /v1/namespaces/StarCraft/collections                              | 400  | not json        |
       | PATCH  | /v1/namespaces/StarCraft/collections                              | 400  | 84ni013*)       |
       | PUT    | /v1/namespaces/StarCraft/collections                              | 400  | 2               |
-      | PUT    | /v1/namespaces/StarCraft/collections                              | 405  | {}              |
+      | PUT    | /v1/namespaces/StarCraft/collections                              | 400  | {}              |
       | PUT    | /v1/namespaces/StarCraft/collections                              | 400  | "Datum"         |
       | PUT    | /v1/namespaces/StarCraft/collections                              | 400  | not json        |
       | PUT    | /v1/namespaces/StarCraft/collections                              | 400  | 84ni013*)       |
       | POST   | /v1/namespaces/StarCraft/collections/Zerg                         | 400  | 2               |
-      | POST   | /v1/namespaces/StarCraft/collections/Zerg                         | 405  | {}              |
+      | POST   | /v1/namespaces/StarCraft/collections/Zerg                         | 400  | {}              |
       | POST   | /v1/namespaces/StarCraft/collections/Zerg                         | 400  | "Datum"         |
       | POST   | /v1/namespaces/StarCraft/collections/Zerg                         | 400  | not json        |
       | POST   | /v1/namespaces/StarCraft/collections/Zerg                         | 400  | 84ni013*)       |
@@ -81,7 +81,7 @@ Feature: Global API Features
       | PATCH  | /v1/namespaces/StarCraft/collections/Zerg                         | 400  | not json        |
       | PATCH  | /v1/namespaces/StarCraft/collections/Zerg                         | 400  | 84ni013*)       |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg                         | 400  | 2               |
-      | PUT    | /v1/namespaces/StarCraft/collections/Zerg                         | 501  | {}              |
+      | PUT    | /v1/namespaces/StarCraft/collections/Zerg                         | 400  | {}              |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg                         | 400  | "Datum"         |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg                         | 400  | not json        |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg                         | 400  | 84ni013*)       |
@@ -91,20 +91,20 @@ Feature: Global API Features
       | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | not json        |
       | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | 84ni013*)       |
       | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | 2               |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents               | 501  | {}              |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents               | 501  | {"data": 4}     |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents               | 501  | {"data": {}}    |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents               | 501  | {"data": "str"} |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | {}              |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | {"data": 4}     |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | {"data": {}}    |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | {"data": "str"} |
       | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | "Datum"         |
       | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | not json        |
       | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | 84ni013*)       |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | 2               |
-      | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents               | 405  | {}              |
+      | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | {}              |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | "Datum"         |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | not json        |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents               | 400  | 84ni013*)       |
       | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 400  | 2               |
-      | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 405  | {}              |
+      | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 400  | {}              |
       | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 400  | "Datum"         |
       | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 400  | not json        |
       | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 400  | 84ni013*)       |
@@ -117,7 +117,7 @@ Feature: Global API Features
       | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 400  | not json        |
       | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 400  | 84ni013*)       |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 400  | 2               |
-      | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 501  | {}              |
+      | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 400  | {}              |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 400  | "Datum"         |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 400  | not json        |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone         | 400  | 84ni013*)       |
@@ -127,15 +127,15 @@ Feature: Global API Features
       | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | not json        |
       | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | 84ni013*)       |
       | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | 2               |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 501  | {}              |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 501  | {"data": 4}     |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 501  | {"data": {}}    |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 501  | {"data": "str"} |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | {}              |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | {"data": 4}     |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | {"data": {}}    |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | {"data": "str"} |
       | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | "Datum"         |
       | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | not json        |
       | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | 84ni013*)       |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | 2               |
-      | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 405  | {}              |
+      | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | {}              |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | "Datum"         |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | not json        |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history | 400  | 84ni013*)       |
@@ -149,6 +149,11 @@ Feature: Global API Features
     When we <METHOD> "<URL>"
     """
       {
+        "data": {
+          "id": "foo",
+          "type": "bar",
+          "attributes": {}
+        }
       }
     """
     Then the response code will be <CODE>
@@ -177,6 +182,11 @@ Feature: Global API Features
     When we <METHOD> "<URL>"
     """
       {
+        "data": {
+          "id": "foo",
+          "type": "bar",
+          "attributes": {}
+        }
       }
     """
     Then the response code will be <CODE>
@@ -189,8 +199,9 @@ Feature: Global API Features
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg                                   | 501  |
       | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone                   | 405  |
       | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone                   | 501  |
-      # | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history/historyid | 405  |
-      # | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history/historyid | 405  |
+      # TODO fix these should be 405
+      | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history/historyid | 404  |
+      | PUT    | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history/historyid | 404  |
 
 
   Scenario Outline: All endpoints respond with CORS headers to OPTIONS
@@ -221,6 +232,53 @@ Feature: Global API Features
       | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone/history/historyid |
 
 
+  Scenario Outline: Incorrect type types are rejected
+    Given namespace StarCraft exists
+    And collection Zerg exists in namespace StarCraft
+    And document Drone exists in StarCraft/Zerg
+    And we have ADMIN permissions to namespace StarCraft
+    When we <METHOD> "<URL>"
+      """
+        {
+          "data": {
+            "id": "<ID>",
+            "attributes": {},
+            "type": "<INCORRECT>"
+          }
+        }
+      """
+    Then the response code will be 400
+    And the response will be
+      """
+        {
+          "errors": [{
+            "code": "400",
+            "status": "400",
+            "title": "Incorrect Parameter",
+            "detail": "Expected field data.type to be <TYPE>. Got <INCORRECT>"
+          }]
+        }
+      """
+
+    Examples:
+      | METHOD | URL                                                       | ID        | INCORRECT | TYPE         |
+      | PATCH  | /v1/namespaces/StarCraft                                  | StarCraft | 12        | namespaces   |
+      | PATCH  | /v1/namespaces/StarCraft                                  | StarCraft | null      | namespaces   |
+      | PATCH  | /v1/namespaces/StarCraft                                  | StarCraft | {}        | namespaces   |
+      | POST   | /v1/namespaces/StarCraft/collections/                     | Protoss   | 12        | collections  |
+      | POST   | /v1/namespaces/StarCraft/collections/                     | Protoss   | null      | collections  |
+      | POST   | /v1/namespaces/StarCraft/collections/                     | Protoss   | {}        | collections  |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg                 | Zerg      | 12        | collections  |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg                 | Zerg      | null      | collections  |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg                 | Zerg      | {}        | collections  |
+      | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents       | Overlord  | 12        | documents    |
+      | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents       | Overlord  | null      | documents    |
+      | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents       | Overlord  | {}        | documents    |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone | Drone     | 12        | documents    |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone | Drone     | null      | documents    |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone | Drone     | {}        | documents    |
+
+
   Scenario Outline: Incorrect types are rejected
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
@@ -232,7 +290,7 @@ Feature: Global API Features
           "data": {
             "id": "<ID>",
             "attributes": {},
-            "type": <INCORRECT>
+            "type": "<INCORRECT>"
           }
         }
       """
@@ -244,33 +302,18 @@ Feature: Global API Features
             "code": "400",
             "status": "400",
             "title": "Incorrect Parameter",
-            "detail": "Expected field data.type to be <TYPE>. Got <FORMATTED>"
+            "detail": "Expected field data.type to be <TYPE>. Got <INCORRECT>"
           }]
         }
       """
 
-    Examples: Cases
-      | METHOD | URL                                                       | ID        | INCORRECT    | FORMATTED      | TYPE         |
-      | PATCH  | /v1/namespaces/StarCraft                                  | StarCraft | "namespace"  | namespace      | namespaces   |
-      | PATCH  | /v1/namespaces/StarCraft                                  | StarCraft | 12           | 12             | namespaces   |
-      | PATCH  | /v1/namespaces/StarCraft                                  | StarCraft | null         | null           | namespaces   |
-      | PATCH  | /v1/namespaces/StarCraft                                  | StarCraft | {}           | {}             | namespaces   |
-      | POST   | /v1/namespaces/StarCraft/collections/                     | Protoss   | "collection" | collection     | collections  |
-      | POST   | /v1/namespaces/StarCraft/collections/                     | Protoss   | 12           | 12             | collections  |
-      | POST   | /v1/namespaces/StarCraft/collections/                     | Protoss   | null         | null           | collections  |
-      | POST   | /v1/namespaces/StarCraft/collections/                     | Protoss   | {}           | {}             | collections  |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg                 | Zerg      | "collection" | collection     | collections  |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg                 | Zerg      | 12           | 12             | collections  |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg                 | Zerg      | null         | null           | collections  |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg                 | Zerg      | {}           | {}             | collections  |
-      | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents       | Overlord  | "collection" | collection     | documents    |
-      | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents       | Overlord  | 12           | 12             | documents    |
-      | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents       | Overlord  | null         | null           | documents    |
-      | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents       | Overlord  | {}           | {}             | documents    |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone | Drone     | "collection" | collection     | documents    |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone | Drone     | 12           | 12             | documents    |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone | Drone     | null         | null           | documents    |
-      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone | Drone     | {}           | {}             | documents    |
+    Examples:
+      | METHOD | URL                                                       | ID        | INCORRECT  | TYPE        |
+      | PATCH  | /v1/namespaces/StarCraft                                  | StarCraft | namespace  | namespaces  |
+      | POST   | /v1/namespaces/StarCraft/collections/                     | Protoss   | collection | collections |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg                 | Zerg      | collection | collections |
+      | POST   | /v1/namespaces/StarCraft/collections/Zerg/documents       | Overlord  | collection | documents   |
+      | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone | Drone     | collection | documents   |
 
 
   Scenario Outline: Non-matching Ids are rejected
@@ -317,6 +360,42 @@ Feature: Global API Features
       | PATCH  | /v1/namespaces/StarCraft/collections/Zerg/documents/Drone | Overlord  | documents   | Drone     |
 
 
+  Scenario Outline: Ids must be string
+    Given namespace StarCraft exists
+    And collection Zerg exists in namespace StarCraft
+    And document Drone exists in StarCraft/Zerg
+    And we have ADMIN permissions to namespace StarCraft
+    When we POST "<URL>"
+      """
+        {
+          "data": {
+            "id": <ID>,
+            "attributes": {},
+            "type": "<TYPE>"
+          }
+        }
+      """
+    Then the response code will be 400
+    And the response will be
+      """
+        {
+          "errors": [{
+            "code": "400",
+            "status": "400",
+            "title": "Invalid type",
+            "detail": "<ID> is not of type 'string'"
+          }]
+        }
+      """
+
+    Examples: Cases
+      | URL                                                       | ID                      | TYPE        |
+      | /v1/namespaces/StarCraft/collections/                     | 12                      | collections |
+      | /v1/namespaces/StarCraft/collections/                     | {}                      | collections |
+      | /v1/namespaces/StarCraft/collections/Zerg/documents       | 12                      | documents   |
+      | /v1/namespaces/StarCraft/collections/Zerg/documents       | {}                      | documents   |
+
+
   Scenario Outline: Ids must be valid
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
@@ -348,16 +427,12 @@ Feature: Global API Features
     Examples: Cases
       | URL                                                       | ID                      | TYPE        |
       | /v1/namespaces/StarCraft/collections/                     | "Inv#alid"              | collections |
-      | /v1/namespaces/StarCraft/collections/                     | 12                      | collections |
-      | /v1/namespaces/StarCraft/collections/                     | {}                      | collections |
       | /v1/namespaces/StarCraft/collections/                     | "Wrong.Parents"         | collections |
       | /v1/namespaces/StarCraft/collections/                     | "StarCraft.Inva#lid"    | collections |
       | /v1/namespaces/StarCraft/collections/                     | "StarCraft.In$a#lid"    | collections |
       | /v1/namespaces/StarCraft/collections/                     | "Still..invalid."       | collections |
       | /v1/namespaces/StarCraft/collections/                     | ""                      | collections |
       | /v1/namespaces/StarCraft/collections/Zerg/documents       | "Inv#alid"              | documents   |
-      | /v1/namespaces/StarCraft/collections/Zerg/documents       | 12                      | documents   |
-      | /v1/namespaces/StarCraft/collections/Zerg/documents       | {}                      | documents   |
       | /v1/namespaces/StarCraft/collections/Zerg/documents       | ""                      | documents   |
       | /v1/namespaces/StarCraft/collections/Zerg/documents       | "StarCraft.Inva#lid"    | documents   |
       | /v1/namespaces/StarCraft/collections/Zerg/documents       | "StarCraft.In$a#lid"    | documents   |
