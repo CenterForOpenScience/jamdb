@@ -45,7 +45,7 @@ Feature: Getting a Namespace
             "code": "403",
             "status": "403",
             "title": "Forbidden",
-            "detail": "ADMIN permission or higher is required to perform this action"
+            "detail": "READ permission or higher is required to perform this action"
           }]
         }
       """
@@ -53,11 +53,27 @@ Feature: Getting a Namespace
     Examples: Permissions
       | permission |
       | CREATE     |
-      | READ       |
       | UPDATE     |
       | DELETE     |
+      | CU         |
+      | CUD        |
+
+
+  Scenario Outline: Correct permissions
+    Given namespace foobar does exist
+    And we have <permission> permissions to namespace foobar
+    When we GET "/v1/namespaces/foobar"
+    Then the response code will be 200
+
+    Examples:
+      | permission |
+      | READ       |
+      | RU         |
+      | CRU        |
+      | RUD        |
       | CRUD       |
       | READ_WRITE |
+
 
   Scenario: Not logged in
     Given namespace barfoo does exist
@@ -65,17 +81,6 @@ Feature: Getting a Namespace
     When we GET "/v1/namespaces/barfoo"
     Then the response code will be 401
 
-  Scenario: Get with namespace admin permissions
-    Given namespace foobar does exist
-    And we have ADMIN permissions to namespace foobar
-    When we GET "/v1/namespaces/foobar"
-    Then the response code will be 200
-
-  Scenario: Get namespace read permissions
-    Given namespace foobar does exist
-    And we have READ permissions to namespace foobar
-    When we GET "/v1/namespaces/foobar"
-    Then the response code will be 403
 
   Scenario: Namespace hierachical return value
     Given the time is 2015-01-01T00:00:00.0000Z
@@ -113,6 +118,7 @@ Feature: Getting a Namespace
           }
         }
         """
+
 
   Scenario: Namespace id return value
     Given the time is 2015-01-01T00:00:00.0000Z

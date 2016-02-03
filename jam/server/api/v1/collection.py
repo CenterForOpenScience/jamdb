@@ -27,10 +27,8 @@ class CollectionView(View):
         self._namespace = namespace
 
     def get_permissions(self, request):
-        if not self.resource:
-            if request.method == 'GET':
-                return Permissions.NONE
-            return Permissions.ADMIN
+        if request.method == 'GET' and self.resource is None:
+            return Permissions.NONE
         return super().get_permissions(request)
 
     def do_create(self, id, attributes, user):
@@ -51,12 +49,11 @@ class CollectionView(View):
             if not user.uid:
                 raise exceptions.Unauthorized()
 
-            # TODO These should technically be bitwise...
             query = functools.reduce(operator.or_, [
-                Q('data.permissions.*', 'eq', Permissions.ADMIN),
-                Q('data.permissions.{0.type}-*'.format(user), 'eq', Permissions.ADMIN),
-                Q('data.permissions.{0.type}-{0.provider}-*'.format(user), 'eq', Permissions.ADMIN),
-                Q('data.permissions.{0.type}-{0.provider}-{0.id}'.format(user), 'eq', Permissions.ADMIN),
+                Q('data.permissions.*', 'and', Permissions.READ),
+                Q('data.permissions.{0.type}-*'.format(user), 'and', Permissions.READ),
+                Q('data.permissions.{0.type}-{0.provider}-*'.format(user), 'and', Permissions.READ),
+                Q('data.permissions.{0.type}-{0.provider}-{0.id}'.format(user), 'and', Permissions.READ),
             ])
 
             if filter:

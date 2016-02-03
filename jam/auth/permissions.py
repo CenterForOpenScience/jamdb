@@ -11,14 +11,16 @@ class Permissions(enum.IntEnum):
     UPDATE = 0x1 << 2
     DELETE = 0x1 << 3
 
-    C = CREATE
-    CR = C | READ
+    CU = CREATE | UPDATE
+    CUD = CU | DELETE
+    CR = CREATE | READ
     CRU = CR | UPDATE
     CRUD = CRU | DELETE
 
-    CD = C | DELETE
+    CD = CREATE | DELETE
     RU = READ | UPDATE
     RUD = RU | DELETE
+    RD = READ | DELETE
 
     READ_WRITE = CREATE | READ | UPDATE
 

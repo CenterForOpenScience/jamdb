@@ -20,15 +20,15 @@ Feature: Creating a collection
   Scenario: Namespace doesn't exist
     Given namespace foo does not exist
     When we create collection bar in namespace foo
-    Then the response code will be 404
-    And the response will contain
+    Then the response code will be 403
+    And the response will be
       """
         {
           "errors": [{
-            "code": "N404",
-            "status": "404",
-            "title": "Namespace not found",
-            "detail": "Namespace \"foo\" was not found"
+            "code": "403",
+            "status": "403",
+            "title": "Forbidden",
+            "detail": "CREATE permission or higher is required to perform this action"
           }]
         }
       """
@@ -84,10 +84,20 @@ Feature: Creating a collection
 
     Examples: Permissions
       | permission |
-      | CREATE     |
       | READ       |
       | UPDATE     |
       | DELETE     |
+
+
+  Scenario Outline: Sufficient permissions to namespace
+    Given namespace foo does exist
+    And we have <permission> permissions to namespace foo
+    When we create collection bar in namespace foo
+    Then the response code will be 201
+
+    Examples: Permissions
+      | permission |
+      | CREATE     |
       | CRUD       |
       | READ_WRITE |
 

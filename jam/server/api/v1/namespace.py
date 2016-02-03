@@ -24,9 +24,9 @@ class NamespaceView(View):
         self._namespace = resource
 
     def get_permissions(self, request):
-        if self.resource:
-            return Permissions.ADMIN
-        return Permissions.NONE
+        if request.method == 'GET' and self.resource is None:
+            return Permissions.NONE
+        return super().get_permissions(request)
 
     def read(self, user):
         # TODO Allow serializing of namespace objects
@@ -38,10 +38,10 @@ class NamespaceView(View):
     def list(self, filter, sort, page, page_size, user):
         # TODO These should technically be bitwise...
         query = functools.reduce(operator.or_, [
-            Q('data.permissions.*', 'eq', Permissions.ADMIN),
-            Q('data.permissions.{0.type}-*'.format(user), 'eq', Permissions.ADMIN),
-            Q('data.permissions.{0.type}-{0.provider}-*'.format(user), 'eq', Permissions.ADMIN),
-            Q('data.permissions.{0.type}-{0.provider}-{0.id}'.format(user), 'eq', Permissions.ADMIN),
+            Q('data.permissions.*', 'and', Permissions.READ),
+            Q('data.permissions.{0.type}-*'.format(user), 'and', Permissions.READ),
+            Q('data.permissions.{0.type}-{0.provider}-*'.format(user), 'and', Permissions.READ),
+            Q('data.permissions.{0.type}-{0.provider}-{0.id}'.format(user), 'and', Permissions.READ),
         ])
 
         if filter:

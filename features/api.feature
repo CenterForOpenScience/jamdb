@@ -13,24 +13,24 @@ Feature: Global API Features
 
     Examples: Cases
       | METHOD | URL                                                               | CODE | DATA            |
-      | POST   | /v1/namespaces                                                    | 400  | 2               |
-      | POST   | /v1/namespaces                                                    | 400  | {}              |
-      | POST   | /v1/namespaces                                                    | 400  | "Datum"         |
-      | POST   | /v1/namespaces                                                    | 400  | not json        |
-      | POST   | /v1/namespaces                                                    | 400  | 84ni013*)       |
-      | PATCH  | /v1/namespaces                                                    | 400  | 2               |
-      | PATCH  | /v1/namespaces                                                    | 400  | {}              |
-      | PATCH  | /v1/namespaces                                                    | 400  | {"data": 4}     |
-      | PATCH  | /v1/namespaces                                                    | 400  | {"data": {}}    |
-      | PATCH  | /v1/namespaces                                                    | 400  | {"data": "str"} |
-      | PATCH  | /v1/namespaces                                                    | 400  | "Datum"         |
-      | PATCH  | /v1/namespaces                                                    | 400  | not json        |
-      | PATCH  | /v1/namespaces                                                    | 400  | 84ni013*)       |
-      | PUT    | /v1/namespaces                                                    | 400  | 2               |
-      | PUT    | /v1/namespaces                                                    | 400  | {}              |
-      | PUT    | /v1/namespaces                                                    | 400  | "Datum"         |
-      | PUT    | /v1/namespaces                                                    | 400  | not json        |
-      | PUT    | /v1/namespaces                                                    | 400  | 84ni013*)       |
+      | POST   | /v1/namespaces                                                    | 403  | 2               |
+      | POST   | /v1/namespaces                                                    | 403  | {}              |
+      | POST   | /v1/namespaces                                                    | 403  | "Datum"         |
+      | POST   | /v1/namespaces                                                    | 403  | not json        |
+      | POST   | /v1/namespaces                                                    | 403  | 84ni013*)       |
+      | PATCH  | /v1/namespaces                                                    | 403  | 2               |
+      | PATCH  | /v1/namespaces                                                    | 403  | {}              |
+      | PATCH  | /v1/namespaces                                                    | 403  | {"data": 4}     |
+      | PATCH  | /v1/namespaces                                                    | 403  | {"data": {}}    |
+      | PATCH  | /v1/namespaces                                                    | 403  | {"data": "str"} |
+      | PATCH  | /v1/namespaces                                                    | 403  | "Datum"         |
+      | PATCH  | /v1/namespaces                                                    | 403  | not json        |
+      | PATCH  | /v1/namespaces                                                    | 403  | 84ni013*)       |
+      | PUT    | /v1/namespaces                                                    | 403  | 2               |
+      | PUT    | /v1/namespaces                                                    | 403  | {}              |
+      | PUT    | /v1/namespaces                                                    | 403  | "Datum"         |
+      | PUT    | /v1/namespaces                                                    | 403  | not json        |
+      | PUT    | /v1/namespaces                                                    | 403  | 84ni013*)       |
       | POST   | /v1/namespaces/StarCraft                                          | 400  | 2               |
       | POST   | /v1/namespaces/StarCraft                                          | 400  | {}              |
       | POST   | /v1/namespaces/StarCraft                                          | 400  | "Datum"         |
@@ -160,9 +160,9 @@ Feature: Global API Features
 
     Examples:
       | METHOD | URL                                                               | CODE |
-      | DELETE | /v1/namespaces/                                                   | 405  |
-      | PUT    | /v1/namespaces/                                                   | 405  |
-      | PATCH  | /v1/namespaces/                                                   | 501  |
+      | DELETE | /v1/namespaces/                                                   | 403  |
+      | PUT    | /v1/namespaces/                                                   | 403  |
+      | PATCH  | /v1/namespaces/                                                   | 403  |
       | DELETE | /v1/namespaces/StarCraft/collections                              | 405  |
       | PUT    | /v1/namespaces/StarCraft/collections                              | 405  |
       | PATCH  | /v1/namespaces/StarCraft/collections                              | 501  |

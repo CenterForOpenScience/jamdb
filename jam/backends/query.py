@@ -101,13 +101,13 @@ class Equal(Query):
 class BitwiseAnd(Query):
 
     def as_lambda(self):
-        return lambda val: get(val, self.key) & self.value
+        return lambda val: bool(get(val, self.key) and (get(val, self.key) & self.value))
 
 
 class BitwiseOr(Query):
 
     def as_lambda(self):
-        return lambda val: get(val, self.key) | self.value
+        return lambda val: bool(get(val, self.key) and (get(val, self.key) | self.value))
 
 
 class In(Query):
