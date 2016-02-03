@@ -1,3 +1,8 @@
+import operator
+import functools
+
+from jam import Q
+from jam import exceptions
 from jam.auth import Permissions
 from jam.server.api.v1.base import View
 from jam.server.api.v1.base import Serializer
@@ -40,6 +45,26 @@ class CollectionView(View):
 
     def update(self, patch, user):
         return self._namespace.update(self.resource.name, patch, user.uid)
+
+    def list(self, filter, sort, page, page_size, user):
+        if not user.permissions & Permissions.ADMIN:
+            if not user.uid:
+                raise exceptions.Unauthorized()
+
+            # TODO These should technically be bitwise...
+            query = functools.reduce(operator.or_, [
+                Q('data.permissions.*', 'eq', Permissions.ADMIN),
+                Q('data.permissions.{0.type}-*'.format(user), 'eq', Permissions.ADMIN),
+                Q('data.permissions.{0.type}-{0.provider}-*'.format(user), 'eq', Permissions.ADMIN),
+                Q('data.permissions.{0.type}-{0.provider}-{0.id}'.format(user), 'eq', Permissions.ADMIN),
+            ])
+
+            if filter:
+                filter &= query
+            else:
+                filter = query
+
+        return super().list(filter, sort, page, page_size, user)
 
 
 class NamespaceRelationship(Relationship):
