@@ -79,7 +79,7 @@ def jam_userify(args, argv):
     Attaches a json schema that allows the given collection to be used for authentication.
 
     Options:
-        -u, --user=USER  The user to perform this update as [default: system]
+        -u, --user=USER  The user to perform this update as [default: system-system-system]
     """
     ns = jam.NamespaceManager().get_namespace(args['<namespace>'])
     ns.update(args['<collection>'], [{
@@ -107,7 +107,7 @@ def jam_create(args, argv):
     Usage: jam create <namespace> [<collection> [<document> --force]] [--creator=USERID]
 
     Options:
-        -c, --creator=USERID  The user id for the creator [default: system]
+        -c, --creator=USERID  The user id for the creator [default: system-system-system]
         -f, --force  If a namespace/collection/document already exists with the given key replace the existing
     """
     if args['<document>']:
@@ -144,7 +144,7 @@ def jam_update(args, argv):
     Options:
         -p, --permissions=UID  Permissions to update in the form of <user-id> <permission as int>
         -r, --rename=NAME  Rename namespace to NAME
-        -u, --user=USER  The user to perform this update as [default: system]
+        -u, --user=USER  The user to perform this update as [default: system-system-system]
         -d, --delete-permissions=UID  Delete the permissions for ID
         -s, --schema=PATH  Path to a json file containing a jsonschema
     """
@@ -185,7 +185,7 @@ def jam_delete(args, argv):
     Usage: jam delete <namespace> [<collection> [<document>]] [--creator=USERID]
 
     Options:
-        -c, --creator=USERID  The user id for the deleter [default: system]
+        -c, --creator=USERID  The user id for the deleter [default: system-system-system]
     """
     if args['<document>']:
         jam.NamespaceManager().get_namespace(args['<namespace>']).get_collection(args['<collection>']).delete(args['<document>'], args['--creator'])
