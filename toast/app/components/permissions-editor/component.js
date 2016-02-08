@@ -18,8 +18,13 @@ let PermissionsEditor = Ember.Component.extend({
     addPermission() {
       this.permissions[this.get('newPermissionSelector')] = this.get('newPermissionLevel');
       this.set('newPermissionSelector', '');
-      this.rerender();
       this.get('onchange')(this.get('permissions'));
+      this.rerender();
+    },
+    removePermission(key) {
+      delete this.permissions[key];
+      this.get('onchange')(this.get('permissions'));
+      this.rerender();
     }
   }
 });

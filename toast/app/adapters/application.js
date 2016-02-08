@@ -1,9 +1,3 @@
-import DS from 'ember-data';
-import ENV from 'toast/config/environment';
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
+import JamAdapter from 'toast/mixins/jam-adapter';
 
-export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
-    authorizer: 'authorizer:jam-jwt',
-    namespace: 'v1/id',
-    host: ENV.jamdbURL
-});
+export default JamAdapter.extend({});

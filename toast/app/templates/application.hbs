@@ -11,26 +11,31 @@
 
   <nav class="navbar navbar-static-top" role="navigation">
     <div class="navbar-custom-menu">
+      <ul class="nav navbar-nav">
+        {{#if session.isAuthenticated}}
+          <li>
+            <a><b>{{session.session.content.authenticated.attributes.id}}</b> via <b>{{session.session.content.authenticated.attributes.provider}}</b></a>
+          </li>
+          <li>
+            <a {{action 'logout'}} href="#"><i class="fa fa-sign-out"></i></a>
+          </li>
+        {{/if}}
+      </ul>
     </div>
   </nav>
 </header>
 
-  <aside class="main-sidebar">
-    <section class="sidebar" style="height: auto;">
-        {{#if session.isAuthenticated}}
-          <div class="user-panel" style="display: flex; justify-content: center;">
-            <a><b>{{session.session.content.authenticated.attributes.pid}}</b> via <b>{{session.session.content.authenticated.attributes.provider}}</b></a>
-          </div>
-        {{/if}}
-      <ul class="nav sidebar-menu">
-        <li class="header">Namespaces</li>
-        {{#each model as |namespace|}}
-          {{namespace-entry namespace}}
-        {{/each}}
-        <!-- <li><a><i class="fa fa-plus"></i>New Namespace</a></li> -->
-      </ul>
-    </section>
-  </aside>
+<aside class="main-sidebar">
+  <section class="sidebar" style="height: auto;">
+    <ul class="nav sidebar-menu">
+      <li class="header">Namespaces</li>
+      {{#each model as |namespace|}}
+        {{namespace-entry namespace}}
+      {{/each}}
+      <!-- <li><a><i class="fa fa-plus"></i>New Namespace</a></li> -->
+    </ul>
+  </section>
+</aside>
 
 <div class="content-wrapper" style="height: 100vh;">
   {{outlet}}

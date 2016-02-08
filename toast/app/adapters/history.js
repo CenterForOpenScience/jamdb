@@ -1,14 +1,7 @@
-import DS from 'ember-data';
-import ENV from 'toast/config/environment';
-import UrlTemplates from 'ember-data-url-templates';
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
+import JamAdapter from 'toast/mixins/jam-adapter';
 
-export default DS.JSONAPIAdapter.extend(DataAdapterMixin, UrlTemplates, {
-    authorizer: 'authorizer:jam-jwt',
-    host: ENV.jamdbURL,
-    namespace: 'v1/id',
-
-    queryUrlTemplate: '{+host}/v2/documents{/documentId}/history',
+export default JamAdapter.extend({
+    queryUrlTemplate: '{+host}/v1/id/documents{/documentId}/history',
 
     urlSegments: {
         documentId(type, id, snapshot, query) {

@@ -1,6 +1,6 @@
 <thead>
   <tr>
-    <th width="5%"></th>
+    <th width="2%"></th>
     <th>User Selector</th>
     <th>Permission Level</th>
   </tr>
@@ -8,17 +8,13 @@
 <tbody>
 {{#each-in permissions as |user-selector permission|}}
   <tr>
-    <td></td>
+    <td><i {{action 'removePermission' user-selector}} class="fa fa-minus ibtn"></i></td>
     <td>{{user-selector}}</td>
     <td>{{permission}}</td>
   </tr>
 {{/each-in}}
   <tr>
-    <td>
-      <button {{action 'addPermission'}} class="btn btn-xs bg-black">
-        <i class="fa fa-plus"></i>
-      </button>
-    </td>
+    <td><i {{action 'addPermission'}} class="fa fa-plus ibtn" style="vertical-align:-webkit-baseline-middle;"></i></td>
     <td>
       {{input value=newPermissionSelector type="text" class="form-control"}}
     </td>

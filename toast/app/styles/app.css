@@ -9,3 +9,8 @@
 .fancytree-active {
   background-color: #e8e8e8;
 }
+
+.ibtn {
+  cursor: pointer;
+  vertical-align: middle;
+}
