@@ -5,43 +5,43 @@ import jam.auth
 nsm = jam.NamespaceManager()
 
 try:
-    share_ns = nsm.create_namespace('OPENTRIALS', 'tracked-OPENTRIALS|users-scrapi')
+    share_ns = nsm.create_namespace('OPENTRIALS', 'jam-OPENTRIALS:users-scrapi')
 except jam.exceptions.KeyExists:
     share_ns = nsm.get_namespace('OPENTRIALS')
 
 try:
-    users_col = share_ns.create_collection('share-contributor', 'tracked-OPENTRIALS|users-scrapi', permissions={
+    users_col = share_ns.create_collection('share-contributor', 'jam-OPENTRIALS:users-scrapi', permissions={
         '*': jam.auth.Permissions.READ
     })
 except jam.exceptions.KeyExists:
     pass
 
 try:
-    share_ns.create_collection('share-data', 'tracked-OPENTRIALS|users-scrapi', permissions={
+    share_ns.create_collection('share-data', 'jam-OPENTRIALS:users-scrapi', permissions={
         '*': jam.auth.Permissions.READ
     })
 except jam.exceptions.KeyExists:
     pass
 
 try:
-    share_ns.create_collection('opentrials-data', 'tracked-OPENTRIALS|users-scrapi', permissions={
-        'tracked-OPENTRIALS|users-scrapi': jam.auth.Permissions.ADMIN
+    share_ns.create_collection('opentrials-data', 'jam-OPENTRIALS:users-scrapi', permissions={
+        'jam-OPENTRIALS:users-scrapi': jam.auth.Permissions.ADMIN
     })
 except jam.exceptions.KeyExists:
     pass
 
 
 try:
-    share_ns.create_collection('contributor-curation', 'tracked-OPENTRIALS|users-scrapi', permissions={
+    share_ns.create_collection('contributor-curation', 'jam-OPENTRIALS:users-scrapi', permissions={
         'user-osf-*': jam.auth.Permissions.CREATE
     })
 except jam.exceptions.KeyExists:
     share_ns.update('contributor-curation', [{
         'op': 'add', 'path': '/permissions/user-osf-*', 'value': jam.auth.Permissions.CREATE
-    }], 'tracked-OPENTRIALS|users-scrapi')
+    }], 'jam-OPENTRIALS:users-scrapi')
 
 try:
-    users_col = share_ns.create_collection('users', 'tracked-OPENTRIALS|users-scrapi')
+    users_col = share_ns.create_collection('users', 'jam-OPENTRIALS:users-scrapi')
 except jam.exceptions.KeyExists:
     users_col = share_ns.get_collection('users')
 
