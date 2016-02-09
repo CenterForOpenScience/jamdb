@@ -97,7 +97,7 @@ class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
             raise tornado.web.HTTPError(http.client.BAD_REQUEST)
         return jam.O(
             sort.lstrip('+-'),
-            {'-': jam.O.DECENDING}.get(sort[0], jam.O.ASCENDING)
+            {'-': jam.O.DESCENDING}.get(sort[0], jam.O.ASCENDING)
         )
 
     @cached_property
