@@ -96,11 +96,11 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
             err = None
             self._view = self._view_class(*loaded)
 
-        # If this is a relationship swap out the current view with the relation
-        if 'relationship' in self.path_kwargs:
-            relationship = self._serializer.relations[self.path_kwargs['relationship']]
-            self._view = relationship.view(*loaded)
-            self._serializer = relationship.serializer()
+            # If this is a relationship swap out the current view with the relation
+            if 'relationship' in self.path_kwargs:
+                relationship = self._serializer.relations[self.path_kwargs['relationship']]
+                self._view = relationship.view(*loaded)
+                self._serializer = relationship.serializer()
 
         permissions = Permissions.get_permissions(self.current_user, *loaded)
         required_permissions = self._view.get_permissions(self.request)

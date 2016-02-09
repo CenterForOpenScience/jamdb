@@ -125,3 +125,9 @@ Feature: Listing collections
     And we are not logged in
     When we GET "/v1/namespaces/StarCraft/collections"
     Then the response code will be 401
+
+
+  Scenario: 403 with insufficient access
+    Given namespace StarCraft exists
+    When we GET "/v1/id/namespaces/WarCraft/collections"
+    Then the response code will be 404
