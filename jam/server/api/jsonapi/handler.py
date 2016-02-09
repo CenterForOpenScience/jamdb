@@ -12,6 +12,17 @@ from jam import exceptions
 from jam.server.api.base import CORSMixin
 from jam.server.api.jsonapi.parser import parse
 
+def parse_value(raw):
+    try:
+        return int(raw)
+    except ValueError:
+        pass
+
+    try:
+        return float(raw)
+    except ValueError:
+        return raw
+
 
 def parse_int(raw, lo=None, hi=None):
     try:
@@ -73,7 +84,7 @@ class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
         if not filter_dict:
             return None
         return functools.reduce(operator.and_, [
-            jam.Q(key, 'eq', value)
+            jam.Q(key, 'eq', parse_value(value))
             for key, value in filter_dict.items()
         ])
 
@@ -96,7 +107,7 @@ class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
         if ',' in sort:
             raise tornado.web.HTTPError(http.client.BAD_REQUEST)
         return jam.O(
-            sort.lstrip('+-'),
+            ('' if sort.lstrip('+-') in {'ref'} else 'data.') + sort.lstrip('+-'),
             {'-': jam.O.DESCENDING}.get(sort[0], jam.O.ASCENDING)
         )
 
