@@ -34,7 +34,7 @@ class DocumentView(View):
         return super().get_permissions(request)
 
     def create(self, payload, user):
-        id = self.validate_id(payload.get('id', str(bson.ObjectId())))
+        id = self.validate_id(str(bson.ObjectId()) if payload.get('id') is None else payload['id'])
         creator = user.uid
 
         if 'meta' in payload:

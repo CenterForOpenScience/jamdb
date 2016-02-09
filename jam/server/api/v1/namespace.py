@@ -29,14 +29,12 @@ class NamespaceView(View):
         return super().get_permissions(request)
 
     def read(self, user):
-        # TODO Allow serializing of namespace objects
         return self.MANAGER.read(self.resource.name)
 
     def update(self, patch, user):
         return self.MANAGER.update(self._namespace.name, patch, user.uid)
 
     def list(self, filter, sort, page, page_size, user):
-        # TODO These should technically be bitwise...
         query = functools.reduce(operator.or_, [
             Q('data.permissions.*', 'and', Permissions.READ),
             Q('data.permissions.{0.type}-*'.format(user), 'and', Permissions.READ),

@@ -262,7 +262,7 @@ class View:
     def validate_id(self, id):
         parent_re = r'\.'.join([re.escape(parent.ref) for parent in self.parents])
         tail = ID_RE if self.resource is None else re.escape(self.resource.ref)
-        if re.match(r'^({}\.)?{}$'.format(parent_re, tail), str(id)) is None:
+        if id is None or re.match(r'^({}\.)?{}$'.format(parent_re, tail), str(id)) is None:
             raise exceptions.JamException(
                 '400',
                 http.client.BAD_REQUEST,
@@ -275,7 +275,7 @@ class View:
         return id.split('.')[-1]
 
     def create(self, payload, user):
-        id = self.validate_id(payload.get('id', ''))
+        id = self.validate_id(payload.get('id'))
         return self.do_create(id, payload['attributes'], user)
 
     def read(self, user):
