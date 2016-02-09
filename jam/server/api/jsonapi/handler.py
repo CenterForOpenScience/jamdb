@@ -12,6 +12,7 @@ from jam import exceptions
 from jam.server.api.base import CORSMixin
 from jam.server.api.jsonapi.parser import parse
 
+
 def parse_value(raw):
     try:
         return int(raw)
