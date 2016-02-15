@@ -296,6 +296,15 @@ Feature: Listing Documents
       """
 
 
+  Scenario: Sort on bad key
+    Given namespace StarCraft exists
+    And we have ADMIN permissions to namespace StarCraft
+    And collection Protoss exists in namespace StarCraft
+    And document Probe exists in StarCraft/Protoss
+    When we GET "/v1/id/collections/StarCraft.Protoss/documents?sort=-armo:r"
+    Then the response code will be 400
+
+
   Scenario: Sort on non-existant key
     Given namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft

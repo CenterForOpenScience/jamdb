@@ -84,6 +84,12 @@ class SearchView(View):
                 'unmapped_type': 'string'
             }})
 
+        if self._request.query_arguments.get('sort'):
+            search = search.sort({sort.key: {
+                'order': 'asc' if sort.order == 1 else 'desc',
+                'unmapped_type': 'string'
+            }})
+
         start = page * page_size
         search = search[start:start + page_size]
 
