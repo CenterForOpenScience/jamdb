@@ -1,7 +1,7 @@
 # Getting Started
 Please note: These docs are still in progress. If something doesn't look quite right it's probably wrong.
 
-Further examples can be found but in the [features directory.](features/)
+Further examples can be found in the [features directory.](features/)
 
 This tutorial assumes that the JamDB server you're interacting with will be at `http://localhost:1212`.
 
@@ -25,7 +25,7 @@ There are 3 ways to acquire a jwt.
 2. Generate a token by running `jam token 'jam-Pokemon:trainers-Ash'`
   - This will only work if you are running JamDB locally
 
-3. Authenticate via the [Auth Endpoint](docs/authentication.md)
+3. Authenticate via the [Auth Endpoint](authentication.md)
 
 > We'll be using `mycooljwt` as the jwt for the rest of this document.
 
@@ -194,8 +194,10 @@ Authorization: mycooljwt
 
 > Note: we have been given ADMIN access to this collection because we created it.
 
-> Note: The id has been extended to Pokemon.Pokedex because Pokedex belongs to Pokemon.
-> The full id or the truncated id may be used when sending update requests.
+<br>
+
+> Note: The id has been extended to Pokemon.Pokedex because Pokedex belongs to Pokemon.<br>
+> The full id or the truncated id may be used when sending update requests.<br>
 > The truncated id will be used for the rest of this document.
 
 Now our fellow trainers are free to browse through the Pokedex collection, which we will add information into later.
@@ -208,7 +210,7 @@ Using collection level permissions, we can do just that.
 
 Collections can be updated the same way that namespace are, either POSTing or PATCHing data.
 
-> JSONPatching changes is a bit nicer to look at so we'll be using that method for the rest of this document.
+> JSONPatching changes is a bit nicer to look at so we'll be using that method for the rest of this document.<br>
 > Keep in mind that you could just as easily PATCH the updated document instead.
 
 ```http
@@ -245,14 +247,16 @@ Authorization: mycooljwt
 > This is because of how jam stores permissions, the values are equivilent.
 > We could have set Gary's, Professor Oak's, and Professor Birch's permissions to CU but CREATE, UPDATE is a bit easier to read.
 
-> Note: Remember that we gave jam-Pokemon:Trainers-* READ permissions earlier.
+<br>
+
+> Note: Remember that we gave jam-Pokemon:Trainers-* READ permissions earlier.<br>
 > Whenever Gary, Professor Oak, or Professor Birch access the Pokedex collection the will have that permission added to their CREATE, UPDATE permissions.
 
 While we trust our friends, we may safety net. That way when we build an app we won't have to worry about invalid data.
 
 We are going to leverage the power of JSONSchema and JamDB's schema validation for this.
 
-> Note: For the sake of length and readability we are going to use a shortened schema.
+> Note: For the sake of length and readability we are going to use a shortened schema.<br>
 > The actual Pokedex schema is much longer.
 
 ```http
@@ -298,10 +302,12 @@ Authorization: mycooljwt
 ]
 ```
 
-> Note: The type of schema must be set at schema.type, the actual schema lives at schema.schema.
+> Note: The type of schema must be set at schema.type, the actual schema lives at schema.schema.<br>
 > This is so that JamDB may support other forms of schema validation in the future. Currently JSONSchema is the only supported validator.
 
-> Note: `$` are illegal in JamDB key name.
+<br>
+
+> Note: `$` are illegal in JamDB key name.<br>
 > Make sure to exclude `$schema` from your JSONSchema
 
 ```json
@@ -397,11 +403,13 @@ For this next portion we're going to assume that our friends have filled out the
 
 Now that we have all our data loaded up let's search it. We'll start with finding all entries with the `Electric` type.
 
-> Documents may be filter by using the `filter[{key}]` query parameter.
-> `{key}` is the key that you want to filter on and the value of that parameter is the value you'd like to filter for.
+> Documents may be filter by using the `filter[{key}]` query parameter.<br>
+> `{key}` is the key that you want to filter on and the value of that parameter is the value you'd like to filter for.<br>
 > `.`s are used to separate keys when referring to a nested object.
 
-> Note: To save space we'll be using a page size of 2.
+<br>
+
+> Note: To save space we'll be using a page size of 2.<br>
 > Page size may be anywhere between 0 and 100, inclusive, and defaults to 50.
 
 ```http
@@ -442,9 +450,9 @@ Next let's find the entry with the highest HP that is an electric type.
 
 This can be achieved by filtering on type and then sorting on HP.
 
-> Note: Sorts may be done ascending or descending by prepending the key you wish to sort on with a `+` or `-`, respectively.
-> Sort if no order is specified it defaults to ascending.
-> If no sort parameter is given the results are sorted by id, ascending.
+> Note: Sorts may be done ascending or descending by prepending the key you wish to sort on with a `+` or `-`, respectively.<br>
+> Sort if no order is specified it defaults to ascending.<br>
+> If no sort parameter is given the results are sorted by id, ascending.<br>
 > If you wish to sort on id, ascending or descending, use `sort=ref`. This is subject to change.
 
 ```http
@@ -475,7 +483,7 @@ Finally, Gary is trying to remember the id of a specific entry but only remember
 
 What an excellent opportunity to tap into JamDB's [Elastic Search](https://www.elastic.co/products/elasticsearch) API.
 
-> The power of elasticsearch's [query string syntax](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax) is exposed as the `q` query parameter at the _search endpoint.
+> The power of elasticsearch's [query string syntax](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax) is exposed as the `q` query parameter at the _search endpoint.<br>
 > In accordance with the filter parameter, to query the id of a document use the `ref` key instead of id.
 
 ```http
