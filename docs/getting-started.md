@@ -1,50 +1,57 @@
 # Getting Started
-Please note: These docs are still in progress. If something doesn't look quite right it's probably wrong.
+Please note: This documentation is a work in progress.
 
 Further examples can be found in the [features directory.](features/)
 
-This tutorial assumes that the JamDB server you're interacting with will be at `http://localhost:1212`.
+This tutorial assumes that the JamDB server you're interacting with will be at `http://localhost:1212`. It also assumes access to a terminal shell on either OSX or Linux with the `curl` command installed and executable.
 
 ## Namespace
 To start using JamDB, you will need a namespace. A namespace is the equivalent of a database in MongoDB or PostgreSQL.
 
-It will act as a container for any collections you make and store permissions that apply to itself and anything inside of it.
+It will act as a top-level container for any collections you make and store permissions that apply to itself and cascade to anything inside of it.
 
 Administrator privileges are required to make any modification to a namespace.
 
-Currently there is no way to create a namespace through the API. If you're working with a remote instance of JamDB contact the server administrator to set up a namespace for you. If you're running a local instance of JamDB you can create a namespace by running `jam create <namespace id> -u 'jam-Pokemon:Trainers-Ash`.
+### Creating a namespace
+Currently, there is no way to create a namespace through the API. If you're working with a remote instance of JamDB contact the server administrator to create a namespace. If you're running a local instance of JamDB you can create a namespace by running `jam create <namespace id> -u 'jam-ProgrammingLanguages:Programmers-Ash`.
 
-> We'll be using `Pokemon` as the namespace id for the rest of this document.
+> We'll be using `ProgrammingLanguages` as the example namespace id for the rest of this document. Namespace ids are case-sensitive.
 
 Once your namespace is setup you'll need to send the proper `Authorization` header to access it.
 
-Jam uses [json web tokens](https://jwt.io), jwt for short, in the `Authorization` header or the `token` query parameter.
+### Authorizing against a namespace
+JamDB uses [json web tokens](https://jwt.io), JWT for short, in the `Authorization` header or the `token` query string parameter.
 
-There are 3 ways to acquire a jwt.
-1. Contact the server admin and request a temporary token.
-2. Generate a token by running `jam token 'jam-Pokemon:trainers-Ash'`
-  - This will only work if you are running JamDB locally
+There are 3 ways to acquire a JWT:
 
-3. Authenticate via the [Auth Endpoint](authentication.md)
+1. Contact the server administrator and request a temporary token.
+2. Authenticate via the [Auth Endpoint](authentication.md)
+3. If you are running a JamDB server locally you can generate a token by running `jam token 'jam-ProgrammingLanguages:Programmers-Ash'` 
 
-> We'll be using `mycooljwt` as the jwt for the rest of this document.
+> We'll be using `mycooljwt` as the example JWT for the rest of this document.
 
-You can get information about your namespace by running this command in a bash shell
+
+### Investigating a namespace
+You can get information about your namespace by making an HTTP Request using [curl](https://en.wikipedia.org/wiki/CURL), [Paw](https://luckymarmot.com/paw), or a similar program.
+
+__HTTP Request:__ 
 
 ```http
-GET /v1/namespaces/Pokemon HTTP/1.1
+GET /v1/namespaces/ProgrammingLanguages HTTP/1.1
 Authorization: mycooljwt
 ```
+
+__HTTP Response:__
 
 ```json
 {
   "data": {
-    "id": "Pokemon",
+    "id": "ProgrammingLanguages",
     "type": "namespaces",
     "attributes": {
-      "name": "Pokemon",
+      "name": "ProgrammingLanguages",
       "permissions": {
-        "jam-Pokemon:Trainers-Ash": "ADMIN"
+        "jam-ProgrammingLanguages:Programmers-Ash": "ADMIN"
       }
     },
     "meta": {...},
@@ -53,32 +60,36 @@ Authorization: mycooljwt
 }
 ```
 
-> Permissions may be different depending on how you got your jwt.
+> Permissions may be different depending on how you got your JWT.
 
-Let's say we want all our trainer friends to have read access to all our pokemon data.
+Let's say we want all our programmer friends to have read access to all our ProgrammingLanguages data.
 
 We can update our namespace in two ways.
 
 We can use [jsonpatch](http://jsonpatch.com/) to add just the field we want.
 
+__HTTP Request:__
+
 ```http
-PATCH /v1/namespaces/Pokemon HTTP/1.1
+PATCH /v1/namespaces/ProgrammingLanguages HTTP/1.1
 Authorization: mycooljwt
 Content-Type: Content-Type: application/vnd.api+json; ext=jsonpatch
 
-[{"op": "add", "path": "/permissions/jam-Pokemon:Trainers-*", "value": "READ"}]
+[{"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-*", "value": "READ"}]
 ```
+
+__HTTP Response:__
 
 ```json
 {
   "data": {
-    "id": "Pokemon",
+    "id": "ProgrammingLanguages",
     "type": "namespaces",
     "attributes": {
-      "name": "Pokemon",
+      "name": "ProgrammingLanguages",
       "permissions": {
-        "jam-Pokemon:Trainers-*": "READ",
-        "jam-Pokemon:Trainers-Ash": "ADMIN"
+        "jam-ProgrammingLanguages:Programmers-*": "READ",
+        "jam-ProgrammingLanguages:Programmers-Ash": "ADMIN"
       }
     },
     "meta": {...},
@@ -89,30 +100,34 @@ Content-Type: Content-Type: application/vnd.api+json; ext=jsonpatch
 
 Many jsonpatch objects may be sent at once.
 
+__HTTP Request:__
+
 ```http
-PATCH /v1/namespaces/Pokemon HTTP/1.1
+PATCH /v1/namespaces/ProgrammingLanguages HTTP/1.1
 Authorization: mycooljwt
 Content-Type: Content-Type: application/vnd.api+json; ext=jsonpatch
 
 [
-  {"op": "add", "path": "/permissions/jam-Pokemon:Trainers-*", "value": "READ"},
-  {"op": "add", "path": "/permissions/jam-Pokemon:Trainers-Misty", "value": "ADMIN"},
-  {"op": "add", "path": "/permissions/jam-Pokemon:Trainers-Brock", "value": "ADMIN"}
+  {"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-*", "value": "READ"},
+  {"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-Misty", "value": "ADMIN"},
+  {"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-Brock", "value": "ADMIN"}
 ]
 ```
+
+__HTTP Response:__
 
 ```json
 {
   "data": {
-    "id": "Pokemon",
+    "id": "ProgrammingLanguages",
     "type": "namespaces",
     "attributes": {
-      "name": "Pokemon",
+      "name": "ProgrammingLanguages",
       "permissions": {
-        "jam-Pokemon:Trainers-*": "READ",
-        "jam-Pokemon:Trainers-Ash": "ADMIN",
-        "jam-Pokemon:Trainers-Misty": "ADMIN",
-        "jam-Pokemon:Trainers-Brock": "ADMIN",
+        "jam-ProgrammingLanguages:Programmers-*": "READ",
+        "jam-ProgrammingLanguages:Programmers-Ash": "ADMIN",
+        "jam-ProgrammingLanguages:Programmers-Misty": "ADMIN",
+        "jam-ProgrammingLanguages:Programmers-Brock": "ADMIN",
       }
     },
     "meta": {...},
@@ -121,35 +136,40 @@ Content-Type: Content-Type: application/vnd.api+json; ext=jsonpatch
 }
 ```
 
+
 Or we can just PATCH up our updated data and let the JamDB server figure it out.
 
+__HTTP Request:__
+
 ```http
-PATCH /v1/namespaces/Pokemon HTTP/1.1
+PATCH /v1/namespaces/ProgrammingLanguages HTTP/1.1
 Authorization: mycooljwt
 
 {
   "data": {
-    "id": "Pokemon",
+    "id": "ProgrammingLanguages",
     "type": "namespaces",
     "attributes": {
       "permissions": {
-        "jam-Pokemon:Trainers-*": "READ",
-        "jam-Pokemon:Trainers-Ash": "ADMIN"
+        "jam-ProgrammingLanguages:Programmers-*": "READ",
+        "jam-ProgrammingLanguages:Programmers-Ash": "ADMIN"
       }
     }
   }
 }
 ```
 
+__HTTP Response:__
+
 ```json
 {
   "data": {
-    "id": "Pokemon",
+    "id": "ProgrammingLanguages",
     "type": "namespaces",
     "attributes": {
       "permissions": {
-        "jam-Pokemon:Trainers-*": "READ",
-        "jam-Pokemon:Trainers-Ash": "ADMIN"
+        "jam-ProgrammingLanguages:Programmers-*": "READ",
+        "jam-ProgrammingLanguages:Programmers-Ash": "ADMIN"
       }
     },
     "meta": {...},
@@ -161,29 +181,34 @@ Authorization: mycooljwt
 ## Collections
 Now that we've set up our namespace it's time to create collections.
 
-A collection is a bucket for arbitrary data to live in. It may enforce a schema on its data. It also may extend the permissions of the namespace.
+A collection is a bucket for arbitrary data. It __may__ enforce a schema on its data. It also __may__ extend the permissions of the namespace.
 
-To create a collection we just have to POST our data to our namespace's collections endpoint.
+### Creating a collection
+To create a collection we just have to POST the data about our collection to our namespace's collections endpoint.
+
+__HTTP Request:__
 
 ```http
-POST /v1/namespaces/Pokemon/collections
+POST /v1/namespaces/ProgrammingLanguages/collections
 Authorization: mycooljwt
 
 {
-  "id": "Pokedex",
+  "id": "Functional",
   "type": "collections",
   "attributes": {}
 }
 ```
 
+__HTTP Response:__
+
 ```json
 {
   "data": {
-    "id": "Pokemon.Pokedex",
+    "id": "ProgrammingLanguages.Functional",
     "type": "collections",
     "attributes": {
       "permissions": {
-        "jam-Pokemon:Trainers-Ash": "ADMIN"
+        "jam-ProgrammingLanguages:Programmers-Ash": "ADMIN"
       }
     },
     "meta": {...},
@@ -192,49 +217,50 @@ Authorization: mycooljwt
 }
 ```
 
-> Note: we have been given ADMIN access to this collection because we created it.
+> __Please Note__: 
+>  
+> - We have been given ADMIN access to this collection because we created it.
+> - The id has been extended to `ProgrammingLanguages.Functional` because the `Functional` collection belongs to the `ProgrammingLanguages` namespace.
+> - The full id (`ProgrammingLanguages.Functional`) or the truncated id (`Functional`) may be used when sending update requests.
+> - The truncated id will be used for the rest of this document.
 
-<br>
-
-> Note: The id has been extended to Pokemon.Pokedex because Pokedex belongs to Pokemon.<br>
-> The full id or the truncated id may be used when sending update requests.<br>
-> The truncated id will be used for the rest of this document.
-
-Now our fellow trainers are free to browse through the Pokedex collection, which we will add information into later.
+Now our fellow programmers are free to browse through the Functional collection, which we will add information into later.
 
 It's a lot of work to load all this data into our collection by ourselves. Let's get some help!
 
+### Adding collection permissions
 We want to give a couple of our friends access to insert data into this collection but we don't want to grant them access to all of our collection.
 
 Using collection level permissions, we can do just that.
 
 Collections can be updated the same way that namespace are, either POSTing or PATCHing data.
-
-> JSONPatching changes is a bit nicer to look at so we'll be using that method for the rest of this document.<br>
-> Keep in mind that you could just as easily PATCH the updated document instead.
+> __Please note:__
+> 
+> - JSONPatching changes is a bit nicer to look at so we'll be using that method for the rest of this document.<br>
+> - Keep in mind that you could just as easily PATCH the updated document instead.
 
 ```http
-PATCH /v1/namespaces/Pokemon/collections/Pokedex
+PATCH /v1/namespaces/ProgrammingLanguages/collections/Functional
 Authorization: mycooljwt
 
 [
-  {"op": "add", "path": "/permissions/jam-Pokemon:Trainers-Gary", "value": "CREATE, UPDATE"},
-  {"op": "add", "path": "/permissions/jam-Pokemon:Trainers-ProfessorOak", "value": "CREATE, UPDATE"},
-  {"op": "add", "path": "/permissions/jam-Pokemon:Trainers-ProfessorBirch", "value": "CREATE, UPDATE"}
+  {"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-Gary", "value": "CREATE, UPDATE"},
+  {"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-ProfessorOak", "value": "CREATE, UPDATE"},
+  {"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-ProfessorBirch", "value": "CREATE, UPDATE"}
 ]
 ```
 
 ```json
 {
   "data": {
-    "id": "Pokemon.Pokedex",
+    "id": "ProgrammingLanguages.Functional",
     "type": "collections",
     "attributes": {
       "permissions": {
-        "jam-Pokemon:Trainers-Ash": "ADMIN",
-        "jam-Pokemon:Trainers-Gary": "CU",
-        "jam-Pokemon:Trainers-ProfessorOak": "CU",
-        "jam-Pokemon:Trainers-ProfessorBirch": "CU"
+        "jam-ProgrammingLanguages:Programmers-Ash": "ADMIN",
+        "jam-ProgrammingLanguages:Programmers-Gary": "CU",
+        "jam-ProgrammingLanguages:Programmers-ProfessorOak": "CU",
+        "jam-ProgrammingLanguages:Programmers-ProfessorBirch": "CU"
       }
     },
     "meta": {...},
@@ -243,24 +269,22 @@ Authorization: mycooljwt
 }
 ```
 
-> Note: Our permissions got compressed from CREATE, UPDATE to CU.
-> This is because of how jam stores permissions, the values are equivilent.
-> We could have set Gary's, Professor Oak's, and Professor Birch's permissions to CU but CREATE, UPDATE is a bit easier to read.
+> __Please note__: 
+> 
+> - Our permissions got compressed from CREATE, UPDATE to CU. This is the format JamDB stores permissions. CREATE, UPDATE and CU are equivalent. We could have set Gary's, Professor Oak's, and Professor Birch's permissions to CU but CREATE, UPDATE is a bit easier to read.
+> - Remember that we gave `jam-ProgrammingLanguages:Programmers-*` READ permissions earlier.
+> - Whenever Gary, Professor Oak, or Professor Birch access the Functional collection the will have that permission added to their CREATE, UPDATE permissions.
 
-<br>
+While we trust our friends, we may want to enforce data validation.
 
-> Note: Remember that we gave jam-Pokemon:Trainers-* READ permissions earlier.<br>
-> Whenever Gary, Professor Oak, or Professor Birch access the Pokedex collection the will have that permission added to their CREATE, UPDATE permissions.
+We are going to leverage the power of [JSONSchema](http://json-schema.org) and JamDB's schema validation for this.
 
-While we trust our friends, we may safety net. That way when we build an app we won't have to worry about invalid data.
+> Note: For the sake of length and readability we are going to use an abbreviated schema. The actual Functional schema is much longer because we're huge nerds.
 
-We are going to leverage the power of JSONSchema and JamDB's schema validation for this.
-
-> Note: For the sake of length and readability we are going to use a shortened schema.<br>
-> The actual Pokedex schema is much longer.
+__HTTP Request:__
 
 ```http
-PATCH /v1/namespaces/Pokemon/collections/Pokedex
+PATCH /v1/namespaces/ProgrammingLanguages/collections/Functional
 Authorization: mycooljwt
 
 [
@@ -281,20 +305,20 @@ Authorization: mycooljwt
             "id": "type",
             "type": "string"
           },
-          "HP": {
-            "id": "HP",
+          "Number": {
+            "id": "Number",
             "type": "integer"
           },
-          "evolves": {
-            "id": "evolves",
+          "Interpreted": {
+            "id": "Interpreted",
             "type": "boolean"
           }
         },
         "required": [
           "name",
           "type",
-          "HP",
-          "evolves"
+          "Number",
+          "Interpreted"
         ]
       }
     }
@@ -302,25 +326,25 @@ Authorization: mycooljwt
 ]
 ```
 
-> Note: The type of schema must be set at schema.type, the actual schema lives at schema.schema.<br>
-> This is so that JamDB may support other forms of schema validation in the future. Currently JSONSchema is the only supported validator.
+> __Please Note:__
+> 
+> - `schema.type` must be set to the type of the schema. The actual schema lives at `schema.schema`. This is so that JamDB may support other forms of schema validation in the future. Currently JSONSchema is the only supported validator.
+> - `$` are illegal in JamDB key names.
+> - Make sure not to use `$schema` or `$ref` in your JSONSchema.
 
-<br>
-
-> Note: `$` are illegal in JamDB key name.<br>
-> Make sure to exclude `$schema` from your JSONSchema
+__HTTP Response:__
 
 ```json
 {
   "data": {
-    "id": "Pokemon.Pokedex",
+    "id": "ProgrammingLanguages.Functional",
     "type": "collections",
     "attributes": {
       "permissions": {
-        "jam-Pokemon:Trainers-Ash": "ADMIN",
-        "jam-Pokemon:Trainers-Gary": "CU",
-        "jam-Pokemon:Trainers-ProfessorOak": "CU",
-        "jam-Pokemon:Trainers-ProfessorBirch": "CU"
+        "jam-ProgrammingLanguages:Programmers-Ash": "ADMIN",
+        "jam-ProgrammingLanguages:Programmers-Gary": "CU",
+        "jam-ProgrammingLanguages:Programmers-ProfessorOak": "CU",
+        "jam-ProgrammingLanguages:Programmers-ProfessorBirch": "CU"
       },
       "schema": {
         "type": "jsonschema",
@@ -332,20 +356,20 @@ Authorization: mycooljwt
               "id": "type",
               "type": "string"
             },
-            "HP": {
-              "id": "HP",
+            "Number": {
+              "id": "Number",
               "type": "integer"
             },
-            "evolves": {
-              "id": "evolves",
+            "Interpreted": {
+              "id": "Interpreted",
               "type": "boolean"
             }
           },
           "required": [
             "name",
             "type",
-            "HP",
-            "evolves"
+            "Number",
+            "Interpreted"
           ]
         }
       }
@@ -362,36 +386,41 @@ A document is any **JSON object** with a string identifier that lives in a colle
 
 > Strings, numbers, and arrays are all valid JSON but the root of a document must be a JSON object.
 
-Time for the fun part, filling out the Pokedex!
+Time for the fun part, filling out the functional collection!
 
-Document are created like anything else, by POSTing to Pokedex's documents endpoint
+###Creating Documents
+Document are created like anything else, by POSTing to functional collection's documents endpoint
+
+__HTTP Request:__
 
 ```http
-POST /v1/namespaces/Pokemon/collections/Pokedex/documents
+POST /v1/namespaces/ProgrammingLanguages/collections/Functional/documents
 Authorization: mycooljwt
 
 {
   "data": {
-    "id": "Pikachu",
+    "id": "Clojure",
     "type": "documents",
     "attributes": {
-      "HP": 35,
-      "evolves": true,
-      "type": "Electric"
+      "Number": 35,
+      "Interpreted": true,
+      "type": "JVM"
     }
   }
 }
 ```
 
+__HTTP Response:__
+
 ```json
 {
   "data": {
-    "id": "Pokemon.Pokedex.Pikachu",
+    "id": "ProgrammingLanguages.Functional.Clojure",
     "type": "documents",
     "attributes": {
-      "HP": 35,
-      "evolves": true,
-      "type": "Electric"
+      "Number": 35,
+      "Interpreted": true,
+      "type": "JVM"
     },
     "meta": {...},
     "relationships": {...}
@@ -399,44 +428,53 @@ Authorization: mycooljwt
 }
 ```
 
-For this next portion we're going to assume that our friends have filled out the rest of the Pokedex collection for us.
+For this next portion, we're going to assume that our friends have filled out the rest of the Functional collection for us. Such nice friends.
 
-Now that we have all our data loaded up let's search it. We'll start with finding all entries with the `Electric` type.
+##Filtering, Pagination, and Sorting
 
-> Documents may be filter by using the `filter[{key}]` query parameter.<br>
-> `{key}` is the key that you want to filter on and the value of that parameter is the value you'd like to filter for.<br>
-> `.`s are used to separate keys when referring to a nested object.
+Now that we have all our data loaded up let's search it. We'll start with finding all entries of the type `JVM`.
 
-<br>
+### Filtering
+> - Filtering is available on the `documents` endpoint
+> - The query string parameter is `filter[{key}]={value}`
+> - `{key}` is the key that you want to filter on 
+> - `{value}` is the value that you want to filter the key by
+> - `.`s are used to separate keys when referring to a nested object, `filter[nested.keys.like.this]=value`
 
-> Note: To save space we'll be using a page size of 2.<br>
-> Page size may be anywhere between 0 and 100, inclusive, and defaults to 50.
+### Page size
+> - To save space we'll be using a page size of 2
+> - Page size may be anywhere between 0 and 100, inclusive, and defaults to 50
+> - The query string parameter is `page[size]={value}`
+
+__HTTP Request:__
 
 ```http
-GET /v1/namespaces/Pokemon/collections/Pokedex/documents?filter[type]=Electric&page[size]=2
+GET /v1/namespaces/ProgrammingLanguages/collections/Functional/documents?filter[type]=JVM&page[size]=2
 Authorization: mycooljwt
 ```
+
+__HTTP Response:__
 
 ```json
 {
   "data": [
     {
-      "id": "Pokemon.Pokedex.Pikachu",
+      "id": "ProgrammingLanguages.Functional.Clojure",
       "type": "documents",
       "attributes": {
-        "HP": 35,
-        "evolves": true,
-        "type": "Electric"
+        "Number": 35,
+        "Interpreted": true,
+        "type": "JVM"
       },
       "meta": {...},
       "relationships": {...}
     }, {
-      "id": "Pokemon.Pokedex.Riachu",
+      "id": "ProgrammingLanguages.Functional.Haskell",
       "type": "documents",
       "attributes": {
-        "HP": 60,
-        "evolves": false,
-        "type": "Electric"
+        "Number": 60,
+        "Interpreted": false,
+        "type": "native"
       },
       "meta": {...},
       "relationships": {...}
@@ -445,31 +483,38 @@ Authorization: mycooljwt
   "links": {...}
 }
 ```
+### Sorting
+Next let's find the entry with the highest Number that is an JVM type.
 
-Next let's find the entry with the highest HP that is an electric type.
+This can be achieved by filtering on type and then sorting on Number.
 
-This can be achieved by filtering on type and then sorting on HP.
+> __Please note:__
+> 
+> - Sorts may be done ascending or descending by prefixing the key you wish to sort on with `+` or `-`, respectively
+> - Sort order defaults to ascending
+> - Sort defaults to id
+> - If you want to sort on id, descending use `sort=-ref`. This is subject to change
+> - The query string parameter is `sort={order}{value}`
 
-> Note: Sorts may be done ascending or descending by prepending the key you wish to sort on with a `+` or `-`, respectively.<br>
-> Sort if no order is specified it defaults to ascending.<br>
-> If no sort parameter is given the results are sorted by id, ascending.<br>
-> If you wish to sort on id, ascending or descending, use `sort=ref`. This is subject to change.
+__HTTP Request:__
 
 ```http
-GET /v1/namespaces/Pokemon/collections/Pokedex/documents?filter[type]=Electric&page[size]=1&sort=HP
+GET /v1/namespaces/ProgrammingLanguages/collections/Functional/documents?filter[type]=JVM&page[size]=1&sort=Number
 Authorization: mycooljwt
 ```
+
+__HTTP Response:__
 
 ```json
 {
   "data": [
     {
-      "id": "Pokemon.Pokedex.Ampharos",
+      "id": "ProgrammingLanguages.Functional.Elixir",
       "type": "documents",
       "attributes": {
-        "HP": 90,
-        "evolves": false,
-        "type": "Electric"
+        "Number": 90,
+        "Interpreted": false,
+        "type": "erlang"
       },
       "meta": {...},
       "relationships": {...}
@@ -479,28 +524,36 @@ Authorization: mycooljwt
 }
 ```
 
-Finally, Gary is trying to remember the id of a specific entry but only remembers that is ends with "two."
+## Searching
+Finally, Gary is trying to remember the id of a specific entry but only remembers that is ends with "oq"
 
-What an excellent opportunity to tap into JamDB's [Elastic Search](https://www.elastic.co/products/elasticsearch) API.
+What an excellent opportunity for us to tap into JamDB's [Elastic Search](https://www.elastic.co/products/elasticsearch) API.
 
-> The power of elasticsearch's [query string syntax](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax) is exposed as the `q` query parameter at the _search endpoint.<br>
-> In accordance with the filter parameter, to query the id of a document use the `ref` key instead of id.
+> __Please note:__
+> 
+> - The power of elasticsearch's [query string syntax](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax) is exposed as the `q` query string parameter on the _search endpoint.
+> - In accordance with the other query string parameters, to query the id of a document use the `ref` key instead of id.
+> - The query string parameter is `q={url_escaped_elasticsearch_query}`
+
+__HTTP Request:__
 
 ```http
-GET /v1/namespaces/Pokemon/collections/Pokedex/documents?q=ref:*two
+GET /v1/namespaces/ProgrammingLanguages/collections/Functional/documents?q=ref:*oq
 Authorization: mycooljwt
 ```
+
+__HTTP Response:__
 
 ```json
 {
   "data": [
     {
-      "id": "Pokemon.Pokedex.Mewtwo",
+      "id": "ProgrammingLanguages.Functional.Coq",
       "type": "documents",
       "attributes": {
-        "HP": 106,
-        "evolves": false,
-        "type": "Psychic"
+        "Number": 106,
+        "Interpreted": true,
+        "type": "OCaml"
       },
       "meta": {...},
       "relationships": {...}
