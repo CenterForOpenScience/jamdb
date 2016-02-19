@@ -92,8 +92,7 @@ PATCH /v1/namespaces/ProgrammingLanguages HTTP/1.1
 Authorization: mycooljwt
 Content-Type: Content-Type: application/vnd.api+json; ext=jsonpatch
 
-[{"op": "add", "path":
-"/permissions/jam-ProgrammingLanguages:Programmers-*", "value": "READ"}]
+[{"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-*", "value": "READ"}]
 ```
 
 __HTTP Response:__
@@ -126,13 +125,9 @@ Authorization: mycooljwt
 Content-Type: Content-Type: application/vnd.api+json; ext=jsonpatch
 
 [
-  {"op": "add", "path":
-"/permissions/jam-ProgrammingLanguages:Programmers-*", "value": "READ"},
-  {"op": "add", "path":
-"/permissions/jam-ProgrammingLanguages:Programmers-Misty", "value":
-"ADMIN"},
-  {"op": "add", "path":
-"/permissions/jam-ProgrammingLanguages:Programmers-Brock", "value": "ADMIN"}
+  {"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-*", "value": "READ"},
+  {"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-Misty", "value": "ADMIN"},
+  {"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-Brock", "value": "ADMIN"}
 ]
 ```
 
@@ -278,15 +273,9 @@ PATCH /v1/namespaces/ProgrammingLanguages/collections/Functional HTTP/1.1
 Authorization: mycooljwt
 
 [
-  {"op": "add", "path":
-"/permissions/jam-ProgrammingLanguages:Programmers-Gary", "value": "CREATE,
-UPDATE"},
-  {"op": "add", "path":
-"/permissions/jam-ProgrammingLanguages:Programmers-ProfessorOak", "value":
-"CREATE, UPDATE"},
-  {"op": "add", "path":
-"/permissions/jam-ProgrammingLanguages:Programmers-ProfessorBirch",
-"value": "CREATE, UPDATE"}
+  {"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-Gary", "value": "CREATE, UPDATE"},
+  {"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-ProfessorOak", "value": "CREATE, UPDATE"},
+  {"op": "add", "path": "/permissions/jam-ProgrammingLanguages:Programmers-ProfessorBirch", "value": "CREATE, UPDATE"}
 ]
 ```
 
