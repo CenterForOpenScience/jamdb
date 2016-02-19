@@ -26,6 +26,8 @@ Contents:
    data-modeling
    permissions
    contributing
+   limitations
+   routes
 
 
 Indices and tables
