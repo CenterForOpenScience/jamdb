@@ -18,6 +18,7 @@ Contents:
    :maxdepth: 15
 
    quickstart
+   install
    namespaces
    collections
    documents

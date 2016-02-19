@@ -6,11 +6,9 @@ JamDB uses `Json Web Tokens`_ for authentication.
 Authenticating
 --------------
 
-JamDB allows authentication through many providers. Currently ``osf``
-and ``self`` are the only available providers.
+JamDB allows authentication through many providers. Currently ``osf`` and ``self`` are the only available providers.
 
-A user may authenticate to JamDB by sending a properly formatted
-``POST`` request to Jam’s auth endpoint, ``/v1/auth``
+A user may authenticate to JamDB by sending a properly formatted ``POST`` request to Jam’s auth endpoint, ``/v1/auth``
 
 .. code:: http
 
@@ -26,8 +24,7 @@ A user may authenticate to JamDB by sending a properly formatted
       }
     }
 
-    provider and the latter elements of ``attributes`` have been left
-    blank as they very for each provider.
+    provider and the latter elements of ``attributes`` have been left blank as they very for each provider.
 
 A successful authentication request will return the following data
 
@@ -46,23 +43,20 @@ A successful authentication request will return the following data
             }
         }
 
-``data.id`` is the `user id`_ it will be matched against `user
-selectors`_ to calculate it’s permissions.
+``data.id`` is the `user id`_ it will be matched against `user selectors`_ to calculate it’s permissions.
 
 ``data.attributes.id`` is the provider specific id for this user.
 
 ``data.attributes.type`` is the `type of user`_ for this user.
 
-``data.attributes.provider`` is the provider that was used to
-authenticate as this user.
+``data.attributes.provider`` is the provider that was used to authenticate as this user.
 
 ``data.attributes.token`` is the jwt used to authorize requests to JamDB
 
 Authorizing
 -----------
 
-Authorization may be provided for an HTTP request in either the
-``Authorization`` header or the ``token`` query parameter.
+Authorization may be provided for an HTTP request in either the ``Authorization`` header or the ``token`` query parameter.
 
     Note: The ``Authorization`` header takes precedence over the
     ``token`` query parameter
@@ -90,27 +84,22 @@ Type
 
 Currently there are 3 types, ``user``, ``anon``, and ``jam``.
 
-``user`` indicates that the user was authenticated via a 3rd party
-service, such as the OSF, Google, or even Facebook.
+``user`` indicates that the user was authenticated via a 3rd party service, such as the OSF, Google, or even Facebook.
 
-``anon`` indicates that the user simply requested a token to access
-JamDB, **anyone may be a anon user**.
+``anon`` indicates that the user simply requested a token to access JamDB, **anyone may be a anon user**.
 
-``jam`` indicates that the user was authenticated via a collection
-existing in jam.
+``jam`` indicates that the user was authenticated via a collection existing in jam.
 
 Provider
 ~~~~~~~~
 
 A provider is simply the service that was used to authenticate.
 
-In the case of the ``user`` type this may be ``osf``, ``google``,
-``facebook``, etc.
+In the case of the ``user`` type this may be ``osf``, ``google``, ``facebook``, etc.
 
 ``anon`` users do not have a provider.
 
-For the ``jam`` user type, provider is the namespace and collection that
-the user “logged into” separated by a ``:``. ie ``Pokemon:Trainers``
+For the ``jam`` user type, provider is the namespace and collection that the user “logged into” separated by a ``:``. ie ``Pokemon:Trainers``
 
 Id
 ~~
