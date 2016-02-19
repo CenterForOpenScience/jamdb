@@ -11,6 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   authentication
+   getting-started
+
 
 
 Indices and tables
