@@ -6,14 +6,25 @@
 Welcome to JamDB's documentation!
 =================================
 
+JamDB is a schema-less, immutable database that can optionally enforce a schema and stores provenance. It supports efficient full-text search, filtering by nested keys, and is accessible a REST API.
+
+It has pluggable storage backends. It defaults to using both `MongoDB <http://mongodb.org>`_ and `Elasticsearch <https://www.elastic.co/products/elasticsearch>`_.
+
+*Please note: This documentation is a work in progress.*
+
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 15
 
+   quickstart
+   namespaces
+   collections
+   documents
    authentication
-   getting-started
-
+   data-modeling
+   permissions
+   contributing
 
 
 Indices and tables
@@ -22,4 +33,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
