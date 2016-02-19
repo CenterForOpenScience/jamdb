@@ -1,5 +1,6 @@
 # Quickstart
 
+
 Further examples can be found in the [features directory.](features/)
 
 This tutorial assumes that the JamDB server you're interacting with will be

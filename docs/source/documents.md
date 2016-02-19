@@ -1,16 +1,13 @@
 # Documents
 
-A document is any **JSON object** with a string identifier that lives in a
-collection.
+A document is any **JSON object** with a string identifier that lives in a collection.
 
-> Strings, numbers, and arrays are all valid JSON but the root of a
-document must be a JSON object.
+> Strings, numbers, and arrays are all valid JSON but the root of a document must be a JSON object.
 
 Time for the fun part: Filling out the functional collection!
 
 ### Creating Documents
-Document are created like anything else: by POSTing to functional
-collection's documents endpoint.
+Documents are created like anything else: by POSTing to functional collection's documents endpoint.
 
 __HTTP Request:__
 
