@@ -27,8 +27,7 @@ Contents:
    permissions
    contributing
    limitations
-   routes
-
+   api
 
 Indices and tables
 ==================
