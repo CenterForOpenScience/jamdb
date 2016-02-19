@@ -1,8 +1,0 @@
-{
-  "errors": [{
-    "code": "D409",
-    "status": "409",
-    "title": "Document already exists",
-    "detail": "Document \"Jelly\" already exists"
-  }]
-}
