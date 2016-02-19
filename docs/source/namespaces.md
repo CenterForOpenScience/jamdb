@@ -173,3 +173,5 @@ __HTTP Response:__
   }
 }
 ```
+
+[Collections](collections.html) are the next step in the documentation.
