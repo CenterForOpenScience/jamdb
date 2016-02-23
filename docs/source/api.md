@@ -30,7 +30,7 @@
 
 JamDB implements JSONAPI's jsonpatch extension as described [here.](http://jsonapi.org/extensions/jsonpatch/)
 
-Example payloads and responses may be seen [here](/features/document/update.feature), [here](/features/namespace/update.feature), or [here](/features/collection/update.feature).
+Example payloads and responses may be seen [here](https://github.com/CenterForOpenScience/jamdb/blob/master/features/document/update.feature), [here](https://github.com/CenterForOpenScience/jamdb/blob/master/features/namespace/update.feature), or [here](https://github.com/CenterForOpenScience/jamdb/blob/master/features/collection/update.feature).
 
 #### Deviations
 JSONPatch is not currently supported with bulk operations.

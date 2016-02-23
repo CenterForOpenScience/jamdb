@@ -18,7 +18,7 @@ JamDB uses [json web tokens](https://jwt.io), JWT for short, in the `Authorizati
 There are three ways to acquire a JWT:
 
 1. Contact the server administrator and request a temporary token.
-2. Authenticate via the [Auth Endpoint](authentication.md)
+2. Authenticate via the [Auth Endpoint](authentication.html)
 3. If you are running a JamDB server locally you can generate a token by running `jam token 'jam-ProgrammingLanguages:Programmers-Ash'`
 
 > We'll be using `mycooljwt` as the example JWT for the rest of this

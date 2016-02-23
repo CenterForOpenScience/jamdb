@@ -144,4 +144,4 @@ User Selectors
 .. _Json Web Tokens: https://jwt.io
 .. _user id: #user-selectors
 .. _user selectors: #user-selectors
-.. _type of user: #user-types
+.. _type of user: #type

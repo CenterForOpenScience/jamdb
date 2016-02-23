@@ -43,7 +43,7 @@ A successful authentication request will return the following data
 
 `data.attributes.id` is the provider specific id for this user.
 
-`data.attributes.type` is the [type of user](#user-types) for this user.
+`data.attributes.type` is the [type](#type) for this user.
 
 `data.attributes.provider` is the provider that was used to authenticate as this user.
 

@@ -1,7 +1,4 @@
-# Quickstart
-
-
-Further examples can be found in the [features directory.](features/)
+# Prerequisites
 
 This tutorial assumes that the JamDB server you're interacting with will be
 at `http://localhost:1212`. It also assumes access to a terminal shell on
