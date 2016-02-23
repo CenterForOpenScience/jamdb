@@ -55,6 +55,9 @@ __HTTP Response:__
 
 > Permissions may be different depending on how you got your JWT.
 
+
+## Namespace Permissions
+
 Giving other users permissions to a namespace is easy.
 
 We can update our namespace in two ways.

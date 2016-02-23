@@ -63,12 +63,12 @@ Authorization may be provided for an HTTP request in either the ``Authorization`
 
 .. code:: http
 
-    GET /v1/namespaces/Pokemon HTTP/1.1
+    GET /v1/namespaces/ProgrammingLanguages HTTP/1.1
     Authorization: mycooljwt
 
 .. code:: http
 
-    PUT /v1/namespaces/Pokemon?token=mycooljwt HTTP/1.1
+    PUT /v1/namespaces/ProgrammingLanguages?token=mycooljwt HTTP/1.1
 
 User Ids
 --------
@@ -99,7 +99,7 @@ In the case of the ``user`` type this may be ``osf``, ``google``, ``facebook``, 
 
 ``anon`` users do not have a provider.
 
-For the ``jam`` user type, provider is the namespace and collection that the user “logged into” separated by a ``:``. ie ``Pokemon:Trainers``
+For the ``jam`` user type, provider is the namespace and collection that the user “logged into” separated by a ``:``. ie ``ProgrammingLanguages:Functional``
 
 Id
 ~~

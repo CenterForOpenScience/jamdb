@@ -1,6 +1,6 @@
 # API Semantics
 
-# Notes:
+## Notes
 * ids are must match the regex [\d\w\-]{3,64}
 
 ## Routes list
@@ -33,19 +33,19 @@ JamDB implements JSONAPI's jsonpatch extension as described [here.](http://jsona
 Example payloads and responses may be seen [here](/features/document/update.feature), [here](/features/namespace/update.feature), or [here](/features/collection/update.feature).
 
 #### Deviations
-JSONPatch operations other than updating a single document are not currently supported.
+JSONPatch is not currently supported with bulk operations.
 
 
 ### Bulk
 
 JamDB implements JSONAPI's bulk extension as described [here](http://jsonapi.org/extensions/bulk/).
 
-Example payloads and responses may be seen [here](/features/document/create.feature).
+Example payloads and responses may be seen [here](https://github.com/CenterForOpenScience/jamdb/blob/master/features/document/create.feature#L167).
 
 #### Deviations
 Bulk deletes are not currently supported.
 
-Bulk operations are not transactional.
+**Bulk operations are not transactional.**
 If a document creation fails for any reason it will not impede the creation of other documents.
-The failure will be returned in the `errors` key of the response json corrosponding to its index in the POSTed `data` field.
-The behavior is demonstrated [here](/features/document/create.feature).
+The failure will be returned in the `errors` key of the response JSON corresponding to it's index in the POSTed `data` field.
+The behavior is demonstrated [here](https://github.com/CenterForOpenScience/jamdb/blob/master/features/document/create.feature#L244).
