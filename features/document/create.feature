@@ -240,6 +240,92 @@ Feature: Creating a document
       }
       """
 
+
+  Scenario: Bulk document creation with duplicate ids
+    Given the time is 2015-01-01T00:00:00.0000Z
+    And namespace things-that-make-me exists
+    And collection happy exists in namespace things-that-make-me
+    And we have ADMIN permissions to namespace things-that-make-me
+    And we have ADMIN permissions to namespace things-that-make-me
+    When the content type is application/vnd.api+json; ext="bulk";
+    When we POST "/v1/namespaces/things-that-make-me/collections/happy/documents"
+    """
+    {
+      "data": [
+        {
+          "id": "LotsOfThings",
+          "type": "documents",
+          "attributes": {}
+        }, {
+          "id": "Stuff",
+          "type": "documents",
+          "attributes": {}
+        }, {
+          "id": "LotsOfThings",
+          "type": "documents",
+          "attributes": {}
+        }
+      ]
+    }
+    """
+  Then the response code will be 201
+  And the response will be
+    """
+    {
+      "data": [
+        {
+          "id": "things-that-make-me.happy.LotsOfThings",
+          "meta": {
+            "created-by": "user-testing-we",
+            "modified-by": "user-testing-we",
+            "created-on": "2015-01-01T00:00:00",
+            "modified-on": "2015-01-01T00:00:00"
+          },
+          "relationships": {
+            "history": {
+              "links": {
+                "related": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/LotsOfThings/history",
+                "self": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/LotsOfThings/history"
+              }
+            }
+          },
+          "attributes": {},
+          "type": "documents"
+        },
+        {
+          "id": "things-that-make-me.happy.Stuff",
+          "meta": {
+            "created-by": "user-testing-we",
+            "modified-by": "user-testing-we",
+            "created-on": "2015-01-01T00:00:00",
+            "modified-on": "2015-01-01T00:00:00"
+          },
+          "relationships": {
+            "history": {
+              "links": {
+                "related": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/Stuff/history",
+                "self": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/Stuff/history"
+              }
+            }
+          },
+          "attributes": {},
+          "type": "documents"
+        },
+        null
+      ],
+      "errors": [
+        null,
+        null,
+        {
+          "status": "409",
+          "code": "D409",
+          "title": "Document already exists",
+          "detail": "Document \"LotsOfThings\" already exists"
+        }
+      ]
+    }
+    """
+
   Scenario: Bulk document creation with bad data
     Given the time is 2015-01-01T00:00:00.0000Z
     And namespace things-that-make-me exists
