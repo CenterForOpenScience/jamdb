@@ -12,8 +12,6 @@ It has pluggable storage backends. It defaults to using both `MongoDB <http://mo
 
 The full BDD test suite lives in the `features directory <https://github.com/CenterForOpenScience/jamdb/tree/master/features>`_ and describes in human-readable prose how each endpoint works. What it's expecting for input and what it expects for output.
 
-*Please note: This documentation is a work in progress.*
-
 Contents:
 
 .. toctree::
