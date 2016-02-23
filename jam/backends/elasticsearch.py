@@ -99,7 +99,10 @@ class ElasticsearchBackend(Backend):
         search = self.search
         if order:
             search = search.sort({
-                order.key: 'asc' if order.order > 0 else 'desc'
+                order.key: {
+                    'order': 'asc' if order.order > 0 else 'desc',
+                    'unmapped_type': 'string'
+                }
             })
 
         search = search[skip or 0:(limit or 100) + (skip or 0)]
