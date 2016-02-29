@@ -12,5 +12,6 @@ class OSFAuthProvider(BaseAuthProvider):
             'Authorization': 'Bearer {}'.format(data.get('access_token'))
         })
 
-        assert resp.status == 200
+        if resp.status != 200:
+            raise exceptions.Unauthorized()
         return 'user', 'osf', (await resp.json())['id']
