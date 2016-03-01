@@ -26,14 +26,16 @@ class ReadOnlyCollection:
             jam.Storage(load_backend(data['storage']['backend'], **data['storage']['settings'])),
             jam.Logger(load_backend(data['logger']['backend'], **data['logger']['settings'])),
             jam.State(load_backend(data['state']['backend'], **data['state']['settings'])),
+            flags=data.get('flags'),
             schema=data.get('schema'),
             permissions=data.get('permissions'),
         )
 
-    def __init__(self, storage, logger, state, permissions=None, schema=None):
+    def __init__(self, storage, logger, state, permissions=None, schema=None, flags=None):
         self._state = state
         self._logger = logger
         self._storage = storage
+        self.flags = flags or {}
         self.permissions = permissions or {}
         if schema:
             schema = load_schema(schema['type'], schema['schema'])
@@ -119,7 +121,7 @@ class FrozenCollection(ReadOnlyCollection):
 
 class Collection(ReadOnlyCollection):
 
-    WHITELIST = {'permissions', 'schema'}
+    WHITELIST = {'permissions', 'schema', 'flags'}
 
     SCHEMA = {
         'type': 'object',
@@ -132,6 +134,17 @@ class Collection(ReadOnlyCollection):
             'logger': BACKEND_SCHEMA,
             'state': BACKEND_SCHEMA,
             'storage': BACKEND_SCHEMA,
+            'flags': {
+                'oneOf': [
+                    {'type': 'null'},
+                    {
+                        'type': 'object',
+                        'patternProperties': {
+                            '.+': {'type': 'boolean'}
+                        }
+                    }
+                ]
+            },
             'schema': {
                 'oneOf': [
                     {'type': 'null'},

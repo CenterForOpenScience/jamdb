@@ -166,4 +166,46 @@ Feature: Updating a collection
             "detail": "Values at \"/SomeOtherKey\" may not be altered"
           }]
         }
+        """
+
+  Scenario: Can set flags
+    Given namespace StarCraft exists
+    And collection Protoss exists in namespace StarCraft
+    And we have ADMIN permissions to namespace StarCraft
+    When the content type is application/vnd.api+json; ext="jsonpatch";
+    And we PATCH "/v1/namespaces/StarCraft/collections/Protoss"
       """
+        [{
+          "op": "add",
+          "path": "/flags/isBiological",
+          "value": false
+        }]
+      """
+    Then the response code will be 200
+    And the response will contain
+      """
+        {
+          "data": {
+            "attributes": {
+              "flags": {
+                "isBiological": false
+              }
+            }
+          }
+        }
+        """
+
+  Scenario: Flags must be boolean
+    Given namespace StarCraft exists
+    And collection Protoss exists in namespace StarCraft
+    And we have ADMIN permissions to namespace StarCraft
+    When the content type is application/vnd.api+json; ext="jsonpatch";
+    And we PATCH "/v1/namespaces/StarCraft/collections/Protoss"
+      """
+        [{
+          "op": "add",
+          "path": "/flags/isBiological",
+          "value": 45
+        }]
+      """
+    Then the response code will be 400

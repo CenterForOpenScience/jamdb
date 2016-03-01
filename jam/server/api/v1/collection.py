@@ -33,7 +33,7 @@ class CollectionView(View):
 
     def do_create(self, id, attributes, user):
         # TODO Better validation
-        if set(attributes.keys()) - {'logger', 'storage', 'state', 'permissions', 'schema'}:
+        if set(attributes.keys()) - {'logger', 'storage', 'state', 'permissions', 'schema', 'flags'}:
             raise Exception()
         self._namespace.create_collection(id, user.uid, **attributes)
         return self._namespace.read(id)
@@ -125,6 +125,7 @@ class CollectionSerializer(Serializer):
     def attributes(cls, inst):
         return {
             'name': inst.ref,
+            'flags': inst.data.get('flags'),
             'schema': inst.data.get('schema'),
             # 'documentCreatorPermissions': Permissions(inst.data['documentCreatorPermissions']).name,
             'permissions': {
