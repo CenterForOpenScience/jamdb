@@ -1,5 +1,6 @@
 import aiohttp
 
+from jam import exceptions
 from jam.auth.providers.base import BaseAuthProvider
 
 
