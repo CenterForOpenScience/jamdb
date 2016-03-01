@@ -74,12 +74,13 @@ def jam_list(args, argv):
 @command
 def jam_userify(args, argv):
     """
-    Usage: jam userify <namespace> <collection> [--user=USER]
+    Usage: jam userify <namespace> <collection> [--user=USER] [--no-created-is-owner]
 
     Attaches a json schema that allows the given collection to be used for authentication.
 
     Options:
         -u, --user=USER  The user to perform this update as [default: system-system-system]
+        -n, --no-created-is-owner  Don't set the createdIsOwner flag
     """
     ns = jam.NamespaceManager().get_namespace(args['<namespace>'])
     ns.update(args['<collection>'], [{
@@ -98,6 +99,14 @@ def jam_userify(args, argv):
                 'required': ['password']
             }
         }
+    }, {
+        'op': 'add',
+        'value': True,
+        'path': '/flags/userCollection',
+    }, {
+        'op': 'add',
+        'value': not args['--no-created-is-owner'],
+        'path': '/flags/createdIsOwner',
     }], args['--user'])
 
 

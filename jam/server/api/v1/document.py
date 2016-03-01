@@ -37,6 +37,9 @@ class DocumentView(View):
         id = self.validate_id(str(bson.ObjectId()) if payload.get('id') is None else payload['id'])
         creator = user.uid
 
+        if self._collection.flags.get('createdIsOwner'):
+            creator = 'jam-{}:{}-{}'.format(self._namespace.ref, self._collection.ref, id)
+
         if 'meta' in payload:
             if (user.permissions & Permissions.ADMIN) != Permissions.ADMIN:
                 raise exceptions.Forbidden('ADMIN permission is request to alter metadata')

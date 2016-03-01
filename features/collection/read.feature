@@ -72,7 +72,8 @@ Feature: Getting a collection
               "permissions": {
                 "user-testing-we": "READ",
                 "user-testing-system": "ADMIN"
-              }
+              },
+              "flags": {}
             },
             "meta": {
               "created-by": "user-testing-system",
@@ -118,7 +119,8 @@ Feature: Getting a collection
               "permissions": {
                 "user-testing-we": "READ",
                 "user-testing-system": "ADMIN"
-              }
+              },
+              "flags": {}
             },
             "meta": {
               "created-by": "user-testing-system",

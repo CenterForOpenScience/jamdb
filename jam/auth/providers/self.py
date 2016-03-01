@@ -23,7 +23,9 @@ class SelfAuthProvider(BaseAuthProvider):
         namespace = manager.get_namespace(data['namespace'])
         collection = namespace.get_collection(data['collection'])
 
-        # TODO handle exceptions
+        if not collection.flags.get('userCollection'):
+            raise exceptions.BadRequest(title='Incorrect flag', detail='The flag "userCollection" must be set to login with this collection')
+
         if not (
             collection.schema
             and 'password' in collection.schema._schema['required']

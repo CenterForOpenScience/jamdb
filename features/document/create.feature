@@ -474,7 +474,7 @@ Feature: Creating a document
           "type": "documents",
           "attributes": {},
           "meta": {
-            "created-by": "jam-StarCraft|Zerg-Overmind"
+            "created-by": "jam-StarCraft:Zerg-Overmind"
           }
         }
       }
@@ -490,8 +490,8 @@ Feature: Creating a document
               "meta": {
                 "created-on": "2015-01-01T00:00:00",
                 "modified-on": "2015-01-01T00:00:00",
-                "created-by": "jam-StarCraft|Zerg-Overmind",
-                "modified-by": "jam-StarCraft|Zerg-Overmind"
+                "created-by": "jam-StarCraft:Zerg-Overmind",
+                "modified-by": "jam-StarCraft:Zerg-Overmind"
               },
               "relationships": {
                 "history": {
@@ -518,7 +518,7 @@ Feature: Creating a document
           "type": "documents",
           "attributes": {},
           "meta": {
-            "created-by": "jam-StarCraft|Zerg-Overmind"
+            "created-by": "jam-StarCraft:Zerg-Overmind"
           }
         }
       }
@@ -544,3 +544,46 @@ Feature: Creating a document
       | CRU        |
       | CD         |
       | READ_WRITE |
+
+
+  Scenario: Created is owner
+    Given the time is 2015-01-01T00:00:00.0000Z
+    And namespace StarCraft exists
+    And collection Zerg exists in namespace StarCraft
+    And we have ADMIN permissions to namespace StarCraft
+    And the createdIsOwner flag is set on collection StarCraft.Zerg
+    When we POST "/v1/id/collections/StarCraft.Zerg/documents"
+      """
+      {
+        "data": {
+          "id": "QueenOfBlades",
+          "type": "documents",
+          "attributes": {}
+        }
+      }
+      """
+      Then the response code will be 201
+      And the response will be
+        """
+        {
+          "data": {
+              "id": "StarCraft.Zerg.QueenOfBlades",
+              "type": "documents",
+              "attributes": {},
+              "meta": {
+                "created-on": "2015-01-01T00:00:00",
+                "modified-on": "2015-01-01T00:00:00",
+                "created-by": "jam-StarCraft:Zerg-QueenOfBlades",
+                "modified-by": "jam-StarCraft:Zerg-QueenOfBlades"
+              },
+              "relationships": {
+                "history": {
+                  "links": {
+                    "self": "http://localhost:50325/v1/id/documents/StarCraft.Zerg.QueenOfBlades/history",
+                    "related": "http://localhost:50325/v1/id/documents/StarCraft.Zerg.QueenOfBlades/history"
+                  }
+                }
+              }
+            }
+          }
+          """

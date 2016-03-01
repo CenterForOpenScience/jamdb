@@ -30,3 +30,14 @@ def create_collection(context, user, collection, namespace):
             }
         }})
     )
+
+
+@given('the {flag} flag is set on collection {collection_id}')
+def set_flag(context, flag, collection_id):
+    namespace, collection = collection_id.split('.')
+
+    context.resources['namespace'][namespace].update(collection, [{
+        'op': 'add',
+        'value': True,
+        'path': '/flags/{}'.format(flag),
+    }], 'user-testing-system')
