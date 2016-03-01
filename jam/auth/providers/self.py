@@ -29,7 +29,7 @@ class SelfAuthProvider(BaseAuthProvider):
             and 'password' in collection.schema._schema['required']
             and collection.schema._schema['properties']['password'] == self.PASSWORD_SCHEMA
         ):
-            raise exceptions.BadRequest()  # TODO Better error message
+            raise exceptions.BadRequest(title='Bad password schema', detail='The schema for password must be {} and must be a required field'.format(self.PASSWORD_SCHEMA))
 
         # TODO validate retrieved document
         doc = collection.read(data['username'])
