@@ -139,6 +139,8 @@ def jam_info(args, argv):
         doc = jam.NamespaceManager().read(args['<namespace>'])
     print('Name: ', doc.ref)
     print('Creator: ', doc.created_by)
+    if 'flags' in doc.data:
+        print('Flags:\n', '\n'.join(['\t{}: {}'.format(k, v) for k, v in doc.data['flags'].items()]))
     print('Schema:\n', json.dumps(doc.data.get('schema'), indent=4))
     print('Last Modifed By: ', doc.modified_by)
     print('Permissions:\n', '\n'.join(['\t{}: {!r}'.format(k, jam.auth.Permissions(v)) for (k, v) in doc.data['permissions'].items()]))
