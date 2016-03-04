@@ -116,6 +116,7 @@ class Namespace(Collection):
                 raise exceptions.InvalidFields(keys - Collection.WHITELIST)
 
             previous = self._state.get(key)
+            previous.data.setdefault('flags', {})
             patch = jsonpatch.JsonPatch.from_diff(previous.data, {**previous.data, **patch})
             patch = list(filter(lambda p: p['path'].split('/')[1] in Namespace.WHITELIST, patch))
 
