@@ -289,11 +289,7 @@ Feature: Creating a collection
     And the response will contain
       """
         {
-          "errors": [{
-            "code": "S400",
-            "status": "400",
-            "title": "Schema validation failed"
-          }]
+          "errors": [{"status": "400"}]
         }
       """
 
@@ -305,3 +301,49 @@ Feature: Creating a collection
       | {"schema": {}, "type": {}}           |
       | "String"                             |
       | 2                                    |
+
+  Scenario Outline: Initial permissions
+    Given namespace StarCraft exists
+    And we have ADMIN permissions to namespace StarCraft
+    When we POST "/v1/namespaces/StarCraft/collections"
+      """
+        {
+          "data": {
+            "id": "StarCraft.Terran",
+            "type": "collections",
+            "attributes": {
+              "permissions": {
+                "jam-StarCraft:Terran-*": "<PERMISSION>"
+              }
+            }
+          }
+        }
+      """
+    Then the response code will be 201
+    And the response will contain
+      """
+        {
+          "data": {
+            "id": "StarCraft.Terran",
+            "type": "collections",
+            "attributes": {
+              "permissions": {
+                "jam-StarCraft:Terran-*": "<COLLAPSED>"
+              }
+            }
+          }
+        }
+      """
+
+    Examples:
+      | PERMISSION           | COLLAPSED |
+      | CREATE               | CREATE    |
+      | CREATE, READ         | CR        |
+      | ADMIN                | ADMIN     |
+      | UPDATE               | UPDATE    |
+      | CRUD                 | CRUD      |
+      | CR                   | CR        |
+      | CRU                  | CRU       |
+      | CREATE, READ, UPDATE | CRU       |
+      | CREATE, DELETE       | CD        |
+      | DELETE               | DELETE    |

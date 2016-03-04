@@ -73,8 +73,18 @@ class Namespace(Collection):
         state = state or settings.COLLECTION_BACKENDS['state']
         logger = logger or settings.COLLECTION_BACKENDS['logger']
         storage = storage or settings.COLLECTION_BACKENDS['storage']
+
         if isinstance(permissions or {}, dict):
-            permissions = {**(permissions or {}), user: Permissions.ADMIN}
+            try:
+                permissions = {
+                    key: Permissions(reduce(operator.or_, [Permissions[p.strip()] for p in value.split(',')], Permissions.NONE))
+                    for key, value in (permissions or {}).items()
+                }
+                permissions = {**(permissions or {}), user: Permissions.ADMIN}
+            except KeyError as e:
+                raise exceptions.InvalidPermission(e.args[0])
+            except AttributeError:
+                pass  # Schema validation will catch issues
 
         collection_dict = {
             'uuid': uid,
@@ -116,7 +126,6 @@ class Namespace(Collection):
                 raise exceptions.InvalidFields(keys - Collection.WHITELIST)
 
             previous = self._state.get(key)
-            previous.data.setdefault('flags', {})
             patch = jsonpatch.JsonPatch.from_diff(previous.data, {**previous.data, **patch})
             patch = list(filter(lambda p: p['path'].split('/')[1] in Namespace.WHITELIST, patch))
 
