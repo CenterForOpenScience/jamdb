@@ -7,7 +7,9 @@ import jsonpatch
 import jam
 from jam import settings
 from jam import exceptions
+from jam.models import Document
 from jam.auth import Permissions
+from jam.base import BaseCollection
 from jam.collection import Collection
 from jam.auth import PERMISSIONS_SCHEMA
 from jam.backends.util import get_backend
@@ -15,7 +17,7 @@ from jam.backends.util import load_backend
 from jam.backends.util import BACKEND_SCHEMA
 
 
-class Namespace(Collection):
+class Namespace(BaseCollection):
 
     WHITELIST = {'permissions'}
 
@@ -43,29 +45,41 @@ class Namespace(Collection):
 
     WHITELIST = {'permissions'}
 
-    def __init__(self, uuid, name, storage, logger, state, permissions=None):
-        self.uuid = uuid
-        self.ref = name
-        self.name = name
+    @property
+    def document(self):
+        return self._document
+
+    @property
+    def ref(self):
+        return self._document.ref
+
+    @property
+    def uuid(self):
+        return self._document.data['uuid']
+
+    def __init__(self, document):
+        self._document = document
+
+        logger = document.data['storage']
+        state = document.data['state']
+        storage = document.data['storage']
+
         super().__init__(
             jam.Storage(load_backend(storage['backend'], **storage['settings'])),
             jam.Logger(load_backend(logger['backend'], **logger['settings'])),
             jam.State(load_backend(state['backend'], **state['settings'])),
-            permissions=permissions,
+            permissions=document.data['permissions'],
             schema={'type': 'jsonschema', 'schema': Collection.SCHEMA}
         )
 
     def get_collection(self, name):
         try:
-            col = Collection.from_dict(self.read(name).data)
-            col.ref = name  # TODO Fix me, this just makes life much easier
-            col.name = name
-            return col
+            return Collection(self.read(name))
         except exceptions.NotFound:
             raise exceptions.NotFound(
                 code='C404',
                 title='Collection not found',
-                detail='Collection "{}" was not found in namespace "{}"'.format(name, self.name)
+                detail='Collection "{}" was not found in namespace "{}"'.format(name, self.ref)
             )
 
     def create_collection(self, name, user, logger=None, storage=None, state=None, permissions=None, schema=None, flags=None):
@@ -106,36 +120,39 @@ class Namespace(Collection):
         }
 
         # Validate that our inputs can actually be deserialized to a collection
-        collection = Collection.from_dict(collection_dict)
+        Collection(Document(
+            ref=name,
+            log_ref=None,
+            data_ref=None,
+            created_on=0,
+            created_by='',
+            modified_on=0,
+            modified_by='',
+            data=collection_dict,
+        ))
 
         try:
-            self.create(name, collection_dict, user)
+            return Collection(self.create(name, collection_dict, user))
         except exceptions.KeyExists:
             raise exceptions.KeyExists(
                 code='C409',
                 title='Collection already exists',
-                detail='Collection "{}" already exists in namespace "{}"'.format(name, self.name)
+                detail='Collection "{}" already exists in namespace "{}"'.format(name, self.ref)
             )
 
-        return collection
+    def _generate_patch(self, previous, new):
+        keys = set(new.keys())
+        if not keys.issubset(Collection.WHITELIST):
+            raise exceptions.InvalidFields(keys - Collection.WHITELIST)
 
-    def update(self, key, patch, user):
-        if isinstance(patch, dict):
-            keys = set(patch.keys())
-            if not keys.issubset(Collection.WHITELIST):
-                raise exceptions.InvalidFields(keys - Collection.WHITELIST)
+        patch = super()._generate_patch(previous, new)
+        # Remove any extranious keys added or deleted by diffing
+        return list(filter(lambda p: p['path'].split('/')[1] in Collection.WHITELIST, patch))
 
-            previous = self._state.get(key)
-            patch = jsonpatch.JsonPatch.from_diff(previous.data, {**previous.data, **patch})
-            patch = list(filter(lambda p: p['path'].split('/')[1] in Collection.WHITELIST, patch))
-
+    def _validate_patch(self, patch):
         for blob in patch:
             if not blob['path'].split('/')[1] in Collection.WHITELIST:
                 raise exceptions.InvalidField(blob['path'])
-            if blob.get('value') and not isinstance(blob.get('value'), Permissions) and blob['path'].startswith('/permissions'):
-                try:
-                    blob['value'] = Permissions(reduce(operator.or_, [Permissions[p.strip()] for p in blob['value'].split(',')], Permissions.NONE))
-                except (AttributeError, KeyError):
-                    raise exceptions.InvalidPermission(blob['value'])
-
-        return super().update(key, patch, user)
+            if blob.get('value') and blob['path'].startswith('/permissions'):
+                blob['value'] = Permissions.from_string(blob['value'])
+        return patch

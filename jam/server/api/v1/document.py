@@ -87,13 +87,13 @@ class HistoryRelationship(Relationship):
     def self_link(cls, request, document, namespace, collection):
         if request.path.startswith('/v1/id'):
             return '{}://{}/v1/id/documents/{}/history'.format(request.protocol, request.host, '.'.join((namespace.ref, collection.ref, document.ref)))
-        return '{}://{}/v1/namespaces/{}/collections/{}/documents/{}/history'.format(request.protocol, request.host, namespace.name, collection.name, document.ref)
+        return '{}://{}/v1/namespaces/{}/collections/{}/documents/{}/history'.format(request.protocol, request.host, namespace.ref, collection.ref, document.ref)
 
     @classmethod
     def related_link(cls, request, document, namespace, collection):
         if request.path.startswith('/v1/id'):
             return '{}://{}/v1/id/documents/{}/history'.format(request.protocol, request.host, '.'.join((namespace.ref, collection.ref, document.ref)))
-        return '{}://{}/v1/namespaces/{}/collections/{}/documents/{}/history'.format(request.protocol, request.host, namespace.name, collection.name, document.ref)
+        return '{}://{}/v1/namespaces/{}/collections/{}/documents/{}/history'.format(request.protocol, request.host, namespace.ref, collection.ref, document.ref)
 
 
 class DocumentSerializer(Serializer):

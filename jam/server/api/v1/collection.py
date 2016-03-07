@@ -25,6 +25,7 @@ class CollectionView(View):
     def __init__(self, namespace, resource=None):
         super().__init__(namespace, resource=resource)
         self._namespace = namespace
+        self._collection = resource
 
     def get_permissions(self, request):
         if request.method == 'GET' and self.resource is None:
@@ -32,17 +33,13 @@ class CollectionView(View):
         return super().get_permissions(request)
 
     def do_create(self, id, attributes, user):
-        # TODO Better validation
-        if set(attributes.keys()) - {'logger', 'storage', 'state', 'permissions', 'schema', 'flags'}:
-            raise Exception()
-        self._namespace.create_collection(id, user.uid, **attributes)
-        return self._namespace.read(id)
+        return self._namespace.create_collection(id, user.uid, **attributes).document
 
     def read(self, user):
-        return self._namespace.read(self.resource.name)
+        return self._collection.document
 
     def update(self, patch, user):
-        return self._namespace.update(self.resource.name, patch, user.uid)
+        return self._namespace.update(self.resource.ref, patch, user.uid)
 
     def delete(self, user):
         return self._namespace.delete(self.resource.name, user.uid)
@@ -80,14 +77,14 @@ class NamespaceRelationship(Relationship):
     @classmethod
     def self_link(cls, request, inst, namespace):
         if request.path.startswith('/v1/id'):
-            return '{}://{}/v1/id/namespaces/{}'.format(request.protocol, request.host, namespace.name)
-        return '{}://{}/v1/namespaces/{}'.format(request.protocol, request.host, namespace.name)
+            return '{}://{}/v1/id/namespaces/{}'.format(request.protocol, request.host, namespace.ref)
+        return '{}://{}/v1/namespaces/{}'.format(request.protocol, request.host, namespace.ref)
 
     @classmethod
     def related_link(cls, request, inst, namespace):
         if request.path.startswith('/v1/id'):
-            return '{}://{}/v1/id/namespaces/{}'.format(request.protocol, request.host, namespace.name)
-        return '{}://{}/v1/namespaces/{}'.format(request.protocol, request.host, namespace.name)
+            return '{}://{}/v1/id/namespaces/{}'.format(request.protocol, request.host, namespace.ref)
+        return '{}://{}/v1/namespaces/{}'.format(request.protocol, request.host, namespace.ref)
 
 
 class DocumentsRelationship(Relationship):
@@ -106,13 +103,13 @@ class DocumentsRelationship(Relationship):
     def self_link(cls, request, collection, namespace):
         if request.path.startswith('/v1/id'):
             return '{}://{}/v1/id/collections/{}/documents'.format(request.protocol, request.host, '.'.join((namespace.ref, collection.ref)))
-        return '{}://{}/v1/namespaces/{}/collections/{}/documents'.format(request.protocol, request.host, namespace.name, collection.ref)
+        return '{}://{}/v1/namespaces/{}/collections/{}/documents'.format(request.protocol, request.host, namespace.ref, collection.ref)
 
     @classmethod
     def related_link(cls, request, collection, namespace):
         if request.path.startswith('/v1/id'):
             return '{}://{}/v1/id/collections/{}/documents'.format(request.protocol, request.host, '.'.join((namespace.ref, collection.ref)))
-        return '{}://{}/v1/namespaces/{}/collections/{}/documents'.format(request.protocol, request.host, namespace.name, collection.ref)
+        return '{}://{}/v1/namespaces/{}/collections/{}/documents'.format(request.protocol, request.host, namespace.ref, collection.ref)
 
 
 class CollectionSerializer(Serializer):

@@ -8,12 +8,12 @@ import jam
 from jam import settings
 from jam import exceptions
 from jam.auth import Permissions
+from jam.base import BaseCollection
 from jam.namespace import Namespace
-from jam.collection import Collection
 from jam.backends.util import get_backend
 
 
-class NamespaceManager(Collection):
+class NamespaceManager(BaseCollection):
 
     def __init__(self, name=None):
         self.uuid = self.name = name or 'jam'
@@ -58,7 +58,7 @@ class NamespaceManager(Collection):
 
     def get_namespace(self, name):
         try:
-            return Namespace(name=name, **self.read(name).data)
+            return Namespace(self.read(name))
         except exceptions.NotFound:
             raise exceptions.NotFound(
                 code='N404',
@@ -66,23 +66,19 @@ class NamespaceManager(Collection):
                 detail='Namespace "{}" was not found'.format(name)
             )
 
-    def update(self, key, patch, user):
-        if isinstance(patch, dict):
-            keys = set(patch.keys())
-            if not keys.issubset(Namespace.WHITELIST):
-                raise exceptions.InvalidFields(keys - Namespace.WHITELIST)
+    def _generate_patch(self, previous, new):
+        keys = set(new.keys())
+        if not keys.issubset(Namespace.WHITELIST):
+            raise exceptions.InvalidFields(keys - Namespace.WHITELIST)
 
-            previous = self._state.get(key)
-            patch = jsonpatch.JsonPatch.from_diff(previous.data, {**previous.data, **patch})
-            patch = list(filter(lambda p: p['path'].split('/')[1] in Namespace.WHITELIST, patch))
+        patch = super()._generate_patch(previous, new)
+        # Remove any extranious keys added or deleted by diffing
+        return list(filter(lambda p: p['path'].split('/')[1] in Namespace.WHITELIST, patch))
 
+    def _validate_patch(self, patch):
         for blob in patch:
             if not blob['path'].split('/')[1] in Namespace.WHITELIST:
                 raise exceptions.InvalidField(blob['path'])
             if blob.get('value') and blob['path'].startswith('/permissions'):
-                try:
-                    blob['value'] = Permissions(reduce(operator.or_, [Permissions[p.strip()] for p in blob['value'].split(',')], Permissions.NONE))
-                except (AttributeError, KeyError):
-                    raise exceptions.InvalidPermission(blob['value'])
-
-        return super().update(key, patch, user)
+                blob['value'] = Permissions.from_string(blob['value'])
+        return patch
