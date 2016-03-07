@@ -1,6 +1,9 @@
 import sys
 import enum
+import operator
 import functools
+
+from jam import exceptions
 
 
 class Permissions(enum.IntEnum):
@@ -36,6 +39,16 @@ class Permissions(enum.IntEnum):
             'DELETE': Permissions.DELETE,
             'OPTIONS': Permissions.NONE
         }[http_method.upper()]
+
+    @classmethod
+    def from_string(cls, permission):
+        try:
+            return Permissions(functools.reduce(operator.or_, [
+                Permissions[p.strip()]
+                for p in permission.split(',')
+            ], Permissions.NONE))
+        except (AttributeError, KeyError):
+            raise exceptions.InvalidPermission(permission)
 
     @classmethod
     def get_permissions(cls, user, *perm_objs):

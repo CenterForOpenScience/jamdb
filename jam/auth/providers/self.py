@@ -40,5 +40,5 @@ class SelfAuthProvider(BaseAuthProvider):
         hashed = await asyncio.get_event_loop().run_in_executor(None, lambda: bcrypt.hashpw(data['password'].encode(), password))
 
         if hashed == password:
-            return SelfAuthProvider.type, '{}:{}'.format(namespace.name, data['collection']), data['username']
+            return SelfAuthProvider.type, '{}:{}'.format(namespace.ref, collection.ref), data['username']
         raise exceptions.Unauthorized()

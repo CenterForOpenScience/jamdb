@@ -29,10 +29,10 @@ class NamespaceView(View):
         return super().get_permissions(request)
 
     def read(self, user):
-        return self.MANAGER.read(self.resource.name)
+        return self._namespace.document
 
     def update(self, patch, user):
-        return self.MANAGER.update(self._namespace.name, patch, user.uid)
+        return self.MANAGER.update(self._namespace.ref, patch, user.uid)
 
     def list(self, filter, sort, page, page_size, user):
         query = functools.reduce(operator.or_, [
