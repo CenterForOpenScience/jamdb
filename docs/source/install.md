@@ -3,7 +3,7 @@ Installing JamDB
 
 JamDB is written in [Python](http://python.org) using the [Tornado](http://www.tornadoweb.org/en/stable/) Web Framework.
 
-It requires [MongoDB](http://mongodb.org) version >= 3.2 and [Elasticsearch](https://www.elastic.co/products/elasticsearch) version >= 1.8.
+It requires [MongoDB](http://mongodb.org) version >= 3.2 and [Elasticsearch](https://www.elastic.co/products/elasticsearch) version 1.7.
 
 Steps
 -----
