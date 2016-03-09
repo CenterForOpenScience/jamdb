@@ -1,6 +1,7 @@
-import json
 import hashlib
 import collections
+
+import ujson as json
 
 
 def order_dictionary(dict_obj):

@@ -1,7 +1,7 @@
-import json
 from jam.util import order_dictionary
 
 import jsonschema
+import ujson as json
 
 from jam import exceptions
 from jam.schemas.base import BaseSchema

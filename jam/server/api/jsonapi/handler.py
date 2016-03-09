@@ -1,11 +1,11 @@
 import functools
 import http.client
-import json
 import operator
 import re
 import weakref
 
 import tornado.web
+import ujson as json
 
 import jam
 from jam import exceptions
@@ -138,7 +138,7 @@ class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
     def set_status(self, status, reason=None):
         return super().set_status(int(status), reason=reason)
 
-    def write_error(self, status_code, exc_info) -> None:
+    def write_error(self, status_code, exc_info):
         self.set_status(int(status_code))
         self.finish({
             'errors': [{

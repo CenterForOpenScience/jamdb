@@ -1,5 +1,6 @@
-import json
 import hashlib
+
+import ujson as json
 
 from jam import Q
 from jam.models import DataObject

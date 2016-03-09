@@ -17,3 +17,4 @@ jsonschema
 colorlog
 docopt
 pyyaml
+ujson
