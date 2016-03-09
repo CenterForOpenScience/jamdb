@@ -108,7 +108,7 @@ class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
         if re.match('^[\-\+]?[\d\w\.]+$', sort) is None:
             raise tornado.web.HTTPError(http.client.BAD_REQUEST)
         return jam.O(
-            ('' if sort.lstrip('+-') in {'ref'} else 'data.') + sort.lstrip('+-'),
+            ('' if sort.lstrip('+-') in {'ref', 'created_on', 'modified_on'} else 'data.') + sort.lstrip('+-'),
             {'-': jam.O.DESCENDING}.get(sort[0], jam.O.ASCENDING)
         )
 
