@@ -1,3 +1,6 @@
+import re
+
+import ujson as json
 from pymongo import MongoClient
 
 from jam import settings
@@ -6,18 +9,12 @@ from jam.backends import query as queries
 from jam.backends.base import Backend
 
 
-def sanitize(data):
-    def keys(dict_obj):
-        for key, value in dict_obj.items():
-            yield key
-            if not isinstance(value, (tuple, list)):
-                value = [value]
-            for sub in value:
-                if isinstance(sub, dict):
-                    yield from keys(sub)
-    for key in keys(data):
-        if '.' in key or key.startswith('$'):
-            raise exceptions.MalformedData()
+def escape(data):
+    return json.loads(re.sub(r'\$', r'\\\\$', json.dumps(data)))
+
+
+def unescape(data):
+    return json.loads(re.sub('\\\\\\\\\\$', '$', json.dumps(data)))
 
 
 class MongoBackend(Backend):
@@ -40,6 +37,8 @@ class MongoBackend(Backend):
         ret = self._collection.find_one({'_id': key})
         if ret is None:
             raise exceptions.NotFound(key)
+        ret = unescape(ret)
+        ret['_id'] = key
         return ret
 
     def keys(self):
@@ -51,8 +50,7 @@ class MongoBackend(Backend):
         return self._collection.find(sort=order)
 
     def set(self, key, data):
-        data = {**data, '_id': key}
-        sanitize(data)
+        data = {**escape(data), '_id': key}
         self._collection.update({'_id': key}, data, upsert=True)
 
     def unset(self, key):
