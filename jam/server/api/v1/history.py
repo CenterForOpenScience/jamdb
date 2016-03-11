@@ -35,7 +35,7 @@ class HistoryView(View):
         self._collection = collection
 
     def get_permissions(self, request):
-        return Permissions.ADMIN  # TODO What should this really be?
+        return Permissions.READ
 
     def create(self, id, attributes, user, **relationships):
         return self._collection.create(id, attributes, user.uid)
