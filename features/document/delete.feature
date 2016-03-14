@@ -27,7 +27,7 @@ Feature: Deleting a document
       | DELETE     | collection | Zerg      |
 
 
-  Scenario Outline: Allowed permissions
+  Scenario Outline: insufficient permissions
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
     And document Drone exists in StarCraft/Zerg

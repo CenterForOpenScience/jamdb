@@ -43,9 +43,6 @@ class HistoryView(View):
     def update(self):
         pass
 
-    def delete(self, user):
-        self._collection.delete(self.resource.ref, user.uid)
-
     def replace(self, attributes, user):
         return self._collection.update(self._document.ref, attributes, user.uid, merger=None)
 

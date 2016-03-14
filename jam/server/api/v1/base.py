@@ -215,7 +215,7 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
         })
 
     # Delete
-    def delete(self, **args):
+    def delete(self, **kargs):
         if not self._view.resource:
             raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)
         self._view.delete(self.current_user)
@@ -281,10 +281,10 @@ class View:
     def read(self, user):
         return self.resource
 
-    def update(self):
+    def update(self, patch, user):
         raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)
 
-    def delete(self):
+    def delete(self, user):
         raise tornado.web.HTTPError(http.client.METHOD_NOT_ALLOWED)
 
     def list(self, filter, sort, page, page_size, user):

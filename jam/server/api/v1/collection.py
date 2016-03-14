@@ -44,6 +44,9 @@ class CollectionView(View):
     def update(self, patch, user):
         return self._namespace.update(self.resource.name, patch, user.uid)
 
+    def delete(self, user):
+        return self._namespace.delete(self.resource.name, user.uid)
+
     def list(self, filter, sort, page, page_size, user):
         if not user.permissions & Permissions.ADMIN:
             if not user.uid:
