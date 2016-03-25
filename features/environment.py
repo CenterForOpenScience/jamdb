@@ -62,9 +62,15 @@ def before_scenario(context, senario):
     context.ignored_auth = []
     for v in EphemeralBackend._cls_cache.values():
         v.clear()
+
+    context.mocks = {}
+    context.patches = {}
     context.manager = NamespaceManager()
 
 
 def after_scenario(context, scenario):
     if hasattr(context, 'time'):
         context.time.stop()
+
+    for patcher in context.patches.values():
+        patcher.stop()

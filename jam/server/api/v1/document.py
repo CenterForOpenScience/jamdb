@@ -37,7 +37,7 @@ class DocumentView(View):
         id = self.validate_id(str(bson.ObjectId()) if payload.get('id') is None else payload['id'])
         creator = user.uid
 
-        if self._collection.flags.get('createdIsOwner'):
+        if 'user' in self._collection.plugins and self._collection.plugin('user').created_is_owner:
             creator = 'jam-{}:{}-{}'.format(self._namespace.ref, self._collection.ref, id)
 
         if 'meta' in payload:

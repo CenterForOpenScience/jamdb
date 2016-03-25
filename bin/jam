@@ -101,12 +101,10 @@ def jam_userify(args, argv):
         }
     }, {
         'op': 'add',
-        'value': True,
-        'path': '/flags/userCollection',
-    }, {
-        'op': 'add',
-        'value': not args['--no-created-is-owner'],
-        'path': '/flags/createdIsOwner',
+        'path': '/plugins/user',
+        'value': {
+            'createdIsOwner': not args['--no-created-is-owner']
+        }
     }], args['--user'])
 
 
@@ -139,8 +137,6 @@ def jam_info(args, argv):
         doc = jam.NamespaceManager().read(args['<namespace>'])
     print('Name: ', doc.ref)
     print('Creator: ', doc.created_by)
-    if 'flags' in doc.data:
-        print('Flags:\n', '\n'.join(['\t{}: {}'.format(k, v) for k, v in doc.data['flags'].items()]))
     print('Schema:\n', json.dumps(doc.data.get('schema'), indent=4))
     print('Last Modifed By: ', doc.modified_by)
     print('Permissions:\n', '\n'.join(['\t{}: {!r}'.format(k, jam.auth.Permissions(v)) for (k, v) in doc.data['permissions'].items()]))
@@ -150,7 +146,7 @@ def jam_info(args, argv):
 def jam_update(args, argv):
     """
     Usage: jam update <namespace> [--user=USER] [--rename=NAME] [--delete-permissions=<remove-id>...] [--permissions=<add-id>...]
-           jam update <namespace> <collection> [--schema=PATH] [--user=USER] [--rename=NAME] [--delete-permissions=<remove-id>...] [--permissions=<add-id>...] [--flag=<flag>...] [--no-flag=<flag>...]
+           jam update <namespace> <collection> [--schema=PATH] [--user=USER] [--rename=NAME] [--delete-permissions=<remove-id>...] [--permissions=<add-id>...]
 
     Options:
         -p, --permissions=UID  Permissions to update in the form of <user-id> <permission as int>
@@ -158,8 +154,6 @@ def jam_update(args, argv):
         -u, --user=USER  The user to perform this update as [default: system-system-system]
         -d, --delete-permissions=UID  Delete the permissions for ID
         -s, --schema=PATH  Path to a json file containing a jsonschema
-        -f, --flag=FLAG  A flag to set to true
-        -n, --no-flag=FLAG  A flag to set to false
     """
     if args['<collection>']:
         key = args['<collection>']
@@ -178,18 +172,6 @@ def jam_update(args, argv):
         resource.update(key, [
             {'op': 'remove', 'path': '/permissions/{}'.format(uid)}
             for uid in args['--delete-permissions']
-        ], args['--user'])
-
-    if args['--flag']:
-        resource.update(key, [
-            {'op': 'add', 'path': '/flags/{}'.format(flag), 'value': True}
-            for flag in args['--flag']
-        ], args['--user'])
-
-    if args['--no-flag']:
-        resource.update(key, [
-            {'op': 'add', 'path': '/flags/{}'.format(flag), 'value': False}
-            for flag in args['--no-flag']
         ], args['--user'])
 
     if args['--schema']:
