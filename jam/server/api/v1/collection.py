@@ -8,7 +8,6 @@ from jam.server.api.v1.base import View
 from jam.server.api.v1.base import Serializer
 from jam.server.api.v1.base import Relationship
 from jam.server.api.v1.namespace import NamespaceView
-from jam.server.api.v1.search import SearchRelationship
 from jam.server.api.v1.namespace import NamespaceSerializer
 
 
@@ -115,8 +114,12 @@ class DocumentsRelationship(Relationship):
 class CollectionSerializer(Serializer):
     type = 'collections'
 
+    plugins = {
+        'user': 'user',
+        '_search': 'search',
+    }
+
     relations = {
-        '_search': SearchRelationship,
         'namespace': NamespaceRelationship,
         'documents': DocumentsRelationship,
     }
@@ -125,9 +128,7 @@ class CollectionSerializer(Serializer):
     def attributes(cls, inst):
         return {
             'name': inst.ref,
-            'flags': inst.data.get('flags'),
             'schema': inst.data.get('schema'),
-            # 'documentCreatorPermissions': Permissions(inst.data['documentCreatorPermissions']).name,
             'permissions': {
                 sel: Permissions(perm).name
                 for sel, perm in inst.data['permissions'].items()
