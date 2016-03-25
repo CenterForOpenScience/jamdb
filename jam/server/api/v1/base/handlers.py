@@ -227,9 +227,37 @@ class PluginHandler(ResourceHandler):
             # Dont bother loading additional views if an error was encountered
             return view, err
 
-        # Swap out the current view with the relation
-        plugin = self._serializer.plugins[self.path_kwargs['plugin']]
-        plugin.prerequisite_check(*view.loaded)
-        self._serializer = plugin.serializer()
+        # Load up the plugin
+        self.plugin = view.resource.plugin(self._serializer.plugins[self.path_kwargs['plugin']])
 
-        return plugin.view(*view.loaded), None
+        self.plugin.prerequisite_check()
+
+        # _view is only for permission handling
+        return view, None
+
+    def _check_type(self):
+        type = self.plugin.get_type(self.request)
+        if type and self.payload.type != type:
+            raise exceptions.IncorrectParameter('data.type', type, self.payload.type)
+
+    def post(self, **args):
+        self._check_type()
+        # Set before to allow plugins to augment
+        self.set_status(http.client.CREATED)
+        self.plugin.post(self)
+
+    def get(self, **args):
+        self.plugin.get(self)
+
+    def put(self, **args):
+        self._check_type()
+        self.plugin.put(self)
+
+    def patch(self, **args):
+        self._check_type()
+        self.plugin.patch(self)
+
+    def delete(self, **args):
+        # Set before to allow plugins to augment
+        self.set_status(http.client.NO_CONTENT)
+        self.plugin.delete(self)

@@ -13,6 +13,12 @@ from jam import auth
 def ensure_collection(context, collection, namespace):
     context.resources['collection'][collection] = context.resources['namespace'][namespace].create_collection(collection, 'user-testing-system')
 
+    if context.text:
+        context.resources['namespace'][namespace].update(collection, [
+            {'op': 'add', 'path': '/{}'.format(key), 'value': value}
+            for key, value in json.loads(context.text).items()
+        ], 'user-testing-system')
+
 
 @when('{user} create collection {collection} in namespace {namespace}')
 def create_collection(context, user, collection, namespace):
@@ -32,12 +38,12 @@ def create_collection(context, user, collection, namespace):
     )
 
 
-@given('the {flag} flag is set on collection {collection_id}')
-def set_flag(context, flag, collection_id):
+@given('the {plugin} plugin is enabled for collection {collection_id}')
+def enable_plugin(context, plugin, collection_id):
     namespace, collection = collection_id.split('.')
 
     context.resources['namespace'][namespace].update(collection, [{
         'op': 'add',
-        'value': True,
-        'path': '/flags/{}'.format(flag),
+        'value': json.loads(context.text or '{}'),
+        'path': '/plugins/{}'.format(plugin),
     }], 'user-testing-system')

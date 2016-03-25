@@ -42,11 +42,16 @@ setup(
     include_package_data=True,
     zip_safe=False,
     provides=[
+        'jam.plugins',
         'jam.schemas',
         'jam.backends',
         'jam.auth.providers',
     ],
     entry_points={
+        'jam.plugins': [
+            'user = jam.plugins.user:UserPlugin',
+            'search = jam.plugins.search:SearchPlugin'
+        ],
         'jam.schemas': [
             'jsonschema = jam.schemas.jsonschema:JSONSchema'
         ],

@@ -1,15 +1,17 @@
 import datetime
 
+from jam.server.api.v1.base.constants import NAMESPACER
+
 
 class Serializer:
     view = None
+    plugins = {}
     relations = {}
 
     @classmethod
     def serialize(cls, request, inst, *parents):
         return {
-            # TODO MAKE CONSTANT
-            'id': '.'.join([p.ref or p.ref for p in parents] + [inst.ref]),
+            'id': NAMESPACER.join([p.ref or p.ref for p in parents] + [inst.ref]),
             'type': cls.type,
             'meta': cls.meta(inst),
             # 'links': cls.links(request, inst, *parents),
