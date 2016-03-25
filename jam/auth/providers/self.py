@@ -4,6 +4,7 @@ import bcrypt
 
 from jam import exceptions
 from jam import NamespaceManager
+from jam.plugins.user import UserPlugin
 from jam.auth.providers.base import BaseAuthProvider
 
 manager = NamespaceManager()
@@ -23,12 +24,12 @@ class SelfAuthProvider(BaseAuthProvider):
         namespace = manager.get_namespace(data['namespace'])
         collection = namespace.get_collection(data['collection'])
 
-        if not collection.flags.get('userCollection'):
-            raise exceptions.BadRequest(title='Incorrect flag', detail='The flag "userCollection" must be set to login with this collection')
+        if not UserPlugin.is_enabled(collection):
+            raise exceptions.PluginNotEnabled(UserPlugin.NAME)
 
         if not (
             collection.schema
-            and 'password' in collection.schema._schema['required']
+            and 'password' in collection.schema._schema.get('required', [])
             and collection.schema._schema['properties']['password'] == self.PASSWORD_SCHEMA
         ):
             raise exceptions.BadRequest(title='Bad password schema', detail='The schema for password must be {} and must be a required field'.format(self.PASSWORD_SCHEMA))

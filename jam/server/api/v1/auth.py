@@ -36,7 +36,7 @@ class AuthHandler(SentryMixin, JSONAPIHandler):
             raise exceptions.IncorrectParameter('data.type', 'users', data.get('type', 'null'))
 
         if not isinstance(data.get('attributes'), dict):
-            raise exceptions.InvalidType('data.attributes', 'dict', type(data.get('type')))
+            raise exceptions.InvalidParameterType('data.attributes', 'dict', type(data.get('type')))
 
         try:
             provider = driver.DriverManager(
