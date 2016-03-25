@@ -3,7 +3,7 @@ Feature: Global API Features
   Scenario Outline: Endpoint Fuzzing
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
-    And document Drone exists in StarCraft/Zerg
+    And document Drone exists in StarCraft.Zerg
     And we have ADMIN permissions to namespace StarCraft
     When we <METHOD> "<URL>"
       """
@@ -144,7 +144,7 @@ Feature: Global API Features
   Scenario Outline: Many resource points dont respond to DELETE, PATCH or PUT
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
-    And document Drone exists in StarCraft/Zerg
+    And document Drone exists in StarCraft.Zerg
     And we have ADMIN permissions to namespace StarCraft
     When we <METHOD> "<URL>"
     """
@@ -177,7 +177,7 @@ Feature: Global API Features
   Scenario Outline: Single resource endpoints dont respond to POST or PUT
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
-    And document Drone exists in StarCraft/Zerg
+    And document Drone exists in StarCraft.Zerg
     And we have ADMIN permissions to namespace StarCraft
     When we <METHOD> "<URL>"
     """
@@ -235,7 +235,7 @@ Feature: Global API Features
   Scenario Outline: Incorrect type types are rejected
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
-    And document Drone exists in StarCraft/Zerg
+    And document Drone exists in StarCraft.Zerg
     And we have ADMIN permissions to namespace StarCraft
     When we <METHOD> "<URL>"
       """
@@ -282,7 +282,7 @@ Feature: Global API Features
   Scenario Outline: Incorrect types are rejected
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
-    And document Drone exists in StarCraft/Zerg
+    And document Drone exists in StarCraft.Zerg
     And we have ADMIN permissions to namespace StarCraft
     When we <METHOD> "<URL>"
       """
@@ -319,7 +319,7 @@ Feature: Global API Features
   Scenario Outline: Non-matching Ids are rejected
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
-    And document Drone exists in StarCraft/Zerg
+    And document Drone exists in StarCraft.Zerg
     And we have ADMIN permissions to namespace StarCraft
     When we <METHOD> "<URL>"
       """
@@ -363,7 +363,7 @@ Feature: Global API Features
   Scenario Outline: Ids must be string
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
-    And document Drone exists in StarCraft/Zerg
+    And document Drone exists in StarCraft.Zerg
     And we have ADMIN permissions to namespace StarCraft
     When we POST "<URL>"
       """
@@ -399,7 +399,7 @@ Feature: Global API Features
   Scenario Outline: Ids must be valid
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
-    And document Drone exists in StarCraft/Zerg
+    And document Drone exists in StarCraft.Zerg
     And we have ADMIN permissions to namespace StarCraft
     When we POST "<URL>"
       """

@@ -30,7 +30,7 @@ Feature: Collection plugins
         "errors": [{
           "code": "400",
           "status": "400",
-          "title": "Bad request",
+          "title": "Bad Request",
           "detail": "This collection does not support searching"
         }]
       }

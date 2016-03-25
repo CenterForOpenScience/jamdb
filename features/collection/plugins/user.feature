@@ -88,7 +88,7 @@ Feature: User Plugin
         "errors": [{
           "code": "400",
           "status": "400",
-          "title": "Bad request",
+          "title": "Bad Request",
           "detail": "mandrillKey must be provided via collection.plugins.mandrillKey"
         }]
       }
@@ -197,7 +197,7 @@ Feature: User Plugin
         "errors": [{
           "code": "400",
           "status": "400",
-          "title": "Bad request",
+          "title": "Bad Request",
           "detail": "Id must be provided"
         }]
       }
@@ -378,7 +378,7 @@ Feature: User Plugin
         "errors": [{
           "code": "400",
           "status": "400",
-          "title": "Bad request",
+          "title": "Bad Request",
           "detail": "\"---------------------\" at \"email\" is not a valid email"
         }]
       }

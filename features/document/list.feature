@@ -4,7 +4,7 @@ Feature: Listing Documents
     Given namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
-    And document Probe exists in StarCraft/Protoss
+    And document Probe exists in StarCraft.Protoss
       """
       {
         "psi": 1,
@@ -12,7 +12,7 @@ Feature: Listing Documents
         "shields": 20
       }
       """
-    And document Zealot exists in StarCraft/Protoss
+    And document Zealot exists in StarCraft.Protoss
       """
       {
         "psi": 2,
@@ -20,7 +20,7 @@ Feature: Listing Documents
         "shields": 60
       }
       """
-    And document Archon exists in StarCraft/Protoss
+    And document Archon exists in StarCraft.Protoss
       """
       {
         "psi": 4,
@@ -66,7 +66,7 @@ Feature: Listing Documents
     Given namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
-    And document Probe exists in StarCraft/Protoss
+    And document Probe exists in StarCraft.Protoss
       """
       {
         "psi": 1,
@@ -74,7 +74,7 @@ Feature: Listing Documents
         "shields": 20
       }
       """
-    And document Zealot exists in StarCraft/Protoss
+    And document Zealot exists in StarCraft.Protoss
       """
       {
         "psi": 2,
@@ -82,7 +82,7 @@ Feature: Listing Documents
         "shields": 60
       }
       """
-    And document Archon exists in StarCraft/Protoss
+    And document Archon exists in StarCraft.Protoss
       """
       {
         "psi": 4,
@@ -114,7 +114,7 @@ Feature: Listing Documents
     Given namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
-    And document Probe exists in StarCraft/Protoss
+    And document Probe exists in StarCraft.Protoss
       """
       {
         "psi": 1,
@@ -122,7 +122,7 @@ Feature: Listing Documents
         "shields": 20
       }
       """
-    And document Zealot exists in StarCraft/Protoss
+    And document Zealot exists in StarCraft.Protoss
       """
       {
         "psi": 2,
@@ -130,7 +130,7 @@ Feature: Listing Documents
         "shields": 60
       }
       """
-    And document Archon exists in StarCraft/Protoss
+    And document Archon exists in StarCraft.Protoss
       """
       {
         "psi": 4,
@@ -176,7 +176,7 @@ Feature: Listing Documents
     Given namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
-    And document Probe exists in StarCraft/Protoss
+    And document Probe exists in StarCraft.Protoss
       """
       {
         "psi": 1,
@@ -184,7 +184,7 @@ Feature: Listing Documents
         "shields": 20
       }
       """
-    And document Zealot exists in StarCraft/Protoss
+    And document Zealot exists in StarCraft.Protoss
       """
       {
         "psi": 2,
@@ -192,7 +192,7 @@ Feature: Listing Documents
         "shields": 60
       }
       """
-    And document Archon exists in StarCraft/Protoss
+    And document Archon exists in StarCraft.Protoss
       """
       {
         "psi": 4,
@@ -238,7 +238,7 @@ Feature: Listing Documents
     Given namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
-    And document Probe exists in StarCraft/Protoss
+    And document Probe exists in StarCraft.Protoss
       """
       {
         "psi": 1,
@@ -246,7 +246,7 @@ Feature: Listing Documents
         "shields": 20
       }
       """
-    And document Zealot exists in StarCraft/Protoss
+    And document Zealot exists in StarCraft.Protoss
       """
       {
         "psi": 2,
@@ -254,7 +254,7 @@ Feature: Listing Documents
         "shields": 60
       }
       """
-    And document Archon exists in StarCraft/Protoss
+    And document Archon exists in StarCraft.Protoss
       """
       {
         "psi": 4,
@@ -300,7 +300,7 @@ Feature: Listing Documents
     Given namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
-    And document Probe exists in StarCraft/Protoss
+    And document Probe exists in StarCraft.Protoss
     When we GET "/v1/id/collections/StarCraft.Protoss/documents?sort=-armo:r"
     Then the response code will be 400
 
@@ -309,7 +309,7 @@ Feature: Listing Documents
     Given namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
-    And document Probe exists in StarCraft/Protoss
+    And document Probe exists in StarCraft.Protoss
       """
       {
         "psi": 1,
@@ -317,7 +317,7 @@ Feature: Listing Documents
         "shields": 20
       }
       """
-    And document Zealot exists in StarCraft/Protoss
+    And document Zealot exists in StarCraft.Protoss
       """
       {
         "psi": 2,
@@ -325,7 +325,7 @@ Feature: Listing Documents
         "shields": 60
       }
       """
-    And document Archon exists in StarCraft/Protoss
+    And document Archon exists in StarCraft.Protoss
       """
       {
         "psi": 4,
@@ -349,7 +349,7 @@ Feature: Listing Documents
     Given namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
-    And document Probe exists in StarCraft/Protoss
+    And document Probe exists in StarCraft.Protoss
       """
       {
         "psi": 1,
@@ -357,7 +357,7 @@ Feature: Listing Documents
         "shields": 20
       }
       """
-    And document Zealot exists in StarCraft/Protoss
+    And document Zealot exists in StarCraft.Protoss
       """
       {
         "psi": 2,
@@ -365,7 +365,7 @@ Feature: Listing Documents
         "shields": 60
       }
       """
-    And document Archon exists in StarCraft/Protoss
+    And document Archon exists in StarCraft.Protoss
       """
       {
         "psi": 4,
