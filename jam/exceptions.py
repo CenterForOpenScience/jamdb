@@ -6,11 +6,11 @@ class JamException(Exception):
     detail = None
     should_log = True
     status = http.client.INTERNAL_SERVER_ERROR
-    title = 'An error has occured'
+    title = None
 
     def __init__(self, code=None, status=None, title=None, detail=None, should_log=None):
-        self.title = title or self.__class__.title
         self.status = status or self.__class__.status
+        self.title = title or self.__class__.title or http.client.responses[self.status]
 
         self.code = code or self.__class__.code or str(int(self.status))
         self.detail = detail or self.__class__.detail or self.title
@@ -50,7 +50,6 @@ class KeyExists(BackendException):
 class Forbidden(JamException):
     should_log = False
     status = http.client.FORBIDDEN
-    title = 'Forbidden'
 
     def __init__(self, required, **kwargs):
         if not isinstance(required, str):
@@ -62,14 +61,13 @@ class Forbidden(JamException):
 class BadRequest(JamException):
     should_log = False
     status = http.client.BAD_REQUEST
-    title = 'Bad request'
 
 
 class Unauthorized(JamException):
     should_log = False
 
     def __init__(self, message=None):
-        super().__init__(message or 'Unauthorized', http.client.UNAUTHORIZED)
+        super().__init__(status=http.client.UNAUTHORIZED, detail=message)
 
 
 class MalformedData(JamException):
@@ -177,6 +175,7 @@ class SchemaValidationFailed(JamException):
 
 
 class BadRequestBody(BadRequest):
+    should_log = False
 
     def __init__(self, exc):
         title = None
@@ -185,3 +184,37 @@ class BadRequestBody(BadRequest):
         if 'is a required property' in exc.message:
             title = 'Missing property'
         super().__init__(detail=exc.message, title=title)
+
+
+class ServiceUnavailable(JamException):
+    status = http.client.SERVICE_UNAVAILABLE
+
+
+class MethodNotAllowed(JamException):
+    should_log = False
+    status = http.client.METHOD_NOT_ALLOWED
+
+    def __init__(self, method=None):
+        if method:
+            detail = '{}s are not allowed at this endpoint'.format(method.upper())
+        else:
+            detail = None
+        super().__init__(detail=detail)
+
+
+class NoSuchPlugin(JamException):
+    should_log = False
+    title = 'No such plugin'
+    status = http.client.NOT_FOUND
+
+    def __init__(self, plugin):
+        super().__init__(detail='Plugin "{}" does not exist'.format(plugin))
+
+
+class PluginNotEnabled(JamException):
+    should_log = False
+    title = 'Plugin not enabled'
+    status = http.client.PRECONDITION_FAILED
+
+    def __init__(self, plugin):
+        super().__init__(detail='Plugin "{}" is not enabled on this collection'.format(plugin))

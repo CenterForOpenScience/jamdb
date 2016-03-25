@@ -1,13 +1,15 @@
 import jam
 from jam.base import BaseCollection
 from jam.auth import PERMISSIONS_SCHEMA
+from jam.plugins.util import get_plugins
+from jam.plugins.util import load_plugin
 from jam.backends.util import load_backend
 from jam.backends.util import BACKEND_SCHEMA
 
 
 class Collection(BaseCollection):
 
-    WHITELIST = {'permissions', 'schema', 'flags'}
+    WHITELIST = {'permissions', 'schema', 'plugins'}
 
     SCHEMA = {
         'type': 'object',
@@ -20,16 +22,10 @@ class Collection(BaseCollection):
             'logger': BACKEND_SCHEMA,
             'state': BACKEND_SCHEMA,
             'storage': BACKEND_SCHEMA,
-            'flags': {
-                'oneOf': [
-                    {'type': 'null'},
-                    {
-                        'type': 'object',
-                        'patternProperties': {
-                            '.+': {'type': 'boolean'}
-                        }
-                    }
-                ]
+            'plugins': {
+                'type': 'object',
+                'properties': {plugin.NAME: plugin.SCHEMA for plugin in get_plugins()},
+                'additionalProperties': False,
             },
             'schema': {
                 'oneOf': [
@@ -60,8 +56,8 @@ class Collection(BaseCollection):
         return self._document.ref
 
     @property
-    def flags(self):
-        return self._document.data['flags']
+    def plugins(self):
+        return self._document.data.get('plugins', {})
 
     @property
     def document(self):
@@ -81,3 +77,6 @@ class Collection(BaseCollection):
             permissions=document.data['permissions'],
             schema=document.data.get('schema')
         )
+
+    def plugin(self, name):
+        return load_plugin(name, self)

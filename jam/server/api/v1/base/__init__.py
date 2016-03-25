@@ -1,8 +1,10 @@
 from jam.server.api.v1.base.view import View
+from jam.server.api.v1.base.plugin import Plugin
 from jam.server.api.v1.base.constants import ID_RE
 from jam.server.api.v1.base.constants import ENDING
 from jam.server.api.v1.base.constants import NAMESPACER
 from jam.server.api.v1.base.serializer import Serializer
+from jam.server.api.v1.base.handlers import PluginHandler
 from jam.server.api.v1.base.handlers import ResourceHandler
 from jam.server.api.v1.base.relationship import Relationship
 from jam.server.api.v1.base.handlers import RelationshipHandler
@@ -37,19 +39,20 @@ def ResourceEndpoint(view, serializer):
         )
         endpoints.append((relationships, RelationshipHandler, kwargs))
 
-    # if serializer.plugins:
-    #     relationships = '/v1/id/{}/{}/_(?P<plugin>{})/?'.format(
-    #         view.plural,
-    #         NAMESPACER.join(id_ + [selector]),
-    #         '|'.join(serializer.plugins.keys())
-    #     )
-    #     endpoints.append((relationships, ResourceHandler, kwargs))
+    if serializer.plugins:
+        relationships = '/v1/id/{}/{}/(?P<plugin>{})/?'.format(
+            view.plural,
+            NAMESPACER.join(ids + [selector]),
+            '|'.join(serializer.plugins.keys())
+        )
+        endpoints.append((relationships, PluginHandler, kwargs))
 
     return endpoints
 
 
 __all__ = (
     'View',
+    'Plugin',
     'Serializer',
     'Relationship',
     'ResourceEndpoint',
