@@ -23,7 +23,7 @@ Feature: Reading a document
     And namespace StarCraft exists
     And collection Protoss exists in namespace StarCraft
     And we have READ permissions to namespace StarCraft
-    And document Probe exists in StarCraft/Protoss
+    And document Probe exists in StarCraft.Protoss
       """
       {
         "hp": 100,
@@ -67,7 +67,7 @@ Feature: Reading a document
     And namespace StarCraft exists
     And collection Protoss exists in namespace StarCraft
     And we have READ permissions to namespace StarCraft
-    And document Probe exists in StarCraft/Protoss
+    And document Probe exists in StarCraft.Protoss
       """
       {
         "hp": 100,
@@ -110,7 +110,7 @@ Feature: Reading a document
     Given namespace StarCraft exists
     And collection Protoss exists in namespace StarCraft
     And we have <permission> permissions to <rtype> <resource>
-    And document Probe exists in StarCraft/Protoss
+    And document Probe exists in StarCraft.Protoss
     When we GET "/v1/namespaces/StarCraft/collections/Protoss/documents/Probe"
     Then the response code will be 403
 
@@ -131,7 +131,7 @@ Feature: Reading a document
     Given namespace StarCraft exists
     And collection Protoss exists in namespace StarCraft
     And we have <permission> permissions to <rtype> <resource>
-    And document Probe exists in StarCraft/Protoss
+    And document Probe exists in StarCraft.Protoss
     When we GET "/v1/namespaces/StarCraft/collections/Protoss/documents/Probe"
     Then the response code will be 200
 
@@ -144,6 +144,6 @@ Feature: Reading a document
     Given namespace StarCraft exists
     And collection Protoss exists in namespace StarCraft
     And we have CREATE permissions to collection Protoss
-    When we create document Probe in StarCraft/Protoss
+    When we create document Probe in StarCraft.Protoss
     And we GET "/v1/namespaces/StarCraft/collections/Protoss/documents/Probe"
     Then the response code will be 200

@@ -16,7 +16,7 @@ Feature: Updating a document
   Scenario: Deleted document
     Given namespace StarCraft exists
     And collection Terran exists in namespace StarCraft
-    And document SCV exists in StarCraft/Terran
+    And document SCV exists in StarCraft.Terran
     And we have CRUD permissions to collection Terran
     When we DELETE "/v1/namespaces/StarCraft/collections/Terran/documents/SCV"
     And we PATCH "/v1/namespaces/StarCraft/collections/Terran/documents/SCV"
@@ -25,7 +25,7 @@ Feature: Updating a document
   Scenario: Add Field
     Given namespace StarCraft exists
     And collection Terran exists in namespace StarCraft
-    And document Raven exists in StarCraft/Terran
+    And document Raven exists in StarCraft.Terran
     And we have CRUD permissions to collection Terran
     When the content type is application/vnd.api+json; ext="jsonpatch";
     And we PATCH "/v1/namespaces/StarCraft/collections/Terran/documents/Raven"
@@ -53,7 +53,7 @@ Feature: Updating a document
   Scenario: Via document
     Given namespace StarCraft exists
     And collection Terran exists in namespace StarCraft
-    And document Raven exists in StarCraft/Terran
+    And document Raven exists in StarCraft.Terran
     And we have CRUD permissions to collection Terran
     When we PATCH "/v1/namespaces/StarCraft/collections/Terran/documents/Raven"
     """
@@ -84,7 +84,7 @@ Feature: Updating a document
   Scenario: Document can not be used with jsonpatch extension
     Given namespace StarCraft exists
     And collection Terran exists in namespace StarCraft
-    And document Raven exists in StarCraft/Terran
+    And document Raven exists in StarCraft.Terran
     And we have CRUD permissions to collection Terran
     When the content type is application/vnd.api+json; ext="jsonpatch";
     And we PATCH "/v1/namespaces/StarCraft/collections/Terran/documents/Raven"
@@ -115,7 +115,7 @@ Feature: Updating a document
   Scenario: Multiple Operation
     Given namespace StarCraft exists
     And collection Terran exists in namespace StarCraft
-    And document Raven exists in StarCraft/Terran
+    And document Raven exists in StarCraft.Terran
     And we have CRUD permissions to collection Terran
     When the content type is application/vnd.api+json; ext="jsonpatch";
     And we PATCH "/v1/namespaces/StarCraft/collections/Terran/documents/Raven"
@@ -148,7 +148,7 @@ Feature: Updating a document
   Scenario: Failed test
     Given namespace StarCraft exists
     And collection Terran exists in namespace StarCraft
-    And document Raven exists in StarCraft/Terran
+    And document Raven exists in StarCraft.Terran
     And we have CRUD permissions to collection Terran
     When the content type is application/vnd.api+json; ext="jsonpatch";
     And we PATCH "/v1/namespaces/StarCraft/collections/Terran/documents/Raven"

@@ -1,8 +1,4 @@
 import uuid
-import operator
-from functools import reduce
-
-import jsonpatch
 
 import jam
 from jam import settings

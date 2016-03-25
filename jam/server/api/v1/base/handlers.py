@@ -1,5 +1,3 @@
-import re
-import datetime
 import http.client
 
 import jwt

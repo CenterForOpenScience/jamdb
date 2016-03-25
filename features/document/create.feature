@@ -4,8 +4,8 @@ Feature: Creating a document
     Given namespace doomoven exists
     And collection doomstove exists in namespace doomoven
     And we have ADMIN permissions to namespace doomoven
-    And document quetzal exists in doomoven/doomstove
-    When we create document quetzal in doomoven/doomstove
+    And document quetzal exists in doomoven.doomstove
+    When we create document quetzal in doomoven.doomstove
     Then the response code will be 409
     And the response will contain
     """
@@ -35,7 +35,7 @@ Feature: Creating a document
     And namespace meatspace exists
     And collection cow exists in namespace meatspace
     And we have ADMIN permissions to namespace meatspace
-    When we create document steak in meatspace/cow
+    When we create document steak in meatspace.cow
     Then the response code will be 201
     And the response will contain
       """
@@ -67,7 +67,7 @@ Feature: Creating a document
     And namespace meatspace exists
     And collection cow exists in namespace meatspace
     And we have ADMIN permissions to namespace meatspace
-    When we create document steak in meatspace/cow
+    When we create document steak in meatspace.cow
       """
       {
         "isRare": 1,
@@ -110,7 +110,7 @@ Feature: Creating a document
     Given namespace meatspace exists
     And collection cow exists in namespace meatspace
     And we have <permission> permissions to <rtype> <resource>
-    When we create document steak in meatspace/cow
+    When we create document steak in meatspace.cow
     Then the response code will be 201
 
       Examples: Permissions
@@ -129,7 +129,7 @@ Feature: Creating a document
     Given namespace meatspace exists
     And collection cow exists in namespace meatspace
     And we have <permission> permissions to <rtype> <resource>
-    When we create document steak in meatspace/cow
+    When we create document steak in meatspace.cow
     Then the response code will be 403
 
       Examples: Permissions
@@ -440,7 +440,7 @@ Feature: Creating a document
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
     And we have ADMIN permissions to namespace StarCraft
-    When we create document foo.bar in StarCraft/Zerg
+    When we create document foo.bar in StarCraft.Zerg
     Then the response code will be 400
     And the response will contain
       """
@@ -458,7 +458,7 @@ Feature: Creating a document
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
     And we have ADMIN permissions to namespace StarCraft
-    When we create document StarCraft.Zerg.Baneling in StarCraft/Zerg
+    When we create document StarCraft.Zerg.Baneling in StarCraft.Zerg
     Then the response code will be 201
 
   Scenario: Override document creator
@@ -551,7 +551,12 @@ Feature: Creating a document
     And namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
     And we have ADMIN permissions to namespace StarCraft
-    And the createdIsOwner flag is set on collection StarCraft.Zerg
+    And the user plugin is enabled for collection StarCraft.Zerg
+      """
+      {
+        "createdIsOwner": true
+      }
+      """
     When we POST "/v1/id/collections/StarCraft.Zerg/documents"
       """
       {

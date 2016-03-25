@@ -3,7 +3,7 @@ Feature: Deleting a document
   Scenario: Deleted documents 404
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
-    And document Drone exists in StarCraft/Zerg
+    And document Drone exists in StarCraft.Zerg
     And we have DELETE permissions to collection Zerg
     When we DELETE "/v1/namespaces/StarCraft/collections/Zerg/documents/Drone"
     And we DELETE "/v1/namespaces/StarCraft/collections/Zerg/documents/Drone"
@@ -12,7 +12,7 @@ Feature: Deleting a document
   Scenario Outline: Allowed permissions
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
-    And document Drone exists in StarCraft/Zerg
+    And document Drone exists in StarCraft.Zerg
     And we have <permission> permissions to <rtype> <resource>
     When we DELETE "/v1/namespaces/StarCraft/collections/Zerg/documents/Drone"
     Then the response code will be 204
@@ -30,7 +30,7 @@ Feature: Deleting a document
   Scenario Outline: Insufficient permissions
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
-    And document Drone exists in StarCraft/Zerg
+    And document Drone exists in StarCraft.Zerg
     And we have <permission> permissions to <rtype> <resource>
     When we DELETE "/v1/namespaces/StarCraft/collections/Zerg/documents/Drone"
     Then the response code will be 403
@@ -50,7 +50,7 @@ Feature: Deleting a document
     Given namespace StarCraft exists
     And collection Zerg exists in namespace StarCraft
     And we have CREATE permissions to collection Zerg
-    When we create document Drone in StarCraft/Zerg
+    When we create document Drone in StarCraft.Zerg
     And we DELETE "/v1/namespaces/StarCraft/collections/Zerg/documents/Drone"
     Then the response code will be 204
 
@@ -58,7 +58,7 @@ Feature: Deleting a document
   #   Given namespace StarCraft exists
   #   And collection Zerg exists in namespace StarCraft
   #   And we have CREATE permissions to collection Zerg
-  #   And document Drone exists in StarCraft/Zerg
+  #   And document Drone exists in StarCraft.Zerg
   #   When we PATCH "/v1/namespaces/StarCraft/collections/Zerg/documents"
   #     """
   #       [{
@@ -74,9 +74,9 @@ Feature: Deleting a document
   #   Given namespace StarCraft exists
   #   And collection Zerg exists in namespace StarCraft
   #   And we have CREATE permissions to collection Zerg
-  #   And document Drone exists in StarCraft/Zerg
-  #   And document Roach exists in StarCraft/Zerg
-  #   And document Mutalisk exists in StarCraft/Zerg
+  #   And document Drone exists in StarCraft.Zerg
+  #   And document Roach exists in StarCraft.Zerg
+  #   And document Mutalisk exists in StarCraft.Zerg
   #   When we PATCH "/v1/namespaces/StarCraft/collections/Zerg/documents"
   #     """
   #       [{
