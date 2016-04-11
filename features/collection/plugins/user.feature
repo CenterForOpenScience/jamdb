@@ -66,7 +66,7 @@ Feature: User Plugin
       | PATCH  |
       | DELETE |
 
-  Scenario: MandrillKey must be set
+  Scenario: SendGridKey must be set
     Given namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
@@ -89,7 +89,7 @@ Feature: User Plugin
           "code": "400",
           "status": "400",
           "title": "Bad Request",
-          "detail": "mandrillKey must be provided via collection.plugins.mandrillKey"
+          "detail": "sendgridKey must be provided via collection.plugins.sendgridKey"
         }]
       }
       """
@@ -101,7 +101,9 @@ Feature: User Plugin
     And the user plugin is enabled for collection StarCraft.Protoss
       """
       {
-        "mandrillKey": "wert"
+        "sendgridKey": "wert",
+        "template": "tim plate",
+        "fromEmail": "from@E.mail"
       }
       """
     When we POST "/v1/id/collections/StarCraft.Protoss/user"
@@ -130,14 +132,16 @@ Feature: User Plugin
       """
 
   Scenario: Existing document reports success
-    Given we mock jam.plugins.user.mandrill
+    Given we mock jam.plugins.user.sendgrid
     And namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
     And the user plugin is enabled for collection StarCraft.Protoss
       """
       {
-        "mandrillKey": "wert"
+        "sendgridKey": "wert",
+        "template": "tim plate",
+        "fromEmail": "from@E.mail"
       }
       """
     And document (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ ✧ﾟ･: *ヽ(◕ヮ◕ヽ) exists in StarCraft.Protoss
@@ -177,7 +181,11 @@ Feature: User Plugin
     And collection Protoss exists in namespace StarCraft
     And the user plugin is enabled for collection StarCraft.Protoss
       """
-      {"mandrillKey": "wert"}
+      {
+        "sendgridKey": "wert",
+        "template": "tim plate",
+        "fromEmail": "from@E.mail"
+      }
       """
     And document ༼ ༎ຶ ෴ ༎ຶ༽ exists in StarCraft.Protoss
     When we POST "/v1/id/collections/StarCraft.Protoss/user"
@@ -209,7 +217,7 @@ Feature: User Plugin
     And collection Protoss exists in namespace StarCraft
     And the user plugin is enabled for collection StarCraft.Protoss
       """
-      {"mandrillKey": "wert"}
+      {"sendgridKey": "wert"}
       """
     And document ༼ ༎ຶ ෴ ༎ຶ༽ exists in StarCraft.Protoss
     When we POST "/v1/id/collections/StarCraft.Protoss/user"
@@ -226,14 +234,64 @@ Feature: User Plugin
       }
       """
 
-  Scenario: Calls mandrill with defaults
-    Given we mock jam.plugins.user.mandrill
+  Scenario Outline: Requires <VARIABLE>
+    Given we mock jam.plugins.user.sendgrid
     And namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
     And the user plugin is enabled for collection StarCraft.Protoss
       """
-      {"mandrillKey": "wert"}
+        <PAYLOAD>
+      """
+    And document HighTemplar exists in StarCraft.Protoss
+      """
+      {
+        "email": "foo@bar.baz"
+      }
+      """
+    When we POST "/v1/id/collections/StarCraft.Protoss/user"
+      """
+      {
+        "data": {
+          "type": "reset",
+          "attributes": {
+            "id": "HighTemplar"
+          }
+        }
+      }
+      """
+    Then the response code will be 400
+    And the response will be
+      """
+      {
+        "errors": [{
+          "code": "400",
+          "detail": "<REQUIRED> must be provided via collection.plugins.<REQUIRED>",
+          "status": "400",
+          "title": "Bad Request"
+        }]
+      }
+      """
+
+    Examples:
+      | REQUIRED    | PAYLOAD                                               |
+      | template    | {"sendgridKey": "val", "fromEmail": "from@E.mail"}    |
+      | fromEmail   | {"sendgridKey": "val", "template": "tim plate"}       |
+      | sendgridKey | {"template": "tim plate", "fromEmail": "from@E.mail"} |
+
+
+  Scenario: Calls sendgrid with defaults
+    Given we mock jam.plugins.user.sendgrid
+    And namespace StarCraft exists
+    And we have ADMIN permissions to namespace StarCraft
+    And collection Protoss exists in namespace StarCraft
+    And the user plugin is enabled for collection StarCraft.Protoss
+      """
+      {
+        "sendgridKey": "wert",
+        "template": "tim plate",
+        "fromEmail": "from@E.mail"
+      }
       """
     And document HighTemplar exists in StarCraft.Protoss
       """
@@ -253,26 +311,26 @@ Feature: User Plugin
       }
       """
     Then the response code will be 201
-    And mandrill will be called with
+    And sendgrid will be called with
       """
       {
-        "template_name": "password-reset",
-        "template_content": [{"token": ""}],
-        "message": {"to":[{"email": "foo@bar.baz"}]}
+        "to": "foo@bar.baz",
+        "template": "tim plate"
       }
       """
 
-  Scenario: Calls mandrill with custom values
-    Given we mock jam.plugins.user.mandrill
+  Scenario: Calls sendgrid with custom values
+    Given we mock jam.plugins.user.sendgrid
     And namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
     And the user plugin is enabled for collection StarCraft.Protoss
       """
       {
-        "mandrillKey": "wert",
+        "sendgridKey": "wert",
         "emailField": "user_id",
-        "template": "halpmausers"
+        "template": "halpmausers",
+        "fromEmail": "custom@email.com"
       }
       """
     And document DarkTemplar exists in StarCraft.Protoss
@@ -293,25 +351,27 @@ Feature: User Plugin
       }
       """
     Then the response code will be 201
-    And mandrill will be called with
+    And sendgrid will be called with
       """
       {
-        "template_name": "halpmausers",
-        "template_content": [{"token": "<generated>"}],
-        "message": {"to":[{"email": "Zeratul@Protoss.Xelnaga"}]}
+        "template": "halpmausers",
+        "from_email": "from@email.com",
+        "to": "Zeratul@Protoss.Xelnaga"
       }
       """
 
 
-  Scenario: Mandrill Error
-    Given jam.plugins.user.mandrill.Mandrill will throw MandrillError
+  Scenario: Sendgrid Error
+    Given jam.plugins.user.sendgrid.SendGridClient will throw SendGridError
     And namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
     And the user plugin is enabled for collection StarCraft.Protoss
       """
       {
-        "mandrillKey": "wert"
+        "sendgridKey": "wert",
+        "template": "tim plate",
+        "fromEmail": "from@E.mail"
       }
       """
     And document DarkTemplar exists in StarCraft.Protoss
@@ -339,7 +399,7 @@ Feature: User Plugin
           "code": "503",
           "status": "503",
           "title": "Service Unavailable",
-          "detail": "Unable to submit request to mandrill"
+          "detail": "Unable to submit request to sendgrid"
         }]
       }
       """
@@ -351,7 +411,9 @@ Feature: User Plugin
     And the user plugin is enabled for collection StarCraft.Protoss
       """
       {
-        "mandrillKey": "wert"
+        "sendgridKey": "wert",
+        "template": "tim plate",
+        "fromEmail": "from@E.mail"
       }
       """
     And document DarkTemplar exists in StarCraft.Protoss

@@ -1,21 +1,29 @@
 import json
-import nose
 from unittest import mock
 
-from mandrill import Error as MandrillError  # noqa
+from sendgrid import SendGridError  # noqa
 
 from behave import then
 from behave import given
 
 
-@then('mandrill will be called with')
+@then('sendgrid will be called with')
 def assert_called(context):
     actual = json.loads(context.text or '{}')
     # Kinda hacky but tokens are time based
-    mock = context.mocks['jam.plugins.user.mandrill'].Mandrill().messages.send_template
-    actual['template_content'][0]['token'] = mock.call_args[1]['template_content'][0]['token']
+    mail = context.mocks['jam.plugins.user.sendgrid'].SendGridClient().send.call_args[0][0]
 
-    nose.tools.assert_equals(mock.call_args[1], actual)
+    mock = context.mocks['jam.plugins.user.sendgrid'].Mail
+    mock.assert_called_with(to=actual['to'])
+
+    if actual.get('from'):
+        mail.set_from(actual.get('from'))
+
+    token = mail.add_substitution.call_args[0][1]
+    mail.add_substitution.assert_called_with(':token', token)
+
+    mail.add_filter.assert_any_call('templates', 'enable', 1)
+    mail.add_filter.assert_any_call('templates', 'template_id', actual['template'])
 
 
 @given('we mock {module}')

@@ -1,7 +1,7 @@
 import re
 import logging
 
-import mandrill
+import sendgrid
 
 from jam.auth import User
 from jam import exceptions
@@ -21,8 +21,9 @@ class UserPlugin(Plugin):
         'properties': {
             'template': {'type': 'string'},
             'emailField': {'type': 'string'},
-            'mandrillKey': {'type': 'string'},
+            'sendgridKey': {'type': 'string'},
             'createdIsOwner': {'type': 'boolean'},
+            'fromEmail': {'type': 'string', 'pattern': EMAIL_RE}
         },
         'additionalProperties': False,
     }
@@ -35,15 +36,19 @@ class UserPlugin(Plugin):
 
     @property
     def template(self):
-        return self._raw.get('template', 'password-reset')
+        return self._raw.get('template')
 
     @property
-    def mandrill_key(self):
-        return self._raw.get('mandrillKey', None)
+    def sendgrid_key(self):
+        return self._raw.get('sendgridKey')
 
     @property
     def email_field(self):
         return self._raw.get('emailField', 'email')
+
+    @property
+    def from_email(self):
+        return self._raw.get('fromEmail')
 
     @property
     def created_is_owner(self):
@@ -55,11 +60,17 @@ class UserPlugin(Plugin):
         return Permissions.READ
 
     def post(self, handler):
-        if not self.mandrill_key:
-            raise exceptions.BadRequest(detail='mandrillKey must be provided via collection.plugins.mandrillKey')
+        if not self.sendgrid_key:
+            raise exceptions.BadRequest(detail='sendgridKey must be provided via collection.plugins.sendgridKey')
+
+        if not self.template:
+            raise exceptions.BadRequest(detail='template must be provided via collection.plugins.template')
+
+        if not self.from_email:
+            raise exceptions.BadRequest(detail='fromEmail must be provided via collection.plugins.fromEmail')
 
         if not handler.payload:
-            raise exceptions.BadRequest(detail='mandrillKey must be provided via collection.plugins.mandrillKey')
+            raise exceptions.BadRequest()
 
         if not handler.payload.attributes.get('id'):
             raise exceptions.BadRequest(detail='Id must be provided')
@@ -85,14 +96,23 @@ class UserPlugin(Plugin):
         user = User.create('self', '{}:{}'.format(namespace.ref, self.collection.ref), doc.ref, exp=8)
 
         try:
-            mandrill.Mandrill(self.mandrill_key).messages.send_template(
-                template_name=self.template,
-                template_content=[{'token': user.token}],
-                message={'to': [{'email': email}]}
-            )
-        except mandrill.Error:
-            logger.exception('Mandrill Error:')
-            raise exceptions.ServiceUnavailable(detail='Unable to submit request to mandrill')
+            sg = sendgrid.SendGridClient(self.sendgrid_key, raise_errors=True)
+            mail = sendgrid.Mail(to=email)
+
+            mail.set_from(self.from_email)
+            mail.add_substitution(':token', user.token.decode())
+            mail.add_filter('templates', 'enable', 1)
+            mail.add_filter('templates', 'template_id', self.template)
+            # Sendgrid requires subject text and html to be set to a non falsey value
+            # Its highly recommened that you overwrite these in your own templates
+            mail.set_subject('JamDB password reset')
+            mail.set_text('Your temporary token is :token')
+            mail.set_html('Your temporary token is :token')
+
+            sg.send(mail)
+        except sendgrid.SendGridError:
+            logger.exception('Sendgrid Error:')
+            raise exceptions.ServiceUnavailable(detail='Unable to submit request to sendgrid')
 
         return handler.write({
             'data': {
