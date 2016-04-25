@@ -58,8 +58,8 @@ class Namespace(BaseCollection):
     def __init__(self, document):
         self._document = document
 
-        logger = document.data['storage']
         state = document.data['state']
+        logger = document.data['logger']
         storage = document.data['storage']
 
         super().__init__(
