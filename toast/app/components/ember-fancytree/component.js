@@ -31,7 +31,7 @@ export default Ember.Component.extend({
   tagName: 'table',
   titlesTabbable: false,
   classNames: ['table', 'table-condensed'],
-  didInsertElement: function() {
+  didInsertElement() {
     let self = this;
 
     this.set('fancyTree', this.$().fancytree({
@@ -40,21 +40,22 @@ export default Ember.Component.extend({
       glyph: GLYPH_OPTIONS,
       table: TABLE_OPTIONS,
       source: this.get('data'),
-      click: (event, data) => {
-
-      },
-      renderColumns: function(event, data) {
-        let node = data.node,
-        $tdList = $(node.tr).find('>td');
-        $tdList.eq(1).text(node.data.value);
-        $tdList.eq(2).append(node.data.type + ' ');
-        if (node.parent.parent == null) {
-          $tdList.eq(2).append($('<i class="fa fa-gear"></i>'));
-          $tdList.eq(2).append($('<i class="fa fa-history"></i>').click(function() {
-            self.sendAction('history', node.title);
-          }));
-        }
-      },
+      // click: (event, data) => {},
+      renderColumns: this.get('renderColumns').bind(this)
     }));
+  },
+  renderColumns(event, data) {
+    let node = data.node,
+    $tdList = $(node.tr).find('>td');
+    $tdList.eq(1).text(node.data.value);
+    $tdList.eq(2).append(node.data.type + ' ');
+    if (node.parent.parent === null) {
+      $tdList.eq(2)
+        .append($('<i class="margin-sm ibtn fa fa-pencil"></i>')
+            .click(() => this.sendAction('edit', node.title)));
+      $tdList.eq(2)
+        .append($('<i class="margin-sm ibtn fa fa-history"></i>')
+            .click(() => this.sendAction('history', node.title)));
+    }
   }
 });

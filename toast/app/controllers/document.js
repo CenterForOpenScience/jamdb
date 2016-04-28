@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import {objectToJsTree} from './collection';
 
 const OPromise = Ember.ObjectProxy.extend(Ember.PromiseProxyMixin);
 
@@ -10,8 +11,16 @@ export default Ember.Controller.extend({
 
   _init: function() {
     this.set('history', this.store.query('history', {
+      'sort': '-modified_on',
       'document': this.get('model'),
-      'page[Size]': this.get('size')
+      'page[size]': this.get('size'),
     }));
-  }.observes('model')
+  }.observes('model'),
+
+  tableData: function() {
+    return this.get('history').map(el =>
+      objectToJsTree({
+        [el.get('id')]: el.get('data')
+    })[0]);
+  }.property('history')
 });

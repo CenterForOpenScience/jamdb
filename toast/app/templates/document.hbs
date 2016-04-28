@@ -37,22 +37,22 @@
             <i class="fa fa-spinner fa-pulse"></i>
           </div>
         {{else}}
-          <table class="table">
+          {{#history-tree data=tableData}}
+            <colgroup>
+              <col width="40%">
+              <col width="50%">
+              <col width="10%">
+            </colgroup>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Operation</th>
+                <th>Key</th>
+                <th>Value</th>
+                <th>Type</th>
               </tr>
             </thead>
             <tbody>
-              {{#each history as |entry| }}
-                <tr>
-                  <td>{{entry.id}}</td>
-                  <td>{{entry.operation}}</td>
-                </tr>
-              {{/each}}
             </tbody>
-          </table>
+          {{/history-tree}}
         {{/if}}
       </div>
     </div>
