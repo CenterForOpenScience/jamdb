@@ -8,13 +8,18 @@ module.exports = function(defaults) {
     // Add options here
   });
 
+
   app.import('bower_components/lodash/lodash.js');
+  app.import('bower_components/moment/moment.js');
+
+  app.import('bower_components/jsoneditor/dist/jsoneditor.css');
+  app.import('bower_components/jsoneditor/dist/jsoneditor.js');
+  app.import('bower_components/jsoneditor/dist/img/jsoneditor-icons.svg', {destDir: 'assets/img'});
 
   app.import('bower_components/jquery-ui/jquery-ui.js');
   app.import('bower_components/jquery.fancytree/dist/jquery.fancytree-all.js');
   app.import('bower_components/jquery.fancytree/dist/skin-awesome/ui.fancytree.css');
 
-  app.import('bower_components/moment/moment.js');
 
   app.import('bower_components/bootstrap/dist/js/bootstrap.js');
   app.import('bower_components/bootstrap/dist/css/bootstrap.css');

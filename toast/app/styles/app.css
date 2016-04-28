@@ -14,3 +14,49 @@
   cursor: pointer;
   vertical-align: middle;
 }
+
+.margin-sm {
+  margin: 2px;
+}
+
+.jsoneditor {
+  border: none !important;
+}
+
+.full-height {
+  height: 100vh;
+}
+
+div.jsoneditor-menu > button.document-save {
+  background: none;
+  font-size: 18px;
+}
+
+@-webkit-keyframes blink {
+   to { background: lime; }
+   from { background: none; }
+  }
+ @-moz-keyframes blink {
+   to { background: lime; }
+   from { background: none; }
+ }
+ @-ms-keyframes blink {
+   to { background: lime; }
+   from { background: none; }
+ }
+ @-o-keyframes blink {
+   to { background: lime; }
+   from { background: none; }
+ }
+ @keyframes blink {
+   to { background: lime; }
+   from { background: none; }
+ }
+
+ .blink {
+    -webkit-animation: blink .5s 2 alternate;
+    -moz-animation: blink .5s 2 alternate;
+    -ms-animation: blink .5s 2 alternate;
+    -o-animation: blink .5s 2 alternate;
+    animation: blink .5s 2 alternate;
+ }

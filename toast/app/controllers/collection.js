@@ -6,7 +6,7 @@ const TYPE_MAP = {
 };
 
 
-function objectToJsTree(obj) {
+export function objectToJsTree(obj) {
     return Object.keys(obj).map((attr) => {
       if (obj[attr] === null)
           return {
@@ -69,7 +69,7 @@ let doSearch = function() {
   this.set('tableData.promise', this.store
       .query('document', params)
       .then(docs => {
-        this.set('totalPages', docs.get('meta.total') / docs.get('meta.perPage'));
+        this.set('totalPages', Math.ceil(docs.get('meta.total') / docs.get('meta.perPage')));
         return docs;
       })
       .then(tablify));
@@ -86,11 +86,6 @@ export default Ember.Controller.extend({
     tableData: OPromise.create(),
 
     _init: function() {
-      this.setProperties({
-        'page': 1,
-        'totalPages': 0,
-        'queryText': ''
-      });
       //Stop the triggered event
       //Better than hacking into ember...
       this.doSearch.cancel();
@@ -115,6 +110,10 @@ export default Ember.Controller.extend({
     actions: {
         historyClick(documentId) {
           this.transitionToRoute('document', documentId);
+          return false;
+        },
+        editClick(documentId) {
+          this.transitionToRoute('document-edit', documentId);
           return false;
         },
         nextPage(event) {
