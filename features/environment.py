@@ -59,6 +59,7 @@ def before_scenario(context, senario):
         'collection': {},
         'document': {},
     }
+    context.system_auth = []
     context.ignored_auth = []
     for v in EphemeralBackend._cls_cache.values():
         v.clear()

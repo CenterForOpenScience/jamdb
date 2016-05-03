@@ -21,11 +21,28 @@ class NamespaceManager(BaseCollection):
             jam.Storage(storage_backend(**storage_backend.settings_for('manager', self.uuid, 'storage'))),
             jam.Logger(logger_backend(**logger_backend.settings_for('manager', self.uuid, 'logger'))),
             jam.State(state_backend(**state_backend.settings_for('manager', self.uuid, 'state'))),
-            schema={'type': 'jsonschema', 'schema': Namespace.SCHEMA}
+            schema={'type': 'jsonschema', 'schema': Namespace.SCHEMA},
+            permissions={
+                'system-system-*': Permissions.CREATE,
+                'system-system-system': Permissions.ADMIN,
+            }
         )
 
     def create_namespace(self, name, user, permissions=None):
         uid = str(uuid.uuid4()).replace('-', '')
+
+        if isinstance(permissions or {}, dict):
+            try:
+                permissions = {
+                    key: Permissions.from_string(value)
+                    for key, value in (permissions or {}).items()
+                }
+                permissions[user] = Permissions.ADMIN
+            except KeyError as e:
+                raise exceptions.InvalidPermission(e.args[0])
+            except AttributeError:
+                pass  # Schema validation will catch issues
+
         try:
             self.create(name, {
                 'uuid': uid,

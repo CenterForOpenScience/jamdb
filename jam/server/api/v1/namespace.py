@@ -22,11 +22,15 @@ class NamespaceView(View):
     def __init__(self, resource=None):
         super().__init__(resource=resource)
         self._namespace = resource
+        self.loaded = (resource, ) if resource else (self.MANAGER, )
 
     def get_permissions(self, request):
         if request.method == 'GET' and self.resource is None:
             return Permissions.NONE
         return super().get_permissions(request)
+
+    def do_create(self, id, attributes, user):
+        return self.MANAGER.create_namespace(id, user.uid, **attributes).document
 
     def read(self, user):
         return self._namespace.document

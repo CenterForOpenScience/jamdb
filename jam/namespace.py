@@ -89,10 +89,10 @@ class Namespace(BaseCollection):
         if isinstance(permissions or {}, dict):
             try:
                 permissions = {
-                    key: Permissions(reduce(operator.or_, [Permissions[p.strip()] for p in value.split(',')], Permissions.NONE))
+                    key: Permissions.from_string(value)
                     for key, value in (permissions or {}).items()
                 }
-                permissions = {**(permissions or {}), user: Permissions.ADMIN}
+                permissions[user] = Permissions.ADMIN
             except KeyError as e:
                 raise exceptions.InvalidPermission(e.args[0])
             except AttributeError:

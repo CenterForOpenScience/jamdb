@@ -24,9 +24,12 @@ def set_content_type(context, content_type):
 
 
 @when('{user} {method} "{url}"')
+@when('{user} {method} to "{url}"')
 def make_request(context, user, method, url):
     headers = {}
-    if user not in context.ignored_auth:
+    if user in context.system_auth:
+        headers['Authorization'] = auth.User.create('system', 'system', user).token
+    elif user not in context.ignored_auth:
         headers['Authorization'] = auth.User.create('user', 'testing', user).token
     headers['Content-Type'] = getattr(context, 'content_type', 'application/vnd.api+json')
     context.response = getattr(requests, method.lower())(context.base_url + url, headers=headers, data=(context.text and context.text.encode('utf-8')) or context.text)
