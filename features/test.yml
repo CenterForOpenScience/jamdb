@@ -21,3 +21,8 @@ NAMESPACEMANAGER_BACKENDS:
     storage: ephemeral
 
 JWT_SECRET: TestKey
+
+OSF:
+  URL: https://osf.io
+  API_URL: https://api.osf.io
+  ACCOUNTS_URL: https://accounts.osf.io
