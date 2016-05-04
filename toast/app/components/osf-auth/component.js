@@ -19,7 +19,13 @@ export default Ember.Component.extend({
   },
   actions: {
     authenticate() {
-      window.location = `${ENV.auth.osf.url}/oauth2/authorize?response_type=token&scope=${ENV.auth.osf.scope}&client_id=${ENV.auth.osf.clientId}&redirect_uri=${encodeURIComponent(window.location)}`;
+      if (!this.get('accessToken'))
+        window.location = `${ENV.auth.osf.url}/oauth2/authorize?response_type=token&scope=${ENV.auth.osf.scope}&client_id=${ENV.auth.osf.clientId}&redirect_uri=${encodeURIComponent(window.location)}`;
+
+      this.get('login')({
+        provider: 'osf',
+        access_token: this.get('accessToken')
+      });
     }
   }
 });
