@@ -1,6 +1,4 @@
 import uuid
-import operator
-from functools import reduce
 
 import jam
 from jam import settings
