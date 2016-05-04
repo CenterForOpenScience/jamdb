@@ -32,3 +32,8 @@ COLLECTION_BACKENDS:
   storage: mongo
 
 JWT_SECRET: TestKey
+
+OSF:
+  URL: https://staging.osf.io
+  API_URL: https://staging-api.osf.io
+  ACCOUNTS_URL: https://staging-accounts.osf.io
