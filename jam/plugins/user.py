@@ -109,7 +109,7 @@ class UserPlugin(Plugin):
             mail.set_text('Your temporary token is :token')
             mail.set_html('Your temporary token is :token')
 
-            sg.send(mail)
+            logger.info(sg.send(mail))
         except sendgrid.SendGridError:
             logger.exception('Sendgrid Error:')
             raise exceptions.ServiceUnavailable(detail='Unable to submit request to sendgrid')
