@@ -179,17 +179,12 @@ Feature: Creating a namespace
     And the response will be
       """
         {
-          "data": {
-              "id": "StarCraft",
-              "type": "namespaces",
-              "attributes": {
-                "name": "StarCraft",
-                "permissions": {
-                  "user-testing-we": "ADMIN",
-                  "system-system-we": "ADMIN"
-                }
-              }
-            }
+          "errors": [{
+            "code": "400",
+            "status": "400",
+            "title": "Invalid field",
+            "detail": "Values at \"Some\" may not be altered"
+          }]
         }
       """
 
