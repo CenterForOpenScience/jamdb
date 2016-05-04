@@ -28,7 +28,10 @@ class NamespaceManager(BaseCollection):
             }
         )
 
-    def create_namespace(self, name, user, permissions=None):
+    def create_namespace(self, name, user, permissions=None, **kwargs):
+        if kwargs:
+            raise exceptions.InvalidFields(kwargs.keys())
+
         uid = str(uuid.uuid4()).replace('-', '')
 
         if isinstance(permissions or {}, dict):
