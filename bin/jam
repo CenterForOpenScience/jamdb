@@ -50,9 +50,17 @@ def jam_regenerate(args, argv):
     If a namespace is given, the namespace will be regenerated
     """
     if args['<collection>']:
-        return jam.NamespaceManager().get_namespace(args['<namespace>']).get_collection(args['<collection>']).regenerate()
+        if args['<collection>'] == '*':
+            for collection in jam.NamespaceManager().get_namespace(args['<namespace>']).keys():
+                jam.NamespaceManager().get_namespace(args['<namespace>']).get_collection(collection).regenerate()
+        else:
+            jam.NamespaceManager().get_namespace(args['<namespace>']).get_collection(args['<collection>']).regenerate()
     elif args['<namespace>']:
-        return jam.NamespaceManager().get_namespace(args['<namespace>']).regenerate()
+        if args['<namespace>'] == '*':
+            for namespace in jam.NamespaceManager().keys():
+                jam.NamespaceManager().get_namespace(namespace).regenerate()
+        else:
+            return jam.NamespaceManager().get_namespace(args['<namespace>']).regenerate()
     else:
         jam.NamespaceManager().regenerate()
 
