@@ -3,17 +3,20 @@ language: python
 python:
   - "3.5"
 
-services:
-  - mongodb
-  - elasticsearch
-
 sudo: false
 
+before_install:
+  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+  - echo "deb http://repo.mongodb.org/apt/ubuntu precise/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+  - sudo apt-get update
+
 install:
+  - sudo apt-get install -y mongodb-org
   - travis_retry pip install -r dev-requirements.txt
 
 before_script:
   - sleep 10
+  - mongo --version
 
 script:
   - python setup.py develop
