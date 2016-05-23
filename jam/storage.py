@@ -18,6 +18,9 @@ class ReadOnlyStorage:
     def bulk_read(self, keys):
         return self._backend.query(Q('ref', 'in', keys))
 
+    def __repr__(self):
+        return '<{}({})>'.format(self.__class__.__name__, self._backend)
+
 
 class Storage(ReadOnlyStorage):
 
@@ -42,6 +45,3 @@ class Storage(ReadOnlyStorage):
         self._backend.set(data_obj.ref, data_obj)
 
         return data_obj
-
-    def __repr__(self):
-        return '<{}({})>'.format(self.__class__.__name__, self._backend)

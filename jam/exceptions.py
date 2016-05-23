@@ -26,7 +26,7 @@ class JamException(Exception):
         }
 
     def __repr__(self):
-        return '<{}({}, {})>'.format(self.__class__.__name__, self.status, self.title)
+        return '<{}({}, {}, {})>'.format(self.__class__.__name__, self.status, self.title, self.detail)
 
     __str__ = __repr__
 

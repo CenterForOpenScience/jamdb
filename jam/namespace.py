@@ -78,7 +78,10 @@ class Namespace(BaseCollection):
                 detail='Collection "{}" was not found in namespace "{}"'.format(name, self.ref)
             )
 
-    def create_collection(self, name, user, logger=None, storage=None, state=None, permissions=None, schema=None):
+    def create_collection(self, name, user, logger=None, storage=None, state=None, permissions=None, schema=None, plugins=None, **kwargs):
+        if kwargs:
+            raise exceptions.InvalidFields(kwargs.keys())
+
         uid = str(uuid.uuid4()).replace('-', '')
         state = state or settings.COLLECTION_BACKENDS['state']
         logger = logger or settings.COLLECTION_BACKENDS['logger']
@@ -98,7 +101,7 @@ class Namespace(BaseCollection):
 
         collection_dict = {
             'uuid': uid,
-            'plugins': {},
+            'plugins': plugins or {},
             'schema': schema,
             'permissions': permissions,
             'logger': {

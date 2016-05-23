@@ -1,3 +1,5 @@
+import pkg_resources
+
 from stevedore import driver
 
 
@@ -17,6 +19,10 @@ BACKEND_SCHEMA = {
 
 def get_backend(name):
     return driver.DriverManager('jam.backends', name).driver
+
+
+def get_backends():
+    return (ep.load() for ep in pkg_resources.iter_entry_points('jam.backends'))
 
 
 def load_backend(name, *args, **kwargs):
