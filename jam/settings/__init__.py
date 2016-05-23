@@ -6,19 +6,24 @@ import logging
 
 class _Settings:
 
+    here = os.path.join(os.path.dirname(__file__))
     logger = logging.getLogger(__name__)
 
     def __init__(self):
-        self.load(os.path.join(os.path.dirname(__file__), 'defaults.yml'))
-        try:
-            self.load(os.path.join(os.path.dirname(__file__), 'local.yml'))
-            self.logger.warning('local.yml loaded')
-        except FileNotFoundError:
-            pass
+        self.load('defaults.yml', local=True)
+        self.load('local.yml', local=True, _try=True)
 
-    def load(self, path):
-        with open(path, 'r') as settings:
-            self.update(yaml.load(settings.read()))
+    def load(self, path, local=False, _try=False):
+        if local:
+            path = os.path.join(self.here, path)
+        try:
+            with open(path, 'r') as settings:
+                self.update(yaml.load(settings.read()))
+        except FileNotFoundError:
+            if not _try:
+                raise
+        if _try:
+            self.logger.warning('{} loaded'.format(path))
 
     def update(self, data):
         self.__dict__.update(data)

@@ -1,0 +1,37 @@
+DEBUG: false
+
+FORK: false
+PORT: 50325
+HOST: localhost
+SENTRY_DSN: null
+
+MONGO:
+  DATABASE_NAME: jam_test
+  TIMEOUT: .5
+  URI: mongodb://localhost:27017/
+
+ELASTICSEARCH:
+  TIMEOUT: .5
+  URI: http://localhost:9200/
+
+NAMESPACE_BACKENDS:
+    state: ephemeral
+    logger: ephemeral
+    storage: ephemeral
+
+COLLECTION_BACKENDS:
+    state: ephemeral
+    logger: ephemeral
+    storage: ephemeral
+
+NAMESPACEMANAGER_BACKENDS:
+    state: ephemeral
+    logger: ephemeral
+    storage: ephemeral
+
+JWT_SECRET: TestKey
+
+OSF:
+  URL: https://osf.io
+  API_URL: https://api.osf.io
+  ACCOUNTS_URL: https://accounts.osf.io

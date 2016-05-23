@@ -1,7 +1,7 @@
-import os
 from jam import settings
 # Hack to force all storages into memory
-settings.load(os.path.join(os.path.dirname(__file__), 'test.yml'))
+settings.load('test.yml', local=True)
+settings.load('test-local.yml', local=True, _try=True)
 
 import asyncio
 import logging

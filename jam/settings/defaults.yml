@@ -11,10 +11,14 @@ SENTRY_DSN: null
 # SQLITE_URI: sqlite://jam.db
 SQLITE_URI: jam.db
 
-MONGO_URI: mongodb://localhost:27017/
-MONGO_DATABASE_NAME: jam
+MONGO:
+  DATABASE_NAME: jam
+  TIMEOUT: 30
+  URI: mongodb://localhost:27017/
 
-ELASTICSEARCH_URI: http://localhost:9200/
+ELASTICSEARCH:
+  TIMEOUT: 30
+  URI: http://localhost:9200/
 
 NAMESPACE_BACKENDS:
   state: mongo
