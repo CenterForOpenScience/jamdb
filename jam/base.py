@@ -73,7 +73,7 @@ class ReadOnlyCollection:
         acc = 0
         for log in logs:
             acc += 1
-            self._state.apply(log, log.data_ref and data_objects[log.data_ref].data or None)
+            self._state.apply(log, log.data_ref and data_objects[log.data_ref].data)
 
         return acc  # The number of logs that were not included from the snapshot
 
@@ -82,9 +82,12 @@ class ReadOnlyCollection:
         data_object = self._storage.get(snapshot_log.data_ref)
         logs, data_objects = zip(*data_object.data)
 
+        log_map = {log.ref: log for log in self._logger.bulk_read(logs)}
+        data_object_map = {do.ref: do for do in self._storage.bulk_read(data_objects)}
+
         # Load and apply each log ref
-        for log, data_object in zip(self._logger.bulk_read(logs), self._storage.bulk_read(data_objects)):
-            self._state.apply(log, data_object.data, safe=False)
+        for log, data_object in zip(logs, data_objects):
+            self._state.apply(log_map[log], data_object_map[data_object].data, safe=False)
 
     # Data interaction
 
