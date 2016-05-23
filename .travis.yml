@@ -3,11 +3,18 @@ language: python
 python:
   - "3.5"
 
+services:
+  - mongodb
+  - elasticsearch
+
 sudo: false
 
 install:
   - travis_retry pip install -r dev-requirements.txt
 
+before_script:
+  - sleep 10
+
 script:
   - python setup.py develop
-  - flake8 jam && behave --format progress
+  - flake8 jam && behave --format progress && py.test tests
