@@ -11,7 +11,7 @@ import time
 
 from jam import NamespaceManager
 from jam import server
-from jam.backends import EphemeralBackend
+from jam.backends.ephemeral import EphemeralBackend
 import jam
 
 
