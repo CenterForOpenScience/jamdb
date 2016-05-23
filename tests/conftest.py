@@ -9,7 +9,7 @@ import datetime
 import random
 import string
 import time
-import uuid
+import types
 
 from freezegun import freeze_time
 
@@ -42,21 +42,42 @@ available_backends = [backend for backend in get_backends() if backend.is_connec
 backend_fixture = pytest.yield_fixture(params=available_backends, ids=[backend.__name__ for backend in available_backends])
 
 
-def backend(request):
+def _backend(request):
     backend = request.param
     request.applymarker(getattr(pytest.mark, backend.__name__)())
-    inst = backend(**backend.settings_for('test', 'test', uuid.uuid4().hex))
+    inst = backend(**backend.settings_for('test', 'test', request.fixturename))
     yield inst
     inst.unset_all()
 
 
-state_backend = backend
-logger_backend = backend
-storage_backend = backend
+def backend():
+    return types.FunctionType(
+        _backend.__code__,
+        _backend.__globals__,
+        name=_backend.__name__,
+        closure=_backend.__closure__,
+        argdefs=_backend.__defaults__,
+    )
 
-backend_fixture(state_backend)
-backend_fixture(logger_backend)
-backend_fixture(storage_backend)
+
+state_backend = backend()
+logger_backend = backend()
+storage_backend = backend()
+
+pytest.yield_fixture(
+    params=available_backends,
+    ids=[b.__name__.replace('Backend', 'State') for b in available_backends]
+)(state_backend)
+
+pytest.yield_fixture(
+    params=available_backends,
+    ids=[b.__name__.replace('Backend', 'Logger') for b in available_backends]
+)(logger_backend)
+
+pytest.yield_fixture(
+    params=available_backends,
+    ids=[b.__name__.replace('Backend', 'Storage') for b in available_backends]
+)(storage_backend)
 
 
 @pytest.yield_fixture

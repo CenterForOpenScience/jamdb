@@ -1,7 +1,6 @@
 import pytest
 
 from jam import exceptions
-from jam.backends.ephemeral import EphemeralBackend
 from jam.base import BaseCollection
 from jam.base import Operation
 import jam
@@ -92,7 +91,7 @@ class TestCollectionDateInteraction:
                 sorted((x for x in collection.list()), key=lambda x: x.ref)
             ] == [
                 x.data for x in
-                sorted((x for x in sampledata[:i+1]), key=lambda x: x.ref)
+                sorted((x for x in sampledata[:i + 1]), key=lambda x: x.ref)
             ]
 
     def test_rename(self, sampledata, collection):
