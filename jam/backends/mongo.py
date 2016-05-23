@@ -101,7 +101,11 @@ class MongoBackend(Backend):
             query.key: {{
                 queries.In: '$in',
                 queries.Equal: '$eq',
+                queries.LessThan: '$lt',
                 queries.NotEqual: '$ne',
+                queries.GreaterThan: '$gt',
                 queries.BitwiseAnd: '$bitsAllSet',
+                queries.LessThanOrEqualTo: '$lte',
+                queries.GreaterThanOrEqualTo: '$gte',
             }[query.__class__]: query.value}
         }
