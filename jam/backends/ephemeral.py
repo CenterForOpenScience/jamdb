@@ -1,9 +1,14 @@
+from jam import settings
 from jam import exceptions
 from jam.backends.base import Backend
 
 
 class EphemeralBackend(Backend):
     _cls_cache = {}
+
+    @classmethod
+    def is_connected(cls):
+        return settings.EPHEMERAL['USE']
 
     @classmethod
     def settings_for(cls, namespace_id, collection_id, type_):
@@ -32,3 +37,4 @@ class EphemeralBackend(Backend):
 
     def unset_all(self):
         self._cache = {}
+        EphemeralBackend._cls_cache.pop(self._key, None)

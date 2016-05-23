@@ -11,12 +11,17 @@ SENTRY_DSN: null
 # SQLITE_URI: sqlite://jam.db
 SQLITE_URI: jam.db
 
+EPHEMERAL:
+  USE: true
+
 MONGO:
+  USE: true
   DATABASE_NAME: jam
   TIMEOUT: 30
   URI: mongodb://localhost:27017/
 
 ELASTICSEARCH:
+  USE: true
   TIMEOUT: 30
   URI: http://localhost:9200/
 

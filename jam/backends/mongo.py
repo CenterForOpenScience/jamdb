@@ -19,12 +19,22 @@ def unescape(data):
 
 class MongoBackend(Backend):
 
-    DEFAULT_CONNECTION = MongoClient(settings.MONGO_URI, connect=False)
+    DEFAULT_CONNECTION = MongoClient(settings.MONGO['URI'], connect=False, serverselectiontimeoutms=settings.MONGO['TIMEOUT'] * 1000)
+
+    @classmethod
+    def is_connected(cls):
+        if not settings.MONGO['USE']:
+            return False
+        try:
+            cls.DEFAULT_CONNECTION.server_info()
+            return True
+        except Exception:
+            return False
 
     @classmethod
     def settings_for(cls, namespace_id, collection_id, type_):
         return {
-            'database': settings.MONGO_DATABASE_NAME,
+            'database': settings.MONGO['DATABASE_NAME'],
             'collection': '{}-{}-{}'.format(type_, namespace_id, collection_id),
         }
 

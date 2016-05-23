@@ -15,7 +15,7 @@ logging.getLogger('elasticsearch').setLevel(logging.WARNING)
 
 class ElasticsearchBackend(Backend):
 
-    DEFAULT_CONNECTION = Elasticsearch(settings.ELASTICSEARCH_URI)
+    DEFAULT_CONNECTION = Elasticsearch(settings.ELASTICSEARCH['URI'], request_timeout=settings.ELASTICSEARCH['TIMEOUT'])
 
     ES_MAPPING = {'dynamic_templates': [{
         'inner_data': {
@@ -43,6 +43,16 @@ class ElasticsearchBackend(Backend):
     #         'match_mapping_type': 'double',
     #         'mapping': {'type': 'date', 'include_in_all': False}
     #     }
+
+    @classmethod
+    def is_connected(cls):
+        if not settings.ELASTICSEARCH['USE']:
+            return False
+        try:
+            cls.DEFAULT_CONNECTION.cluster.health()
+            return True
+        except Exception:
+            return False
 
     @classmethod
     def settings_for(cls, namespace_id, collection_id, type_):

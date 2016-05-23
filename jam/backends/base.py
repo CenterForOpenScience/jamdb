@@ -6,6 +6,10 @@ from jam.backends.util import QueryCommand
 
 class ReadOnlyBackend(abc.ABC):
 
+    @classmethod
+    def is_connected(self):
+        return False
+
     @abc.abstractmethod
     def get(self, key):
         raise NotImplementedError

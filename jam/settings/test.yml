@@ -5,12 +5,17 @@ PORT: 50325
 HOST: localhost
 SENTRY_DSN: null
 
+EPHEMERAL:
+  USE: true
+
 MONGO:
+  USE: true
   DATABASE_NAME: jam_test
   TIMEOUT: .5
   URI: mongodb://localhost:27017/
 
 ELASTICSEARCH:
+  USE: true
   TIMEOUT: .5
   URI: http://localhost:9200/
 
