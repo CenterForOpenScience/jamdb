@@ -9,6 +9,8 @@ import requests
 import threading
 import time
 
+import aiohttpretty
+
 from jam import NamespaceManager
 from jam import server
 from jam.backends.ephemeral import EphemeralBackend
@@ -34,6 +36,8 @@ class ServerThread(threading.Thread):
 
 
 def before_all(context):
+    aiohttpretty.activate()
+
     logger = logging.getLogger(requests.__name__)
     logger.setLevel(logging.ERROR)
     context.base_url = 'http://localhost:{}'.format(settings.PORT)
@@ -50,6 +54,7 @@ def before_all(context):
 
 
 def after_all(context):
+    aiohttpretty.deactivate()
     context.server_thread.stop()
 
 
@@ -63,6 +68,8 @@ def before_scenario(context, senario):
     context.ignored_auth = []
     for v in EphemeralBackend._cls_cache.values():
         v.clear()
+
+    aiohttpretty.clear()
 
     context.mocks = {}
     context.patches = {}

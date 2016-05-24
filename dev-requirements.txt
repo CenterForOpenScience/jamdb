@@ -4,4 +4,6 @@ behave
 flake8
 nose
 
+-e git+https://github.com/centerforopenscience/aiohttpretty.git#egg=aiohttpretty
+
 -r requirements.txt
