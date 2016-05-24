@@ -1,3 +1,4 @@
+import asyncio
 import http.client
 
 import jwt
@@ -244,18 +245,26 @@ class PluginHandler(ResourceHandler):
         self.set_status(http.client.CREATED)
         self.plugin.post(self)
 
-    def get(self, **args):
-        self.plugin.get(self)
+    async def get(self, **args):
+        resp = self.plugin.get(self)
+        if asyncio.iscoroutine(resp):
+            await resp
 
-    def put(self, **args):
+    async def put(self, **args):
         self._check_type()
-        self.plugin.put(self)
+        resp = self.plugin.put(self)
+        if asyncio.iscoroutine(resp):
+            await resp
 
-    def patch(self, **args):
+    async def patch(self, **args):
         self._check_type()
-        self.plugin.patch(self)
+        resp = self.plugin.patch(self)
+        if asyncio.iscoroutine(resp):
+            await resp
 
-    def delete(self, **args):
+    async def delete(self, **args):
         # Set before to allow plugins to augment
         self.set_status(http.client.NO_CONTENT)
-        self.plugin.delete(self)
+        resp = self.plugin.delete(self)
+        if asyncio.iscoroutine(resp):
+            await resp
