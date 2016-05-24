@@ -52,6 +52,16 @@ class Permissions(enum.IntEnum):
 
     @classmethod
     def get_permissions(cls, user, *perm_objs):
+        if user and (user.granted or user.limited):
+            ref = ''
+            for obj in perm_objs:
+                ref += obj.ref
+                if user.limited:
+                    obj.permissions = {user.uid: user.granted.get(ref, Permissions.NONE)}
+                else:
+                    obj.permissions[user.uid] = obj.permissions.get(user.uid, Permissions.NONE) | user.granted.get(ref, Permissions.NONE)
+                ref += '.'
+
         user = user and user.uid or '-'
         utype, provider, *_ = user.split('-')
 
