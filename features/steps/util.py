@@ -9,6 +9,8 @@ import nose
 
 import requests
 
+import aiohttpretty
+
 from freezegun import freeze_time
 
 from jam import auth
