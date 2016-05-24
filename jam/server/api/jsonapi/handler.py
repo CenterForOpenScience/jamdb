@@ -142,7 +142,7 @@ class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
         self.set_status(int(status_code))
         self.finish({
             'errors': [{
-                'detail': getattr(exc_info[1], 'log_message', self._reason),
+                'detail': getattr(exc_info[1], 'log_message', None) or self._reason,
                 'status': str(int(status_code)),
                 'title': self._reason,
             }]
