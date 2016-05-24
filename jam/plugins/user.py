@@ -1,6 +1,9 @@
 import re
+import json
 import logging
+from urllib.parse import quote
 
+import aiohttp
 import sendgrid
 
 from jam.auth import User
@@ -32,6 +35,8 @@ class UserPlugin(Plugin):
     def get_type(cls, request):
         if request.method == 'POST':
             return 'reset'
+        if request.method in ('PATCH', 'GET'):
+            return 'supressions'
         return None
 
     @property
@@ -58,6 +63,59 @@ class UserPlugin(Plugin):
         if request.method == 'POST':
             return Permissions.ADMIN
         return Permissions.READ
+
+    async def get(self, handler):
+        attrs = {}
+        email = handler.get_query_argument('email')
+        groups = handler.get_query_arguments('group[]')
+
+        if not self.sendgrid_key:
+            raise exceptions.BadRequest(detail='sendgridKey must be provided via collection.plugins.sendgridKey')
+
+        for group in groups:
+            async with aiohttp.get('https://api.sendgrid.com/v3/asm/groups/{}/suppressions'.format(group), headers={'Authorization': 'Bearer {}'.format(self.sendgrid_key)}) as response:
+                if response.status != 200 or not isinstance(await response.json(), list):
+                    attrs[group] = False
+                    continue
+                attrs[group] = email in await response.json()
+
+        return handler.write({
+            'data': {
+                'id': email,
+                'type': 'supressions',
+                'attributes': attrs
+            }
+        })
+
+    async def patch(self, handler):
+        if not self.sendgrid_key:
+            raise exceptions.BadRequest(detail='sendgridKey must be provided via collection.plugins.sendgridKey')
+
+        if not handler.payload:
+            raise exceptions.BadRequest()
+
+        if not handler.payload.attributes.get('email'):
+            raise exceptions.BadRequest(detail='email must be provided')
+
+        email = handler.payload.attributes.pop('email')
+        headers = {'Authorization': 'Bearer {}'.format(self.sendgrid_key)}
+
+        for group, subscribe in list(handler.payload.attributes.items()):
+            if subscribe:
+                async with aiohttp.post('https://api.sendgrid.com/v3/asm/groups/{}/suppressions'.format(group), headers=headers, data=json.dumps({'recipient_emails': [email]})) as response:
+                    assert response.status == 201  # TODO Handle errors
+            else:
+                async with aiohttp.delete('https://api.sendgrid.com/v3/asm/groups/{}/suppressions/{}'.format(group, quote(email)), headers=headers) as response:
+                    assert response.status == 204  # TODO Handle errors
+            handler.payload.attributes[group] = bool(subscribe)
+
+        return handler.write({
+            'data': {
+                'id': email,
+                'type': 'supressions',
+                'attributes': handler.payload.attributes
+            }
+        })
 
     def post(self, handler):
         if not self.sendgrid_key:
