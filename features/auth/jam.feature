@@ -1,4 +1,4 @@
-Feature: Jam authentication
+Feature: Jam Authentication
 
   Scenario: Can login
     Given namespace StarCraft exists
