@@ -12,13 +12,14 @@ addons:
     packages:
       - mongodb-org-server
 
+before_install:
+  - mongod --version
+  - mkdir -p /tmp/mongo/data
+  - mongod --dbpath=/tmp/mongo/data > /dev/null &
+  - sleep 10
+
 install:
   - travis_retry pip install -r dev-requirements.txt
-
-before_script:
-  - mongod --version
-  - service mongod start
-  - sleep 10
 
 script:
   - python setup.py develop
