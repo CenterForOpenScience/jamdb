@@ -10,14 +10,14 @@ addons:
     sources:
       - mongodb-3.2-precise
     packages:
-      - mongodb-org
+      - mongodb-org-server
 
 install:
   - travis_retry pip install -r dev-requirements.txt
 
 before_script:
-  - mongo --version
-  - mongod --fork --logpath ./mongo.log
+  - mongod --version
+  - service mongod start
   - sleep 10
 
 script:
