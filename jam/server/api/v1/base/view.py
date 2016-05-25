@@ -28,7 +28,10 @@ class View:
         self.resource = resource
         self.loaded = (resource and self.parents + (resource, )) or self.parents
 
-    def get_permissions(self, request):
+    def get_permissions(self, user, loaded):
+        return Permissions.get_permissions(user, *loaded)
+
+    def get_required_permissions(self, request):
         return Permissions.from_method(request.method)
 
     def validate_id(self, id):

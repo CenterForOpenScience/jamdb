@@ -27,10 +27,18 @@ class CollectionView(View):
         self._namespace = namespace
         self._collection = resource
 
-    def get_permissions(self, request):
-        if request.method == 'GET' and self.resource is None:
+    def get_permissions(self, user, loaded):
+        hoisted_read = Permissions.get_permissions(user, loaded[-1]) & Permissions.READ
+        if self.resource:
+            if super().get_permissions(user, loaded) != Permissions.ADMIN:
+                loaded = loaded[:-1]
+        return super().get_permissions(user, loaded) | hoisted_read
+
+    def get_required_permissions(self, request):
+        if request.method == 'GET' and not self.resource:
             return Permissions.NONE
-        return super().get_permissions(request)
+
+        return super().get_required_permissions(request)
 
     def do_create(self, id, attributes, user):
         return self._namespace.create_collection(id, user.uid, **attributes).document
@@ -125,15 +133,13 @@ class CollectionSerializer(Serializer):
         'documents': DocumentsRelationship,
     }
 
-    def __init__(self, request, user, inst, *parents):
-        super().__init__(request, user, inst, *parents)
-        self._permission |= Permissions.get_permissions(user, Collection(inst))
-
     def attributes(self):
+        full = self._permission == Permissions.ADMIN or ((self._permission ^ Permissions.get_permissions(self._user, Collection(self._instance))) & Permissions.READ) == Permissions.READ
+
         return {
             'name': self._instance.ref,
             'schema': self._instance.data.get('schema'),
-            **({} if self._permission & Permissions.ADMIN != Permissions.ADMIN else {
+            **({} if not full else {
                 'plugins': self._instance.data.get('plugins', {}),
                 'permissions': {
                     sel: Permissions(perm).name

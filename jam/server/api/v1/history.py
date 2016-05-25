@@ -34,7 +34,7 @@ class HistoryView(View):
         self._namespace = namespace
         self._collection = collection
 
-    def get_permissions(self, request):
+    def get_required_permissions(self, request):
         return Permissions.READ
 
     def create(self, id, attributes, user, **relationships):

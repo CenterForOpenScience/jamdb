@@ -56,8 +56,8 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
         return root_view(*loaded), None
 
     def check_permissions(self):
-        permissions = Permissions.get_permissions(self.current_user, *self._view.loaded)
-        required_permissions = self._view.get_permissions(self.request)
+        permissions = self._view.get_permissions(self.current_user, self._view.loaded)
+        required_permissions = self._view.get_required_permissions(self.request)
 
         # For use later on
         self.current_user.permissions = permissions
