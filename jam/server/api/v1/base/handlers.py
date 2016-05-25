@@ -9,7 +9,6 @@ from raven.contrib.tornado import SentryMixin
 
 from jam.auth import User
 from jam import exceptions
-from jam.auth import Permissions
 from jam.server.api.jsonapi import JSONAPIHandler
 from jam.server.api.jsonapi import BulkPayload
 from jam.server.api.jsonapi import JsonAPIPayload
