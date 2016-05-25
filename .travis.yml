@@ -16,9 +16,12 @@ install:
   - travis_retry pip install -r dev-requirements.txt
 
 before_script:
-  - sleep 10
   - mongo --version
+  - mongod --fork
+  - sleep 10
 
 script:
   - python setup.py develop
   - flake8 jam && behave --format progress && py.test tests
+
+cache: pip
