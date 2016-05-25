@@ -27,6 +27,7 @@ Feature: Creating a namespace
                 }
               },
               "meta": {
+                "permissions": "ADMIN",
                 "created-by": "system-system-we",
                 "modified-by": "system-system-we",
                 "created-on": "2015-01-01T00:00:00",

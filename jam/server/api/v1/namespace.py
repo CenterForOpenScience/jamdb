@@ -2,6 +2,7 @@ import operator
 import functools
 
 from jam import Q
+from jam import Namespace
 from jam import NamespaceManager
 from jam.auth import Permissions
 from jam.server.api.v1.base import View
@@ -85,12 +86,15 @@ class NamespaceSerializer(Serializer):
         'collections': CollectionRelationship
     }
 
-    @classmethod
-    def attributes(cls, inst):
+    def __init__(self, request, user, inst, *parents):
+        super().__init__(request, user, inst, *parents)
+        self._permission |= Permissions.get_permissions(user, Namespace(inst))
+
+    def attributes(self):
         return {
-            'name': inst.ref,
+            'name': self._instance.ref,
             'permissions': {
                 sel: Permissions(perm).name
-                for sel, perm in inst.data['permissions'].items()
+                for sel, perm in self._instance.data['permissions'].items()
             }
         }

@@ -34,7 +34,7 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
     def serialize(self, inst):
         if inst is None:
             return None
-        return self._serializer.serialize(self.request, inst, *self._view.parents)
+        return self._serializer(self.request, self.current_user, inst, *self._view.parents).serialize()
 
     def initialize(self, view, serializer):
         self._view = None

@@ -103,6 +103,5 @@ class DocumentSerializer(Serializer):
         'history': HistoryRelationship
     }
 
-    @classmethod
-    def attributes(cls, inst):
-        return inst.data
+    def attributes(self):
+        return self._instance.data

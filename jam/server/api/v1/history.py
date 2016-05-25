@@ -9,7 +9,7 @@ class HistorySerializer(Serializer):
     type = 'history'
 
     @classmethod
-    def attributes(cls, inst):
+    def attributes(cls, user, inst):
         return {
             'record-id': inst.record_id,
             'operation': str(inst.operation),

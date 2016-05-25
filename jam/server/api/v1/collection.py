@@ -2,6 +2,7 @@ import operator
 import functools
 
 from jam import Q
+from jam import Collection
 from jam import exceptions
 from jam.auth import Permissions
 from jam.server.api.v1.base import View
@@ -124,13 +125,19 @@ class CollectionSerializer(Serializer):
         'documents': DocumentsRelationship,
     }
 
-    @classmethod
-    def attributes(cls, inst):
+    def __init__(self, request, user, inst, *parents):
+        super().__init__(request, user, inst, *parents)
+        self._permission |= Permissions.get_permissions(user, Collection(inst))
+
+    def attributes(self):
         return {
-            'name': inst.ref,
-            'schema': inst.data.get('schema'),
-            'permissions': {
-                sel: Permissions(perm).name
-                for sel, perm in inst.data['permissions'].items()
-            }
+            'name': self._instance.ref,
+            'schema': self._instance.data.get('schema'),
+            **({} if self._permission & Permissions.ADMIN != Permissions.ADMIN else {
+                'plugins': self._instance.data.get('plugins', {}),
+                'permissions': {
+                    sel: Permissions(perm).name
+                    for sel, perm in self._instance.data['permissions'].items()
+                }
+            })
         }

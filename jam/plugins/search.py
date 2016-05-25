@@ -62,11 +62,10 @@ class SearchPlugin(Plugin):
         # Super hacky but can't seem to avoid the circular imports
         class SearchSerializer(DocumentSerializer):
 
-            @classmethod
-            def meta(cls, inst):
+            def meta(self):
                 return {
-                    'score': inst._score,
-                    **super(SearchSerializer, cls).meta(inst)
+                    'score': self._instance._score,
+                    **super().meta()
                 }
         return SearchSerializer
 
