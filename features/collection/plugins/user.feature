@@ -37,6 +37,11 @@ Feature: User Plugin
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
     And the user plugin is enabled for collection StarCraft.Protoss
+      """
+      {
+        "sendgridKey": "Foo"
+      }
+      """
     When we <METHOD> "/v1/id/collections/StarCraft.Protoss/user"
       """
       {
@@ -454,17 +459,23 @@ Feature: User Plugin
         "sendgridKey": "wert"
       }
       """
+    And we create document test in StarCraft.Protoss
+      """
+      {
+        "email": "sandhya@dinosaurs.sexy"
+      }
+      """
     And the URL "https://api.sendgrid.com/v3/asm/groups/foo/suppressions" responds 200
       """
-      ["test@test.test"]
+      ["sandhya@dinosaurs.sexy"]
       """
-    When we GET "/v1/id/collections/StarCraft.Protoss/user?email=test@test.test&group[]=foo"
+    When we GET "/v1/id/collections/StarCraft.Protoss/user?id=test&group[]=foo"
     Then the response code will be 200
     And the response will be
       """
       {
         "data": {
-          "id": "test@test.test",
+          "id": "test",
           "type": "supressions",
           "attributes": {
             "foo": true
@@ -483,13 +494,19 @@ Feature: User Plugin
         "sendgridKey": "wert"
       }
       """
-    When we GET "/v1/id/collections/StarCraft.Protoss/user?email=test@test.test"
+    And we create document test in StarCraft.Protoss
+      """
+      {
+        "email": "sandhya@dinosaurs.sexy"
+      }
+      """
+    When we GET "/v1/id/collections/StarCraft.Protoss/user?id=test"
     Then the response code will be 200
     And the response will be
       """
       {
         "data": {
-          "id": "test@test.test",
+          "id": "test",
           "type": "supressions",
           "attributes": {}
         }
@@ -518,7 +535,7 @@ Feature: User Plugin
       }
       """
 
-  Scenario: Get user suppression requires email
+  Scenario: Get user suppression requires id
     Given namespace StarCraft exists
     And we have ADMIN permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
@@ -536,14 +553,14 @@ Feature: User Plugin
         "errors": [{
           "status": "400",
           "title": "Bad Request",
-          "detail": "Missing argument email"
+          "detail": "Missing argument id"
         }]
       }
       """
 
   Scenario: Get user suppression many groups
     Given namespace StarCraft exists
-    And we have ADMIN permissions to namespace StarCraft
+    And we have CREATE permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
     And the user plugin is enabled for collection StarCraft.Protoss
       """
@@ -551,23 +568,29 @@ Feature: User Plugin
         "sendgridKey": "wert"
       }
       """
+    And we create document test in StarCraft.Protoss
+      """
+      {
+        "email": "sandhya@dinosaurs.sexy"
+      }
+      """
     And the URL "https://api.sendgrid.com/v3/asm/groups/foo/suppressions" responds 200
       """
-      ["test@test.test"]
+      ["sandhya@dinosaurs.sexy"]
       """
     And the URL "https://api.sendgrid.com/v3/asm/groups/bar/suppressions" responds 200
       """
       []
       """
-    When we GET "/v1/id/collections/StarCraft.Protoss/user?email=test@test.test&group[]=foo&group[]=bar"
+    When we GET "/v1/id/collections/StarCraft.Protoss/user?id=test&group[]=foo&group[]=bar"
     Then the URL "https://api.sendgrid.com/v3/asm/groups/foo/suppressions" will have been GETed
     And the URL "https://api.sendgrid.com/v3/asm/groups/bar/suppressions" will have been GETed
-    And the response code will be 200
+    Then the response code will be 200
     And the response will be
       """
       {
         "data": {
-          "id": "test@test.test",
+          "id": "test",
           "type": "supressions",
           "attributes": {
             "foo": true,
@@ -579,7 +602,7 @@ Feature: User Plugin
 
   Scenario: Remove subcriptions
     Given namespace StarCraft exists
-    And we have ADMIN permissions to namespace StarCraft
+    And we have CREATE permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
     And the user plugin is enabled for collection StarCraft.Protoss
       """
@@ -587,26 +610,32 @@ Feature: User Plugin
         "sendgridKey": "wert"
       }
       """
-    And the URL "https://api.sendgrid.com/v3/asm/groups/foo/suppressions/test%40test.test" responds 204 to DELETEs
+    And we create document test in StarCraft.Protoss
+      """
+      {
+        "email": "sandhya@dinosaurs.sexy"
+      }
+      """
+    And the URL "https://api.sendgrid.com/v3/asm/groups/foo/suppressions/sandhya%40dinosaurs.sexy" responds 204 to DELETEs
     When we PATCH "/v1/id/collections/StarCraft.Protoss/user"
       """
       {
         "data": {
           "type": "supressions",
           "attributes": {
-            "email": "test@test.test",
+            "id": "test",
             "foo": false
           }
         }
       }
       """
-    Then the URL "https://api.sendgrid.com/v3/asm/groups/foo/suppressions/test%40test.test" will have been DELETEed
-    And the response code will be 200
+    Then the URL "https://api.sendgrid.com/v3/asm/groups/foo/suppressions/sandhya%40dinosaurs.sexy" will have been DELETEed
+    Then the response code will be 200
     And the response will be
       """
       {
         "data": {
-          "id": "test@test.test",
+          "id": "test",
           "type": "supressions",
           "attributes": {
             "foo": false
@@ -617,12 +646,18 @@ Feature: User Plugin
 
   Scenario: Add subcriptions
     Given namespace StarCraft exists
-    And we have ADMIN permissions to namespace StarCraft
+    And we have CREATE permissions to namespace StarCraft
     And collection Protoss exists in namespace StarCraft
     And the user plugin is enabled for collection StarCraft.Protoss
       """
       {
         "sendgridKey": "wert"
+      }
+      """
+    And we create document test in StarCraft.Protoss
+      """
+      {
+        "email": "sandhya@dinosaurs.sexy"
       }
       """
     And the URL "https://api.sendgrid.com/v3/asm/groups/foo/suppressions" responds 201 to POSTs
@@ -632,7 +667,7 @@ Feature: User Plugin
         "data": {
           "type": "supressions",
           "attributes": {
-            "email": "test@test.test",
+            "id": "test",
             "foo": true
           }
         }
@@ -641,7 +676,7 @@ Feature: User Plugin
     Then the URL "https://api.sendgrid.com/v3/asm/groups/foo/suppressions" will have been POSTed
       """
       {
-        "recipient_emails": ["test@test.test"]
+        "recipient_emails": ["sandhya@dinosaurs.sexy"]
       }
       """
     And the response code will be 200
@@ -649,7 +684,7 @@ Feature: User Plugin
       """
       {
         "data": {
-          "id": "test@test.test",
+          "id": "test",
           "type": "supressions",
           "attributes": {
             "foo": true
@@ -668,26 +703,32 @@ Feature: User Plugin
         "sendgridKey": "wert"
       }
       """
+    And we create document test in StarCraft.Protoss
+      """
+      {
+        "email": "sandhya@dinosaurs.sexy"
+      }
+      """
     And the URL "https://api.sendgrid.com/v3/asm/groups/foo/suppressions" responds 201 to POSTs
-    And the URL "https://api.sendgrid.com/v3/asm/groups/baz/suppressions/test%40test.test" responds 204 to DELETEs
+    And the URL "https://api.sendgrid.com/v3/asm/groups/baz/suppressions/sandhya%40dinosaurs.sexy" responds 204 to DELETEs
     When we PATCH "/v1/id/collections/StarCraft.Protoss/user"
       """
       {
         "data": {
           "type": "supressions",
           "attributes": {
-            "email": "test@test.test",
+            "id": "test",
             "foo": true,
             "baz": false
           }
         }
       }
       """
-    Then the URL "https://api.sendgrid.com/v3/asm/groups/baz/suppressions/test%40test.test" will have been DELETEed
+    Then the URL "https://api.sendgrid.com/v3/asm/groups/baz/suppressions/sandhya%40dinosaurs.sexy" will have been DELETEed
     And the URL "https://api.sendgrid.com/v3/asm/groups/foo/suppressions" will have been POSTed
       """
       {
-        "recipient_emails": ["test@test.test"]
+        "recipient_emails": ["sandhya@dinosaurs.sexy"]
       }
       """
     And the response code will be 200
@@ -695,7 +736,7 @@ Feature: User Plugin
       """
       {
         "data": {
-          "id": "test@test.test",
+          "id": "test",
           "type": "supressions",
           "attributes": {
             "foo": true,
