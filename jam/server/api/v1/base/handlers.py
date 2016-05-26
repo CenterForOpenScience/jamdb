@@ -238,11 +238,26 @@ class PluginHandler(ResourceHandler):
         if type and self.payload.type != type:
             raise exceptions.IncorrectParameter('data.type', type, self.payload.type)
 
-    def post(self, **args):
+    def check_permissions(self):
+        permissions = self._view.get_permissions(self.current_user, self._view.loaded)
+        required_permissions = self.plugin.get_required_permissions(self.request)
+
+        # For use later on
+        self.current_user.permissions = permissions
+
+        # Check permissions
+        if (required_permissions & permissions) != required_permissions:
+            if self.current_user.uid is None:
+                raise exceptions.Unauthorized()
+            raise exceptions.Forbidden(required_permissions)
+
+    async def post(self, **args):
         self._check_type()
         # Set before to allow plugins to augment
         self.set_status(http.client.CREATED)
-        self.plugin.post(self)
+        resp = self.plugin.post(self)
+        if asyncio.iscoroutine(resp):
+            await resp
 
     async def get(self, **args):
         resp = self.plugin.get(self)

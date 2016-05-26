@@ -46,7 +46,7 @@ class SearchPlugin(Plugin):
         'additionalProperties': False,
     }
 
-    def get_permissions(self, request):
+    def get_required_permissions(self, request):
         if request.method == 'POST':
             return Permissions.ADMIN
         return Permissions.READ
