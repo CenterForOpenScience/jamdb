@@ -10,6 +10,7 @@ from jam.auth import User
 from jam import exceptions
 from jam.auth import Permissions
 from jam.plugins.base import Plugin
+from jam.auth.providers.self import SelfAuthProvider
 
 
 logger = logging.getLogger(__name__)
@@ -189,7 +190,7 @@ class UserPlugin(Plugin):
             raise exceptions.BadRequest(detail='"{}" at "{}" is not a valid email'.format(email, self.email_field))
 
         namespace = handler._view._namespace  # A little hack never hurt anyone
-        user = User.create('self', '{}:{}'.format(namespace.ref, self.collection.ref), doc.ref, exp=8)
+        user = User.create(SelfAuthProvider.type, '{}:{}'.format(namespace.ref, self.collection.ref), doc.ref, exp=8)
 
         try:
             sg = sendgrid.SendGridClient(self.sendgrid_key, raise_errors=True)
