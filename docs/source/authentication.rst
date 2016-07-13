@@ -12,7 +12,7 @@ A user may authenticate to JamDB by sending a properly formatted ``POST`` reques
 
 .. code:: http
 
-    GET /v1/auth HTTP/1.1
+    POST /v1/auth HTTP/1.1
 
     {
       "data": {
