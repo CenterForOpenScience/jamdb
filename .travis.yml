@@ -10,15 +10,19 @@ addons:
     sources:
       - mongodb-3.2-precise
     packages:
-      - mongodb-org
+      - mongodb-org-server
+
+before_install:
+  - mongod --version
+  - mkdir -p /tmp/mongo/data
+  - mongod --dbpath=/tmp/mongo/data > /dev/null &
+  - sleep 10
 
 install:
   - travis_retry pip install -r dev-requirements.txt
 
-before_script:
-  - sleep 10
-  - mongo --version
-
 script:
   - python setup.py develop
   - flake8 jam && behave --format progress && py.test tests
+
+cache: pip

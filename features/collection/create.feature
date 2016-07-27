@@ -39,7 +39,7 @@ Feature: Creating a collection
     And we have ADMIN permissions to namespace foo
     When we create collection bar in namespace foo
     Then the response code will be 201
-    And the response will contain
+    And the response will be
       """
       {
         "data": {
@@ -47,17 +47,26 @@ Feature: Creating a collection
             "type": "collections",
             "attributes": {
               "name": "bar",
+              "schema": null,
+              "plugins": {},
               "permissions": {
                 "user-testing-we": "ADMIN"
               }
             },
             "meta": {
+              "permissions": "ADMIN",
               "created-by": "user-testing-we",
               "modified-by": "user-testing-we",
               "created-on": "2015-01-01T00:00:00",
               "modified-on": "2015-01-01T00:00:00"
             },
             "relationships": {
+              "namespace": {
+                "links": {
+                  "self": "http://localhost:50325/v1/namespaces/foo",
+                  "related": "http://localhost:50325/v1/namespaces/foo"
+                }
+              },
               "documents": {
                 "links": {
                   "self": "http://localhost:50325/v1/namespaces/foo/collections/bar/documents",

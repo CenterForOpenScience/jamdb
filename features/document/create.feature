@@ -183,15 +183,17 @@ Feature: Creating a document
       }
       """
     Then the response code will be 201
-    And the response will contain
+    And the response will be
       """
       {
+        "errors": [null],
         "data": [{
             "id": "things-that-make-me.happy.Nothing",
             "type": "documents",
             "attributes": {
             },
             "meta": {
+              "permissions": "ADMIN",
               "created-by": "user-testing-we",
               "modified-by": "user-testing-we",
               "created-on": "2015-01-01T00:00:00",
@@ -228,7 +230,7 @@ Feature: Creating a document
       }
       """
     Then the response code will be 415
-    And the response will contain
+    And the response will be
       """
       {
         "errors": [{
@@ -276,6 +278,7 @@ Feature: Creating a document
         {
           "id": "things-that-make-me.happy.LotsOfThings",
           "meta": {
+            "permissions": "ADMIN",
             "created-by": "user-testing-we",
             "modified-by": "user-testing-we",
             "created-on": "2015-01-01T00:00:00",
@@ -295,6 +298,7 @@ Feature: Creating a document
         {
           "id": "things-that-make-me.happy.Stuff",
           "meta": {
+            "permissions": "ADMIN",
             "created-by": "user-testing-we",
             "modified-by": "user-testing-we",
             "created-on": "2015-01-01T00:00:00",
@@ -488,6 +492,7 @@ Feature: Creating a document
               "type": "documents",
               "attributes": {},
               "meta": {
+                "permissions": "ADMIN",
                 "created-on": "2015-01-01T00:00:00",
                 "modified-on": "2015-01-01T00:00:00",
                 "created-by": "jam-StarCraft:Zerg-Overmind",
@@ -576,6 +581,7 @@ Feature: Creating a document
               "type": "documents",
               "attributes": {},
               "meta": {
+                "permissions": "ADMIN",
                 "created-on": "2015-01-01T00:00:00",
                 "modified-on": "2015-01-01T00:00:00",
                 "created-by": "jam-StarCraft:Zerg-QueenOfBlades",

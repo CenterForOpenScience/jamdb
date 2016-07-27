@@ -5,7 +5,7 @@ from jam import auth
 
 @given('{user} have {permission} permissions to {rtype} {resource}')
 def set_permissions(context, user, permission, rtype, resource):
-    context.resources[rtype][resource].permissions['user-testing-{}'.format(user)] = getattr(auth.Permissions, permission)
+    context.resources[rtype][resource].permissions['user-testing-{}'.format(user)] = auth.Permissions.from_string(permission)
 
 
 @given('{user} have {permission} permissions')

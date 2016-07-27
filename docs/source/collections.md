@@ -11,9 +11,11 @@ POST /v1/namespaces/ProgrammingLanguages/collections HTTP/1.1
 Authorization: mycooljwt
 
 {
-  "id": "Functional",
-  "type": "collections",
-  "attributes": {}
+  "data": {
+    "id": "Functional",
+    "type": "collections",
+    "attributes": {}
+  }
 }
 ```
 

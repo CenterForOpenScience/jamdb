@@ -50,10 +50,11 @@ setup(
     entry_points={
         'jam.plugins': [
             'user = jam.plugins.user:UserPlugin',
-            'search = jam.plugins.search:SearchPlugin'
+            'grant = jam.plugins.grant:GrantPlugin',
+            'search = jam.plugins.search:SearchPlugin',
         ],
         'jam.schemas': [
-            'jsonschema = jam.schemas.jsonschema:JSONSchema'
+            'jsonschema = jam.schemas.jsonschema:JSONSchema',
         ],
         'jam.backends': [
             'mongo = jam.backends.mongo:MongoBackend',
@@ -64,6 +65,7 @@ setup(
             'osf = jam.auth.providers.osf:OSFAuthProvider',
             'self = jam.auth.providers.self:SelfAuthProvider',
             'anon = jam.auth.providers.anon:AnonAuthProvider',
+            'osfgrant = jam.auth.providers.osf:OSFGrantAuthProvider',
         ],
     },
 )

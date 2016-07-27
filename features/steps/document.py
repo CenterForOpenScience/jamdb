@@ -16,6 +16,7 @@ def ensure_document(context, document, namespace, collection):
 
 
 @when('{user} create document {document} in {namespace}.{collection}')
+@given('{user} create document {document} in {namespace}.{collection}')
 def create_collection(context, user, document, namespace, collection):
     headers = {}
     if user not in context.ignored_auth:

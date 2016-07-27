@@ -1,3 +1,4 @@
+import asyncio
 import http.client
 
 import jwt
@@ -8,7 +9,6 @@ from raven.contrib.tornado import SentryMixin
 
 from jam.auth import User
 from jam import exceptions
-from jam.auth import Permissions
 from jam.server.api.jsonapi import JSONAPIHandler
 from jam.server.api.jsonapi import BulkPayload
 from jam.server.api.jsonapi import JsonAPIPayload
@@ -33,7 +33,7 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
     def serialize(self, inst):
         if inst is None:
             return None
-        return self._serializer.serialize(self.request, inst, *self._view.parents)
+        return self._serializer(self.request, self.current_user, inst, *self._view.parents).serialize()
 
     def initialize(self, view, serializer):
         self._view = None
@@ -55,8 +55,8 @@ class ResourceHandler(SentryMixin, JSONAPIHandler):
         return root_view(*loaded), None
 
     def check_permissions(self):
-        permissions = Permissions.get_permissions(self.current_user, *self._view.loaded)
-        required_permissions = self._view.get_permissions(self.request)
+        permissions = self._view.get_permissions(self.current_user, self._view.loaded)
+        required_permissions = self._view.get_required_permissions(self.request)
 
         # For use later on
         self.current_user.permissions = permissions
@@ -238,24 +238,47 @@ class PluginHandler(ResourceHandler):
         if type and self.payload.type != type:
             raise exceptions.IncorrectParameter('data.type', type, self.payload.type)
 
-    def post(self, **args):
+    def check_permissions(self):
+        permissions = self._view.get_permissions(self.current_user, self._view.loaded)
+        required_permissions = self.plugin.get_required_permissions(self.request)
+
+        # For use later on
+        self.current_user.permissions = permissions
+
+        # Check permissions
+        if (required_permissions & permissions) != required_permissions:
+            if self.current_user.uid is None:
+                raise exceptions.Unauthorized()
+            raise exceptions.Forbidden(required_permissions)
+
+    async def post(self, **args):
         self._check_type()
         # Set before to allow plugins to augment
         self.set_status(http.client.CREATED)
-        self.plugin.post(self)
+        resp = self.plugin.post(self)
+        if asyncio.iscoroutine(resp):
+            await resp
 
-    def get(self, **args):
-        self.plugin.get(self)
+    async def get(self, **args):
+        resp = self.plugin.get(self)
+        if asyncio.iscoroutine(resp):
+            await resp
 
-    def put(self, **args):
+    async def put(self, **args):
         self._check_type()
-        self.plugin.put(self)
+        resp = self.plugin.put(self)
+        if asyncio.iscoroutine(resp):
+            await resp
 
-    def patch(self, **args):
+    async def patch(self, **args):
         self._check_type()
-        self.plugin.patch(self)
+        resp = self.plugin.patch(self)
+        if asyncio.iscoroutine(resp):
+            await resp
 
-    def delete(self, **args):
+    async def delete(self, **args):
         # Set before to allow plugins to augment
         self.set_status(http.client.NO_CONTENT)
-        self.plugin.delete(self)
+        resp = self.plugin.delete(self)
+        if asyncio.iscoroutine(resp):
+            await resp

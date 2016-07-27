@@ -102,6 +102,7 @@ Feature: Getting a Namespace
               }
             },
             "meta": {
+              "permissions": "ADMIN",
               "created-by": "user-testing-system",
               "modified-by": "user-testing-system",
               "created-on": "2015-01-01T00:00:00",
@@ -140,6 +141,7 @@ Feature: Getting a Namespace
               }
             },
             "meta": {
+              "permissions": "ADMIN",
               "created-by": "user-testing-system",
               "modified-by": "user-testing-system",
               "created-on": "2015-01-01T00:00:00",

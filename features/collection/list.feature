@@ -27,7 +27,7 @@ Feature: Listing collections
       """
 
 
-  Scenario: Collection permissions suffucient
+  Scenario: Collection permissions sufficient
     Given namespace StarCraft exists
     And collection Terran exists in namespace StarCraft
     And collection Zerg exists in namespace StarCraft

@@ -39,8 +39,6 @@ class Namespace(BaseCollection):
         ]
     }
 
-    WHITELIST = {'permissions'}
-
     @property
     def document(self):
         return self._document

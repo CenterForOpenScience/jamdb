@@ -9,6 +9,8 @@ import nose
 
 import requests
 
+import aiohttpretty
+
 from freezegun import freeze_time
 
 from jam import auth
@@ -84,3 +86,36 @@ def response_exact(context):
 def headers_contains(context):
     for key, value in json.loads(context.text).items():
         nose.tools.assert_equal(context.response.headers[key], value)
+
+
+@given('the URL "{uri}" responds {status:d}')
+def patch_url(context, uri, status):
+    aiohttpretty.register_json_uri('GET', uri, status=status, body=json.loads(context.text or '{}'))
+
+
+@given('the URL "{uri}" responds {status:d} to {method}s')
+def patch_url_method(context, uri, status, method):
+    aiohttpretty.register_json_uri(method.upper(), uri, status=status, body=json.loads(context.text or '{}'))
+
+
+@then('the URL "{uri}" will have been {method}ed')
+def assert_url_hit(context, uri, method):
+    args = {
+        'uri': uri,
+        'method': method
+    }
+    if context.text:
+        args['data'] = json.dumps(json.loads(context.text))  # For formatting
+    assert aiohttpretty.has_call(**args)
+
+
+@then('my JWT will contain')
+def jwt_equals(context):
+    expected = json.loads(context.text or '{}')
+    user = auth.User(context.response.json()['data']['attributes']['token'])
+
+    nose.tools.assert_equal(expected, {
+        key: value
+        for key, value in user.jwt.items()
+        if key in expected
+    })

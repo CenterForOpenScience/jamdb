@@ -24,7 +24,8 @@ A user may authenticate to JamDB by sending a properly formatted ``POST`` reques
       }
     }
 
-    provider and the latter elements of ``attributes`` have been left blank as they very for each provider.
+.. note:: The elements of ``attributes`` have been left blank in this example as they vary per provider.
+    The following sections will cover what each provider needs to properly authenticate
 
 A successful authentication request will return the following data
 
@@ -52,6 +53,29 @@ A successful authentication request will return the following data
 ``data.attributes.provider`` is the provider that was used to authenticate as this user.
 
 ``data.attributes.token`` is the jwt used to authorize requests to JamDB
+
+OSF
+~~~
+
+You will need an OSF account and an `OAuth2`_ access token to authenticate via the OSF provider.
+
+You may sign up for an account at `osf.io`_.
+
+To acquire an access token you may either generate a personal access token in `user settings`_ or via an `OAuth2`_ authorization flow of an `OSF app`_.
+
+.. code:: http
+
+    GET /v1/auth HTTP/1.1
+
+    {
+      "data": {
+        "type": "users",
+        "attributes": {
+          "provider": "osf",
+          "access_token": "<token>",
+        }
+      }
+    }
 
 Authorizing
 -----------
@@ -145,3 +169,7 @@ User Selectors
 .. _user id: #user-selectors
 .. _user selectors: #user-selectors
 .. _type of user: #type
+.. _osf.io: https://osf.io
+.. _user settings: https://osf.io/settings/tokens/
+.. _OSF app: https://osf.io/settings/applications/
+.. _OAuth2: https://tools.ietf.org/html/rfc6749

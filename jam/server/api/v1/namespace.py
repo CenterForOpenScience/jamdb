@@ -2,6 +2,7 @@ import operator
 import functools
 
 from jam import Q
+from jam import Namespace
 from jam import NamespaceManager
 from jam.auth import Permissions
 from jam.server.api.v1.base import View
@@ -24,10 +25,12 @@ class NamespaceView(View):
         self._namespace = resource
         self.loaded = (resource, ) if resource else (self.MANAGER, )
 
-    def get_permissions(self, request):
+    def get_required_permissions(self, request):
         if request.method == 'GET' and self.resource is None:
             return Permissions.NONE
-        return super().get_permissions(request)
+        if request.method == 'DELETE' and self.resource is not None:
+            return Permissions.ADMIN
+        return super().get_required_permissions(request)
 
     def do_create(self, id, attributes, user):
         return self.MANAGER.create_namespace(id, user.uid, **attributes).document
@@ -85,12 +88,15 @@ class NamespaceSerializer(Serializer):
         'collections': CollectionRelationship
     }
 
-    @classmethod
-    def attributes(cls, inst):
+    def __init__(self, request, user, inst, *parents):
+        super().__init__(request, user, inst, *parents)
+        self._permission |= Permissions.get_permissions(user, Namespace(inst))
+
+    def attributes(self):
         return {
-            'name': inst.ref,
+            'name': self._instance.ref,
             'permissions': {
                 sel: Permissions(perm).name
-                for sel, perm in inst.data['permissions'].items()
+                for sel, perm in self._instance.data['permissions'].items()
             }
         }

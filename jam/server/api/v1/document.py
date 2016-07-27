@@ -28,10 +28,10 @@ class DocumentView(View):
         self._namespace = namespace
         self._collection = collection
 
-    def get_permissions(self, request):
+    def get_required_permissions(self, request):
         if request.method == 'GET' and self.resource is None:
             return Permissions.NONE
-        return super().get_permissions(request)
+        return super().get_required_permissions(request)
 
     def create(self, payload, user):
         id = self.validate_id(str(bson.ObjectId()) if payload.get('id') is None else payload['id'])
@@ -103,6 +103,5 @@ class DocumentSerializer(Serializer):
         'history': HistoryRelationship
     }
 
-    @classmethod
-    def attributes(cls, inst):
-        return inst.data
+    def attributes(self):
+        return self._instance.data
