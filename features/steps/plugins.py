@@ -19,8 +19,11 @@ def assert_called(context):
     if actual.get('from'):
         mail.set_from(actual.get('from'))
 
-    token = mail.add_substitution.call_args[0][1]
-    mail.add_substitution.assert_called_with(':token', token)
+    token = mail.add_substitution.call_args_list[0][0][1]
+    mail.add_substitution.assert_any_call(':token', token)
+
+    user = mail.add_substitution.call_args_list[1][0][1]
+    mail.add_substitution.assert_any_call(':user', user)
 
     mail.add_filter.assert_any_call('templates', 'enable', 1)
     mail.add_filter.assert_any_call('templates', 'template_id', actual['template'])

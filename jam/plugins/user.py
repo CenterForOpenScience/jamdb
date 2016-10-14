@@ -198,10 +198,11 @@ class UserPlugin(Plugin):
 
             mail.set_from(self.from_email)
             mail.add_substitution(':token', user.token.decode())
+            mail.add_substitution(':user', user.id)
             mail.add_filter('templates', 'enable', 1)
             mail.add_filter('templates', 'template_id', self.template)
             # Sendgrid requires subject text and html to be set to a non falsey value
-            # Its highly recommened that you overwrite these in your own templates
+            # It is highly recommended that you overwrite these in your own templates
             mail.set_subject('JamDB password reset')
             mail.set_text('Your temporary token is :token')
             mail.set_html('Your temporary token is :token')

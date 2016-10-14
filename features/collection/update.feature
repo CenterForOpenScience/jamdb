@@ -166,4 +166,71 @@ Feature: Updating a collection
             "detail": "Values at \"/SomeOtherKey\" may not be altered"
           }]
         }
-        """
+      """
+
+
+  Scenario Outline: Can not update with invalid schema
+    Given namespace StarCraft exists
+    And collection Protoss exists in namespace StarCraft
+    And we have ADMIN permissions to namespace StarCraft
+    When we PATCH "/v1/id/collections/StarCraft.Protoss"
+      """
+        {
+          "data": {
+            "id": "StarCraft.Protoss",
+            "type": "collections",
+            "attributes": {
+              "schema": <SCHEMA>
+            }
+          }
+        }
+      """
+    Then the response code will be 400
+    And the response will be
+      """
+        {
+          "errors": [{
+            "code": "C400",
+            "status": "400",
+            "title": "Invalid schema",
+            "detail": "The supplied data was an invalid jsonschema schema"
+          }]
+        }
+      """
+
+    Examples:
+      | SCHEMA                               |
+      | {"schema": 1, "type": "jsonschema"}  |
+      | {"schema": "", "type": "jsonschema"} |
+
+
+  Scenario Outline: Can not jsonpatch with invalid schema
+    Given namespace StarCraft exists
+    And collection Protoss exists in namespace StarCraft
+    And we have ADMIN permissions to namespace StarCraft
+    When the content type is application/vnd.api+json; ext="jsonpatch";
+    And we PATCH "/v1/id/collections/StarCraft.Protoss"
+      """
+        [{
+          "op": "replace",
+          "path": "/schema",
+          "value": <SCHEMA>
+        }]
+      """
+    Then the response code will be 400
+    And the response will be
+      """
+        {
+          "errors": [{
+            "code": "C400",
+            "status": "400",
+            "title": "Invalid schema",
+            "detail": "The supplied data was an invalid jsonschema schema"
+          }]
+        }
+      """
+
+    Examples:
+      | SCHEMA                               |
+      | {"schema": 1, "type": "jsonschema"}  |
+      | {"schema": "", "type": "jsonschema"} |

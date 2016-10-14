@@ -28,6 +28,10 @@ class ReadOnlyCollection:
     def from_document(cls, document):
         return cls.from_dict(document.data)
 
+    @staticmethod
+    def load_schema(schema):
+        return load_schema(schema['type'], schema['schema'])
+
     @classmethod
     def from_dict(cls, data):
         return cls(
@@ -44,7 +48,7 @@ class ReadOnlyCollection:
         self._storage = storage
         self.permissions = permissions or {}
         if schema:
-            schema = load_schema(schema['type'], schema['schema'])
+            schema = self.load_schema(schema)
         self.schema = schema
 
     # Snapshot interaction
@@ -166,6 +170,10 @@ class BaseCollection(ReadOnlyCollection):
             patch = self._generate_patch(previous.data, patch)
 
         patch = self._validate_patch(patch)
+        schema_updates = [p for p in patch if p['path'] == '/schema' and p['op'] != 'remove']
+        for update in schema_updates:
+            # ensure new schema(s) are valid
+            self.load_schema(update['value'])
 
         try:
             data = jsonpatch.apply_patch(previous.data, patch)
