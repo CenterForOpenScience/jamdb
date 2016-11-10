@@ -1,3 +1,4 @@
+import sys
 import json
 import time
 
@@ -96,6 +97,19 @@ def patch_url(context, uri, status):
 @given('the URL "{uri}" responds {status:d} to {method}s')
 def patch_url_method(context, uri, status, method):
     aiohttpretty.register_json_uri(method.upper(), uri, status=status, body=json.loads(context.text or '{}'))
+
+
+@given('The next ObjectIds will be {object_ids}')
+def patch_objectids(context, object_ids):
+    class Stopit:
+        def stop(self):
+            sys.modules['bson'].ObjectId = og_object_id
+
+    gen = (id.strip() for id in object_ids.split(','))
+    og_object_id = sys.modules['bson'].ObjectId
+
+    sys.modules['bson'].ObjectId = lambda: next(gen)
+    context.patches['bson'] = Stopit()
 
 
 @then('the URL "{uri}" will have been {method}ed')

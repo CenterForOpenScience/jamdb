@@ -180,6 +180,7 @@ Feature: Updating a collection
             "id": "StarCraft.Protoss",
             "type": "collections",
             "attributes": {
+              "permissions": {},
               "schema": <SCHEMA>
             }
           }
@@ -199,9 +200,12 @@ Feature: Updating a collection
       """
 
     Examples:
-      | SCHEMA                               |
-      | {"schema": 1, "type": "jsonschema"}  |
-      | {"schema": "", "type": "jsonschema"} |
+      | SCHEMA                                                                                          |
+      | {"schema": null, "type": "jsonschema"}            |
+      | {"schema": 1, "type": "jsonschema"}               |
+      | {"schema": "", "type": "jsonschema"}              |
+      | {"schema": "", "type": "jsonschema"}              |
+      | {"schema": {"type": "bar"}, "type": "jsonschema"} |
 
 
   Scenario Outline: Can not jsonpatch with invalid schema
@@ -231,6 +235,7 @@ Feature: Updating a collection
       """
 
     Examples:
-      | SCHEMA                               |
-      | {"schema": 1, "type": "jsonschema"}  |
-      | {"schema": "", "type": "jsonschema"} |
+      | SCHEMA                                            |
+      | {"schema": 1, "type": "jsonschema"}               |
+      | {"schema": "", "type": "jsonschema"}              |
+      | {"schema": {"type": "bar"}, "type": "jsonschema"} |

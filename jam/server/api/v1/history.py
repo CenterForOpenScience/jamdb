@@ -8,12 +8,11 @@ from jam.server.api.v1.document import DocumentView
 class HistorySerializer(Serializer):
     type = 'history'
 
-    @classmethod
-    def attributes(cls, user, inst):
+    def attributes(self):
         return {
-            'record-id': inst.record_id,
-            'operation': str(inst.operation),
-            'parameters': inst.operation_parameters,
+            'record-id': self._instance.record_id,
+            'operation': self._instance.operation.name,
+            'parameters': self._instance.operation_parameters,
         }
 
 
