@@ -170,10 +170,6 @@ class BaseCollection(ReadOnlyCollection):
             patch = self._generate_patch(previous.data, patch)
 
         patch = self._validate_patch(patch)
-        schema_updates = [p for p in patch if p['path'] == '/schema' and p['op'] != 'remove']
-        for update in schema_updates:
-            # ensure new schema(s) are valid
-            self.load_schema(update['value'])
 
         try:
             data = jsonpatch.apply_patch(previous.data, patch)
@@ -182,6 +178,9 @@ class BaseCollection(ReadOnlyCollection):
 
         if self.schema:
             self.schema.validate(data)
+
+        if data.get('schema'):
+            self.load_schema(data['schema'])
 
         data_object = self._storage.create(data)
 
