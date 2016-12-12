@@ -31,4 +31,5 @@ class _Settings:
     def __getattr__(self, attr):
         raise AttributeError('No setting for "{}"'.format(attr))
 
+
 sys.modules[__name__] = _Settings()

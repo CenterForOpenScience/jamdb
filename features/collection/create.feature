@@ -33,6 +33,24 @@ Feature: Creating a collection
         }
       """
 
+  Scenario: Bad collection name
+    Given the time is 2015-01-01T00:00:00.0000Z
+    And namespace StarCraft does exist
+    And we have ADMIN permissions to namespace StarCraft
+    When we create collection Protoss-Zerg in namespace StarCraft
+    Then the response code will be 400
+    And the response will be
+      """
+        {
+          "errors": [{
+            "code": "400",
+            "status": "400",
+            "title": "Invalid id",
+            "detail": "Expected data.id to match the Regex [\\d\\w]{3,64}, optionally prefixed by its parents ids seperated via ."
+          }]
+        }
+      """
+
   Scenario: New collection
     Given the time is 2015-01-01T00:00:00.0000Z
     And namespace foo does exist

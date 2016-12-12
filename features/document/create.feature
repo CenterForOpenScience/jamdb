@@ -166,11 +166,11 @@ Feature: Creating a document
 
   Scenario: Bulk document creation
     Given the time is 2015-01-01T00:00:00.0000Z
-    And namespace things-that-make-me exists
-    And collection happy exists in namespace things-that-make-me
-    And we have ADMIN permissions to namespace things-that-make-me
+    And namespace thingsthatmakeme exists
+    And collection happy exists in namespace thingsthatmakeme
+    And we have ADMIN permissions to namespace thingsthatmakeme
     When the content type is application/vnd.api+json; ext="bulk";
-    When we POST "/v1/namespaces/things-that-make-me/collections/happy/documents"
+    When we POST "/v1/namespaces/thingsthatmakeme/collections/happy/documents"
       """
       {
         "data": [
@@ -188,7 +188,7 @@ Feature: Creating a document
       {
         "errors": [null],
         "data": [{
-            "id": "things-that-make-me.happy.Nothing",
+            "id": "thingsthatmakeme.happy.Nothing",
             "type": "documents",
             "attributes": {
             },
@@ -202,8 +202,8 @@ Feature: Creating a document
             "relationships": {
               "history": {
                 "links": {
-                  "self": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/Nothing/history",
-                  "related": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/Nothing/history"
+                  "self": "http://localhost:50325/v1/namespaces/thingsthatmakeme/collections/happy/documents/Nothing/history",
+                  "related": "http://localhost:50325/v1/namespaces/thingsthatmakeme/collections/happy/documents/Nothing/history"
                 }
               }
             }
@@ -213,11 +213,11 @@ Feature: Creating a document
 
   Scenario: Bulk document creation missing extension
     Given the time is 2015-01-01T00:00:00.0000Z
-    And namespace things-that-make-me exists
-    And collection happy exists in namespace things-that-make-me
-    And we have ADMIN permissions to namespace things-that-make-me
+    And namespace thingsthatmakeme exists
+    And collection happy exists in namespace thingsthatmakeme
+    And we have ADMIN permissions to namespace thingsthatmakeme
     When the content type is application/vnd.api+json;
-    When we POST "/v1/namespaces/things-that-make-me/collections/happy/documents"
+    When we POST "/v1/namespaces/thingsthatmakeme/collections/happy/documents"
       """
       {
         "data": [
@@ -245,12 +245,12 @@ Feature: Creating a document
 
   Scenario: Bulk document creation with duplicate ids
     Given the time is 2015-01-01T00:00:00.0000Z
-    And namespace things-that-make-me exists
-    And collection happy exists in namespace things-that-make-me
-    And we have ADMIN permissions to namespace things-that-make-me
-    And we have ADMIN permissions to namespace things-that-make-me
+    And namespace thingsthatmakeme exists
+    And collection happy exists in namespace thingsthatmakeme
+    And we have ADMIN permissions to namespace thingsthatmakeme
+    And we have ADMIN permissions to namespace thingsthatmakeme
     When the content type is application/vnd.api+json; ext="bulk";
-    When we POST "/v1/namespaces/things-that-make-me/collections/happy/documents"
+    When we POST "/v1/namespaces/thingsthatmakeme/collections/happy/documents"
     """
     {
       "data": [
@@ -276,7 +276,7 @@ Feature: Creating a document
     {
       "data": [
         {
-          "id": "things-that-make-me.happy.LotsOfThings",
+          "id": "thingsthatmakeme.happy.LotsOfThings",
           "meta": {
             "permissions": "ADMIN",
             "created-by": "user-testing-we",
@@ -287,8 +287,8 @@ Feature: Creating a document
           "relationships": {
             "history": {
               "links": {
-                "related": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/LotsOfThings/history",
-                "self": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/LotsOfThings/history"
+                "related": "http://localhost:50325/v1/namespaces/thingsthatmakeme/collections/happy/documents/LotsOfThings/history",
+                "self": "http://localhost:50325/v1/namespaces/thingsthatmakeme/collections/happy/documents/LotsOfThings/history"
               }
             }
           },
@@ -296,7 +296,7 @@ Feature: Creating a document
           "type": "documents"
         },
         {
-          "id": "things-that-make-me.happy.Stuff",
+          "id": "thingsthatmakeme.happy.Stuff",
           "meta": {
             "permissions": "ADMIN",
             "created-by": "user-testing-we",
@@ -307,8 +307,8 @@ Feature: Creating a document
           "relationships": {
             "history": {
               "links": {
-                "related": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/Stuff/history",
-                "self": "http://localhost:50325/v1/namespaces/things-that-make-me/collections/happy/documents/Stuff/history"
+                "related": "http://localhost:50325/v1/namespaces/thingsthatmakeme/collections/happy/documents/Stuff/history",
+                "self": "http://localhost:50325/v1/namespaces/thingsthatmakeme/collections/happy/documents/Stuff/history"
               }
             }
           },
@@ -332,11 +332,11 @@ Feature: Creating a document
 
   Scenario: Bulk document creation with bad data
     Given the time is 2015-01-01T00:00:00.0000Z
-    And namespace things-that-make-me exists
-    And collection happy exists in namespace things-that-make-me
-    And we have ADMIN permissions to namespace things-that-make-me
+    And namespace thingsthatmakeme exists
+    And collection happy exists in namespace thingsthatmakeme
+    And we have ADMIN permissions to namespace thingsthatmakeme
     When the content type is application/vnd.api+json; ext="bulk";
-    When we POST "/v1/namespaces/things-that-make-me/collections/happy/documents"
+    When we POST "/v1/namespaces/thingsthatmakeme/collections/happy/documents"
       """
       {
         "data": [
@@ -457,6 +457,39 @@ Feature: Creating a document
           }]
         }
       """
+
+  Scenario: Valid Id
+    Given the time is 2015-01-01T00:00:00.0000Z
+    And namespace StarCraft exists
+    And collection Zerg exists in namespace StarCraft
+    And we-the-people have ADMIN permissions to namespace StarCraft
+    When we-the-people create document Brood-Lord in StarCraft.Zerg
+    Then the response code will be 201
+    And the response will be
+        """
+        {
+          "data": {
+              "id": "StarCraft.Zerg.Brood-Lord",
+              "type": "documents",
+              "attributes": {},
+              "meta": {
+                "permissions": "ADMIN",
+                "created-on": "2015-01-01T00:00:00",
+                "modified-on": "2015-01-01T00:00:00",
+                "created-by": "user-testing-we-the-people",
+                "modified-by": "user-testing-we-the-people"
+              },
+              "relationships": {
+                "history": {
+                  "links": {
+                    "self": "http://localhost:50325/v1/namespaces/StarCraft/collections/Zerg/documents/Brood-Lord/history",
+                    "related": "http://localhost:50325/v1/namespaces/StarCraft/collections/Zerg/documents/Brood-Lord/history"
+                  }
+                }
+              }
+            }
+          }
+          """
 
   Scenario: Parent Ids
     Given namespace StarCraft exists
