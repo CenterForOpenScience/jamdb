@@ -419,21 +419,22 @@ Feature: Global API Features
             "code": "400",
             "status": "400",
             "title": "Invalid id",
-            "detail": "Expected data.id to match the Regex [\\d\\w\\-]{3,64}, optionally prefixed by its parents ids seperated via ."
+            "detail": "Expected data.id to match the Regex [\\d\\w<TAG_ALONG>]{3,64}, optionally prefixed by its parents ids seperated via ."
           }]
         }
       """
 
     Examples: Cases
-      | URL                                                       | ID                      | TYPE        |
-      | /v1/namespaces/StarCraft/collections/                     | "Inv#alid"              | collections |
-      | /v1/namespaces/StarCraft/collections/                     | "Wrong.Parents"         | collections |
-      | /v1/namespaces/StarCraft/collections/                     | "StarCraft.Inva#lid"    | collections |
-      | /v1/namespaces/StarCraft/collections/                     | "StarCraft.In$a#lid"    | collections |
-      | /v1/namespaces/StarCraft/collections/                     | "Still..invalid."       | collections |
-      | /v1/namespaces/StarCraft/collections/                     | ""                      | collections |
-      | /v1/namespaces/StarCraft/collections/Zerg/documents       | "Inv#alid"              | documents   |
-      | /v1/namespaces/StarCraft/collections/Zerg/documents       | ""                      | documents   |
-      | /v1/namespaces/StarCraft/collections/Zerg/documents       | "StarCraft.Inva#lid"    | documents   |
-      | /v1/namespaces/StarCraft/collections/Zerg/documents       | "StarCraft.In$a#lid"    | documents   |
-      | /v1/namespaces/StarCraft/collections/Zerg/documents       | "Still..invalid."       | documents   |
+      | URL                                                       | ID                      | TYPE        | TAG_ALONG |
+      | /v1/namespaces/StarCraft/collections/                     | "Inv#alid"              | collections |           |
+      | /v1/namespaces/StarCraft/collections/                     | "Wrong.Parents"         | collections |           |
+      | /v1/namespaces/StarCraft/collections/                     | "StarCraft.Inva#lid"    | collections |           |
+      | /v1/namespaces/StarCraft/collections/                     | "StarCraft.Inva-lid"    | collections |           |
+      | /v1/namespaces/StarCraft/collections/                     | "StarCraft.In$a#lid"    | collections |           |
+      | /v1/namespaces/StarCraft/collections/                     | "Still..invalid."       | collections |           |
+      | /v1/namespaces/StarCraft/collections/                     | ""                      | collections |           |
+      | /v1/namespaces/StarCraft/collections/Zerg/documents       | "Inv#alid"              | documents   | \\-       |
+      | /v1/namespaces/StarCraft/collections/Zerg/documents       | ""                      | documents   | \\-       |
+      | /v1/namespaces/StarCraft/collections/Zerg/documents       | "StarCraft.Inva#lid"    | documents   | \\-       |
+      | /v1/namespaces/StarCraft/collections/Zerg/documents       | "StarCraft.In$a#lid"    | documents   | \\-       |
+      | /v1/namespaces/StarCraft/collections/Zerg/documents       | "Still..invalid."       | documents   | \\-       |

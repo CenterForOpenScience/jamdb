@@ -10,6 +10,7 @@ from jam.server.api.v1.base.constants import ID_RE
 
 class View:
     parent = None
+    ID_RE = ID_RE
 
     @classmethod
     def lineage(cls):
@@ -36,14 +37,14 @@ class View:
 
     def validate_id(self, id):
         parent_re = r'\.'.join([re.escape(parent.ref) for parent in self.parents])
-        tail = ID_RE if self.resource is None else re.escape(self.resource.ref)
+        tail = self.ID_RE if self.resource is None else re.escape(self.resource.ref)
         if id is None or re.match(r'^({}\.)?{}$'.format(parent_re, tail), str(id)) is None:
             raise exceptions.JamException(
                 '400',
                 http.client.BAD_REQUEST,
                 'Invalid id',
                 'Expected data.id {}, optionally prefixed by its parents ids seperated via .'.format(
-                    'to match the Regex ' + ID_RE if self.resource is None else 'to be ' + self.resource.ref
+                    'to match the Regex ' + self.ID_RE if self.resource is None else 'to be ' + self.resource.ref
                 ),
                 should_log=False
             )

@@ -164,7 +164,7 @@ Feature: Updating a namespace
             "code": "S400",
             "status": "400",
             "title": "Schema validation failed",
-            "detail": "Validation error \"Additional properties are not allowed ('justsomejumbleduptext' was unexpected)\" at \"permissions\" against schema \"{\"additionalProperties\": false, \"patternProperties\": {\"^(\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\-\\\\*]+\\\\-\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\-\\\\*]+)$\": {\"type\": \"integer\"}}, \"type\": \"object\"}\""
+            "detail": "Validation error \"Additional properties are not allowed ('justsomejumbleduptext' was unexpected)\" at \"permissions\" against schema \"{\"additionalProperties\": false, \"patternProperties\": {\"^(\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\-\\\\*]+\\\\-\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\*]+)$\": {\"type\": \"integer\"}}, \"type\": \"object\"}\""
           }]
         }
       """

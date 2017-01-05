@@ -63,6 +63,64 @@ Feature: Updating a collection
         }
       """
 
+  Scenario: Updating User Permissions via jsonpatch
+    Given namespace StarCraft exists
+    And collection Protoss exists in namespace StarCraft
+    And we have ADMIN permissions to namespace StarCraft
+    When the content type is application/vnd.api+json; ext="jsonpatch";
+    And we PATCH "/v1/namespaces/StarCraft/collections/Protoss"
+      """
+        [{
+          "op": "add",
+          "path": "/permissions/jam-Starcraft.Terran-SCV",
+          "value": "ADMIN"
+        }]
+      """
+    Then the response code will be 200
+    And the response will contain
+      """
+      {
+        "data": {
+            "id": "StarCraft.Protoss",
+            "type": "collections",
+            "attributes": {
+              "permissions": {
+                "jam-Starcraft.Terran-SCV": "ADMIN"
+              }
+            }
+          }
+        }
+      """
+
+  Scenario: Updating User Permissions with - via jsonpatch
+    Given namespace StarCraft exists
+    And collection Protoss exists in namespace StarCraft
+    And we have ADMIN permissions to namespace StarCraft
+    When the content type is application/vnd.api+json; ext="jsonpatch";
+    And we PATCH "/v1/namespaces/StarCraft/collections/Protoss"
+      """
+        [{
+          "op": "add",
+          "path": "/permissions/jam-Starcraft.Terran-Siege-Tank",
+          "value": "ADMIN"
+        }]
+      """
+    Then the response code will be 200
+    And the response will contain
+      """
+      {
+        "data": {
+            "id": "StarCraft.Protoss",
+            "type": "collections",
+            "attributes": {
+              "permissions": {
+                "jam-Starcraft.Terran-Siege-Tank": "ADMIN"
+              }
+            }
+          }
+        }
+      """
+
   Scenario: Invalid Permissions
     Given namespace StarCraft exists
     And collection Protoss exists in namespace StarCraft
@@ -136,7 +194,7 @@ Feature: Updating a collection
             "code": "S400",
             "status": "400",
             "title": "Schema validation failed",
-            "detail": "Validation error \"Additional properties are not allowed ('justsomejumbleduptext' was unexpected)\" at \"permissions\" against schema \"{\"additionalProperties\": false, \"patternProperties\": {\"^(\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\-\\\\*]+\\\\-\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\-\\\\*]+)$\": {\"type\": \"integer\"}}, \"type\": \"object\"}\""
+            "detail": "Validation error \"Additional properties are not allowed ('justsomejumbleduptext' was unexpected)\" at \"permissions\" against schema \"{\"additionalProperties\": false, \"patternProperties\": {\"^(\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\-\\\\*]+\\\\-\\\\*|[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\-\\\\*]+\\\\-[^\\\\s\\\\*]+)$\": {\"type\": \"integer\"}}, \"type\": \"object\"}\""
           }]
         }
       """

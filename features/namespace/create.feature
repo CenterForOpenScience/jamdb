@@ -45,7 +45,6 @@ Feature: Creating a namespace
         }
       """
 
-
   Scenario: Namespace Exists
     Given namespace StarCraft exists
     And we are a system user
@@ -68,6 +67,31 @@ Feature: Creating a namespace
           "status": "409",
           "title": "Namespace already exists",
           "detail": "Namespace \"StarCraft\" already exists"
+        }]
+      }
+      """
+
+  Scenario: Invalid Name
+    Given we are a system user
+    When we POST to "/v1/namespaces"
+      """
+        {
+          "data": {
+            "id": "Star-Craft",
+            "type": "namespaces",
+            "attributes": {}
+          }
+        }
+      """
+    Then the response code will be 400
+    And the response will be
+      """
+      {
+        "errors": [{
+          "code": "400",
+          "status": "400",
+          "title": "Invalid id",
+          "detail": "Expected data.id to match the Regex [\\d\\w]{3,64}, optionally prefixed by its parents ids seperated via ."
         }]
       }
       """

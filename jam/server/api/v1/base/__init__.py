@@ -1,6 +1,5 @@
 from jam.server.api.v1.base.view import View
 from jam.server.api.v1.base.plugin import Plugin
-from jam.server.api.v1.base.constants import ID_RE
 from jam.server.api.v1.base.constants import ENDING
 from jam.server.api.v1.base.constants import NAMESPACER
 from jam.server.api.v1.base.serializer import Serializer
@@ -12,13 +11,13 @@ from jam.server.api.v1.base.handlers import RelationshipHandler
 
 def ResourceEndpoint(view, serializer):
     hierachical, ids, kwargs = [], [], {'view': view, 'serializer': serializer}
-    selector = r'(?P<{}_id>{})'.format(view.name, ID_RE)
+    selector = r'(?P<{}_id>{})'.format(view.name, view.ID_RE)
 
     for v in view.lineage()[:-1]:
         # Just of list of resource id regexes that will be concatenated with NAMESPACER
-        ids.append(r'(?P<{}_id>{})'.format(v.name, ID_RE))
+        ids.append(r'(?P<{}_id>{})'.format(v.name, v.ID_RE))
         # Builds /resources/regexeforresourceid
-        hierachical.extend([v.plural, r'(?P<{}_id>{})'.format(v.name, ID_RE)])
+        hierachical.extend([v.plural, r'(?P<{}_id>{})'.format(v.name, v.ID_RE)])
 
     hierachical.append(view.plural)
 

@@ -11,6 +11,8 @@ from jam.server.api.v1.collection import CollectionView
 
 class DocumentView(View):
 
+    ID_RE = r'[\d\w\-]{3,64}'
+
     name = 'document'
     plural = 'documents'
     parent = CollectionView

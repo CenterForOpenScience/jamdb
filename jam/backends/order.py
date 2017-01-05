@@ -49,6 +49,7 @@ def O(key, order):
     except KeyError:
         raise ValueError('Unsupported order {}'.format(order))
 
+
 O.Ascending = Ascending
 O.Descending = Descending
 O.ASCENDING = Order.ASCENDING

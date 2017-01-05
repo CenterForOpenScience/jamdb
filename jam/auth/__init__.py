@@ -4,7 +4,7 @@ from jam.auth.permissions import Permissions
 PERMISSIONS_SCHEMA = {
     'type': 'object',
     'patternProperties': {
-        r'^(\*|[^\s\-\*]+\-\*|[^\s\-\*]+\-[^\s\-\*]+\-\*|[^\s\-\*]+\-[^\s\-\*]+\-[^\s\-\*]+)$': {
+        r'^(\*|[^\s\-\*]+\-\*|[^\s\-\*]+\-[^\s\-\*]+\-\*|[^\s\-\*]+\-[^\s\-\*]+\-[^\s\*]+)$': {
             'type': 'integer'
         }
     },
