@@ -1,21 +1,19 @@
-furl==0.4.8
 aiohttp==0.19.0
-pyjwt==1.4.0
+bcrypt==2.0.0
+colorlog==2.10.0
+docopt==0.6.2
 elasticsearch-dsl==0.0.9
 elasticsearch==1.7.0
-stevedore==1.10.0
-bcrypt==2.0.0
+furl==0.4.8
 jsonpatch==1.12
+jsonschema==2.5.0
+pyjwt==1.4.0
+pymongo==3.4.0
+pyyaml==3.12
+requests==2.18.1
 sendgrid==2.2.1
-git+https://github.com/jmcarp/raven-python
+stevedore==1.10.0
+tornado==4.5.1
+ujson==1.35
 
-# APIs very unlikely to change
-# Leaving unpinned
-pymongo
-tornado
-requests
-jsonschema
-colorlog
-docopt
-pyyaml
-ujson
+git+https://github.com/jmcarp/raven-python

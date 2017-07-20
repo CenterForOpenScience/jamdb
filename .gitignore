@@ -70,3 +70,5 @@ local.yml
 *-local.yml
 
 *.db
+.volumes/
+.python-version

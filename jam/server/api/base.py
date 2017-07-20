@@ -69,3 +69,15 @@ class Default404Handler(CORSMixin, tornado.web.RequestHandler):
                 'detail': self._reason,
             }]
         })
+
+    # avoid dumping duplicate information to application log
+    def log_exception(self, typ, value, tb):
+        if isinstance(value, tornado.web.HTTPError):
+            if value.log_message:
+                format = "%d %s: " + value.log_message
+                args = ([value.status_code, self._request_summary()] +
+                        list(value.args))
+                tornado.web.gen_log.warning(format, *args)
+        else:
+            tornado.web.app_log.error("Uncaught exception %s\n", self._request_summary(),
+                                      exc_info=(typ, value, tb))
