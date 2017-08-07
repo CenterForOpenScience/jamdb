@@ -42,6 +42,8 @@ COLLECTION_BACKENDS:
 
 JWT_SECRET: TestKey
 
+MAX_PAGE_SIZE: 500
+
 OSF:
   URL: https://staging.osf.io
   API_URL: https://staging-api.osf.io

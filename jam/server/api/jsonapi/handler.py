@@ -8,6 +8,7 @@ import tornado.web
 import ujson as json
 
 import jam
+from jam import settings
 from jam import exceptions
 from jam.server.api.base import CORSMixin
 from jam.server.api.jsonapi.parser import parse
@@ -53,7 +54,7 @@ class cached_property:
 
 class JSONAPIHandler(CORSMixin, tornado.web.RequestHandler):
     DEFAULT_SORT = 'ref'
-    MAX_PAGE_SIZE = 100
+    MAX_PAGE_SIZE = settings.MAX_PAGE_SIZE
     DEFAULT_PAGE_SIZE = 50
     EXTENSIONS = ['bulk', 'jsonpatch']
 
