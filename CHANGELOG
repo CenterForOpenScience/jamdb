@@ -1,0 +1,8 @@
+*********
+ChangeLog
+*********
+
+0.5.0 (2017-10-09)
+==================
+- Feature: Make JamDB's maximum page size a configurable setting, defaulting to 500. (thanks,
+@AddisonSchiller!)
