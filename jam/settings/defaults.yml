@@ -46,5 +46,5 @@ MAX_PAGE_SIZE: 500
 
 OSF:
   URL: https://staging.osf.io
-  API_URL: https://staging-api.osf.io
-  ACCOUNTS_URL: https://staging-accounts.osf.io
+  API_URL: https://api.staging.osf.io
+  ACCOUNTS_URL: https://accounts.staging.osf.io
